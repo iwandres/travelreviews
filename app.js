@@ -73,6 +73,7 @@ let yesterdayChallenge = null;
 let isViewingPrevious = false;
 let activeChallenge = null; // Currently playing challenge
 let naturalTodayIndex = 1; // Global scheduling active puzzle number
+let isPreviewMode = false;
 let hint3Active = false; // Flag for Hint 3 (first letters populated)
 let hint4Active = false; // Flag for Hint 4 (vowels populated)
 let lockedInIndices = new Set(); // indices of correct letters locked in by player attempts
@@ -182,6 +183,14 @@ window.onload = async () => {
     const hostname = window.location.hostname;
     const referrer = document.referrer || "";
     const isIframe = window.self !== window.top;
+    
+    // Check for local development or explicit preview mode query params
+    const urlParams = new URLSearchParams(window.location.search);
+    const isLocal = hostname === 'localhost' || hostname === '127.0.0.1';
+    isPreviewMode = isLocal || 
+                    urlParams.get('preview') === 'true' || 
+                    urlParams.get('playtest') === 'true' || 
+                    urlParams.get('dev') === 'true';
     isItch = hostname.includes('itch.io') || 
              hostname.includes('itch.zone') || 
              hostname.includes('hwcdn.net') || 
@@ -813,7 +822,7 @@ async function loadPuzzleDatabase() {
     if (dayOverride) {
         const parsedOverride = parseInt(dayOverride);
         // Security constraint: only allow loading historical or today's active challenges (<= naturalTodayIndex)
-        if (!isNaN(parsedOverride) && parsedOverride > 0 && parsedOverride <= naturalTodayIndex) {
+        if (isPreviewMode || (!isNaN(parsedOverride) && parsedOverride > 0 && parsedOverride <= naturalTodayIndex)) {
             matchedOverride = approvedChallenges.find(p => p.puzzle_number === padPuzzleNumber(dayOverride));
             if (matchedOverride) {
                 currentDayIndex = parsedOverride;
@@ -1945,7 +1954,7 @@ function getApprovedChallenges() {
     approved.sort((a, b) => parseInt(a.puzzle_number) - parseInt(b.puzzle_number));
     
     // Stop at the current active challenge (todayChallenge)
-    if (todayChallenge) {
+    if (todayChallenge && !isPreviewMode) {
         const todayNum = parseInt(todayChallenge.puzzle_number);
         return approved.filter(p => parseInt(p.puzzle_number) <= todayNum);
     }
