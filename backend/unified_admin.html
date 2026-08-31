@@ -4107,6 +4107,14 @@
         }
 
         
+        function tt_formatDate(dateStr) {
+            if (!dateStr) return 'No Date';
+            const parts = dateStr.split('-');
+            if (parts.length !== 3) return dateStr;
+            const date = new Date(parts[0], parts[1] - 1, parts[2]);
+            return date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
         // ================= SIDE-BY-SIDE DAILY CHALLENGE CALENDAR LOGIC =================
         function tt_autoResize(textarea) {
             textarea.style.height = 'auto';
@@ -4185,7 +4193,10 @@
                                 <td style="padding: 10px;">
                                     ${inputHtml}
                                 </td>
-                                <td style="padding: 10px; font-weight:600; color:var(--cyan);">${p.boss_pun_title}${badgeHtml}</td>
+                                <td style="padding: 10px; font-weight:600; color:var(--cyan);">
+                                    <div>${p.boss_pun_title}${badgeHtml}</div>
+                                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px; font-weight: normal;">📅 ${tt_formatDate(p.date)}</div>
+                                </td>
                                 <td style="padding: 10px; text-align: center;">
                                     ${actionsHtml}
                                 </td>
@@ -4251,6 +4262,10 @@
                                 <div style="display: flex; align-items: center; gap: 6px;">
                                     <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Puzzle ID</span>
                                     <input type="text" value="${p.puzzle_id || ''}" placeholder="e.g. puzzle_id" style="width: 140px;" onchange="tt_updatePuzzleField(${puzzleIdx}, 'puzzle_id', this.value)" ${disabledAttr}>
+                                </div>
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Show Date</span>
+                                    <input type="text" value="${tt_formatDate(p.date)}" style="width: 145px; text-align: center; color: var(--text-muted); background: rgba(0,0,0,0.08); border: 1px solid var(--border-base); font-size: 11px; font-weight: 700;" disabled>
                                 </div>
                             </div>
                             <div style="display: flex; align-items: center; gap: 15px;">

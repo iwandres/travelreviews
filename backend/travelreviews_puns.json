@@ -196,13 +196,6 @@
     "status": "approved"
   },
   {
-    "id": "pun_arc_de_triomphe_1783832361_547",
-    "original_name": "Arc de Triomphe",
-    "location": "Paris, France",
-    "pun_name": "Arc de Trumpet",
-    "status": "approved"
-  },
-  {
     "id": "pun_mont_saint-michel_1783832371_775",
     "original_name": "Mont Saint-Michel",
     "location": "Normandy, France",
@@ -2545,6 +2538,27 @@
     "original_name": "Pantheon",
     "location": "Rome, Italy",
     "pun_name": "Panty-On",
+    "status": "pending"
+  },
+  {
+    "id": "pun_arc_de_triomphe_1788151023_930",
+    "original_name": "Arc de Triomphe",
+    "location": "Paris, France",
+    "pun_name": "Arc de Try-on-f",
+    "status": "pending"
+  },
+  {
+    "id": "pun_arc_de_triomphe_1788151023_393",
+    "original_name": "Arc de Triomphe",
+    "location": "Paris, France",
+    "pun_name": "Art de Triomphe",
+    "status": "pending"
+  },
+  {
+    "id": "pun_arc_de_triomphe_1788151023_300",
+    "original_name": "Arc de Triomphe",
+    "location": "Paris, France",
+    "pun_name": "Arc de Trompe",
     "status": "pending"
   }
 ]

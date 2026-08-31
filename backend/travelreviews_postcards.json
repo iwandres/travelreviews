@@ -1293,19 +1293,19 @@
     "art_style": "custom",
     "owner_response": "Dear @SteepedInSorrow, we are an ancient Incan citadel, not a tea plantation or a mountaintop cafe. Our magnificent agricultural terraces were for crops, not for drying your so-called 'green powders' or brewing beverages.",
     "page_theme": "ancient_ruins",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_louvre_museum_1783832177_575_1788148063_128_1788149001",
     "clue_id": "clue_pun_louvre_museum_1783832177_575_1788148063_128",
     "pun_name": "Loofah Museum",
     "original_name": "Louvre Museum",
-    "image_prompt": "A comical travel postcard in vibrant Pop Art style, featuring a ridiculously ornate 'Loofah Museum' built entirely from brightly colored, oversized loofahs with bold outlines and screen print dots, as tiny tourists gawk below, capturing a retro comic book feel.",
-    "image_path": "/assets/cartoons/loofah_museum_1788148991.webp",
-    "art_style": "pop-art",
+    "image_prompt": "A comical travel postcard in vibrant Pop Art style, featuring a ridiculously ornate 'Loofah Museum' built entirely from brightly colored, oversized loofahs with bold outlines and screen print dots, as tiny tourists gawk below, capturing a retro comic book feel.  the building is a pyramid shape",
+    "image_path": "/assets/cartoons/loofah_museum_1788150983.webp",
+    "art_style": "custom",
     "owner_response": "Listen here, @ScrubbieDoo, our prestigious collection features millennia of fine art, not scratchy, hollow fibers for your epidermal exfoliation. We are a museum, not a bathhouse.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_mount_fuji_1783832191_905_1788148073_472_1788149019",
@@ -1325,23 +1325,23 @@
     "pun_name": "Pet Rock",
     "original_name": "Petra",
     "image_prompt": "A funny vintage travel postcard depicting tourists proudly walking their leashed, ordinary pet rocks through a magnificent rock-cut ancient city reminiscent of Petra, in a distressed hand-colored photo print style.",
-    "image_path": "/assets/cartoons/pet_rock_1788149026.webp",
-    "art_style": "vintage",
+    "image_path": "/assets/cartoons/pet_rock_1788150930.webp",
+    "art_style": "custom",
     "owner_response": "Dear @BoulderBummed, while our 2,000-year-old rock-cut city is undeniably static, we truly never advertised a pet capable of 'wagging its tail.' Our historical site offers awe, not affection.",
     "page_theme": "ancient_ruins",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_alcatraz_island_1783832272_180_1788148106_381_1788149055",
     "clue_id": "clue_pun_alcatraz_island_1783832272_180_1788148106_381",
     "pun_name": "Alka-Seltzer Island",
     "original_name": "Alcatraz Island",
-    "image_prompt": "An island made of colossal, effervescent Alka-Seltzer tablets, vigorously fizzing in the ocean, with vacationers comically gulping water in blissful relief, comical cartoon illustration.",
-    "image_path": "/assets/cartoons/alka_seltzer_island_1788149046.webp",
-    "art_style": "cartoon",
+    "image_prompt": "An island made of colossal, effervescent Alka-Seltzer tablets, vigorously fizzing in the ocean, with vacationers comically gulping water in blissful relief, comical cartoon illustration.  the island looks like the alcatraz prison",
+    "image_path": "/assets/cartoons/alka_seltzer_island_1788151035.webp",
+    "art_style": "custom",
     "owner_response": "Dear @FizzWizz, we are a historic former prison in San Francisco Bay, not a digestive aid for heartburn. Our 'gas' is fog, not bicarbonate.",
     "page_theme": "castles_cathedrals",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_empire_state_building_1783832276_917_1788148114_305_1788149071",
@@ -1353,7 +1353,7 @@
     "art_style": "wpa",
     "owner_response": "Dear @BadCallBobby, we assure you, our historic Art Deco skyscraper offers unparalleled views, not a baseball arbitration service. Perhaps you confuse an iconic architectural marvel with an arena, sir?",
     "page_theme": "modern_skyscrapers",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_times_square_1783832278_444_1788148122_529_1788149087",
@@ -1361,11 +1361,11 @@
     "pun_name": "Rhymes Square",
     "original_name": "Times Square",
     "image_prompt": "A bustling city square, reminiscent of Times Square, where all the vibrant neon billboards display comical rhyming couplets and cartoonish 1950s-era tourists are comically reciting poetry, all depicted in a vintage 1950s travel poster style with bold colors, retro flat vector design, and a screen-printed aesthetic.",
-    "image_path": "/assets/cartoons/rhymes_square_1788149077.webp",
-    "art_style": "retro",
+    "image_path": "/assets/cartoons/rhymes_square_1788150949.webp",
+    "art_style": "custom",
     "owner_response": "Dear @StanzaSlammer, our iconic intersection is globally known for dazzling lights and commerce, not a poetry slam. Our massive screens display advertisements, not your 'clever couplets'.",
     "page_theme": "streets_squares",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_yellowstone_national_park_1783832339_158_1788148159_692_1788149111",
@@ -1392,18 +1392,6 @@
     "status": "approved"
   },
   {
-    "id": "postcard_clue_pun_arc_de_triomphe_1783832361_547_1788148178_401_1788149140",
-    "clue_id": "clue_pun_arc_de_triomphe_1783832361_547_1788148178_401",
-    "pun_name": "Arc de Trumpet",
-    "original_name": "Arc de Triomphe",
-    "image_prompt": "A humorous caricature of Donald Trump stands triumphantly atop a ridiculously grand archway built from giant golden trumpets, all rendered in a comical cartoon illustration, bold lines, bright vibrant colors, and a white postcard border.",
-    "image_path": "/assets/cartoons/arc_de_trumpet_1788149131.webp",
-    "art_style": "cartoon",
-    "owner_response": "Dear @BrassBandit, our grand stone arch commemorates military history, it certainly doesn't 'blow its own horn' or possess any brass. Perhaps you're thinking of a different kind of public display.",
-    "page_theme": "historic_monuments",
-    "status": "pending"
-  },
-  {
     "id": "postcard_clue_pun_mont_saint-michel_1783832371_775_1788148188_803_1788149150",
     "clue_id": "clue_pun_mont_saint-michel_1783832371_775_1788148188_803",
     "pun_name": "Mont Saint-Missile",
@@ -1413,7 +1401,7 @@
     "art_style": "watercolor",
     "owner_response": "Dear @BlastOffBeth, it seems you've mistaken our historic Benedictine abbey, a UNESCO World Heritage site, for a military installation. We assure you, our 'mount' is renowned for spiritual solace, not for any 'immediate takeoff'!",
     "page_theme": "castles_cathedrals",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_grand_canal_1783832398_149_1788148206_726_1788149167",
@@ -1425,7 +1413,7 @@
     "art_style": "watercolor",
     "owner_response": "Dear @KnitwitVoyager, the Grand Canal is a UNESCO World Heritage site, not a cozy knitting circle. Perhaps our historic waterways just aren't suited for your early bird dinners.",
     "page_theme": "bridges_canals",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "postcard_clue_pun_pompeii_1783832405_347_1788148215_720_1788149187",
@@ -1437,6 +1425,6 @@
     "art_style": "vintage",
     "owner_response": "Dear @CrumblyCrust, it seems you've confused our ancient Roman city, preserved by volcanic eruption, with a dessert. We're an archaeological site, not a pie shop; perhaps a cookbook would better suit your palate.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   }
 ]

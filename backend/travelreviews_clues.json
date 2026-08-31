@@ -1621,19 +1621,6 @@
     "status": "approved"
   },
   {
-    "id": "clue_mount_neverest_1788148019",
-    "original_name": "Mount Everest",
-    "pun_name": "Mount Neverest",
-    "reviewer_name": "SummitSnoozer",
-    "review_title": "Zero Stars, Zero Zzzs!",
-    "clue1": "No summit for a nap... perpetually restless!",
-    "clue2": "Altitude sickness... but for relaxing! Never reached my slumbering goal!",
-    "clue3": "An endless climb to nowhere... absolute sleep deprivation!",
-    "owner_response": "Dear @SummitSnoozer, our 8,848-meter peak is a monumental challenge for climbers, not a five-star hotel with turndown service. Perhaps try a more hospitable altitude for your 'slumbering goal' next time.",
-    "page_theme": "historic_monuments",
-    "status": "pending"
-  },
-  {
     "id": "clue_pun_machu_picchu_1783832153_379_1788148045_448",
     "pun_id": "pun_machu_picchu_1783832153_379",
     "pun_name": "Matcha Picchu",
@@ -1769,21 +1756,6 @@
     "status": "approved"
   },
   {
-    "id": "clue_pun_arc_de_triomphe_1783832361_547_1788148178_401",
-    "pun_id": "pun_arc_de_triomphe_1783832361_547",
-    "pun_name": "Arc de Trumpet",
-    "original_name": "Arc de Triomphe",
-    "reviewer_name": "BrassBandit",
-    "review_title": "Deafeningly Disappointing!",
-    "clue1": "Under the Parisian sun... this 'arch' just keeps blowing its own horn!",
-    "clue2": "Right in the middle of traffic, constantly blowing its own horn.",
-    "clue3": "It's just a gigantic musical arch... what a brassy sham!",
-    "clue4": "",
-    "owner_response": "Dear @BrassBandit, our grand stone arch commemorates military history, it certainly doesn't 'blow its own horn' or possess any brass. Perhaps you're thinking of a different kind of public display.",
-    "page_theme": "historic_monuments",
-    "status": "approved"
-  },
-  {
     "id": "clue_pun_mont_saint-michel_1783832371_775_1788148188_803",
     "pun_id": "pun_mont_saint-michel_1783832371_775",
     "pun_name": "Mont Saint-Missile",
@@ -1841,7 +1813,7 @@
     "clue4": "",
     "owner_response": "Dear @TooTightTommy, perhaps you've confused our historic marble staircase, a UNESCO site, with a boutique activewear store? We offer magnificent views, not a flexible dress code.",
     "page_theme": "streets_squares",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_spanish_steps_1783832411_348_1788148459_674",
@@ -1856,7 +1828,7 @@
     "clue4": "",
     "owner_response": "Dear @WiltedGreens, it seems you've confused a monumental Baroque staircase in Rome with a garden patch. We offer breathtaking views and history, not 'unseasoned leafy horror' or dietary fiber, nor a cartoon character's picnic spot.",
     "page_theme": "streets_squares",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_amalfi_coast_1783832427_237_1788148467_278",
@@ -1871,7 +1843,7 @@
     "clue4": "",
     "owner_response": "Dear @BurntButter, we regret you mistook our UNESCO-protected dramatic coastline for a breakfast spread. Our beautiful cliffs and charming towns are certainly not meant for buttering, nor are they \"burnt and crumbly.\"",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_buckingham_palace_1783832438_677_1788148475_594",
@@ -1886,7 +1858,7 @@
     "clue4": "",
     "owner_response": "Dear @LordLeg-of-Lamb, while our historic residence stands proudly in London, we are a working palace for the British Monarchy, not a barnyard or a butcher shop. Our King's Guards are highly trained individuals, not 'feathered guards' overseeing 'bacon-strip wallpaper'.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_buckingham_palace_1783832438_513_1788148486_291",
