@@ -1340,21 +1340,6 @@
     "status": "approved"
   },
   {
-    "id": "clue_pun_hoover_dam_1783394290_935_1783398377_294",
-    "pun_id": "pun_hoover_dam_1783394290_935",
-    "pun_name": "Hoover Jam",
-    "original_name": "Hoover Dam",
-    "reviewer_name": "StickySituation",
-    "review_title": "Total Traffic Jam!",
-    "clue1": "So much desert... and zero toast for all this sweetness!",
-    "clue2": "Couldn't even spread it... just solid concrete and wasted fruit.",
-    "clue3": "This concrete leviathan created the stickiest situation ever.",
-    "clue4": "",
-    "owner_response": "Dear @StickySituation, we are a massive hydroelectric structure, not a breakfast condiment. Complaining about 'wasted fruit' here is quite frankly absurd.",
-    "page_theme": "historic_monuments",
-    "status": "approved"
-  },
-  {
     "id": "clue_pun_rocky_mountains_1783394293_703_1783398384_142",
     "pun_id": "pun_rocky_mountains_1783394293_703",
     "pun_name": "Socky Mountains",
@@ -1565,34 +1550,6 @@
     "status": "approved"
   },
   {
-    "id": "clue_victoria's_fowls_1783488408",
-    "original_name": "Victoria Falls",
-    "pun_name": "Victoria's Fowls",
-    "reviewer_name": "FeatherFlinger",
-    "review_title": "Absolute Bedlam of Beaks!",
-    "clue1": "Queen's cascade of feathers... less grand, more ghastly.",
-    "clue2": "No majestic mist, just... incessant squawking and poultry spray.",
-    "clue3": "Expected a great natural wonder, got thousands of plummeting pigeons!",
-    "owner_response": "Dear @FeatherFlinger, we are a majestic, mile-wide curtain of falling water, not a poultry farm. Your 'plummeting pigeons' are likely just the sheer force of the Zambezi, not feathery livestock.",
-    "page_theme": "sightseeing",
-    "status": "approved"
-  },
-  {
-    "id": "clue_pun_sydney_opera_house_1783397556_548_1783488743_222",
-    "pun_id": "pun_sydney_opera_house_1783397556_548",
-    "pun_name": "Sydney Hop-era House",
-    "original_name": "Sydney Opera House",
-    "reviewer_name": "KangaRude",
-    "review_title": "A Hoppy Mistake!",
-    "clue1": "Too many bouncy critters... a real down under disaster!",
-    "clue2": "Music impossible to hear... all the pogo-ing patrons!",
-    "clue3": "Everyone just hopping around! Where's the actual singing opera?",
-    "clue4": "",
-    "owner_response": "Dear @KangaRude, our world-famous performing arts center hosts opera, not marsupial gymnastics. We kindly ask patrons to refrain from 'pogo-ing' in our Concert Hall.",
-    "page_theme": "sightseeing",
-    "status": "approved"
-  },
-  {
     "id": "clue_pun_valley_of_the_kings_1783487919_985_1783488758_827",
     "pun_id": "pun_valley_of_the_kings_1783487919_985",
     "pun_name": "Valley of the Blings",
@@ -1620,51 +1577,6 @@
     "clue4": "",
     "owner_response": "Dear @StickySole, the historic cobblestones of our beautiful old town are entirely free of confectionery. Our medieval architecture is not a giant candy dispenser.",
     "page_theme": "sightseeing",
-    "status": "approved"
-  },
-  {
-    "id": "clue_pun_copacabana_beach_1783487972_520_1783488975_875",
-    "pun_id": "pun_copacabana_beach_1783487972_520",
-    "pun_name": "Copa-Bandana Beach",
-    "original_name": "Copacabana Beach",
-    "reviewer_name": "BandanaBane",
-    "review_title": "Knot My Kind of Beach!",
-    "clue1": "Not the vibrant Brazilian beach I expected... just fabric!",
-    "clue2": "Hard to sunbathe on... all these patterns and knots! Awkward.",
-    "clue3": "Seriously? Just a huge, colorful headscarf... zero waves.",
-    "clue4": "",
-    "owner_response": "Dear @BandanaBane, we are a world-famous sandy beach, not a fabric store or headwear display. Perhaps you mistook our iconic mosaic promenade for 'patterns'?",
-    "page_theme": "historic_monuments",
-    "status": "approved"
-  },
-  {
-    "id": "clue_pun_lake_titicaca_1783487986_326_1783488989_182",
-    "pun_id": "pun_lake_titicaca_1783487986_326",
-    "pun_name": "Lake Tricky Caca",
-    "original_name": "Lake Titicaca",
-    "reviewer_name": "StinkyStroller",
-    "review_title": "A Truly Crappy Experience",
-    "clue1": "Thin Andean air made me 'tricky'... then the floating... *mess*!",
-    "clue2": "Those floating 'islands' were such a wobbly... *mistake*.",
-    "clue3": "Sounded like 'Titicaca'... but it was all just a *nasty* trick.",
-    "clue4": "",
-    "owner_response": "Dear @StinkyStroller, we are a sacred, high-altitude natural lake, not a 'wobbly mistake' to navigate nor a 'floating mess' to complain about. Perhaps you were expecting something... *less* majestic.",
-    "page_theme": "historic_monuments",
-    "status": "approved"
-  },
-  {
-    "id": "clue_pun_sacred_valley_of_the_incas_1783487990_523_1783488999_919",
-    "pun_id": "pun_sacred_valley_of_the_incas_1783487990_523",
-    "pun_name": "Sacred Valley of the Ankles",
-    "original_name": "Sacred Valley of the Incas",
-    "reviewer_name": "AchingArch",
-    "review_title": "My Ankles Have Left the Building!",
-    "clue1": "Climbing these Incan paths... my ankles have aged a millennium. Agony!",
-    "clue2": "So many arduous terraces... just constant strain on my Achilles. Unforgivable!",
-    "clue3": "The sign should read: 'Welcome to the Sacred Valley of the ANKLES'. Ouch!",
-    "clue4": "",
-    "owner_response": "Dear @AchingArch, our ancient Incan agricultural terraces are a testament to human ingenuity, not a personal foot spa or an ankle-torture device. Perhaps visit a masseuse, not a world heritage site.",
-    "page_theme": "historic_monuments",
     "status": "approved"
   },
   {

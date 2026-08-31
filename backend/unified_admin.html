@@ -3695,6 +3695,11 @@
                     });
                     await tt_saveData('tt_puzzles', tt_puzzles);
                 }
+                let friendlyName = type === 'tt_landmarks' ? 'Landmark' : 
+                                   type === 'tt_puns' ? 'Pun' :
+                                   type === 'tt_clues' ? 'Clue' :
+                                   type === 'tt_postcards' ? 'Postcard' : 'Item';
+                showToast(`${friendlyName} rejected and cleaned up!`);
                 tt_renderAll();
                 return;
             }
@@ -3703,6 +3708,12 @@
             if (item) {
                 item.status = status;
                 await tt_saveData(type, list);
+                
+                let friendlyName = type === 'tt_landmarks' ? 'Landmark' : 
+                                   type === 'tt_puns' ? 'Pun' :
+                                   type === 'tt_clues' ? 'Clue' :
+                                   type === 'tt_postcards' ? 'Postcard' : 'Item';
+                showToast(`${friendlyName} ${status === 'approved' ? 'approved' : 'rejected'} and saved!`);
                 
                 // Automate Step 5 daily queue insertion when a postcard is approved
                 if (type === 'tt_postcards' && status === 'approved') {

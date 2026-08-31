@@ -1414,13 +1414,6 @@
     "status": "pending"
   },
   {
-    "id": "pun_copacabana_beach_1783832820_759",
-    "original_name": "Copacabana Beach",
-    "location": "Rio de Janeiro, Brazil",
-    "pun_name": "Copa-Bandana Beach",
-    "status": "pending"
-  },
-  {
     "id": "pun_nazca_lines_1783832825_708",
     "original_name": "Nazca Lines",
     "location": "Nazca, Peru",
@@ -1474,13 +1467,6 @@
     "original_name": "Sacred Valley of the Incas",
     "location": "Cusco Region, Peru",
     "pun_name": "Scared Valley of the Incas",
-    "status": "pending"
-  },
-  {
-    "id": "pun_sacred_valley_of_the_incas_1783832839_779",
-    "original_name": "Sacred Valley of the Incas",
-    "location": "Cusco Region, Peru",
-    "pun_name": "Sacred Valley of the Ankles",
     "status": "pending"
   },
   {
