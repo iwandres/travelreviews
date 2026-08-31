@@ -1029,46 +1029,43 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                     image_path = f"/assets/cartoons/{safe_filename}"
                     local_image_path = os.path.join(CARTOONS_DIR, safe_filename)
                     
-                    print(f"Generating postcard for '{c['pun_name']}' in style '{style_key}' using gemini-3.1-flash-image...")
-                    response = client.models.generate_content(
-                        model='gemini-3.1-flash-image',
-                        contents=f"{style_prompt} {image_prompt}".strip(),
-                        config=types.GenerateContentConfig(
-                            response_modalities=[types.Modality.IMAGE],
+                    print(f"Generating postcard for '{c['pun_name']}' in style '{style_key}' using imagen-4.0-generate-001...")
+                    response = client.models.generate_images(
+                        model='imagen-4.0-generate-001',
+                        prompt=f"{style_prompt} {image_prompt}".strip(),
+                        config=types.GenerateImagesConfig(
+                            number_of_images=1,
+                            output_mime_type="image/png",
+                            aspect_ratio="4:3"
                         )
                     )
                     
                     saved_image = False
-                    for candidate in response.candidates:
-                        if candidate.content and candidate.content.parts:
-                            for part in candidate.content.parts:
-                                if part.inline_data:
-                                    image_bytes = part.inline_data.data
-                                    from PIL import Image
-                                    image = Image.open(io.BytesIO(image_bytes))
-                                    image.save(local_image_path, 'WEBP', quality=95)
-                                    print(f"Saved generated image: {local_image_path}")
-                                    
-                                    # Also save copy to Box Office repository if different
-                                    if boxoffice_root != travelreviews_root:
-                                        if os.path.exists(os.path.join(boxoffice_root, 'travelreviews')):
-                                            bo_cartoons_dir = os.path.join(boxoffice_root, 'travelreviews', 'assets', 'cartoons')
-                                        else:
-                                            bo_cartoons_dir = os.path.join(boxoffice_root, 'assets', 'cartoons')
-                                        os.makedirs(bo_cartoons_dir, exist_ok=True)
-                                        bo_image_path = os.path.join(bo_cartoons_dir, safe_filename)
-                                        try:
-                                            image.save(bo_image_path, 'WEBP', quality=95)
-                                            print(f"Saved generated image copy to Box Office: {bo_image_path}")
-                                        except Exception as bo_save_e:
-                                            print(f"Failed to save copy of generated image to Box Office: {bo_save_e}")
-                                            
-                                    saved_image = True
-                                    break
-                            if saved_image:
-                                break
+                    for generated_image in response.generated_images:
+                        image_bytes = generated_image.image.image_bytes
+                        from PIL import Image
+                        image = Image.open(io.BytesIO(image_bytes))
+                        image.save(local_image_path, 'WEBP', quality=95)
+                        print(f"Saved generated image: {local_image_path}")
+                        
+                        # Also save copy to Box Office repository if different
+                        if boxoffice_root != travelreviews_root:
+                            if os.path.exists(os.path.join(boxoffice_root, 'travelreviews')):
+                                bo_cartoons_dir = os.path.join(boxoffice_root, 'travelreviews', 'assets', 'cartoons')
+                            else:
+                                bo_cartoons_dir = os.path.join(boxoffice_root, 'assets', 'cartoons')
+                            os.makedirs(bo_cartoons_dir, exist_ok=True)
+                            bo_image_path = os.path.join(bo_cartoons_dir, safe_filename)
+                            try:
+                                image.save(bo_image_path, 'WEBP', quality=95)
+                                print(f"Saved generated image copy to Box Office: {bo_image_path}")
+                            except Exception as bo_save_e:
+                                print(f"Failed to save copy of generated image to Box Office: {bo_save_e}")
+                                
+                        saved_image = True
+                        break
                     if not saved_image:
-                        raise Exception("No image returned in response parts from gemini-3.1-flash-image")
+                        raise Exception("No image returned in response parts from imagen-4.0-generate-001")
                         
                     # Reload the latest postcards list from disk to avoid overwriting concurrent edits
                     postcards = load_json(POSTCARDS_FILE, [])
