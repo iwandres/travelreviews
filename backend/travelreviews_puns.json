@@ -343,13 +343,6 @@
     "status": "pending"
   },
   {
-    "id": "pun_roman_baths_1783832463_794",
-    "original_name": "Roman Baths",
-    "location": "Bath, England",
-    "pun_name": "Rum 'n' Baths",
-    "status": "pending"
-  },
-  {
     "id": "pun_giant's_causeway_1783832468_139",
     "original_name": "Giant's Causeway",
     "location": "County Antrim, Northern Ireland",
@@ -375,13 +368,6 @@
     "original_name": "Windsor Castle",
     "location": "Windsor, England",
     "pun_name": "Windsor Casserole",
-    "status": "approved"
-  },
-  {
-    "id": "pun_windsor_castle_1783832476_807",
-    "original_name": "Windsor Castle",
-    "location": "Windsor, England",
-    "pun_name": "Windsor Hassle",
     "status": "approved"
   },
   {

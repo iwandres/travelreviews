@@ -3911,14 +3911,29 @@
             `).join('');
         }
 
+        function tt_getLockedSets() {
+            const todayChallengeStr = tt_getTodayChallengeStr();
+            const lockedClueIds = new Set();
+            const lockedPunNames = new Set();
+            
+            tt_puzzles.forEach(pz => {
+                if (pz.puzzle_number && parseInt(pz.puzzle_number) < parseInt(todayChallengeStr)) {
+                    lockedClueIds.add(pz.puzzle_id);
+                    lockedPunNames.add(pz.boss_pun_title);
+                }
+            });
+            return { lockedClueIds, lockedPunNames };
+        }
+
         function tt_renderPuns() {
             let el = document.getElementById('tt_puns-list');
             const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            let displayList = tt_puns;
+            const { lockedPunNames } = tt_getLockedSets();
+            let displayList = tt_puns.filter(p => !lockedPunNames.has(p.pun_name));
             if (showPendingOnly) {
                 const approvedPuns = new Set(tt_puns.filter(p => p.status === 'approved').map(p => p.pun_name));
                 const existingClues = new Set(tt_clues.map(c => c.pun_name));
-                displayList = tt_puns.filter(p => (p.status === 'pending' || !p.status) && !approvedPuns.has(p.pun_name) && !existingClues.has(p.pun_name));
+                displayList = displayList.filter(p => (p.status === 'pending' || !p.status) && !approvedPuns.has(p.pun_name) && !existingClues.has(p.pun_name));
             }
             el.innerHTML = displayList.map(p => `
                 <div class="tt-list-item" style="gap: 15px;">
@@ -3946,9 +3961,10 @@
         function tt_renderClues() {
             let el = document.getElementById('tt_clues-list');
             const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            let displayList = tt_clues;
+            const { lockedClueIds } = tt_getLockedSets();
+            let displayList = tt_clues.filter(c => !lockedClueIds.has(c.id));
             if (showPendingOnly) {
-                displayList = tt_clues.filter(c => c.status === 'pending' || !c.status);
+                displayList = displayList.filter(c => c.status === 'pending' || !c.status);
             }
             el.innerHTML = displayList.map(c => `
                 <div class="tt-list-item" style="flex-direction: column; align-items: flex-start; gap: 10px;">
@@ -3981,9 +3997,10 @@
         function tt_renderPostcards() {
             let el = document.getElementById('tt_postcards-list');
             const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            let displayList = tt_postcards;
+            const { lockedClueIds } = tt_getLockedSets();
+            let displayList = tt_postcards.filter(p => !lockedClueIds.has(p.clue_id));
             if (showPendingOnly) {
-                displayList = tt_postcards.filter(p => p.status === 'pending' || !p.status);
+                displayList = displayList.filter(p => p.status === 'pending' || !p.status);
             }
             el.innerHTML = displayList.map(p => `
                 <div class="tt-list-item" style="gap: 15px;">

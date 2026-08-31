@@ -1426,5 +1426,65 @@
     "owner_response": "Dear @CrumblyCrust, it seems you've confused our ancient Roman city, preserved by volcanic eruption, with a dessert. We're an archaeological site, not a pie shop; perhaps a cookbook would better suit your palate.",
     "page_theme": "historic_monuments",
     "status": "approved"
+  },
+  {
+    "id": "postcard_clue_pun_spanish_steps_1783832411_172_1788148451_881_1788151121",
+    "clue_id": "clue_pun_spanish_steps_1783832411_172_1788148451_881",
+    "pun_name": "Spandex Steps",
+    "original_name": "Spanish Steps",
+    "image_prompt": "A grand, ancient staircase whimsically covered in taut, brightly colored spandex fabric, with confused 1930s tourists comically struggling to climb its stretchy, wobbly steps, in a classic distressed linen texture vintage postcard style with a hand-colored photo print aesthetic.",
+    "image_path": "/assets/cartoons/spandex_steps_1788151111.webp",
+    "art_style": "vintage",
+    "owner_response": "Dear @TooTightTommy, perhaps you've confused our historic marble staircase, a UNESCO site, with a boutique activewear store? We offer magnificent views, not a flexible dress code.",
+    "page_theme": "streets_squares",
+    "status": "pending"
+  },
+  {
+    "id": "postcard_clue_pun_spanish_steps_1783832411_348_1788148459_674_1788151137",
+    "clue_id": "clue_pun_spanish_steps_1783832411_348_1788148459_674",
+    "pun_name": "Spinach Steps",
+    "original_name": "Spanish Steps",
+    "image_prompt": "A comical vintage travel postcard illustration showing a majestic staircase built from gigantic, vibrant green spinach leaves, with small, humorous tourists climbing, in an old school 1930s WPA-era travel poster style, featuring bold shapes, muted earthy colors, and hand-drawn typography.",
+    "image_path": "/assets/cartoons/spinach_steps_1788151128.webp",
+    "art_style": "wpa",
+    "owner_response": "Dear @WiltedGreens, it seems you've confused a monumental Baroque staircase in Rome with a garden patch. We offer breathtaking views and history, not 'unseasoned leafy horror' or dietary fiber, nor a cartoon character's picnic spot.",
+    "page_theme": "streets_squares",
+    "status": "pending"
+  },
+  {
+    "id": "postcard_clue_pun_amalfi_coast_1783832427_237_1788148467_278_1788151153",
+    "clue_id": "clue_pun_amalfi_coast_1783832427_237_1788148467_278",
+    "pun_name": "A Muffin Toast",
+    "original_name": "Amalfi Coast",
+    "image_prompt": "A comical Pop Art postcard of 'A Muffin Toast,' depicting a vibrant coastline with dramatic cliffs made of golden toast slices and colorful muffin-shaped houses overlooking a bright blue sea, rendered with bold outlines, screen print dot texture, retro comic book feel, and high contrast colors.",
+    "image_path": "/assets/cartoons/a_muffin_toast_1788151142.webp",
+    "art_style": "pop-art",
+    "owner_response": "Dear @BurntButter, we regret you mistook our UNESCO-protected dramatic coastline for a breakfast spread. Our beautiful cliffs and charming towns are certainly not meant for buttering, nor are they \"burnt and crumbly.\"",
+    "page_theme": "historic_monuments",
+    "status": "pending"
+  },
+  {
+    "id": "postcard_clue_pun_buckingham_palace_1783832438_677_1788148475_594_1788151164",
+    "clue_id": "clue_pun_buckingham_palace_1783832438_677_1788148475_594",
+    "pun_name": "Clucking Ham Palace",
+    "original_name": "Buckingham Palace",
+    "image_prompt": "A stately Clucking Ham Palace where chicken guards in uniform salute at the gates and a regal pig monarch waves from a grand balcony, rendered in a comical cartoon illustration with bold lines, bright vibrant colors, humorous caricature, and a white postcard border.",
+    "image_path": "/assets/cartoons/clucking_ham_palace_1788151157.webp",
+    "art_style": "cartoon",
+    "owner_response": "Dear @LordLeg-of-Lamb, while our historic residence stands proudly in London, we are a working palace for the British Monarchy, not a barnyard or a butcher shop. Our King's Guards are highly trained individuals, not 'feathered guards' overseeing 'bacon-strip wallpaper'.",
+    "page_theme": "historic_monuments",
+    "status": "pending"
+  },
+  {
+    "id": "postcard_clue_pun_buckingham_palace_1783832438_513_1788148486_291_1788151180",
+    "clue_id": "clue_pun_buckingham_palace_1783832438_513_1788148486_291",
+    "pun_name": "Buckingham Falafel",
+    "original_name": "Buckingham Palace",
+    "image_prompt": "A comical travel postcard showcasing 'Buckingham Falafel,' where a grandiose palace is whimsically constructed from giant falafel balls and pita bread, with a cartoon beefeater guard comically trying to balance a stack of tahini-drizzled falafel, rendered in a vibrant Pop Art style with bold outlines, screen print dot texture, retro comic book feel, and high contrast colors.",
+    "image_path": "/assets/cartoons/buckingham_falafel_1788151169.webp",
+    "art_style": "pop-art",
+    "owner_response": "Oh dear, @PitaThePooh, it seems you've mistaken a functioning royal residence for a greasy fritter establishment. Our 'crumbly walls' are indeed centuries-old stone, not deep-fried chickpea discs, and our Household Cavalry certainly aren't serving tahini.",
+    "page_theme": "historic_monuments",
+    "status": "pending"
   }
 ]

@@ -1873,7 +1873,7 @@
     "clue4": "",
     "owner_response": "Oh dear, @PitaThePooh, it seems you've mistaken a functioning royal residence for a greasy fritter establishment. Our 'crumbly walls' are indeed centuries-old stone, not deep-fried chickpea discs, and our Household Cavalry certainly aren't serving tahini.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_edinburgh_castle_1783832453_402_1788148510_295",
@@ -1888,7 +1888,7 @@
     "clue4": "",
     "owner_response": "Dear @KiltedQueso, our ancient fortress on Castle Rock has stood for centuries, not served 'burritos' or 'salsa'. Perhaps a historic landmark isn't the best place for your next culinary adventure.",
     "page_theme": "castles_cathedrals",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_windsor_castle_1783832476_926_1788148519_352",
@@ -1903,22 +1903,7 @@
     "clue4": "",
     "owner_response": "Dear @BurntBottom, we apologize if our nearly 1000-year-old royal residence didn't provide the culinary experience you sought. Perhaps you confused our historic ramparts and State Apartments with a humble kitchen appliance.",
     "page_theme": "historic_monuments",
-    "status": "pending"
-  },
-  {
-    "id": "clue_pun_windsor_castle_1783832476_807_1788148526_794",
-    "pun_id": "pun_windsor_castle_1783832476_807",
-    "pun_name": "Windsor Hassle",
-    "original_name": "Windsor Castle",
-    "reviewer_name": "RoyalPain",
-    "review_title": "My Crown Aches!",
-    "clue1": "Too much pomp... and circumstance... constant royal kerfuffle.",
-    "clue2": "Drawbridges always up... guards everywhere... just a total grind!",
-    "clue3": "Pure unending chaos! Seriously, the biggest royal headache.",
-    "clue4": "",
-    "owner_response": "Dear @RoyalPain, we are a historic royal residence, not an emotional state. Our magnificent architecture and centuries of royal pageantry are meant to inspire, not induce a headache.",
-    "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_alhambra_1783832481_247_1788148533_272",
@@ -1933,7 +1918,7 @@
     "clue4": "",
     "owner_response": "Dear @NightHootNuisance, The Alhambra is a historic Moorish palace, not a nocturnal avian habitat. We regret your confusion, but perhaps you mistook our exquisite Mudejar carvings for a perch.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_la_rambla_1783832486_907_1788148542_887",
@@ -1948,7 +1933,7 @@
     "clue4": "",
     "owner_response": "Dear @CombatTourist, our historic Barcelona promenade is famous for its vibrant kiosks and beautiful trees, not for weapon-wielding street artists. We encourage peaceful walks, not combat training.",
     "page_theme": "streets_squares",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_st._basil's_cathedral_1783832681_895_1788148570_196",
@@ -1963,7 +1948,7 @@
     "clue4": "",
     "owner_response": "Dear @HoleyTerror, our 16th-century cathedral is a protected architectural masterpiece, not a deli. We assure you its unique onion domes are made of brick and stone, not dough, and certainly aren't meant to be 'chewy' or full of literal holes.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "clue_pun_st._basil's_cathedral_1783832681_810_1788148579_235",
@@ -1978,6 +1963,6 @@
     "clue4": "",
     "owner_response": "Dear @SourKraut, it seems you've confused our 16th-century architectural marvel with a culinary dish. Our vibrant onion domes are made of brick and mortar, not 'boiled greens' or 'vegetable parcels' designed for consumption.",
     "page_theme": "historic_monuments",
-    "status": "pending"
+    "status": "approved"
   }
 ]
