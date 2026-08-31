@@ -163,27 +163,15 @@ def sanitize_travelreviews_puzzles(puzzles):
     scheduled = [p for p in puzzles if p.get('puzzle_number')]
     scheduled.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
     
-    seen = set()
-    changed = False
-    for p in scheduled:
-        orig = p.get('boss_original_title', '').strip().lower()
-        if orig in seen:
-            p['puzzle_number'] = ''
-            changed = True
-        else:
-            seen.add(orig)
-            
-    if changed:
-        # Resequence scheduled puzzles
-        active_puzzles = [p for p in puzzles if p.get('puzzle_number')]
-        active_puzzles.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
+    # Re-sequence scheduled puzzles to ensure there are no gaps
+    active_puzzles = [p for p in puzzles if p.get('puzzle_number')]
+    active_puzzles.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
+    backlog_puzzles = [p for p in puzzles if not p.get('puzzle_number')]
+    
+    for idx, p in enumerate(active_puzzles):
+        p['puzzle_number'] = f"{idx + 1:03d}"
         
-        backlog_puzzles = [p for p in puzzles if not p.get('puzzle_number')]
-        
-        for idx, p in enumerate(active_puzzles):
-            p['puzzle_number'] = f"{idx + 1:03d}"
-            
-        puzzles = active_puzzles + backlog_puzzles
+    puzzles = active_puzzles + backlog_puzzles
 
     # Calculate and assign the date field for all puzzles
     from datetime import datetime, timedelta

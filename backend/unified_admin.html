@@ -3519,37 +3519,6 @@
                 tt_loadData('tt_postcards'),
                 tt_loadData('tt_puzzles')
             ]);
-            
-            // Move duplicate original landmarks to the backlog pool
-            let seenLandmarks = new Set();
-            let hasChanged = false;
-            
-            // Sort active challenges by their current puzzle_number ascending
-            let scheduled = tt_puzzles.filter(p => p.puzzle_number !== "");
-            scheduled.sort((a, b) => (parseInt(a.puzzle_number) || 999) - (parseInt(b.puzzle_number) || 999));
-            
-            scheduled.forEach(p => {
-                let landmark = p.boss_original_title;
-                if (seenLandmarks.has(landmark)) {
-                    p.puzzle_number = "";
-                    hasChanged = true;
-                } else {
-                    seenLandmarks.add(landmark);
-                }
-            });
-            
-            if (hasChanged) {
-                // Re-sequence the active ones sequentially
-                let activeCount = 0;
-                tt_puzzles.forEach(p => {
-                    if (p.puzzle_number !== "") {
-                        activeCount++;
-                        p.puzzle_number = String(activeCount).padStart(3, '0');
-                    }
-                });
-                tt_saveData('tt_puzzles', tt_puzzles);
-            }
-            
             tt_renderAll();
         }
 
@@ -3764,13 +3733,8 @@
             
             let matchingClue = tt_clues.find(c => c.id === item.clue_id);
             
-            // Auto-backlog duplicate original landmarks
-            const landmarkAlreadyActive = tt_puzzles.some(pz => pz.puzzle_number !== "" && pz.boss_original_title === item.original_name);
-            let num = "";
-            if (!landmarkAlreadyActive) {
-                const activeCount = tt_puzzles.filter(p => p.puzzle_number !== "").length;
-                num = String(activeCount + 1).padStart(3, '0');
-            }
+            const activeCount = tt_puzzles.filter(p => p.puzzle_number !== "").length;
+            const num = String(activeCount + 1).padStart(3, '0');
             
             // Format answer underscores
             let rawTitle = item.pun_name;
