@@ -184,6 +184,19 @@ def sanitize_travelreviews_puzzles(puzzles):
             p['puzzle_number'] = f"{idx + 1:03d}"
             
         puzzles = active_puzzles + backlog_puzzles
+
+    # Calculate and assign the date field for all puzzles
+    from datetime import datetime, timedelta
+    start_date = datetime(2026, 7, 4)
+    for p in puzzles:
+        pnum = p.get('puzzle_number')
+        if pnum and str(pnum).isdigit():
+            days = int(pnum) - 1
+            target_date = start_date + timedelta(days=days)
+            p['date'] = target_date.strftime("%Y-%m-%d")
+        else:
+            p['date'] = ""
+
     return puzzles
 
 def save_json(filepath, data):
