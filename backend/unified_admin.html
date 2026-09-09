@@ -1547,7 +1547,7 @@
 
         // Timezone robust today challenge string helper
         function getTodayChallengeStr() {
-            const START_DATE_PT = new Date("2026-05-24T02:00:00-07:00");
+            const START_DATE_PT = new Date("2026-06-14T02:00:00-07:00");
             const now = new Date();
             const nowInPT = new Date(now.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
             const startInPT = new Date(START_DATE_PT.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
@@ -3101,30 +3101,13 @@
                 });
             }
 
-            const active = [];
-            const backlog = [];
-            const seenMovies = new Set();
-            let modified = false;
-
-            approved.forEach(p => {
-                const movie = p.boss_original_title || p.movie || "Unknown";
-                if (seenMovies.has(movie)) {
-                    if (p.puzzle_number !== "") {
-                        p.puzzle_number = "";
-                        modified = true;
-                    }
-                    backlog.push(p);
-                } else {
-                    seenMovies.add(movie);
-                    active.push(p);
-                }
-            });
+            const active = approved.filter(p => p.puzzle_number !== "");
+            const backlog = approved.filter(p => p.puzzle_number === "");
 
             active.forEach((p, index) => {
                 const expectedNum = padPuzzleNumber(index + 1);
                 if (p.puzzle_number !== expectedNum) {
                     p.puzzle_number = expectedNum;
-                    modified = true;
                 }
             });
 
@@ -3159,26 +3142,6 @@
         function scheduleBacklogPuzzle(puzzleIdx) {
             const p = puzzles[puzzleIdx];
             if (!p) return;
-
-            const movie = p.boss_original_title || p.movie || "Unknown";
-
-            // Unschedule any existing active challenge for this same movie
-            const existingActive = puzzles.find(item => 
-                item.status === 'approved' && 
-                item.puzzle_number !== "" && 
-                (item.boss_original_title || item.movie || "Unknown") === movie &&
-                item !== p
-            );
-
-            if (existingActive) {
-                const todayChallengeStr = getTodayChallengeStr();
-                if (parseInt(existingActive.puzzle_number) < parseInt(todayChallengeStr)) {
-                    showToast(`Cannot unschedule historical puzzle for "${movie}"!`, "error");
-                    return;
-                }
-                existingActive.puzzle_number = "";
-                showToast(`Moved active challenge for "${movie}" to backlog to avoid clumping.`);
-            }
 
             // Move to active schedule at the end
             const todayChallengeStr = getTodayChallengeStr();
