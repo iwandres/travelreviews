@@ -1080,7 +1080,10 @@
 
         <!-- 1-Star Travel Reviews Navigation -->
         <nav class="pipeline-nav" id="nav-travelreviews" style="width: 100%; display: none;">
-            <button class="pipeline-btn active" data-tab="tt-landmarks">
+            <button class="pipeline-btn active" data-tab="tt-agent">
+                🤖 Agent Curation <span class="badge" id="badge-tt-agent">0</span>
+            </button>
+            <button class="pipeline-btn" data-tab="tt-landmarks">
                 📍 Landmarks <span class="badge" id="badge-tt-landmarks">0</span>
             </button>
             <button class="pipeline-btn" data-tab="tt-puns">
@@ -1308,11 +1311,127 @@
             </div>
 
         <!-- ================= 1-STAR TRAVEL REVIEWS TABS ================= -->
+        <!-- 0. AGENT CURATION STUDIO TAB -->
+        <div id="tab-tt-agent" class="tab-content active" style="display: block;">
+            <!-- Autonomous Agent Control Room -->
+            <div class="pipeline-controller-panel" style="border-color: rgba(0, 242, 254, 0.25);">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                    <div class="panel-title-wrapper">
+                        <span class="panel-icon">🤖</span>
+                        <div>
+                            <div class="panel-title" style="font-size: 16px;">Autonomous Travel Reviews Curation Agent</div>
+                            <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+                                Discovers global landmarks → Evaluates concrete tangible puns → Writes 3 progressive clues & sarcastic owner reply → Renders postcard art.
+                            </div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn btn-secondary" style="font-size: 12px; padding: 8px 14px;" onclick="tt_toggleGuardrailsPanel()">
+                            🛡️ Puzzle Quality Guardrails
+                        </button>
+                        <button class="btn btn-secondary" id="btn-tt-discover-landmarks" style="font-size: 12px; padding: 8px 14px;" onclick="tt_discoverGlobalLandmarks(8)">
+                            🌍 Seed +8 Global Landmarks
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Collapsible Guardrail Rules Panel (Distilled from 122 Approved Puzzles) -->
+                <div id="tt-guardrails-drawer" style="display: none; background: rgba(8, 12, 20, 0.75); border: 1px solid rgba(0, 242, 254, 0.25); border-radius: 10px; padding: 16px 20px; margin-top: 6px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed var(--border-base); padding-bottom: 8px;">
+                        <strong style="color: var(--cyan); font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+                            🛡️ Guardrails Distilled from 122 Human-Approved Puzzles vs. Rejected Candidates
+                        </strong>
+                        <span style="font-size: 11px; color: var(--text-muted); cursor: pointer;" onclick="tt_toggleGuardrailsPanel()">✕ Hide</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; font-size: 12px; line-height: 1.5; color: var(--text-secondary);">
+                        <div style="background: rgba(46, 196, 182, 0.06); border-left: 3px solid #2ec4b6; padding: 10px 14px; border-radius: 6px;">
+                            <div style="font-weight: 800; color: #2ec4b6; margin-bottom: 6px;">✅ WHAT MAKES A GREAT PUZZLE (DO THIS)</div>
+                            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+                                <li><strong>Concrete Tangible Noun Swap:</strong> Swap a word/syllable with a physical food, household object, garment, or animal that is hilarious to draw on a postcard and absurd to complain about.</li>
+                                <li><strong>Gold Standard Examples:</strong> <em>Waffle Tower</em>, <em>Sconehenge</em>, <em>Golden Gate Fridge</em>, <em>Loofah Museum</em>, <em>Sangria Família</em>, <em>Chicken Pizza</em>, <em>Pajama Canal</em>, <em>Alca-trousers Island</em>, <em>Space Noodle</em>, <em>Matcha Picchu</em>, <em>Pillowstone National Park</em>.</li>
+                                <li><strong>Single-Twist Deductibility:</strong> Keep the phonetic rhythm of the landmark intact so players can deduce the pun from the real landmark.</li>
+                                <li><strong>Punchy 6–14 Word Clues:</strong> Clue 1 = Geography + literal delusion; Clue 2 = Architecture/feature + physical mishap; Clue 3 = Unmistakable convergence.</li>
+                                <li><strong>Sarcastic Owner Reply:</strong> 1–2 sentences from the real landmark's management correcting `@Reviewer` without spoiling the landmark's name.</li>
+                            </ul>
+                        </div>
+                        <div style="background: rgba(255, 118, 132, 0.06); border-left: 3px solid #ff7684; padding: 10px 14px; border-radius: 6px;">
+                            <div style="font-weight: 800; color: #ff7684; margin-bottom: 6px;">🚫 HUMAN-REJECTED PATTERNS (HARD BAN)</div>
+                            <ul style="margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 4px;">
+                                <li><strong>Abstract Concepts:</strong> <em>"Lover Museum"</em> was <strong>REJECTED</strong>; concrete <em>"Loofah Museum"</em> was <strong>APPROVED</strong>.</li>
+                                <li><strong>Vague Adjectives:</strong> <em>"Mount Cleverest"</em> and <em>"Mount Fuzzy"</em> were <strong>REJECTED</strong>; tangible dessert <em>"Mound Fudgey"</em> was <strong>APPROVED</strong>.</li>
+                                <li><strong>Dry Academic Words:</strong> <em>"Sagrada Formula"</em> was <strong>REJECTED</strong>; tangible drink <em>"Sangria Família"</em> was <strong>APPROVED</strong>.</li>
+                                <li><strong>Mundane / Visually Similar Objects:</strong> <em>"Golden Grate Bridge"</em> was <strong>REJECTED</strong> (a grate is dull); <em>"Golden Gate Fridge"</em> was <strong>APPROVED</strong>.</li>
+                                <li><strong>Clunky Multi-Word Stretches:</strong> <em>"A Cappella-Polis of Athens"</em> was <strong>REJECTED</strong>.</li>
+                                <li><strong>Somber Sites:</strong> Never parody war memorials or tragedy sites.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Agent Pipeline Run Controls -->
+                <div style="display: flex; flex-wrap: wrap; gap: 15px; align-items: center; justify-content: space-between; background: rgba(27, 32, 48, 0.55); border: 1px solid var(--border-base); border-radius: 12px; padding: 14px 18px;">
+                    <div style="display: flex; flex-wrap: wrap; gap: 16px; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">Puzzles to Build:</label>
+                            <select id="tt-agent-batch-count" style="padding: 6px 12px; border-radius: 6px; font-weight: 700; width: auto;">
+                                <option value="1">1 Full Puzzle (Fast ~15s)</option>
+                                <option value="2">2 Full Puzzles (~30s)</option>
+                                <option value="3" selected>3 Full Puzzles (~45s)</option>
+                                <option value="5">5 Full Puzzles (~75s)</option>
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <label style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">Postcard Style:</label>
+                            <select id="tt-agent-art-style" style="padding: 6px 12px; border-radius: 6px; font-weight: 700; width: auto;">
+                                <option value="random" selected>🎲 Random Curated Style</option>
+                                <option value="cartoon">🎨 Comical Cartoon</option>
+                                <option value="watercolor">🖌️ Watercolor & Ink</option>
+                                <option value="retro">🚀 1950s Retro Poster</option>
+                                <option value="wpa">🏞️ 1930s WPA Silk-Screen</option>
+                                <option value="vintage">📜 Vintage Linen Postcard</option>
+                                <option value="pop-art">💥 Pop Art Comic</option>
+                            </select>
+                        </div>
+                        <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--text-primary); cursor: pointer;">
+                            <input type="checkbox" id="tt-agent-discover-toggle" checked style="width: 16px; height: 16px; cursor: pointer;">
+                            Discover New Global Landmarks
+                        </label>
+                    </div>
+                    <button class="btn btn-primary" id="btn-tt-run-agent" onclick="tt_runCurationAgent()" style="padding: 10px 20px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 15px rgba(0, 242, 254, 0.25);">
+                        🤖 Run Agent Pipeline (Landmarks → Postcards)
+                    </button>
+                </div>
+
+                <!-- Live Agent Status Banner -->
+                <div id="tt-agent-status-banner" style="display: none; background: rgba(0, 242, 254, 0.08); border: 1px solid rgba(0, 242, 254, 0.3); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--cyan); font-weight: 600;">
+                </div>
+            </div>
+
+            <!-- Unified Human Curation Queue (Approve, Decline, or Re-do Pun / Clues / Postcard) -->
+            <div class="card">
+                <div class="card-header">
+                    <div>
+                        <h2>🎯 Human Curation Review Queue</h2>
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                            Review complete Agent-crafted puzzles (Landmark + Pun + Clues + Owner Reply + Postcard). <strong>Approve</strong> to schedule, <strong>Decline</strong> to discard, or <strong>Re-do</strong> any specific piece!
+                        </p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span class="status-badge status-pending" id="tt-agent-queue-count-label">0 Awaiting Review</span>
+                    </div>
+                </div>
+                <div id="tt-agent-review-list" style="display: flex; flex-direction: column; gap: 20px;"></div>
+            </div>
+        </div>
+
         <!-- 1. LANDMARKS TAB -->
         <div id="tab-tt-landmarks" class="tab-content" style="display: none;">
             <div class="card">
                 <div class="card-header">
                     <h2>📍 Landmark Seed Database</h2>
+                    <div style="display: flex; gap: 10px;">
+                        <button class="btn btn-secondary" onclick="tt_discoverGlobalLandmarks(8)">🌍 Agent: Discover +8 Global Landmarks</button>
+                    </div>
                 </div>
                 
                 <div style="margin-bottom: 20px; display: flex; gap: 10px;">
@@ -3403,7 +3522,7 @@
                 if (activeBtn) {
                     activeBtn.click();
                 } else {
-                    const defaultBtn = document.querySelector('#nav-travelreviews .pipeline-btn[data-tab="tt-landmarks"]');
+                    const defaultBtn = document.querySelector('#nav-travelreviews .pipeline-btn[data-tab="tt-agent"]');
                     if (defaultBtn) defaultBtn.click();
                 }
                 tt_init();
@@ -3739,18 +3858,312 @@
             tt_saveData('tt_puzzles', tt_puzzles);
         }
 
+        const TT_ALL_THEMES = [
+            'ancient_ruins', 'natural_wonders', 'historic_monuments', 'castles_cathedrals',
+            'bridges_canals', 'streets_squares', 'modern_skyscrapers',
+            'road_trip', 'air_mail', 'train_passage', 'gondola_ride', 'boat_voyage',
+            'mountain_trek', 'desert_safari', 'sightseeing', 'tropical_island', 'winter_lodge', 'metro_transit'
+        ];
+
+        const TT_ART_STYLES = [
+            { key: 'random', label: '🎲 Random Style' },
+            { key: 'cartoon', label: '🎨 Comical Cartoon' },
+            { key: 'watercolor', label: '🖌️ Watercolor & Ink' },
+            { key: 'retro', label: '🚀 1950s Retro Poster' },
+            { key: 'wpa', label: '🏞️ 1930s WPA Silk-Screen' },
+            { key: 'vintage', label: '📜 Vintage Linen Postcard' },
+            { key: 'pop-art', label: '💥 Pop Art Comic' }
+        ];
+
+        function eqHtml(str) {
+            return String(str || '')
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+        }
+
+        function tt_toggleGuardrailsPanel() {
+            const el = document.getElementById('tt-guardrails-drawer');
+            if (!el) return;
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function tt_setAgentStatus(msg, isError = false) {
+            const banner = document.getElementById('tt-agent-status-banner');
+            if (!banner) return;
+            if (!msg) {
+                banner.style.display = 'none';
+                return;
+            }
+            banner.style.display = 'block';
+            banner.style.borderColor = isError ? '#ff7684' : 'rgba(0, 242, 254, 0.35)';
+            banner.style.color = isError ? '#ff7684' : 'var(--cyan)';
+            banner.style.background = isError ? 'rgba(220, 53, 69, 0.1)' : 'rgba(0, 242, 254, 0.08)';
+            banner.innerHTML = msg;
+        }
+
+        // --- EXPERT CURATION AGENT CALLS ---
+        async function tt_discoverGlobalLandmarks(count = 8) {
+            const btn = document.getElementById('btn-tt-discover-landmarks');
+            const origText = btn ? btn.innerText : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = '⏳ Discovering...';
+            }
+            tt_setAgentStatus('🌍 <strong>Agent Step 1:</strong> Analyzing global landmarks and discovering new household-name destinations for the Seed Database...');
+            try {
+                const res = await fetch('/api/travelreviews/agent/discover_landmarks', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ count: count, auto_approve: false })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const names = (data.landmarks || []).map(l => `<strong>${eqHtml(l.name)}</strong> (${eqHtml(l.location)})`).join(', ');
+                    tt_setAgentStatus(`✅ Discovered <strong>${data.generated_count}</strong> new global landmarks: ${names || 'None needed'}`);
+                    showToast(`Added ${data.generated_count} new global landmarks!`);
+                    await tt_init();
+                } else {
+                    tt_setAgentStatus(`❌ Landmark discovery error: ${eqHtml(data.error)}`, true);
+                    showToast('Landmark discovery failed', true);
+                }
+            } catch (e) {
+                tt_setAgentStatus(`❌ Network error: ${eqHtml(e.message || e)}`, true);
+                showToast('Network error discovering landmarks', true);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = origText;
+                }
+            }
+        }
+
+        async function tt_runCurationAgent(landmarkId = null) {
+            const btn = document.getElementById('btn-tt-run-agent');
+            const origText = btn ? btn.innerText : '';
+            const count = landmarkId ? 1 : parseInt(document.getElementById('tt-agent-batch-count')?.value || '3');
+            const artStyle = document.getElementById('tt-agent-art-style')?.value || 'random';
+            const discoverNew = landmarkId ? false : (document.getElementById('tt-agent-discover-toggle')?.checked ?? true);
+
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = '⏳ Agent Crafting Puzzles...';
+            }
+            tt_setAgentStatus(
+                `🤖 <strong>Curation Agent Running:</strong> Crafting ${count} complete puzzle(s) through Landmarks → Guardrail Pun Selection → Progressive Clues & Owner Reply → Postcard Illustration...`
+            );
+
+            try {
+                const res = await fetch('/api/travelreviews/agent/run', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        count: count,
+                        discover_new_landmarks: discoverNew,
+                        art_style: artStyle,
+                        landmark_id: landmarkId
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    const createdTitles = (data.generated_puzzles || [])
+                        .map(b => `<strong>${eqHtml(b.pun?.pun_name)}</strong> (<em>${eqHtml(b.landmark?.name)}</em>)`)
+                        .join(', ');
+                    let summaryMsg = `✅ <strong>Agent Completed!</strong> Built <strong>${data.generated_puzzles_count}</strong> complete puzzle candidate(s) ready for your review: ${createdTitles || 'Done'}.`;
+                    if (data.discovered_landmarks_count > 0) {
+                        summaryMsg += ` (Also seeded ${data.discovered_landmarks_count} new global landmarks!)`;
+                    }
+                    if (data.errors && data.errors.length > 0) {
+                        summaryMsg += `<br>⚠️ Partial warnings: ${data.errors.map(er => `${eqHtml(er.landmark)}: ${eqHtml(er.error)}`).join('; ')}`;
+                    }
+                    tt_setAgentStatus(summaryMsg, false);
+                    showToast(`Agent created ${data.generated_puzzles_count} complete puzzle(s)!`);
+                    await tt_init();
+                    if (landmarkId) {
+                        const agentTabBtn = document.querySelector('#nav-travelreviews .pipeline-btn[data-tab="tt-agent"]');
+                        if (agentTabBtn) agentTabBtn.click();
+                    }
+                } else {
+                    tt_setAgentStatus(`❌ Agent pipeline error: ${eqHtml(data.error)}`, true);
+                    showToast('Agent pipeline failed: ' + data.error, true);
+                }
+            } catch (e) {
+                tt_setAgentStatus(`❌ Network error running agent: ${eqHtml(e.message || e)}`, true);
+                showToast('Network error running agent', true);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = origText;
+                }
+            }
+        }
+
+        async function tt_redoPuzzlePiece(clueId, redoType, presetPun = null, btnEl = null) {
+            const customPunInput = document.getElementById(`tt-redo-pun-input-${clueId}`);
+            const cluesFeedbackInput = document.getElementById(`tt-redo-clues-feedback-${clueId}`);
+            const styleSelect = document.getElementById(`tt-redo-style-${clueId}`);
+            const promptTextarea = document.getElementById(`tt-agent-prompt-${clueId}`);
+
+            let customPun = presetPun !== null ? presetPun : (customPunInput ? customPunInput.value.trim() : '');
+            let humanFeedback = '';
+            if (redoType === 'pun') {
+                const fbEl = document.getElementById(`tt-redo-pun-feedback-${clueId}`);
+                humanFeedback = fbEl ? fbEl.value.trim() : '';
+            } else if (redoType === 'clues') {
+                humanFeedback = cluesFeedbackInput ? cluesFeedbackInput.value.trim() : '';
+            }
+
+            const artStyle = styleSelect ? styleSelect.value : 'random';
+            const customPrompt = (redoType === 'postcard' && promptTextarea) ? promptTextarea.value.trim() : '';
+
+            const origBtnText = btnEl ? btnEl.innerText : '';
+            if (btnEl) {
+                btnEl.disabled = true;
+                btnEl.innerText = '⏳ Redoing...';
+            }
+
+            const actionLabel = redoType === 'pun'
+                ? 'Re-doing Pun Word (and cascading to new Clues + Postcard)'
+                : (redoType === 'clues' ? 'Re-doing Progressive Clues & Owner Reply' : 'Re-doing Postcard Artwork');
+            tt_setAgentStatus(`🔄 <strong>Agent Re-do:</strong> ${actionLabel}...`);
+
+            try {
+                const res = await fetch('/api/travelreviews/agent/redo', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        clue_id: clueId,
+                        redo_type: redoType,
+                        custom_pun: customPun || null,
+                        human_feedback: humanFeedback || null,
+                        art_style: artStyle,
+                        custom_prompt: customPrompt || null
+                    })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    if (redoType === 'pun') {
+                        tt_setAgentStatus(`✅ <strong>Re-did Pun Word!</strong> Replaced <em>"${eqHtml(data.old_pun_name)}"</em> → <strong>"${eqHtml(data.new_pun_name)}"</strong> and regenerated Clues + Postcard.`);
+                        showToast(`New pun "${data.new_pun_name}" + Clues + Postcard ready!`);
+                    } else if (redoType === 'clues') {
+                        tt_setAgentStatus(`✅ <strong>Re-did Clues & Owner Reply</strong> for <strong>"${eqHtml(data.clue?.pun_name)}"</strong>!`);
+                        showToast('Clues & Owner Reply regenerated!');
+                    } else {
+                        tt_setAgentStatus(`✅ <strong>Re-did Postcard Artwork</strong> for <strong>"${eqHtml(data.postcard?.pun_name)}"</strong>!`);
+                        showToast('Postcard artwork regenerated!');
+                    }
+                    await tt_init();
+                } else {
+                    tt_setAgentStatus(`❌ Re-do failed: ${eqHtml(data.error)}`, true);
+                    showToast('Re-do failed: ' + data.error, true);
+                }
+            } catch (e) {
+                tt_setAgentStatus(`❌ Network error during Re-do: ${eqHtml(e.message || e)}`, true);
+                showToast('Network error during Re-do', true);
+            } finally {
+                if (btnEl) {
+                    btnEl.disabled = false;
+                    btnEl.innerText = origBtnText;
+                }
+            }
+        }
+
+        async function tt_saveAgentCardEdits(postcardId, clueId) {
+            const pc = tt_postcards.find(p => p.id === postcardId);
+            const clue = tt_clues.find(c => c.id === clueId);
+
+            const punVal = document.getElementById(`tt-agent-pun-${clueId}`)?.value.trim();
+            const themeVal = document.getElementById(`tt-agent-theme-${clueId}`)?.value;
+            const titleVal = document.getElementById(`tt-agent-title-${clueId}`)?.value.trim();
+            const reviewerVal = document.getElementById(`tt-agent-reviewer-${clueId}`)?.value.trim().replace(/^@/, '');
+            const clue1Val = document.getElementById(`tt-agent-clue1-${clueId}`)?.value.trim();
+            const clue2Val = document.getElementById(`tt-agent-clue2-${clueId}`)?.value.trim();
+            const clue3Val = document.getElementById(`tt-agent-clue3-${clueId}`)?.value.trim();
+            const ownerVal = document.getElementById(`tt-agent-owner-${clueId}`)?.value.trim();
+            const promptVal = document.getElementById(`tt-agent-prompt-${clueId}`)?.value.trim();
+
+            if (clue) {
+                const oldPun = clue.pun_name;
+                if (punVal) clue.pun_name = punVal;
+                if (themeVal) clue.page_theme = themeVal;
+                if (titleVal !== undefined) clue.review_title = titleVal;
+                if (reviewerVal !== undefined) clue.reviewer_name = reviewerVal;
+                if (clue1Val !== undefined) clue.clue1 = clue1Val;
+                if (clue2Val !== undefined) clue.clue2 = clue2Val;
+                if (clue3Val !== undefined) clue.clue3 = clue3Val;
+                if (ownerVal !== undefined) clue.owner_response = ownerVal;
+
+                if (punVal && punVal !== oldPun) {
+                    const punObj = tt_puns.find(p => p.id === clue.pun_id || p.pun_name === oldPun);
+                    if (punObj) {
+                        punObj.pun_name = punVal;
+                        await tt_saveData('tt_puns', tt_puns);
+                    }
+                }
+                await tt_saveData('tt_clues', tt_clues);
+            }
+
+            if (pc) {
+                if (punVal) pc.pun_name = punVal;
+                if (themeVal) pc.page_theme = themeVal;
+                if (ownerVal !== undefined) pc.owner_response = ownerVal;
+                if (promptVal !== undefined) pc.image_prompt = promptVal;
+                await tt_saveData('tt_postcards', tt_postcards);
+            }
+
+            showToast('Candidate edits saved!');
+            tt_renderAll();
+        }
+
+        async function tt_approveAgentCandidate(postcardId, clueId) {
+            await tt_saveAgentCardEdits(postcardId, clueId);
+            await tt_setStatus('tt_postcards', postcardId, 'approved');
+        }
+
+        async function tt_declineAgentCandidate(postcardId, clueId) {
+            if (!confirm('Decline this puzzle candidate? This will reject the pun and remove its clue and postcard.')) {
+                return;
+            }
+            const pc = tt_postcards.find(x => x.id === postcardId);
+            const clue = tt_clues.find(x => x.id === clueId);
+            const punName = (pc && pc.pun_name) || (clue && clue.pun_name);
+
+            // Mark pun as 'rejected' so the Agent guardrails remember not to reuse it
+            if (punName) {
+                tt_puns.forEach(p => {
+                    if (p.pun_name === punName || (clue && p.id === clue.pun_id)) {
+                        p.status = 'rejected';
+                    }
+                });
+                await tt_saveData('tt_puns', tt_puns);
+            }
+            if (clueId) {
+                tt_clues = tt_clues.filter(c => c.id !== clueId);
+                await tt_saveData('tt_clues', tt_clues);
+            }
+            tt_postcards = tt_postcards.filter(x => x.id !== postcardId);
+            await tt_saveData('tt_postcards', tt_postcards);
+
+            tt_puzzles = tt_puzzles.filter(pz => pz.puzzle_id !== clueId);
+            await tt_saveData('tt_puzzles', tt_puzzles);
+
+            showToast('Candidate puzzle declined and cleaned up!');
+            tt_renderAll();
+        }
+
         // --- GENERATION CALLS ---
         async function tt_generatePuns() {
             let res = await fetch('/api/travelreviews/generate_puns', {method: 'POST'});
             let data = await res.json();
-            alert(`Puns generated! New tt_puns added: ${data.generated_count}`);
+            showToast(`Puns generated! New puns added: ${data.generated_count}`);
             await tt_init();
         }
 
         async function tt_generateClues() {
             let res = await fetch('/api/travelreviews/generate_clues', {method: 'POST'});
             let data = await res.json();
-            alert(`Reviews and Clues generated! New items: ${data.generated_count}`);
+            showToast(`Reviews and Clues generated! New items: ${data.generated_count}`);
             await tt_init();
         }
 
@@ -3761,17 +4174,18 @@
                 body: JSON.stringify({ art_style: 'random' })
             });
             let data = await res.json();
-            alert(`Postcards and Owner Responses generated! New items: ${data.generated_count}`);
+            showToast(`Postcards generated! New items: ${data.generated_count}`);
             await tt_init();
         }
 
         async function tt_savePuzzlesToProduction() {
             await tt_saveData('tt_puzzles', tt_puzzles);
-            alert("Daily tt_puzzles saved to production successfully!");
+            showToast("Daily challenges saved to production successfully!");
         }
 
         // --- RENDERING ---
         function tt_renderAll() {
+            tt_renderAgentQueue();
             tt_renderLandmarks();
             tt_renderPuns();
             tt_renderClues();
@@ -3788,7 +4202,253 @@
                 .replace(/[^a-z0-9]/g, "");
         }
 
+        function tt_countWords(str) {
+            if (!str || !str.trim()) return 0;
+            return str.trim().split(/\s+/).length;
+        }
+
+        function tt_renderAgentQueue() {
+            const container = document.getElementById('tt-agent-review-list');
+            const countLabel = document.getElementById('tt-agent-queue-count-label');
+            if (!container) return;
+
+            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
+            const { lockedClueIds } = tt_getLockedSets();
+            const scheduledClueIds = new Set(tt_puzzles.map(pz => pz.puzzle_id));
+
+            let candidates = tt_postcards.filter(pc => !lockedClueIds.has(pc.clue_id));
+            if (showPendingOnly) {
+                candidates = candidates.filter(pc => (pc.status === 'pending' || !pc.status) && !scheduledClueIds.has(pc.clue_id));
+            }
+
+            // Sort newest first so freshly generated Agent puzzles appear at the top
+            candidates = [...candidates].reverse();
+
+            if (countLabel) {
+                countLabel.innerText = `${candidates.length} Awaiting Decision`;
+            }
+
+            if (candidates.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="padding: 50px 20px;">
+                        <div style="font-size: 42px;">🤖</div>
+                        <h3>No Candidate Puzzles Awaiting Review</h3>
+                        <p style="color: var(--text-secondary); max-width: 520px; margin-top: 6px; line-height: 1.5;">
+                            Click <strong>"🤖 Run Agent Pipeline (Landmarks → Postcards)"</strong> above to have the Expert Curation Agent discover global landmarks, select guardrail-verified concrete puns, write progressive 1-star review clues & sarcastic owner replies, and render postcards for your review!
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = candidates.map(pc => {
+                const clue = tt_clues.find(c => c.id === pc.clue_id) || {
+                    id: pc.clue_id,
+                    original_name: pc.original_name,
+                    pun_name: pc.pun_name,
+                    reviewer_name: 'Anonymous',
+                    review_title: '1 Star!',
+                    clue1: '',
+                    clue2: '',
+                    clue3: '',
+                    owner_response: pc.owner_response || '',
+                    page_theme: pc.page_theme || 'historic_monuments'
+                };
+                const lmObj = tt_landmarks.find(l => normalizeName(l.name) === normalizeName(pc.original_name));
+                const locationStr = pc.location || clue.location || (lmObj ? lmObj.location : 'Global Landmark');
+                const score = pc.agent_score || clue.agent_score || null;
+                const rationale = pc.agent_rationale || clue.agent_rationale || '';
+                const runnerUps = pc.runner_up_puns || clue.runner_up_puns || [];
+                const cid = clue.id;
+                const currentTheme = pc.page_theme || clue.page_theme || 'historic_monuments';
+
+                const w1 = tt_countWords(clue.clue1);
+                const w2 = tt_countWords(clue.clue2);
+                const w3 = tt_countWords(clue.clue3);
+
+                return `
+                    <div class="puzzle-card" style="border: 1px solid rgba(0, 242, 254, 0.28); background: rgba(17, 22, 37, 0.65); padding: 22px;">
+                        <!-- Card Header -->
+                        <div class="puzzle-card-header" style="flex-wrap: wrap; gap: 12px;">
+                            <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                                <span style="font-size: 1.25rem; font-weight: 800; color: var(--cyan);">🌭 ${eqHtml(pc.pun_name)}</span>
+                                <span style="font-size: 0.95rem; color: var(--text-secondary);">
+                                    from <strong>📍 ${eqHtml(pc.original_name)}</strong> <span style="color: var(--text-muted);">(${eqHtml(locationStr)})</span>
+                                </span>
+                                ${score ? `<span class="status-badge" style="background: rgba(0, 242, 254, 0.14); color: var(--cyan); border: 1px solid rgba(0, 242, 254, 0.3);">🛡️ Guardrail Score: ${score}/10</span>` : ''}
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span class="status-badge status-${pc.status || 'pending'}">${pc.status || 'pending'}</span>
+                            </div>
+                        </div>
+
+                        ${rationale ? `
+                            <div style="background: rgba(0, 242, 254, 0.05); border-left: 3px solid var(--cyan); padding: 8px 12px; border-radius: 4px; font-size: 12px; color: var(--text-secondary);">
+                                <strong>🤖 Agent Guardrail Rationale:</strong> ${eqHtml(rationale)}
+                            </div>
+                        ` : ''}
+
+                        <!-- Two-Column Body: Left = Postcard & Re-do Postcard | Right = Pun, Clues, Owner Reply & Targeted Re-dos -->
+                        <div style="display: grid; grid-template-columns: 280px 1fr; gap: 22px; align-items: start;">
+                            <!-- LEFT COLUMN: POSTCARD ARTWORK & RE-DO POSTCARD -->
+                            <div style="display: flex; flex-direction: column; gap: 10px; background: rgba(8, 12, 20, 0.45); border: 1px solid var(--border-base); border-radius: 10px; padding: 14px;">
+                                <div style="font-size: 11px; font-weight: 800; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.5px;">
+                                    🖼️ Step 4: Postcard Illustration
+                                </div>
+                                <img src="${eqHtml(pc.image_path)}" alt="${eqHtml(pc.pun_name)}"
+                                     style="width: 100%; height: 210px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border-base); cursor: zoom-in;"
+                                     onclick="tt_openPostcardModal('${eq(pc.image_path)}')"
+                                     onerror="this.src='https://placehold.co/280x210/111625/f8fafc?text=Postcard+Preview';">
+                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: var(--text-muted);">
+                                    <span>Style: <strong>${eqHtml(pc.art_style || 'cartoon')}</strong></span>
+                                    <span style="cursor: pointer; color: var(--cyan);" onclick="tt_openPostcardModal('${eq(pc.image_path)}')">🔍 Click to Enlarge</span>
+                                </div>
+                                <div class="field-group">
+                                    <label style="font-size: 11px;">Image Prompt (Editable)</label>
+                                    <textarea id="tt-agent-prompt-${cid}" style="min-height: 68px; font-size: 11px; line-height: 1.35; padding: 6px 8px;">${eqHtml(pc.image_prompt)}</textarea>
+                                </div>
+                                <div style="display: flex; gap: 6px; align-items: center;">
+                                    <select id="tt-redo-style-${cid}" style="padding: 6px 8px; font-size: 11px; flex: 1;">
+                                        ${TT_ART_STYLES.map(st => `<option value="${st.key}" ${pc.art_style === st.key ? 'selected' : ''}>${st.label}</option>`).join('')}
+                                    </select>
+                                    <button class="btn btn-secondary" style="padding: 6px 10px; font-size: 11px; white-space: nowrap;"
+                                            onclick="tt_redoPuzzlePiece('${eq(cid)}', 'postcard', null, this)">
+                                        🔄 Re-do Postcard
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- RIGHT COLUMN: PUN WORD, CLUES, OWNER REPLY & RE-DO CONTROLS -->
+                            <div style="display: flex; flex-direction: column; gap: 14px;">
+                                <!-- SECTION A: PUN WORD & RE-DO PUN -->
+                                <div style="background: rgba(8, 12, 20, 0.45); border: 1px solid var(--border-base); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                                        <span style="font-size: 11px; font-weight: 800; color: var(--cyan); text-transform: uppercase; letter-spacing: 0.5px;">
+                                            🌭 Step 2: Location Pun Word & Theme
+                                        </span>
+                                        ${runnerUps.length > 0 ? `
+                                            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 11px;">
+                                                <span style="color: var(--text-muted);">Runner-up Puns (1-Click Swap):</span>
+                                                ${runnerUps.map(rp => `
+                                                    <button class="btn btn-secondary" style="padding: 2px 8px; font-size: 11px; border-radius: 12px;"
+                                                            title="Swap pun to '${eqHtml(rp)}' and regenerate Clues + Postcard"
+                                                            onclick="tt_redoPuzzlePiece('${eq(cid)}', 'pun', '${eq(rp)}', this)">
+                                                        ⚡ ${eqHtml(rp)}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 220px; gap: 12px;">
+                                        <div class="field-group">
+                                            <label style="font-size: 11px;">Pun Name (Answer)</label>
+                                            <input type="text" id="tt-agent-pun-${cid}" value="${eqHtml(pc.pun_name)}" style="font-weight: 700;">
+                                        </div>
+                                        <div class="field-group">
+                                            <label style="font-size: 11px;">Page Theme</label>
+                                            <select id="tt-agent-theme-${cid}" style="padding: 8px 10px;">
+                                                ${TT_ALL_THEMES.map(t => `<option value="${t}" ${currentTheme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>`).join('')}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-top: 4px; border-top: 1px dashed var(--border-base);">
+                                        <input type="text" id="tt-redo-pun-input-${cid}" placeholder="Optional: Type a custom pun word..." style="flex: 1; min-width: 180px; padding: 6px 10px; font-size: 12px;">
+                                        <input type="text" id="tt-redo-pun-feedback-${cid}" placeholder="Optional direction for Agent (e.g. 'use a food word')..." style="flex: 1; min-width: 180px; padding: 6px 10px; font-size: 12px;">
+                                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; white-space: nowrap; border-color: rgba(255, 193, 7, 0.4); color: #ffc107;"
+                                                onclick="tt_redoPuzzlePiece('${eq(cid)}', 'pun', null, this)">
+                                            🔄 Re-do Pun Word (Cascades Clues + Postcard)
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- SECTION B: PROGRESSIVE CLUES, OWNER REPLY & RE-DO CLUES -->
+                                <div style="background: rgba(8, 12, 20, 0.45); border: 1px solid var(--border-base); border-radius: 10px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                                    <div style="font-size: 11px; font-weight: 800; color: var(--emerald); text-transform: uppercase; letter-spacing: 0.5px;">
+                                        ✍️ Step 3: Progressive 1-Star Clues & Sarcastic Owner Reply
+                                    </div>
+                                    <div style="display: grid; grid-template-columns: 1fr 220px; gap: 12px;">
+                                        <div class="field-group">
+                                            <label style="font-size: 11px;">1-Star Review Title</label>
+                                            <input type="text" id="tt-agent-title-${cid}" value="${eqHtml(clue.review_title)}">
+                                        </div>
+                                        <div class="field-group">
+                                            <label style="font-size: 11px;">Reviewer Username (@)</label>
+                                            <input type="text" id="tt-agent-reviewer-${cid}" value="${eqHtml(clue.reviewer_name)}">
+                                        </div>
+                                    </div>
+                                    <div class="field-group">
+                                        <label style="font-size: 11px; display: flex; justify-content: space-between;">
+                                            <span>Clue 1 (Geographic Setting + Literal Delusion)</span>
+                                            <span style="color: ${w1 <= 15 ? 'var(--emerald)' : '#ffc107'};">${w1} words (Guardrail: ≤15w)</span>
+                                        </label>
+                                        <input type="text" id="tt-agent-clue1-${cid}" value="${eqHtml(clue.clue1)}">
+                                    </div>
+                                    <div class="field-group">
+                                        <label style="font-size: 11px; display: flex; justify-content: space-between;">
+                                            <span>Clue 2 (Landmark Feature + Physical Mishap)</span>
+                                            <span style="color: ${w2 <= 15 ? 'var(--emerald)' : '#ffc107'};">${w2} words (Guardrail: ≤15w)</span>
+                                        </label>
+                                        <input type="text" id="tt-agent-clue2-${cid}" value="${eqHtml(clue.clue2)}">
+                                    </div>
+                                    <div class="field-group">
+                                        <label style="font-size: 11px; display: flex; justify-content: space-between;">
+                                            <span>Clue 3 (Unmistakable Landmark + Pun Intersection)</span>
+                                            <span style="color: ${w3 <= 15 ? 'var(--emerald)' : '#ffc107'};">${w3} words (Guardrail: ≤15w)</span>
+                                        </label>
+                                        <input type="text" id="tt-agent-clue3-${cid}" value="${eqHtml(clue.clue3)}">
+                                    </div>
+                                    <div class="field-group">
+                                        <label style="font-size: 11px; display: flex; justify-content: space-between;">
+                                            <span>Response from the Owner (Actual Landmark Management POV — No Spoilers)</span>
+                                            <a href="javascript:void(0)" style="color: var(--cyan); text-decoration: none;" onclick="tt_regenerateOwnerReply('${eq(cid)}')">🔄 Re-write Owner Reply Only</a>
+                                        </label>
+                                        <textarea id="tt-agent-owner-${cid}" style="min-height: 52px; font-size: 12px; line-height: 1.4; padding: 6px 10px;">${eqHtml(pc.owner_response || clue.owner_response)}</textarea>
+                                    </div>
+                                    <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap; padding-top: 4px; border-top: 1px dashed var(--border-base);">
+                                        <input type="text" id="tt-redo-clues-feedback-${cid}" placeholder="Optional feedback for new clues (e.g. 'make Clue 1 hint more at Italy')..." style="flex: 1; min-width: 220px; padding: 6px 10px; font-size: 12px;">
+                                        <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; white-space: nowrap; border-color: rgba(0, 242, 254, 0.4); color: var(--cyan);"
+                                                onclick="tt_redoPuzzlePiece('${eq(cid)}', 'clues', null, this)">
+                                            🔄 Re-do Clues & Owner Reply
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card Footer: Human Curation Decision Bar -->
+                        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border-base); padding-top: 14px; margin-top: 4px;">
+                            <div style="display: flex; gap: 8px; align-items: center;">
+                                <button class="btn btn-danger" style="padding: 8px 16px; font-weight: 700;"
+                                        onclick="tt_declineAgentCandidate('${eq(pc.id)}', '${eq(cid)}')">
+                                    ❌ Decline Puzzle
+                                </button>
+                                <button class="btn btn-secondary" style="padding: 8px 14px;"
+                                        onclick="tt_saveAgentCardEdits('${eq(pc.id)}', '${eq(cid)}')">
+                                    💾 Save Edits
+                                </button>
+                            </div>
+                            <div style="display: flex; gap: 10px; align-items: center;">
+                                <button class="btn btn-emerald" style="padding: 10px 22px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 14px rgba(0, 245, 212, 0.25);"
+                                        onclick="tt_approveAgentCandidate('${eq(pc.id)}', '${eq(cid)}')">
+                                    ✅ Approve & Schedule Puzzle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
         function tt_updateBadges() {
+            // 0. Agent Curation Queue pending count
+            const { lockedClueIds } = tt_getLockedSets();
+            const scheduledClueIds = new Set(tt_puzzles.map(pz => pz.puzzle_id));
+            const agentQueueCount = tt_postcards.filter(
+                p => (!p.status || p.status === 'pending') && !lockedClueIds.has(p.clue_id) && !scheduledClueIds.has(p.clue_id)
+            ).length;
+            const elAgent = document.getElementById('badge-tt-agent');
+            if (elAgent) elAgent.innerText = agentQueueCount;
+
             // 1. Landmarks pending count
             const approvedNames = new Set(
                 tt_landmarks.filter(lm => lm.status === 'approved').map(lm => normalizeName(lm.name))
@@ -3863,10 +4523,12 @@
             el.innerHTML = displayList.map((lm, idx) => `
                 <div class="tt-list-item">
                     <div class="item-details">
-                        <strong>${lm.name}</strong> (${lm.location})
+                        <strong>${eqHtml(lm.name)}</strong> (${eqHtml(lm.location)})
+                        ${lm.pun_potential_note ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">💡 ${eqHtml(lm.pun_potential_note)}</div>` : ''}
                     </div>
-                    <div class="item-actions">
+                    <div class="item-actions" style="display: flex; gap: 8px; align-items: center;">
                         <span class="status-badge status-${lm.status || 'pending'}">${lm.status || 'pending'}</span>
+                        <button class="btn btn-primary" style="padding: 8px 12px; font-size: 12px;" onclick="tt_runCurationAgent('${eq(lm.id)}')">🤖 Agent: Build Full Puzzle</button>
                         <button class="btn btn-secondary" onclick="tt_setStatus('tt_landmarks', '${eq(lm.id)}', 'approved')">Approve</button>
                         <button class="btn btn-danger" style="padding: 10px 14px;" onclick="tt_setStatus('tt_landmarks', '${eq(lm.id)}', 'rejected')">Reject</button>
                     </div>
@@ -3901,8 +4563,11 @@
             el.innerHTML = displayList.map(p => `
                 <div class="tt-list-item" style="gap: 15px;">
                     <div class="item-details" style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: bold;">Original: ${p.original_name}</div>
-                        <input type="text" value="${p.pun_name}" onchange="updatePunName('${eq(p.id)}', this.value)" style="width: 100%; max-width: 400px; padding: 6px 10px; border: 2px solid #2D3436; border-radius: 6px; font-weight: bold; font-family: inherit;">
+                        <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: bold;">
+                            Original: ${eqHtml(p.original_name)} ${p.agent_score ? `<span style="color: var(--cyan); margin-left: 8px;">🛡️ ${p.agent_score}/10</span>` : ''}
+                        </div>
+                        <input type="text" value="${eqHtml(p.pun_name)}" onchange="updatePunName('${eq(p.id)}', this.value)" style="width: 100%; max-width: 400px; padding: 6px 10px; border: 2px solid #2D3436; border-radius: 6px; font-weight: bold; font-family: inherit;">
+                        ${p.agent_rationale ? `<div style="font-size: 11px; color: var(--text-muted);">${eqHtml(p.agent_rationale)}</div>` : ''}
                     </div>
                     <div class="item-actions" style="align-items: center; gap: 8px;">
                         <span class="status-badge status-${p.status || 'pending'}">${p.status || 'pending'}</span>
@@ -3932,23 +4597,25 @@
             el.innerHTML = displayList.map(c => `
                 <div class="tt-list-item" style="flex-direction: column; align-items: flex-start; gap: 10px;">
                     <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                        <strong>${c.pun_name} (from ${c.original_name})</strong>
-                        <div>
+                        <strong>${eqHtml(c.pun_name)} (from ${eqHtml(c.original_name)})</strong>
+                        <div style="display: flex; gap: 8px; align-items: center;">
                             <span class="status-badge status-${c.status || 'pending'}">${c.status || 'pending'}</span>
+                            <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(c.id)}', 'clues', null, this)">🔄 Re-do Clues</button>
                             <button class="btn btn-secondary" onclick="tt_setStatus('tt_clues', '${eq(c.id)}', 'approved')">Approve</button>
                             <button class="btn btn-danger" style="padding: 10px;" onclick="tt_setStatus('tt_clues', '${eq(c.id)}', 'rejected')">X</button>
                         </div>
                     </div>
                     <div style="background: rgba(8, 12, 20, 0.4); border: 1px solid var(--border-base); padding: 12px 15px; border-radius: 8px; width: 100%; font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px;">
-                        <div><strong>Title:</strong> ${c.review_title} | <strong>Reviewer:</strong> @${c.reviewer_name || 'Anonymous'}</div>
-                        <div style="margin-top: 4px;"><strong>Clue 1:</strong> ${c.clue1}</div>
-                        <div><strong>Clue 2:</strong> ${c.clue2}</div>
-                        <div><strong>Clue 3:</strong> ${c.clue3}</div>
+                        <div><strong>Title:</strong> ${eqHtml(c.review_title)} | <strong>Reviewer:</strong> @${eqHtml(c.reviewer_name || 'Anonymous')}</div>
+                        <div style="margin-top: 4px;"><strong>Clue 1:</strong> ${eqHtml(c.clue1)}</div>
+                        <div><strong>Clue 2:</strong> ${eqHtml(c.clue2)}</div>
+                        <div><strong>Clue 3:</strong> ${eqHtml(c.clue3)}</div>
+                        <div style="margin-top: 4px;"><strong>Owner Reply:</strong> ${eqHtml(c.owner_response || '')}</div>
                         <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
                             <strong>Theme:</strong>
                             <select onchange="tt_updateClueTheme('${eq(c.id)}', this.value)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem;">
-                                ${['road_trip', 'air_mail', 'train_passage', 'gondola_ride', 'boat_voyage', 'mountain_trek', 'desert_safari', 'sightseeing', 'tropical_island', 'winter_lodge', 'metro_transit'].map(t => `
-                                    <option value="${t}" ${c.page_theme === t ? 'selected' : ''}>${t.replace('_', ' ')}</option>
+                                ${TT_ALL_THEMES.map(t => `
+                                    <option value="${t}" ${c.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
                                 `).join('')}
                             </select>
                         </div>
@@ -3967,20 +4634,20 @@
             }
             el.innerHTML = displayList.map(p => `
                 <div class="tt-list-item" style="gap: 15px;">
-                    <img class="img-preview" src="${p.image_path}" alt="Postcard preview" onclick="tt_openPostcardModal('${eq(p.image_path)}')">
+                    <img class="img-preview" src="${eqHtml(p.image_path)}" alt="Postcard preview" onclick="tt_openPostcardModal('${eq(p.image_path)}')">
                     <div class="item-details" style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-                        <strong>${p.pun_name}</strong>
+                        <strong>${eqHtml(p.pun_name)} <span style="color: var(--text-secondary); font-weight: normal;">(from ${eqHtml(p.original_name)})</span></strong>
                         
                         <div style="display: flex; flex-direction: column; gap: 4px;">
                             <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Image Generation Prompt:</label>
-                            <textarea style="width: 100%; min-height: 60px; font-size: 0.85rem; padding: 8px 12px; border: 1px solid var(--border-base); border-radius: 6px; background: var(--bg-input); color: var(--text-primary); font-family: inherit; resize: vertical; line-height: 1.4;" onchange="tt_updatePostcardPrompt('${eq(p.id)}', this.value)">${p.image_prompt}</textarea>
+                            <textarea style="width: 100%; min-height: 60px; font-size: 0.85rem; padding: 8px 12px; border: 1px solid var(--border-base); border-radius: 6px; background: var(--bg-input); color: var(--text-primary); font-family: inherit; resize: vertical; line-height: 1.4;" onchange="tt_updatePostcardPrompt('${eq(p.id)}', this.value)">${eqHtml(p.image_prompt)}</textarea>
                         </div>
 
                         <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;">
                             <strong>Theme:</strong>
                             <select onchange="tt_updatePostcardTheme('${eq(p.id)}', this.value)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem;">
-                                ${['road_trip', 'air_mail', 'train_passage', 'gondola_ride', 'boat_voyage', 'mountain_trek', 'desert_safari', 'sightseeing', 'tropical_island', 'winter_lodge', 'metro_transit'].map(t => `
-                                    <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace('_', ' ')}</option>
+                                ${TT_ALL_THEMES.map(t => `
+                                    <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
                                 `).join('')}
                             </select>
                         </div>
@@ -3989,14 +4656,16 @@
                                 <strong>Owner Reply:</strong>
                                 <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.8rem; " onclick="tt_regenerateOwnerReply('${eq(p.clue_id)}')">🔄 Regenerate Reply</button>
                             </div>
-                            <div id="reply-text-${p.clue_id}">${p.owner_response}</div>
+                            <div id="reply-text-${p.clue_id}">${eqHtml(p.owner_response)}</div>
                         </div>
                     </div>
-                    <div class="item-actions" style="gap: 8px;">
-                        <span class="status-badge status-${p.status || 'pending'}">${p.status || 'pending'}</span>
-                        <button class="btn btn-secondary" onclick="tt_setStatus('tt_postcards', '${eq(p.id)}', 'approved')">Approve</button>
-                        <button class="btn btn-secondary" style="" onclick="tt_regeneratePostcard('${eq(p.clue_id)}', '${eq(p.art_style)}')">🔄 Regenerate Image</button>
-                        <button class="btn btn-danger" style="padding: 10px 14px;" onclick="tt_setStatus('tt_postcards', '${eq(p.id)}', 'rejected')">X</button>
+                    <div class="item-actions" style="display: flex; flex-direction: column; gap: 8px; align-items: stretch;">
+                        <span class="status-badge status-${p.status || 'pending'}" style="text-align: center;">${p.status || 'pending'}</span>
+                        <button class="btn btn-emerald" onclick="tt_setStatus('tt_postcards', '${eq(p.id)}', 'approved')">✅ Approve</button>
+                        <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(p.clue_id)}', 'pun', null, this)">🔄 Re-do Pun</button>
+                        <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(p.clue_id)}', 'clues', null, this)">🔄 Re-do Clues</button>
+                        <button class="btn btn-secondary" onclick="tt_regeneratePostcard('${eq(p.clue_id)}', '${eq(p.art_style)}')">🔄 Re-do Postcard</button>
+                        <button class="btn btn-danger" style="padding: 8px 14px;" onclick="tt_declineAgentCandidate('${eq(p.id)}', '${eq(p.clue_id)}')">❌ Decline</button>
                     </div>
                 </div>
             `).join('');
@@ -4289,8 +4958,8 @@
                                 <div class="field-group">
                                     <label>Page Theme</label>
                                     <select onchange="tt_updatePuzzleField(${puzzleIdx}, 'page_theme', this.value)" style="width: 100%; padding: 8px 12px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;" ${disabledAttr}>
-                                         ${['road_trip', 'air_mail', 'train_passage', 'gondola_ride', 'boat_voyage', 'mountain_trek', 'desert_safari', 'sightseeing', 'tropical_island', 'winter_lodge', 'metro_transit'].map(t => `
-                                             <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace('_', ' ')}</option>
+                                         ${TT_ALL_THEMES.map(t => `
+                                             <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
                                          `).join('')}
                                     </select>
                                 </div>

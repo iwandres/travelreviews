@@ -149,5 +149,75 @@ class TestServerHandler(unittest.TestCase):
         self.assertTrue(handler.send_error.called)
         self.assertEqual(handler.send_error.call_args[0][0], 404)
 
+    def test_get_agent_guardrails(self):
+        handler = self.make_handler('GET', '/api/travelreviews/agent/guardrails')
+        handler.do_GET()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertIn('guardrails', response_data)
+        self.assertIn('pun_positive_rules', response_data['guardrails'])
+        self.assertIn('pun_negative_examples', response_data['guardrails'])
+        self.assertIn('stats', response_data)
+
+    @patch('backend.unified_server.gemini_available', True)
+    @patch('backend.unified_server.get_curation_agent')
+    def test_post_agent_run(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.run_pipeline.return_value = {
+            "discovered_landmarks_count": 1,
+            "discovered_landmarks": [{"id": "lm_1", "name": "Hagia Sophia", "location": "Istanbul, Turkey"}],
+            "generated_puzzles_count": 1,
+            "generated_puzzles": [{"pun": {"pun_name": "Hog-ia Sofa"}, "landmark": {"name": "Hagia Sophia"}}],
+            "errors": []
+        }
+        mock_get_agent.return_value = mock_agent
+
+        payload = json.dumps({"count": 1, "discover_new_landmarks": True, "art_style": "cartoon"}).encode('utf-8')
+        handler = self.make_handler('POST', '/api/travelreviews/agent/run', body=payload)
+        handler.do_POST()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertEqual(response_data['generated_puzzles_count'], 1)
+        mock_agent.run_pipeline.assert_called_once_with(
+            count=1, discover_new_landmarks=True, art_style="cartoon", landmark_id=None
+        )
+
+    @patch('backend.unified_server.gemini_available', True)
+    @patch('backend.unified_server.get_curation_agent')
+    def test_post_agent_redo_pun(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.redo_puzzle_piece.return_value = {
+            "redo_type": "pun",
+            "old_pun_name": "Lover Museum",
+            "new_pun_name": "Loofah Museum",
+            "clue": {"id": "clue_123", "pun_name": "Loofah Museum"},
+            "postcard": {"id": "pc_123", "pun_name": "Loofah Museum"}
+        }
+        mock_get_agent.return_value = mock_agent
+
+        payload = json.dumps({
+            "clue_id": "clue_123",
+            "redo_type": "pun",
+            "human_feedback": "Make it a household object"
+        }).encode('utf-8')
+        handler = self.make_handler('POST', '/api/travelreviews/agent/redo', body=payload)
+        handler.do_POST()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertEqual(response_data['new_pun_name'], 'Loofah Museum')
+        mock_agent.redo_puzzle_piece.assert_called_once_with(
+            clue_id="clue_123",
+            redo_type="pun",
+            custom_pun=None,
+            human_feedback="Make it a household object",
+            art_style="random",
+            custom_prompt=None
+        )
+
 if __name__ == '__main__':
     unittest.main()
