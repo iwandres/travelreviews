@@ -1047,62 +1047,28 @@
 <body>
 
     <header style="display: flex; flex-direction: column; gap: 10px; padding: 15px 25px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
-            <div class="brand" style="margin: 0;">Pun<span>Fiction</span> Curation Hub 🎛️</div>
+        <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; flex-wrap: wrap; gap: 10px;">
+            <div class="brand" style="margin: 0;">Pun<span>Fiction</span> Curation Hub 🎛️ <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary); margin-left: 8px;">· 1-Star Travel Reviews 🗺️</span></div>
             <div style="display: flex; align-items: center; gap: 10px;">
-                <span style="font-weight: 800; font-size: 0.95rem; color: var(--text-secondary);">Active Pipeline:</span>
-                <select id="game-pipeline-select" onchange="switchPipeline(this.value)" style="padding: 8px 16px; border: 2px solid #2D3436; border-radius: 6px; font-weight: 800; font-family: inherit; font-size: 0.9rem; cursor: pointer; box-shadow: 2px 2px 0 #2D3436;">
-                    <option value="boxoffice">Box Office Blunders 🎬</option>
-                    <option value="travelreviews">1-Star Travel Reviews 🗺️</option>
-                </select>
-                <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.85rem;" onclick="openActiveGame()">🎮 Play Active Game</button>
+                <button id="tt-runway-header-pill" class="btn btn-secondary" style="padding: 6px 14px; font-size: 12px; font-weight: 700; border-color: rgba(46, 196, 182, 0.45); color: #2ec4b6;" onclick="tt_toggleRunwayAlertDrawer()">
+                    🔔 Staged Runway: <span id="tt-runway-pill-count">--</span> Days (Alert ≤ 10 → iwandres@gmail.com)
+                </button>
             </div>
         </div>
         
-        <!-- Box Office Navigation -->
-        <nav class="pipeline-nav" id="nav-boxoffice" style="width: 100%; display: flex;">
-            <button class="pipeline-btn active" data-tab="rhymes">
-                🔍 Rhyme Selector <span class="badge" id="badge-rhymes">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="parody">
-                🍿 Parody Review <span class="badge" id="badge-parody">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="posters">
-                🎨 Poster Review <span class="badge" id="badge-posters">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="puzzles">
-                🧩 Game Assembler <span class="badge" id="badge-puzzles">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="approved-puzzles">
-                📚 Approved Puzzles <span class="badge" id="badge-approved-puzzles">0</span>
-            </button>
-        </nav>
-
-        <!-- 1-Star Travel Reviews Navigation -->
-        <nav class="pipeline-nav" id="nav-travelreviews" style="width: 100%; display: none;">
+        <!-- 1-Star Travel Reviews Navigation (2-Step Workflow) -->
+        <nav class="pipeline-nav" id="nav-travelreviews" style="width: 100%; display: flex;">
             <button class="pipeline-btn active" data-tab="tt-agent">
-                🤖 Agent Curation <span class="badge" id="badge-tt-agent">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="tt-landmarks">
-                📍 Landmarks <span class="badge" id="badge-tt-landmarks">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="tt-puns">
-                🌭 Puns <span class="badge" id="badge-tt-puns">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="tt-clues">
-                ✍️ Clues <span class="badge" id="badge-tt-clues">0</span>
-            </button>
-            <button class="pipeline-btn" data-tab="tt-postcards">
-                🖼️ Postcards <span class="badge" id="badge-tt-postcards">0</span>
+                🤖 1. Agent Curation <span class="badge" id="badge-tt-agent">0</span>
             </button>
             <button class="pipeline-btn" data-tab="tt-puzzles">
-                📅 Daily Challenges <span class="badge" id="badge-tt-puzzles">0</span>
+                📅 2. Daily Challenges <span class="badge" id="badge-tt-puzzles">0</span>
             </button>
         </nav>
     </header>
 
     <div class="container">
-        <div id="boxoffice-pipeline-views">
+        <div id="boxoffice-pipeline-views" style="display: none;">
         
         <!-- ================= PIPELINE CONTROLLER ================= -->
         <div class="pipeline-controller-panel">
@@ -1301,17 +1267,107 @@
 
         </div> <!-- /#boxoffice-pipeline-views -->
 
-        <div id="travelreviews-pipeline-views" style="display: none;">
-            <div style="background: rgba(8, 12, 20, 0.6); border: 1px solid var(--border-base); padding: 12px 20px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between;">
-                <span style="font-size: 0.95rem; color: var(--text-secondary);">🧹 <strong>Pipeline Sweeper:</strong> Approved items automatically transition to the next stage and clear from your view.</span>
-                <label style="display: flex; align-items: center; gap: 8px; font-weight: 700; cursor: pointer; color: var(--text-primary);">
-                    <input type="checkbox" id="tt_sweeper_mode" checked onchange="tt_renderAll()" style="width: 18px; height: 18px; cursor: pointer;">
-                    Sweeper Mode (Show Pending Only)
-                </label>
+        <div id="travelreviews-pipeline-views" style="display: block;">
+            <!-- Low Staged Runway Alert Banner (Shown automatically when staged_count <= threshold) -->
+            <div id="tt-low-runway-banner" style="display: none; background: rgba(220, 53, 69, 0.14); border: 2px solid #ff7684; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <span style="font-size: 24px;">🚨</span>
+                    <div>
+                        <div style="font-weight: 800; color: #ff7684; font-size: 14px;" id="tt-low-runway-title">
+                            LOW STAGED PUZZLE RUNWAY ALERT!
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;" id="tt-low-runway-desc">
+                            There are 10 or fewer staged puzzles remaining after today's challenge. An email alert has been triggered for iwandres@gmail.com.
+                        </div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="btn btn-secondary" style="font-size: 12px; padding: 6px 12px;" onclick="tt_toggleRunwayAlertDrawer()">⚙️ Alert Settings</button>
+                    <button class="btn btn-primary" style="font-size: 12px; padding: 6px 12px;" onclick="tt_runCurationAgent()">🤖 Generate More Puzzles Now</button>
+                </div>
             </div>
 
-        <!-- ================= 1-STAR TRAVEL REVIEWS TABS ================= -->
-        <!-- 0. AGENT CURATION STUDIO TAB -->
+            <!-- Collapsible Runway Email Alert Configuration Drawer -->
+            <div id="tt-runway-alert-drawer" style="display: none; background: rgba(17, 22, 37, 0.92); border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 12px; padding: 18px 22px; margin-bottom: 18px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-base); padding-bottom: 10px; margin-bottom: 14px;">
+                    <div>
+                        <strong style="color: var(--cyan); font-size: 14px;">🔔 Staged Puzzle Runway Monitor &amp; Email Alert (iwandres@gmail.com)</strong>
+                        <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+                            Automatically monitors upcoming staged challenges after Today's Live Puzzle and emails an alert when the staged runway drops to <strong>&le; 10 puzzles</strong>.
+                        </div>
+                    </div>
+                    <span style="font-size: 12px; color: var(--text-muted); cursor: pointer;" onclick="tt_toggleRunwayAlertDrawer()">✕ Close</span>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1.3fr; gap: 18px; align-items: start;">
+                    <!-- Left: Current Staged Runway Status -->
+                    <div style="background: rgba(8, 12, 20, 0.6); border: 1px solid var(--border-base); border-radius: 8px; padding: 14px; font-size: 12px; display: flex; flex-direction: column; gap: 8px;">
+                        <div style="font-weight: 800; color: #2ec4b6; text-transform: uppercase; font-size: 11px;">📊 Live Staged Runway Breakdown</div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Staged Upcoming Puzzles:</span>
+                            <strong id="tt-runway-stat-staged" style="color: var(--cyan); font-size: 14px;">--</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Today's Live Challenge:</span>
+                            <strong id="tt-runway-stat-today">#---</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Final Staged Challenge Date:</span>
+                            <strong id="tt-runway-stat-last-date">---</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--text-secondary);">Awaiting Approval in Step 1 Queue:</span>
+                            <strong id="tt-runway-stat-queue" style="color: #2ec4b6;">--</strong>
+                        </div>
+                        <div style="border-top: 1px dashed var(--border-base); padding-top: 8px; margin-top: 4px; color: var(--text-muted); font-size: 11px;" id="tt-runway-last-status">
+                            Last Alert Status: None sent yet
+                        </div>
+                    </div>
+
+                    <!-- Right: Email Configuration & Test Trigger -->
+                    <div style="background: rgba(8, 12, 20, 0.6); border: 1px solid var(--border-base); border-radius: 8px; padding: 14px; display: flex; flex-direction: column; gap: 10px;">
+                        <div style="display: grid; grid-template-columns: 1fr 130px 130px; gap: 10px;">
+                            <div class="field-group">
+                                <label style="font-size: 11px;">Alert Recipient Email</label>
+                                <input type="email" id="tt-alert-recipient" value="iwandres@gmail.com" style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                            <div class="field-group">
+                                <label style="font-size: 11px;">Staged Threshold (&le;)</label>
+                                <input type="number" id="tt-alert-threshold" min="1" max="60" value="10" style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                            <div class="field-group">
+                                <label style="font-size: 11px;">Auto-Alert Enabled</label>
+                                <select id="tt-alert-enabled" style="padding: 6px 10px; font-size: 12px;">
+                                    <option value="true" selected>✅ Enabled</option>
+                                    <option value="false">⏸️ Paused</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div class="field-group">
+                                <label style="font-size: 11px;">Gmail App Password (16-char for smtp.gmail.com)</label>
+                                <input type="password" id="tt-alert-smtp-pw" placeholder="Enter 16-char Google App Password (or set GMAIL_APP_PASSWORD)" style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                            <div class="field-group">
+                                <label style="font-size: 11px;">Optional Webhook URL (Slack / Zapier / Make)</label>
+                                <input type="text" id="tt-alert-webhook" placeholder="https://hooks..." style="padding: 6px 10px; font-size: 12px;">
+                            </div>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; gap: 10px; padding-top: 4px;">
+                            <span style="font-size: 11px; color: var(--text-muted);" id="tt-alert-cred-badge">
+                                💡 Tip: Create a Google App Password at myaccount.google.com/apppasswords to send directly via Gmail SMTP.
+                            </span>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn btn-secondary" style="font-size: 12px; padding: 7px 12px;" onclick="tt_saveRunwayAlertConfig()">💾 Save Alert Config</button>
+                                <button class="btn btn-primary" id="btn-tt-test-alert" style="font-size: 12px; padding: 7px 14px;" onclick="tt_sendTestRunwayAlert()">📧 Send Test Alert Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- ================= 1-STAR TRAVEL REVIEWS TABS (2-STEP WORKFLOW) ================= -->
+        <!-- STEP 1: AGENT CURATION & HUMAN REVIEW QUEUE -->
         <div id="tab-tt-agent" class="tab-content active" style="display: block;">
             <!-- Autonomous Agent Control Room -->
             <div class="pipeline-controller-panel" style="border-color: rgba(0, 242, 254, 0.25);">
@@ -1495,9 +1551,9 @@
             <div class="card">
                 <div class="card-header">
                     <div>
-                        <h2>🎯 Human Curation Review Queue</h2>
+                        <h2>🎯 Step 1: Human Curation Review Queue</h2>
                         <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
-                            Review complete Agent-crafted puzzles (Landmark + Pun + Clues + Owner Reply + Postcard). <strong>Approve</strong> to schedule, <strong>Decline</strong> to discard, or <strong>Re-do</strong> any specific piece!
+                            Review complete Agent-crafted puzzles (Landmark + Pun + Clues + Owner Reply + Postcard). <strong>Approve</strong> to stage into Daily Challenges, <strong>Decline</strong> to discard, or <strong>Re-do</strong> any specific piece!
                         </p>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
@@ -1508,71 +1564,16 @@
             </div>
         </div>
 
-        <!-- 1. LANDMARKS TAB -->
-        <div id="tab-tt-landmarks" class="tab-content" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h2>📍 Landmark Seed Database</h2>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="tt_discoverGlobalLandmarks(8)">🌍 Agent: Discover +8 Global Landmarks</button>
-                    </div>
-                </div>
-                
-                <div style="margin-bottom: 20px; display: flex; gap: 10px;">
-                    <input type="text" id="tt_lm_name" placeholder="Landmark Name (e.g. Eiffel Tower)" style="max-width: 300px;">
-                    <input type="text" id="tt_lm_loc" placeholder="Location (e.g. Paris, France)" style="max-width: 200px;">
-                    <button class="btn btn-secondary" onclick="tt_addLandmark()">+ Add Landmark</button>
-                </div>
-
-                <div class="item-list" id="tt_landmarks-list"></div>
-            </div>
-        </div>
-
-        <!-- 2. PUNS TAB -->
-        <div id="tab-tt-puns" class="tab-content" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h2>🌭 Location Pun Candidates</h2>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="tt_generatePuns()">⚡ Generate Puns (Gemini)</button>
-                    </div>
-                </div>
-                <div class="item-list" id="tt_puns-list"></div>
-            </div>
-        </div>
-
-        <!-- 3. CLUES TAB -->
-        <div id="tab-tt-clues" class="tab-content" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h2>✍️ progressive Clues Generator</h2>
-                    <div style="display: flex; gap: 10px;">
-                        <button class="btn btn-secondary" onclick="tt_generateClues()">⚡ Generate Clues (Gemini)</button>
-                    </div>
-                </div>
-                <div class="item-list" id="tt_clues-list"></div>
-            </div>
-        </div>
-
-        <!-- 4. POSTCARDS TAB -->
-        <div id="tab-tt-postcards" class="tab-content" style="display: none;">
-            <div class="card">
-                <div class="card-header">
-                    <h2>🎨 Postcard Art & Owner Replies</h2>
-                    <div style="display: flex; align-items: center; gap: 15px;">
-
-                        <button class="btn btn-secondary" onclick="tt_generatePostcards()">⚡ Generate Postcards</button>
-                    </div>
-                </div>
-                <div class="item-list" id="tt_postcards-list"></div>
-            </div>
-        </div>
-
-        <!-- 5. PUZZLES TAB (Side-by-Side Split Daily Challenge Calendar) -->
+        <!-- STEP 2: DAILY CHALLENGES TAB (Staged on Left, Locked/Fixed on Right + Click-to-Open Metadata View) -->
         <div id="tab-tt-puzzles" class="tab-content" style="display: none;">
             <div class="card" style="margin-bottom:20px;">
                 <div class="card-header">
-                    <h2>📅 Daily Challenge Calendar</h2>
+                    <div>
+                        <h2>📅 Step 2: Daily Challenges (Staged &amp; Locked Schedule)</h2>
+                        <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                            <strong>Left Column:</strong> Upcoming Staged Puzzles &amp; Backlog · <strong>Right Column:</strong> Locked / Fixed Historical Puzzles · <strong>Click any puzzle row</strong> to open its full Puzzle Meta-Data View.
+                        </p>
+                    </div>
                     <div style="display:flex; gap:10px;">
                         <button class="btn btn-secondary" onclick="tt_autoProcessCurationSchedule()">🗓️ Auto-Rebuild Numbers</button>
                         <button class="btn btn-primary" onclick="tt_savePuzzlesToProduction()">💾 Save Approved Calendar</button>
@@ -1580,33 +1581,34 @@
                 </div>
                 
                 <div class="rhymes-layout" style="margin-top:20px; gap:20px; grid-template-columns: 1fr 1fr;">
-                    <!-- Left Side: Table Schedule List -->
-                    <div class="pipeline-controller-panel" style="background: rgba(17, 22, 37, 0.4); border-color: rgba(0, 242, 254, 0.1); margin-top: 0; margin-bottom: 0; padding: 20px; height: calc(100vh - 200px); display: flex; flex-direction: column;">
-                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+                    <!-- LEFT COLUMN: STAGED PUZZLES & BACKLOG -->
+                    <div class="pipeline-controller-panel" style="background: rgba(17, 22, 37, 0.4); border-color: rgba(0, 242, 254, 0.2); margin-top: 0; margin-bottom: 0; padding: 20px; height: calc(100vh - 210px); display: flex; flex-direction: column;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
                             <div class="panel-title-wrapper">
-                                <span class="panel-icon">🗓️</span>
-                                <span class="panel-title">Schedule & Backlog</span>
+                                <span class="panel-icon">🟢</span>
+                                <span class="panel-title">Staged Puzzles &amp; Backlog</span>
                             </div>
+                            <span style="font-size:11px; background:rgba(0, 242, 254, 0.14); color:var(--cyan); padding:3px 10px; border-radius:12px; border:1px solid rgba(0, 242, 254, 0.3); font-weight:800;" id="tt-count-active-schedule">0 Staged</span>
                         </div>
                         <p style="font-size:11px; color:var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
-                            Adjust sequence using 🔼 / 🔽. Backlog pool items can be scheduled at the bottom.
+                            Today's live puzzle and upcoming staged challenges. Reorder using 🔼 / 🔽 or <strong>click any puzzle row</strong> to open its Meta-Data View.
                         </p>
                         
                         <div style="flex-grow: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; padding-right: 4px;">
-                            <!-- Active Schedule -->
+                            <!-- Staged & Today Schedule -->
                             <div>
-                                <div style="font-size: 11px; font-weight:700; color:var(--cyan); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
-                                    <span>🟢 Active Schedule</span> 
-                                    <span style="font-size:10px; background:rgba(0, 242, 254, 0.12); padding:1px 6px; border-radius:4px; border:1px solid rgba(0, 242, 254, 0.2); font-weight:700;" id="tt-count-active-schedule">0</span>
+                                <div style="font-size: 11px; font-weight:700; color:var(--cyan); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; display:flex; align-items:center; justify-content:space-between;">
+                                    <span>🗓️ Staged &amp; Active Schedule</span>
+                                    <span style="font-size:10px; color:var(--text-muted); font-weight:600;">Click row for Meta-Data ↗</span>
                                 </div>
                                 <div style="border: 1px solid var(--border-base); border-radius: 8px; background: rgba(8,12,20,0.5); overflow: hidden;">
                                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
                                         <thead>
-                                            <tr style="border-bottom: 1px solid var(--border-base); background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight:700;">
-                                                <th style="padding: 8px; width: 40px;">#</th>
-                                                <th style="padding: 8px; width: 60px;">Ch #</th>
-                                                <th style="padding: 8px;">Landmark Pun</th>
-                                                <th style="padding: 8px; width: 90px; text-align: center;">Move</th>
+                                            <tr style="border-bottom: 1px solid var(--border-base); background: rgba(0,0,0,0.25); color: var(--text-muted); font-weight:700;">
+                                                <th style="padding: 8px 10px; width: 42px;">#</th>
+                                                <th style="padding: 8px 10px; width: 68px;">Ch #</th>
+                                                <th style="padding: 8px 10px;">Landmark Pun &amp; Show Date</th>
+                                                <th style="padding: 8px 10px; width: 95px; text-align: center;">Move</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tt-approved-puzzles-sort-list">
@@ -1619,16 +1621,16 @@
                             <!-- Backlog pool -->
                             <div>
                                 <div style="font-size: 11px; font-weight:700; color:#ff7684; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; display:flex; align-items:center; gap:6px;">
-                                    <span>📦 Backlog Pool</span> 
+                                    <span>📦 Unscheduled Backlog Pool</span> 
                                     <span style="font-size:10px; background:rgba(220, 53, 69, 0.15); padding:1px 6px; border-radius:4px; border:1px solid rgba(220, 53, 69, 0.2); color:#ff7684; font-weight:700;" id="tt-count-backlog">0</span>
                                 </div>
                                 <div style="border: 1px solid var(--border-base); border-radius: 8px; background: rgba(8,12,20,0.5); overflow: hidden;">
                                     <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
                                         <thead>
-                                            <tr style="border-bottom: 1px solid var(--border-base); background: rgba(0,0,0,0.2); color: var(--text-muted); font-weight:700;">
-                                                <th style="padding: 8px; width: 40px;">Idx</th>
-                                                <th style="padding: 8px;">Landmark Pun</th>
-                                                <th style="padding: 8px; width: 80px; text-align: center;">Action</th>
+                                            <tr style="border-bottom: 1px solid var(--border-base); background: rgba(0,0,0,0.25); color: var(--text-muted); font-weight:700;">
+                                                <th style="padding: 8px 10px; width: 42px;">Idx</th>
+                                                <th style="padding: 8px 10px;">Landmark Pun</th>
+                                                <th style="padding: 8px 10px; width: 85px; text-align: center;">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody id="tt-approved-puzzles-backlog-list">
@@ -1640,9 +1642,41 @@
                         </div>
                     </div>
                     
-                    <!-- Right Side: Scrollable column of Detailed Cards -->
-                    <div style="height: calc(100vh - 200px); overflow-y: auto; padding-right: 4px; display: flex; flex-direction: column; gap: 15px;" id="tt-approved-puzzles-list-grid">
-                        <!-- JS Populated cards -->
+                    <!-- RIGHT COLUMN: LOCKED / FIXED HISTORICAL PUZZLES -->
+                    <div class="pipeline-controller-panel" style="background: rgba(17, 22, 37, 0.4); border-color: rgba(255, 255, 255, 0.1); margin-top: 0; margin-bottom: 0; padding: 20px; height: calc(100vh - 210px); display: flex; flex-direction: column;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 6px;">
+                            <div class="panel-title-wrapper">
+                                <span class="panel-icon">🔒</span>
+                                <span class="panel-title">Locked / Fixed Puzzles</span>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <button class="btn btn-secondary" id="btn-tt-locked-sort" style="padding: 3px 10px; font-size: 11px;" onclick="tt_toggleLockedSortOrder()">
+                                    🔽 Newest First
+                                </button>
+                                <span style="font-size:11px; background:rgba(255, 255, 255, 0.08); color:var(--text-secondary); padding:3px 10px; border-radius:12px; border:1px solid var(--border-base); font-weight:800;" id="tt-count-locked-schedule">0 Locked</span>
+                            </div>
+                        </div>
+                        <p style="font-size:11px; color:var(--text-secondary); margin-bottom: 12px; line-height: 1.4;">
+                            Past daily challenges fixed in historical sequence. <strong>Click any puzzle row</strong> to inspect its full Puzzle Meta-Data View.
+                        </p>
+
+                        <div style="flex-grow: 1; overflow-y: auto; padding-right: 4px;">
+                            <div style="border: 1px solid var(--border-base); border-radius: 8px; background: rgba(8,12,20,0.5); overflow: hidden;">
+                                <table style="width: 100%; border-collapse: collapse; text-align: left; font-size: 12px;">
+                                    <thead>
+                                        <tr style="border-bottom: 1px solid var(--border-base); background: rgba(0,0,0,0.25); color: var(--text-muted); font-weight:700;">
+                                            <th style="padding: 8px 10px; width: 65px;">Ch #</th>
+                                            <th style="padding: 8px 10px;">Landmark Pun &amp; Original Landmark</th>
+                                            <th style="padding: 8px 10px; width: 135px;">Show Date</th>
+                                            <th style="padding: 8px 10px; width: 90px; text-align: center;">Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tt-locked-puzzles-list">
+                                        <!-- JS populated -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1650,6 +1684,28 @@
 
         </div> <!-- /#travelreviews-pipeline-views -->
     </div> <!-- /container -->
+
+    <!-- Puzzle Meta-Data View Modal (Opens when clicking any Staged or Locked puzzle row) -->
+    <div id="tt-puzzle-metadata-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(4, 7, 14, 0.82); backdrop-filter: blur(4px); z-index: 9500; justify-content: center; align-items: center; padding: 24px;" onclick="if (event.target.id === 'tt-puzzle-metadata-modal') tt_closePuzzleMetadataModal()">
+        <div style="background: #111625; border: 1px solid rgba(0, 242, 254, 0.35); border-radius: 14px; width: 100%; max-width: 960px; max-height: 90vh; display: flex; flex-direction: column; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.85); overflow: hidden;">
+            <!-- Modal Header -->
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 22px; background: rgba(8, 12, 20, 0.85); border-bottom: 1px solid var(--border-base); flex-wrap: wrap; gap: 12px;">
+                <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                    <span id="tt-meta-modal-title" style="font-size: 18px; font-weight: 800; color: var(--cyan);">🌭 Puzzle Meta-Data</span>
+                    <span id="tt-meta-modal-badge" class="status-badge">🗓️ STAGED</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="tt_stepPuzzleMetadataModal(-1)">◀ Prev</button>
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px;" onclick="tt_stepPuzzleMetadataModal(1)">Next ▶</button>
+                    <button class="btn btn-secondary" style="padding: 6px 12px; font-size: 12px; margin-left: 6px;" onclick="tt_closePuzzleMetadataModal()">✕ Close</button>
+                </div>
+            </div>
+            <!-- Modal Body -->
+            <div id="tt-puzzle-metadata-modal-body" style="padding: 22px; overflow-y: auto; flex: 1;">
+                <!-- JS Populated -->
+            </div>
+        </div>
+    </div>
 
     <!-- Image lightbox modal for postcards preview zoom -->
     <div id="image-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 10000; justify-content: center; align-items: center; cursor: zoom-out;" onclick="tt_closePostcardModal()">
@@ -2000,7 +2056,10 @@
 
         // Parse URL Hash on Load
         function selectTabFromHash() {
-            const hash = window.location.hash.replace('#', '');
+            let hash = window.location.hash.replace('#', '');
+            if (['tt-landmarks', 'tt-puns', 'tt-clues', 'tt-postcards'].includes(hash)) {
+                hash = 'tt-agent';
+            }
             if (hash) {
                 const targetBtn = document.querySelector(`.pipeline-btn[data-tab="${hash}"]`);
                 if (targetBtn) targetBtn.click();
@@ -3561,112 +3620,59 @@
             setTimeout(() => toastEl.className = '', 3000);
         }
 
-        // Initial Data Load
-        window.onload = async () => {
-            await loadAllData();
-            selectTabFromHash();
-        };
-
         // Re-check hash on back/forward navigation
         window.onhashchange = selectTabFromHash;
 
-        // ================= UNIFIED CURATION HUB PIPELINE SWITCHING =================
-        let currentPipeline = 'boxoffice';
+        // ================= CURATION HUB INITIALIZATION =================
+        let currentPipeline = 'travelreviews';
 
-        function switchPipeline(game) {
-            currentPipeline = game;
-            document.getElementById('game-pipeline-select').value = game;
-            try {
-                localStorage.setItem('punfiction_curation_active_pipeline', game);
-            } catch (e) {}
-            
-            if (game === 'boxoffice') {
-                document.getElementById('nav-boxoffice').style.display = 'flex';
-                document.getElementById('nav-travelreviews').style.display = 'none';
-                document.getElementById('boxoffice-pipeline-views').style.display = 'block';
-                document.getElementById('travelreviews-pipeline-views').style.display = 'none';
-                
-                // Toggle active buttons inside nav-boxoffice
-                const activeBtn = document.querySelector('#nav-boxoffice .pipeline-btn.active');
-                if (activeBtn) {
-                    activeBtn.click();
-                } else {
-                    const defaultBtn = document.querySelector('#nav-boxoffice .pipeline-btn[data-tab="rhymes"]');
-                    if (defaultBtn) defaultBtn.click();
-                }
-                loadAllData();
-            } else if (game === 'travelreviews') {
-                document.getElementById('nav-boxoffice').style.display = 'none';
-                document.getElementById('nav-travelreviews').style.display = 'flex';
-                document.getElementById('boxoffice-pipeline-views').style.display = 'none';
-                document.getElementById('travelreviews-pipeline-views').style.display = 'block';
-                
-                // Toggle active buttons inside nav-travelreviews
-                const activeBtn = document.querySelector('#nav-travelreviews .pipeline-btn.active');
-                if (activeBtn) {
-                    activeBtn.click();
-                } else {
-                    const defaultBtn = document.querySelector('#nav-travelreviews .pipeline-btn[data-tab="tt-agent"]');
-                    if (defaultBtn) defaultBtn.click();
-                }
-                tt_init();
-            }
-        }
+        function switchPipeline(game = 'travelreviews') {
+            currentPipeline = 'travelreviews';
+            const navTr = document.getElementById('nav-travelreviews');
+            const viewsBo = document.getElementById('boxoffice-pipeline-views');
+            const viewsTr = document.getElementById('travelreviews-pipeline-views');
+            if (navTr) navTr.style.display = 'flex';
+            if (viewsBo) viewsBo.style.display = 'none';
+            if (viewsTr) viewsTr.style.display = 'block';
 
-        function openActiveGame() {
-            if (currentPipeline === 'boxoffice') {
-                window.open('/', '_blank');
+            const activeBtn = document.querySelector('#nav-travelreviews .pipeline-btn.active');
+            if (activeBtn) {
+                activeBtn.click();
             } else {
-                window.open('/travelreviews/', '_blank');
+                const defaultBtn = document.querySelector('#nav-travelreviews .pipeline-btn[data-tab="tt-agent"]');
+                if (defaultBtn) defaultBtn.click();
             }
+            tt_init();
         }
 
-        // DOMContentLoaded Pipeline Switching Setup
+        // DOMContentLoaded Tab Switching Setup
         window.addEventListener('DOMContentLoaded', () => {
-            // Overwrite original tab SPA click listener to be safe and target active screen display correctly
-            document.querySelectorAll('.pipeline-btn').forEach(btn => {
-                // Clear any clone listeners if any, define a clean one
+            document.querySelectorAll('#nav-travelreviews .pipeline-btn').forEach(btn => {
                 btn.onclick = null;
-                btn.addEventListener('click', (e) => {
+                btn.addEventListener('click', () => {
                     const tab = btn.getAttribute('data-tab');
                     if (!tab) return;
-                    
-                    // Toggle active classes on nav buttons
-                    if (currentPipeline === 'boxoffice') {
-                        document.querySelectorAll('#nav-boxoffice .pipeline-btn').forEach(b => b.classList.remove('active'));
-                    } else {
-                        document.querySelectorAll('#nav-travelreviews .pipeline-btn').forEach(b => b.classList.remove('active'));
-                    }
+
+                    document.querySelectorAll('#nav-travelreviews .pipeline-btn').forEach(b => b.classList.remove('active'));
                     btn.classList.add('active');
 
-                    // Toggle active classes on screens
-                    document.querySelectorAll('.tab-content').forEach(c => {
+                    document.querySelectorAll('#travelreviews-pipeline-views .tab-content').forEach(c => {
                         c.style.display = 'none';
                         c.classList.remove('active');
                     });
-                    
+
                     const screen = document.getElementById('tab-' + tab);
                     if (screen) {
                         screen.style.display = 'block';
                         screen.classList.add('active');
                     }
-                    
+
                     window.location.hash = tab;
                 });
             });
 
-            // Read starting pipeline: URL query param > localStorage > default ('travelreviews')
-            const urlParams = new URLSearchParams(window.location.search);
-            let game = urlParams.get('game');
-            if (!game) {
-                try {
-                    game = localStorage.getItem('punfiction_curation_active_pipeline');
-                } catch (e) {}
-            }
-            if (!game) {
-                game = 'travelreviews';
-            }
-            switchPipeline(game);
+            switchPipeline('travelreviews');
+            selectTabFromHash();
         });
 
 
@@ -3677,6 +3683,7 @@
         let tt_postcards = [];
         let tt_puzzles = [];
         let tt_analytics = null;
+        let tt_runway = null;
 
         async function tt_init() {
             await Promise.all([
@@ -3685,9 +3692,189 @@
                 tt_loadData('tt_clues'),
                 tt_loadData('tt_postcards'),
                 tt_loadData('tt_puzzles'),
-                tt_loadAnalytics()
+                tt_loadAnalytics(),
+                tt_loadRunwayAlert()
             ]);
             tt_renderAll();
+        }
+
+        async function tt_loadRunwayAlert() {
+            try {
+                const res = await fetch(`/api/travelreviews/agent/runway_alert?t=${Date.now()}`);
+                const data = await res.json();
+                if (data && data.success && data.runway) {
+                    tt_runway = data.runway;
+                }
+            } catch (e) {
+                console.error('Failed to load runway alert status:', e);
+            }
+        }
+
+        function tt_toggleRunwayAlertDrawer() {
+            const el = document.getElementById('tt-runway-alert-drawer');
+            if (!el) return;
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+            if (el.style.display === 'block') {
+                tt_renderRunwayAlert();
+            }
+        }
+
+        function tt_renderRunwayAlert() {
+            if (!tt_runway) return;
+            const staged = tt_runway.staged_count ?? 0;
+            const threshold = tt_runway.threshold ?? 10;
+            const isLow = Boolean(tt_runway.is_low_runway);
+            const recipient = tt_runway.recipient_email || 'iwandres@gmail.com';
+
+            const pillBtn = document.getElementById('tt-runway-header-pill');
+            if (pillBtn) {
+                if (isLow) {
+                    pillBtn.style.borderColor = '#ff7684';
+                    pillBtn.style.color = '#ff7684';
+                    pillBtn.style.background = 'rgba(220, 53, 69, 0.15)';
+                    pillBtn.innerHTML = `🚨 LOW RUNWAY: <strong>${staged} Staged Puzzles</strong> (&le; ${threshold} &rarr; ${eqHtml(recipient)})`;
+                } else {
+                    pillBtn.style.borderColor = 'rgba(46, 196, 182, 0.45)';
+                    pillBtn.style.color = '#2ec4b6';
+                    pillBtn.style.background = 'rgba(46, 196, 182, 0.08)';
+                    pillBtn.innerHTML = `🟢 Staged Runway: <strong>${staged} Puzzles</strong> (Alert &le; ${threshold} &rarr; ${eqHtml(recipient)})`;
+                }
+            }
+
+            const lowBanner = document.getElementById('tt-low-runway-banner');
+            if (lowBanner) {
+                lowBanner.style.display = isLow ? 'flex' : 'none';
+                const titleEl = document.getElementById('tt-low-runway-title');
+                const descEl = document.getElementById('tt-low-runway-desc');
+                if (titleEl) {
+                    titleEl.innerText = `🚨 LOW STAGED RUNWAY: Only ${staged} Staged Puzzle(s) Remaining (Threshold: ≤ ${threshold})!`;
+                }
+                if (descEl) {
+                    descEl.innerText = `Today is Challenge #${tt_runway.today_challenge_number} and the schedule runs out after #${tt_runway.last_staged_number || 'N/A'} (${tt_runway.last_staged_date || 'N/A'}). Alert notification target: ${recipient}.`;
+                }
+            }
+
+            const statStaged = document.getElementById('tt-runway-stat-staged');
+            const statToday = document.getElementById('tt-runway-stat-today');
+            const statLastDate = document.getElementById('tt-runway-stat-last-date');
+            const statQueue = document.getElementById('tt-runway-stat-queue');
+            const lastStatusEl = document.getElementById('tt-runway-last-status');
+            if (statStaged) {
+                statStaged.innerText = `${staged} puzzles (Alert at ≤ ${threshold})`;
+                statStaged.style.color = isLow ? '#ff7684' : 'var(--cyan)';
+            }
+            if (statToday) statToday.innerText = `#${tt_runway.today_challenge_number}`;
+            if (statLastDate) statLastDate.innerText = tt_runway.last_staged_date ? `#${tt_runway.last_staged_number} (${tt_runway.last_staged_date})` : 'None';
+            if (statQueue) statQueue.innerText = `${tt_runway.pending_review_queue_count ?? 0} candidate(s) ready`;
+            if (lastStatusEl) {
+                const lastIso = tt_runway.last_alert_sent_iso ? ` (${tt_runway.last_alert_sent_iso})` : '';
+                lastStatusEl.innerText = `Status: ${tt_runway.last_delivery_status || 'Ready'}${lastIso}`;
+            }
+
+            const recInput = document.getElementById('tt-alert-recipient');
+            const thrInput = document.getElementById('tt-alert-threshold');
+            const enSelect = document.getElementById('tt-alert-enabled');
+            const pwInput = document.getElementById('tt-alert-smtp-pw');
+            const whInput = document.getElementById('tt-alert-webhook');
+            const credBadge = document.getElementById('tt-alert-cred-badge');
+
+            if (recInput && document.activeElement !== recInput) recInput.value = recipient;
+            if (thrInput && document.activeElement !== thrInput) thrInput.value = threshold;
+            if (enSelect && document.activeElement !== enSelect) enSelect.value = String(Boolean(tt_runway.enabled));
+            if (pwInput && document.activeElement !== pwInput && tt_runway.has_smtp_app_password && !pwInput.value) {
+                pwInput.value = '********';
+            }
+            if (whInput && document.activeElement !== whInput) whInput.value = tt_runway.webhook_url || '';
+            if (credBadge) {
+                credBadge.innerHTML = tt_runway.credentials_configured
+                    ? `<span style="color: #2ec4b6; font-weight: 700;">✅ Email delivery credentials configured for ${eqHtml(recipient)}.</span>`
+                    : `💡 Enter a 16-char Gmail App Password (from <a href="https://myaccount.google.com/apppasswords" target="_blank" style="color: var(--cyan);">myaccount.google.com/apppasswords</a>) to send live emails to <strong>${eqHtml(recipient)}</strong>.`;
+            }
+        }
+
+        async function tt_saveRunwayAlertConfig() {
+            const recipient = document.getElementById('tt-alert-recipient')?.value.trim() || 'iwandres@gmail.com';
+            const threshold = parseInt(document.getElementById('tt-alert-threshold')?.value || '10', 10);
+            const enabled = document.getElementById('tt-alert-enabled')?.value === 'true';
+            const smtpPw = document.getElementById('tt-alert-smtp-pw')?.value.trim();
+            const webhookUrl = document.getElementById('tt-alert-webhook')?.value.trim();
+
+            try {
+                const res = await fetch('/api/travelreviews/agent/runway_alert', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'check',
+                        recipient_email: recipient,
+                        threshold: threshold,
+                        enabled: enabled,
+                        smtp_user: recipient,
+                        smtp_app_password: smtpPw,
+                        webhook_url: webhookUrl
+                    })
+                });
+                const data = await res.json();
+                if (data && data.success) {
+                    tt_runway = data.runway;
+                    tt_renderRunwayAlert();
+                    showToast(`Runway alert saved (≤ ${threshold} staged puzzles → ${recipient})!`);
+                } else {
+                    showToast('Failed to save alert config: ' + (data.error || 'Unknown error'), true);
+                }
+            } catch (e) {
+                showToast('Network error saving alert config', true);
+            }
+        }
+
+        async function tt_sendTestRunwayAlert() {
+            const btn = document.getElementById('btn-tt-test-alert');
+            const origText = btn ? btn.innerText : '';
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = '⏳ Sending...';
+            }
+            const recipient = document.getElementById('tt-alert-recipient')?.value.trim() || 'iwandres@gmail.com';
+            const threshold = parseInt(document.getElementById('tt-alert-threshold')?.value || '10', 10);
+            const enabled = document.getElementById('tt-alert-enabled')?.value === 'true';
+            const smtpPw = document.getElementById('tt-alert-smtp-pw')?.value.trim();
+            const webhookUrl = document.getElementById('tt-alert-webhook')?.value.trim();
+
+            try {
+                const res = await fetch('/api/travelreviews/agent/runway_alert', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'test',
+                        force: true,
+                        recipient_email: recipient,
+                        threshold: threshold,
+                        enabled: enabled,
+                        smtp_user: recipient,
+                        smtp_app_password: smtpPw,
+                        webhook_url: webhookUrl
+                    })
+                });
+                const data = await res.json();
+                if (data && data.success) {
+                    tt_runway = data.runway;
+                    tt_renderRunwayAlert();
+                    const ar = data.alert_result || {};
+                    if (ar.sent) {
+                        showToast(`✅ Alert email sent to ${recipient}!`);
+                    } else {
+                        showToast(ar.message || 'Alert logged — configure Gmail App Password for live SMTP delivery', true);
+                    }
+                } else {
+                    showToast('Alert test failed: ' + (data.error || 'Unknown error'), true);
+                }
+            } catch (e) {
+                showToast('Network error testing alert', true);
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerText = origText;
+                }
+            }
         }
 
         async function tt_loadAnalytics() {
@@ -3742,6 +3929,10 @@
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(data)
                 });
+                if (type === 'tt_puzzles' || type === 'tt_postcards') {
+                    await tt_loadRunwayAlert();
+                    tt_renderRunwayAlert();
+                }
             } catch (e) {
                 console.error(`Failed to save ${type}: ${e}`);
             }
@@ -4501,14 +4692,11 @@
             showToast("Daily challenges saved to production successfully!");
         }
 
-        // --- RENDERING ---
+        // --- RENDERING (2-STEP WORKFLOW: 1. AGENT CURATION & REVIEW -> 2. DAILY CHALLENGES) ---
         function tt_renderAll() {
+            tt_renderRunwayAlert();
             tt_renderAnalytics();
             tt_renderAgentQueue();
-            tt_renderLandmarks();
-            tt_renderPuns();
-            tt_renderClues();
-            tt_renderPostcards();
             tt_renderPuzzles();
             tt_updateBadges();
         }
@@ -4531,14 +4719,12 @@
             const countLabel = document.getElementById('tt-agent-queue-count-label');
             if (!container) return;
 
-            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
             const { lockedClueIds } = tt_getLockedSets();
             const scheduledClueIds = new Set(tt_puzzles.map(pz => pz.puzzle_id));
 
-            let candidates = tt_postcards.filter(pc => !lockedClueIds.has(pc.clue_id));
-            if (showPendingOnly) {
-                candidates = candidates.filter(pc => (pc.status === 'pending' || !pc.status) && !scheduledClueIds.has(pc.clue_id));
-            }
+            let candidates = tt_postcards.filter(
+                pc => !lockedClueIds.has(pc.clue_id) && (pc.status === 'pending' || !pc.status) && !scheduledClueIds.has(pc.clue_id)
+            );
 
             // Sort newest first so freshly generated Agent puzzles appear at the top
             candidates = [...candidates].reverse();
@@ -4771,7 +4957,7 @@
         }
 
         function tt_updateBadges() {
-            // 0. Agent Curation Queue pending count
+            // Step 1: Agent Curation Queue pending count
             const { lockedClueIds } = tt_getLockedSets();
             const scheduledClueIds = new Set(tt_puzzles.map(pz => pz.puzzle_id));
             const agentQueueCount = tt_postcards.filter(
@@ -4780,91 +4966,10 @@
             const elAgent = document.getElementById('badge-tt-agent');
             if (elAgent) elAgent.innerText = agentQueueCount;
 
-            // 1. Landmarks pending count
-            const approvedNames = new Set(
-                tt_landmarks.filter(lm => lm.status === 'approved').map(lm => normalizeName(lm.name))
-            );
-            const puzzleNames = new Set(
-                tt_puzzles.map(p => normalizeName(p.boss_original_title))
-            );
-            const pendingLandmarks = tt_landmarks.filter(lm => 
-                (!lm.status || lm.status === 'pending') && 
-                !approvedNames.has(normalizeName(lm.name)) && 
-                !puzzleNames.has(normalizeName(lm.name))
-            ).length;
-            const elLandmarks = document.getElementById('badge-tt-landmarks');
-            if (elLandmarks) elLandmarks.innerText = pendingLandmarks;
-
-            // 2. Puns pending count
-            const pendingPuns = tt_puns.filter(p => !p.status || p.status === 'pending').length;
-            const approvedLms = new Set(tt_landmarks.filter(lm => lm.status === 'approved').map(lm => lm.name));
-            const existingPunsLms = new Set(tt_puns.map(p => p.original_name));
-            const pendingPunsGen = [...approvedLms].filter(name => !existingPunsLms.has(name)).length;
-            
-            const elPuns = document.getElementById('badge-tt-puns');
-            if (elPuns) {
-                elPuns.innerText = pendingPuns + (pendingPunsGen > 0 ? " | Awaiting: " + pendingPunsGen : "");
-            }
-
-            // 3. Clues pending count
-            const pendingClues = tt_clues.filter(c => !c.status || c.status === 'pending').length;
-            const approvedPunsSet = new Set(tt_puns.filter(p => p.status === 'approved').map(p => p.pun_name));
-            const existingCluesPuns = new Set(tt_clues.map(c => c.pun_name));
-            const pendingCluesGen = [...approvedPunsSet].filter(pun => !existingCluesPuns.has(pun)).length;
-            
-            const elClues = document.getElementById('badge-tt-clues');
-            if (elClues) {
-                elClues.innerText = pendingClues + (pendingCluesGen > 0 ? " | Awaiting: " + pendingCluesGen : "");
-            }
-
-            // 4. Postcards pending count
-            const pendingPostcards = tt_postcards.filter(p => !p.status || p.status === 'pending').length;
-            const approvedCluesSet = new Set(tt_clues.filter(c => c.status === 'approved').map(c => c.id));
-            const existingPostcardsClues = new Set(tt_postcards.map(pc => pc.clue_id));
-            const pendingPostcardsGen = [...approvedCluesSet].filter(clueId => !existingPostcardsClues.has(clueId)).length;
-            
-            const elPostcards = document.getElementById('badge-tt-postcards');
-            if (elPostcards) {
-                elPostcards.innerText = pendingPostcards + (pendingPostcardsGen > 0 ? " | Awaiting: " + pendingPostcardsGen : "");
-            }
-
-            // 5. Total Daily challenges count
+            // Step 2: Total Daily Challenges count (staged & live)
             const totalPuzzles = tt_puzzles.length;
             const elPuzzles = document.getElementById('badge-tt-puzzles');
             if (elPuzzles) elPuzzles.innerText = totalPuzzles;
-        }
-
-        function tt_renderLandmarks() {
-            let el = document.getElementById('tt_landmarks-list');
-            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            let displayList = tt_landmarks;
-            if (showPendingOnly) {
-                const approvedNames = new Set(
-                    tt_landmarks.filter(lm => lm.status === 'approved').map(lm => normalizeName(lm.name))
-                );
-                const puzzleNames = new Set(
-                    tt_puzzles.map(p => normalizeName(p.boss_original_title))
-                );
-                displayList = tt_landmarks.filter(lm => 
-                    (lm.status === 'pending' || !lm.status) && 
-                    !approvedNames.has(normalizeName(lm.name)) && 
-                    !puzzleNames.has(normalizeName(lm.name))
-                );
-            }
-            el.innerHTML = displayList.map((lm, idx) => `
-                <div class="tt-list-item">
-                    <div class="item-details">
-                        <strong>${eqHtml(lm.name)}</strong> (${eqHtml(lm.location)})
-                        ${lm.pun_potential_note ? `<div style="font-size: 11px; color: var(--text-muted); margin-top: 2px;">💡 ${eqHtml(lm.pun_potential_note)}</div>` : ''}
-                    </div>
-                    <div class="item-actions" style="display: flex; gap: 8px; align-items: center;">
-                        <span class="status-badge status-${lm.status || 'pending'}">${lm.status || 'pending'}</span>
-                        <button class="btn btn-primary" style="padding: 8px 12px; font-size: 12px;" onclick="tt_runCurationAgent('${eq(lm.id)}')">🤖 Agent: Build Full Puzzle</button>
-                        <button class="btn btn-secondary" onclick="tt_setStatus('tt_landmarks', '${eq(lm.id)}', 'approved')">Approve</button>
-                        <button class="btn btn-danger" style="padding: 10px 14px;" onclick="tt_setStatus('tt_landmarks', '${eq(lm.id)}', 'rejected')">Reject</button>
-                    </div>
-                </div>
-            `).join('');
         }
 
         function tt_getLockedSets() {
@@ -4879,135 +4984,6 @@
                 }
             });
             return { lockedClueIds, lockedPunNames };
-        }
-
-        function tt_renderPuns() {
-            let el = document.getElementById('tt_puns-list');
-            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            const { lockedPunNames } = tt_getLockedSets();
-            let displayList = tt_puns.filter(p => !lockedPunNames.has(p.pun_name));
-            if (showPendingOnly) {
-                const approvedPuns = new Set(tt_puns.filter(p => p.status === 'approved').map(p => p.pun_name));
-                const existingClues = new Set(tt_clues.map(c => c.pun_name));
-                displayList = displayList.filter(p => (p.status === 'pending' || !p.status) && !approvedPuns.has(p.pun_name) && !existingClues.has(p.pun_name));
-            }
-            el.innerHTML = displayList.map(p => `
-                <div class="tt-list-item" style="gap: 15px;">
-                    <div class="item-details" style="display: flex; flex-direction: column; gap: 6px; flex: 1;">
-                        <div style="font-size: 0.85rem; color: var(--text-secondary); font-weight: bold;">
-                            Original: ${eqHtml(p.original_name)} ${p.agent_score ? `<span style="color: var(--cyan); margin-left: 8px;">🛡️ ${p.agent_score}/10</span>` : ''}
-                        </div>
-                        <input type="text" value="${eqHtml(p.pun_name)}" onchange="updatePunName('${eq(p.id)}', this.value)" style="width: 100%; max-width: 400px; padding: 6px 10px; border: 2px solid #2D3436; border-radius: 6px; font-weight: bold; font-family: inherit;">
-                        ${p.agent_rationale ? `<div style="font-size: 11px; color: var(--text-muted);">${eqHtml(p.agent_rationale)}</div>` : ''}
-                    </div>
-                    <div class="item-actions" style="align-items: center; gap: 8px;">
-                        <span class="status-badge status-${p.status || 'pending'}">${p.status || 'pending'}</span>
-                        <button class="btn btn-secondary" onclick="tt_setStatus('tt_puns', '${eq(p.id)}', 'approved')">Approve</button>
-                        <button class="btn btn-danger" style="padding: 10px 14px;" onclick="tt_setStatus('tt_puns', '${eq(p.id)}', 'rejected')">Reject</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function updatePunName(id, newValue) {
-            let p = tt_puns.find(x => x.id === id);
-            if (p) {
-                p.pun_name = newValue.trim();
-                tt_saveData('tt_puns', tt_puns);
-            }
-        }
-
-        function tt_renderClues() {
-            let el = document.getElementById('tt_clues-list');
-            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            const { lockedClueIds } = tt_getLockedSets();
-            let displayList = tt_clues.filter(c => !lockedClueIds.has(c.id));
-            if (showPendingOnly) {
-                displayList = displayList.filter(c => c.status === 'pending' || !c.status);
-            }
-            el.innerHTML = displayList.map(c => `
-                <div class="tt-list-item" style="flex-direction: column; align-items: flex-start; gap: 10px;">
-                    <div style="width: 100%; display: flex; justify-content: space-between; align-items: center;">
-                        <strong>${eqHtml(c.pun_name)} (from ${eqHtml(c.original_name)})</strong>
-                        <div style="display: flex; gap: 8px; align-items: center;">
-                            <span class="status-badge status-${c.status || 'pending'}">${c.status || 'pending'}</span>
-                            <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(c.id)}', 'clues', null, this)">🔄 Re-do Clues</button>
-                            <button class="btn btn-secondary" onclick="tt_setStatus('tt_clues', '${eq(c.id)}', 'approved')">Approve</button>
-                            <button class="btn btn-danger" style="padding: 10px;" onclick="tt_setStatus('tt_clues', '${eq(c.id)}', 'rejected')">X</button>
-                        </div>
-                    </div>
-                    <div style="background: rgba(8, 12, 20, 0.4); border: 1px solid var(--border-base); padding: 12px 15px; border-radius: 8px; width: 100%; font-size: 0.9rem; color: var(--text-secondary); margin-top: 8px;">
-                        <div><strong>Title:</strong> ${eqHtml(c.review_title)} | <strong>Reviewer:</strong> @${eqHtml(c.reviewer_name || 'Anonymous')}</div>
-                        <div style="margin-top: 4px;"><strong>Clue 1:</strong> ${eqHtml(c.clue1)}</div>
-                        <div><strong>Clue 2:</strong> ${eqHtml(c.clue2)}</div>
-                        <div><strong>Clue 3:</strong> ${eqHtml(c.clue3)}</div>
-                        <div style="margin-top: 4px;"><strong>Owner Reply:</strong> ${eqHtml(c.owner_response || '')}</div>
-                        <div style="margin-top: 6px; display: flex; align-items: center; gap: 8px;">
-                            <strong>Theme:</strong>
-                            <select onchange="tt_updateClueTheme('${eq(c.id)}', this.value)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem;">
-                                ${TT_ALL_THEMES.map(t => `
-                                    <option value="${t}" ${c.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
-                                `).join('')}
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function tt_renderPostcards() {
-            let el = document.getElementById('tt_postcards-list');
-            const showPendingOnly = document.getElementById('tt_sweeper_mode')?.checked ?? true;
-            const { lockedClueIds } = tt_getLockedSets();
-            let displayList = tt_postcards.filter(p => !lockedClueIds.has(p.clue_id));
-            if (showPendingOnly) {
-                displayList = displayList.filter(p => p.status === 'pending' || !p.status);
-            }
-            el.innerHTML = displayList.map(p => `
-                <div class="tt-list-item" style="gap: 15px;">
-                    <img class="img-preview" src="${eqHtml(p.image_path)}" alt="Postcard preview" onclick="tt_openPostcardModal('${eq(p.image_path)}')">
-                    <div class="item-details" style="flex: 1; display: flex; flex-direction: column; gap: 8px;">
-                        <strong>${eqHtml(p.pun_name)} <span style="color: var(--text-secondary); font-weight: normal;">(from ${eqHtml(p.original_name)})</span></strong>
-                        
-                        <div style="display: flex; flex-direction: column; gap: 4px;">
-                            <label style="font-size: 0.85rem; font-weight: 700; color: var(--text-secondary);">Image Generation Prompt:</label>
-                            <textarea style="width: 100%; min-height: 60px; font-size: 0.85rem; padding: 8px 12px; border: 1px solid var(--border-base); border-radius: 6px; background: var(--bg-input); color: var(--text-primary); font-family: inherit; resize: vertical; line-height: 1.4;" onchange="tt_updatePostcardPrompt('${eq(p.id)}', this.value)">${eqHtml(p.image_prompt)}</textarea>
-                        </div>
-
-                        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.85rem;">
-                            <strong>Theme:</strong>
-                            <select onchange="tt_updatePostcardTheme('${eq(p.id)}', this.value)" style="padding: 4px 8px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.85rem;">
-                                ${TT_ALL_THEMES.map(t => `
-                                    <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
-                                `).join('')}
-                            </select>
-                        </div>
-                        <div style="font-size: 0.9rem; background: rgba(8, 12, 20, 0.4); border: 1px solid var(--border-base); padding: 12px 15px; border-radius: 8px; color: var(--text-secondary); margin-top: 4px;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; border-bottom: 1px dashed var(--border-base); padding-bottom: 4px;">
-                                <strong>Owner Reply:</strong>
-                                <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.8rem; " onclick="tt_regenerateOwnerReply('${eq(p.clue_id)}')">🔄 Regenerate Reply</button>
-                            </div>
-                            <div id="reply-text-${p.clue_id}">${eqHtml(p.owner_response)}</div>
-                        </div>
-                    </div>
-                    <div class="item-actions" style="display: flex; flex-direction: column; gap: 8px; align-items: stretch;">
-                        <span class="status-badge status-${p.status || 'pending'}" style="text-align: center;">${p.status || 'pending'}</span>
-                        <button class="btn btn-emerald" onclick="tt_setStatus('tt_postcards', '${eq(p.id)}', 'approved')">✅ Approve</button>
-                        <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(p.clue_id)}', 'pun', null, this)">🔄 Re-do Pun</button>
-                        <button class="btn btn-secondary" onclick="tt_redoPuzzlePiece('${eq(p.clue_id)}', 'clues', null, this)">🔄 Re-do Clues</button>
-                        <button class="btn btn-secondary" onclick="tt_regeneratePostcard('${eq(p.clue_id)}', '${eq(p.art_style)}')">🔄 Re-do Postcard</button>
-                        <button class="btn btn-danger" style="padding: 8px 14px;" onclick="tt_declineAgentCandidate('${eq(p.id)}', '${eq(p.clue_id)}')">❌ Decline</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function tt_updatePostcardPrompt(id, newValue) {
-            let pc = tt_postcards.find(x => x.id === id);
-            if (pc) {
-                pc.image_prompt = newValue.trim();
-                tt_saveData('tt_postcards', tt_postcards);
-            }
         }
 
         async function tt_regenerateOwnerReply(clueId) {
@@ -5026,51 +5002,20 @@
                 });
                 let data = await res.json();
                 if (data.success) {
-                    let txtEl = document.getElementById(`reply-text-${clueId}`);
-                    if (txtEl) {
-                        txtEl.innerText = data.owner_response;
+                    let ownerTextarea = document.getElementById(`tt-agent-owner-${clueId}`);
+                    if (ownerTextarea) {
+                        ownerTextarea.value = data.owner_response;
                     }
+                    let c = tt_clues.find(x => x.id === clueId);
+                    if (c) c.owner_response = data.owner_response;
                     let p = tt_postcards.find(x => x.clue_id === clueId);
                     if (p) p.owner_response = data.owner_response;
-                    alert("Owner reply regenerated successfully!");
+                    showToast("Owner reply regenerated!");
                 } else {
-                    alert("Generation failed: " + data.error);
+                    showToast("Generation failed: " + data.error, true);
                 }
             } catch (e) {
-                alert("Error: " + e);
-            } finally {
-                btn.disabled = false;
-                btn.innerText = origText;
-            }
-        }
-
-        async function tt_regeneratePostcard(clueId, artStyle) {
-            if (!confirm("Are you sure you want to regenerate this postcard art?")) return;
-            
-            let btn = event.target;
-            let origText = btn.innerText;
-            btn.disabled = true;
-            btn.innerText = "⏳ Generating...";
-            
-            // Extract custom prompt from the active postcards array
-            let pc = tt_postcards.find(p => p.clue_id === clueId);
-            let customPrompt = pc ? pc.image_prompt : "";
-            
-            try {
-                let res = await fetch('/api/travelreviews/generate_postcards', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ clue_id: clueId, art_style: artStyle, prompt: customPrompt })
-                });
-                let data = await res.json();
-                if (data.success) {
-                    alert("Postcard regenerated successfully!");
-                    await tt_init();
-                } else {
-                    alert("Generation failed: " + data.error);
-                }
-            } catch (e) {
-                alert("Error: " + e);
+                showToast("Error: " + e, true);
             } finally {
                 btn.disabled = false;
                 btn.innerText = origText;
@@ -5096,109 +5041,119 @@
         }
 
         // ================= SIDE-BY-SIDE DAILY CHALLENGE CALENDAR LOGIC =================
+        let tt_lockedSortDesc = true;
+        let tt_activeModalPuzzleIdx = null;
+
         function tt_autoResize(textarea) {
             textarea.style.height = 'auto';
             textarea.style.height = (textarea.scrollHeight) + 'px';
         }
 
+        function tt_toggleLockedSortOrder() {
+            tt_lockedSortDesc = !tt_lockedSortDesc;
+            const btn = document.getElementById('btn-tt-locked-sort');
+            if (btn) {
+                btn.innerText = tt_lockedSortDesc ? '🔽 Newest First' : '🔼 Oldest First';
+            }
+            tt_renderPuzzles();
+        }
+
         function tt_renderPuzzles() {
-            const gridEl = document.getElementById('tt-approved-puzzles-list-grid');
             const sortListEl = document.getElementById('tt-approved-puzzles-sort-list');
             const backlogListEl = document.getElementById('tt-approved-puzzles-backlog-list');
+            const lockedListEl = document.getElementById('tt-locked-puzzles-list');
 
-            if (!gridEl) return;
+            if (!sortListEl) return;
 
-            // Partition into Active and Backlog
+            const todayChallengeStr = tt_getTodayChallengeStr();
+            const todayNum = parseInt(todayChallengeStr, 10);
+
+            // Partition into Staged/Active (puzzle_number >= today), Locked/Historical (puzzle_number < today), and Backlog (unscheduled)
             const activeChallenges = tt_puzzles.filter(p => p.puzzle_number !== "");
-            const backlogChallenges = tt_puzzles.filter(p => p.puzzle_number === "");
+            activeChallenges.sort((a, b) => (parseInt(a.puzzle_number) || 999) - (parseInt(b.puzzle_number) || 999));
 
-            // Sort active challenges by puzzle_number ascending
-            activeChallenges.sort((a, b) => {
-                return (parseInt(a.puzzle_number) || 999) - (parseInt(b.puzzle_number) || 999);
-            });
+            const stagedChallenges = activeChallenges.filter(p => parseInt(p.puzzle_number, 10) >= todayNum);
+            const lockedChallenges = activeChallenges.filter(p => parseInt(p.puzzle_number, 10) < todayNum);
+            if (tt_lockedSortDesc) {
+                lockedChallenges.reverse();
+            }
+            const backlogChallenges = tt_puzzles.filter(p => p.puzzle_number === "");
 
             // Update badge counters
             const countActiveEl = document.getElementById('tt-count-active-schedule');
+            const countLockedEl = document.getElementById('tt-count-locked-schedule');
             const countBacklogEl = document.getElementById('tt-count-backlog');
-            if (countActiveEl) countActiveEl.innerText = activeChallenges.length;
+            const futureStagedOnly = stagedChallenges.filter(p => parseInt(p.puzzle_number, 10) > todayNum).length;
+            if (countActiveEl) countActiveEl.innerText = `${futureStagedOnly} Staged + Today`;
+            if (countLockedEl) countLockedEl.innerText = `${lockedChallenges.length} Locked`;
             if (countBacklogEl) countBacklogEl.innerText = backlogChallenges.length;
 
-            if (tt_puzzles.length === 0) {
-                if (sortListEl) sortListEl.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No scheduled challenges.</td></tr>';
-                if (backlogListEl) backlogListEl.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:20px;">No backlog challenges.</td></tr>';
-                gridEl.innerHTML = '<div class="empty-state"><h3>No Challenges Yet</h3></div>';
-                return;
+            // 1. Render Left Column: Staged & Today Schedule Table Rows
+            if (stagedChallenges.length === 0) {
+                sortListEl.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No staged upcoming challenges.</td></tr>';
+            } else {
+                sortListEl.innerHTML = stagedChallenges.map((p, sIdx) => {
+                    const puzzleIdx = tt_puzzles.indexOf(p);
+                    const activeIdx = activeChallenges.indexOf(p);
+                    const isToday = p.puzzle_number === todayChallengeStr;
+                    const isSelected = tt_activeModalPuzzleIdx === puzzleIdx;
+
+                    let rowStyles = 'cursor: pointer; transition: background 0.15s ease;';
+                    let badgeHtml = '';
+                    let inputHtml = '';
+
+                    if (isToday) {
+                        rowStyles += ' background: rgba(0, 245, 212, 0.06); border-left: 4px solid var(--emerald);';
+                        badgeHtml = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 245, 212, 0.2); color: var(--emerald); font-weight:700; margin-left: 8px;">⭐ TODAY</span>`;
+                        inputHtml = `<input type="text" value="${p.puzzle_number || ''}" style="width:52px; text-align:center; padding:3px 6px; font-weight: 800; border-radius: 4px; border: 2px solid var(--emerald); background: var(--bg-input); color: var(--text-primary);" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)">`;
+                    } else {
+                        rowStyles += ' border-left: 4px solid var(--cyan);';
+                        badgeHtml = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 242, 254, 0.14); color: var(--cyan); font-weight:700; margin-left: 8px;">🗓️ STAGED</span>`;
+                        inputHtml = `<input type="text" value="${p.puzzle_number || ''}" style="width:52px; text-align:center; padding:3px 6px; font-weight: 700; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary);" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)">`;
+                    }
+                    if (isSelected) {
+                        rowStyles += ' outline: 1px solid var(--cyan); background: rgba(0, 242, 254, 0.12);';
+                    }
+
+                    const actionsHtml = `
+                        <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px; margin-right:4px;" title="Move Up" onclick="tt_movePuzzleInTable(${activeIdx}, -1)">🔼</button>
+                        <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px;" title="Move Down" onclick="tt_movePuzzleInTable(${activeIdx}, 1)">🔽</button>
+                    `;
+
+                    return `
+                        <tr style="${rowStyles}" onclick="if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA' && event.target.tagName !== 'BUTTON') tt_openPuzzleMetadataModal(${puzzleIdx})">
+                            <td style="padding: 10px; font-weight:700; color:var(--text-muted);">${sIdx + 1}</td>
+                            <td style="padding: 10px;">
+                                ${inputHtml}
+                            </td>
+                            <td style="padding: 10px; font-weight:600; color:var(--cyan);">
+                                <div>${eqHtml(p.boss_pun_title)} <span style="font-weight:400; color:var(--text-secondary); font-size:11px;">(${eqHtml(p.boss_original_title)})</span>${badgeHtml}</div>
+                                <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px; font-weight: normal;">📅 ${tt_formatDate(p.date)}</div>
+                            </td>
+                            <td style="padding: 10px; text-align: center;">
+                                ${actionsHtml}
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
             }
 
-            // Render Active Schedule Table Rows
-            if (sortListEl) {
-                if (activeChallenges.length === 0) {
-                    sortListEl.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No scheduled challenges.</td></tr>';
-                } else {
-                    const todayChallengeStr = tt_getTodayChallengeStr();
-                    sortListEl.innerHTML = activeChallenges.map((p, idx) => {
-                        const puzzleIdx = tt_puzzles.indexOf(p);
-                        const isToday = p.puzzle_number === todayChallengeStr;
-                        const isPrevious = parseInt(p.puzzle_number) < parseInt(todayChallengeStr);
-
-                        let rowStyles = '';
-                        let badgeHtml = '';
-                        let inputHtml = '';
-                        let actionsHtml = '';
-
-                        if (isPrevious) {
-                            rowStyles = 'background: rgba(0, 0, 0, 0.02); opacity: 0.8; border-left: 4px solid var(--text-muted);';
-                            badgeHtml = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); color: var(--text-muted); font-weight:700; margin-left: 8px;">🔒 LOCKED</span>`;
-                            inputHtml = `<input type="text" value="${p.puzzle_number || ''}" style="width:50px; text-align:center; padding:3px 6px; font-weight: 700; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-muted); opacity: 0.6;" disabled>`;
-                            actionsHtml = `<span style="font-size: 11px; color: var(--text-muted); font-weight: 700; letter-spacing:0.5px;">🔒 FIXED</span>`;
-                        } else if (isToday) {
-                            rowStyles = 'background: rgba(0, 245, 212, 0.04); border-left: 4px solid var(--emerald);';
-                            badgeHtml = `<span style="font-size: 10px; padding: 2px 6px; border-radius: 4px; background: rgba(0, 245, 212, 0.2); color: var(--emerald); font-weight:700; margin-left: 8px;">⭐ TODAY</span>`;
-                            inputHtml = `<input type="text" value="${p.puzzle_number || ''}" style="width:50px; text-align:center; padding:3px 6px; font-weight: 800; border-radius: 4px; border: 2px solid var(--emerald); background: var(--bg-input); color: var(--text-primary);" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)">`;
-                            actionsHtml = `
-                                <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px; margin-right:4px;" onclick="tt_movePuzzleInTable(${idx}, -1)">🔼</button>
-                                <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px;" onclick="tt_movePuzzleInTable(${idx}, 1)">🔽</button>
-                            `;
-                        } else {
-                            inputHtml = `<input type="text" value="${p.puzzle_number || ''}" style="width:50px; text-align:center; padding:3px 6px; font-weight: 700; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary);" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)">`;
-                            actionsHtml = `
-                                <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px; margin-right:4px;" onclick="tt_movePuzzleInTable(${idx}, -1)">🔼</button>
-                                <button class="btn btn-secondary" style="padding:4px 8px; font-size:10px;" onclick="tt_movePuzzleInTable(${idx}, 1)">🔽</button>
-                            `;
-                        }
-
-                        return `
-                            <tr style="${rowStyles}" onclick="if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA' && event.target.tagName !== 'BUTTON') tt_scrollToPuzzleCard(${idx})">
-                                <td style="padding: 10px; font-weight:700; color:var(--text-muted);">${idx + 1}</td>
-                                <td style="padding: 10px;">
-                                    ${inputHtml}
-                                </td>
-                                <td style="padding: 10px; font-weight:600; color:var(--cyan);">
-                                    <div>${p.boss_pun_title}${badgeHtml}</div>
-                                    <div style="font-size: 10px; color: var(--text-muted); margin-top: 2px; font-weight: normal;">📅 ${tt_formatDate(p.date)}</div>
-                                </td>
-                                <td style="padding: 10px; text-align: center;">
-                                    ${actionsHtml}
-                                </td>
-                            </tr>
-                        `;
-                    }).join('');
-                }
-            }
-
-            // Render Backlog Table Rows
+            // 2. Render Left Column: Backlog Table Rows
             if (backlogListEl) {
                 if (backlogChallenges.length === 0) {
-                    backlogListEl.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:20px;">No backlog challenges.</td></tr>';
+                    backlogListEl.innerHTML = '<tr><td colspan="3" style="text-align:center; color:var(--text-muted); padding:16px;">No unscheduled backlog challenges.</td></tr>';
                 } else {
                     backlogListEl.innerHTML = backlogChallenges.map((p, idx) => {
                         const puzzleIdx = tt_puzzles.indexOf(p);
                         return `
-                            <tr onclick="if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA' && event.target.tagName !== 'BUTTON') tt_scrollToPuzzleCard(${activeChallenges.length + idx})">
+                            <tr style="cursor: pointer;" onclick="if (event.target.tagName !== 'INPUT' && event.target.tagName !== 'TEXTAREA' && event.target.tagName !== 'BUTTON') tt_openPuzzleMetadataModal(${puzzleIdx})">
                                 <td style="padding: 10px; font-weight:700; color:var(--text-muted);">${idx + 1}</td>
-                                <td style="padding: 10px; font-weight:600; color:#ff7684;">${p.boss_pun_title}</td>
+                                <td style="padding: 10px; font-weight:600; color:#ff7684;">
+                                    ${eqHtml(p.boss_pun_title)}
+                                    <span style="font-weight:400; color:var(--text-secondary); font-size:11px;">(${eqHtml(p.boss_original_title)})</span>
+                                </td>
                                 <td style="padding: 10px; text-align: center;">
-                                    <button class="btn btn-emerald" style="padding:4px 8px; font-size:10px;" onclick="tt_scheduleBacklogPuzzle(${puzzleIdx})">➕ Schedule</button>
+                                    <button class="btn btn-emerald" style="padding:4px 8px; font-size:10px;" onclick="tt_scheduleBacklogPuzzle(${puzzleIdx})">➕ Stage</button>
                                 </td>
                             </tr>
                         `;
@@ -5206,138 +5161,201 @@
                 }
             }
 
-            // Combine both lists for the right-hand side detail cards
-            const combinedChallenges = [...activeChallenges, ...backlogChallenges];
-            const todayChallengeStr = tt_getTodayChallengeStr();
-
-            gridEl.innerHTML = combinedChallenges.map((p, idx) => {
-                const puzzleIdx = tt_puzzles.indexOf(p);
-                const isBacklog = p.puzzle_number === "";
-
-                const isToday = !isBacklog && p.puzzle_number === todayChallengeStr;
-                const isPrevious = !isBacklog && parseInt(p.puzzle_number) < parseInt(todayChallengeStr);
-
-                let cardStyle = '';
-                if (isBacklog) {
-                    cardStyle = 'border-left: 4px solid #ff7684; background: rgba(220,53,69,0.01);';
-                } else if (isToday) {
-                    cardStyle = 'border: 3px solid var(--emerald); background: rgba(0, 245, 212, 0.035); box-shadow: 0 0 15px rgba(0, 245, 212, 0.15);';
-                } else if (isPrevious) {
-                    cardStyle = 'border-left: 4px solid var(--text-muted); background: rgba(0, 0, 0, 0.015); opacity: 0.85;';
+            // 3. Render Right Column: Locked / Fixed Historical Puzzles
+            if (lockedListEl) {
+                if (lockedChallenges.length === 0) {
+                    lockedListEl.innerHTML = '<tr><td colspan="4" style="text-align:center; color:var(--text-muted); padding:20px;">No locked historical challenges yet.</td></tr>';
                 } else {
-                    cardStyle = 'border-left: 4px solid var(--cyan); background: rgba(0, 242, 254, 0.01);';
+                    lockedListEl.innerHTML = lockedChallenges.map((p) => {
+                        const puzzleIdx = tt_puzzles.indexOf(p);
+                        const isSelected = tt_activeModalPuzzleIdx === puzzleIdx;
+                        let rowStyles = 'cursor: pointer; background: rgba(0, 0, 0, 0.02); opacity: 0.9; border-left: 4px solid var(--text-muted); transition: background 0.15s ease;';
+                        if (isSelected) {
+                            rowStyles += ' outline: 1px solid var(--cyan); background: rgba(0, 242, 254, 0.12); opacity: 1;';
+                        }
+                        return `
+                            <tr style="${rowStyles}" onclick="tt_openPuzzleMetadataModal(${puzzleIdx})">
+                                <td style="padding: 10px; font-weight: 800; color: var(--text-secondary);">#${eqHtml(p.puzzle_number)}</td>
+                                <td style="padding: 10px;">
+                                    <div style="font-weight: 700; color: var(--text-primary);">${eqHtml(p.boss_pun_title)}</div>
+                                    <div style="font-size: 11px; color: var(--text-muted);">📍 ${eqHtml(p.boss_original_title)}</div>
+                                </td>
+                                <td style="padding: 10px; font-size: 11px; color: var(--text-secondary);">📅 ${tt_formatDate(p.date)}</td>
+                                <td style="padding: 10px; text-align: center;">
+                                    <span style="font-size: 10px; padding: 2px 7px; border-radius: 4px; background: rgba(255, 255, 255, 0.08); color: var(--text-muted); font-weight:700;">🔒 FIXED</span>
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
                 }
+            }
 
-                const disabledAttr = isPrevious ? 'disabled' : '';
+            // If the Puzzle Meta-Data View modal is currently open, keep its content refreshed
+            const modalEl = document.getElementById('tt-puzzle-metadata-modal');
+            if (modalEl && modalEl.style.display === 'flex' && tt_activeModalPuzzleIdx !== null) {
+                tt_renderPuzzleMetadataModalContent(tt_activeModalPuzzleIdx);
+            }
+        }
 
-                return `
-                    <div class="puzzle-card approved ${isBacklog ? 'backlog-card' : ''}" id="tt-approved-set-${idx}" style="${cardStyle}">
-                        <!-- Header with challenge info -->
-                        <div class="puzzle-card-header">
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Challenge #</span>
-                                    <input type="text" value="${p.puzzle_number || ''}" placeholder="Backlog" style="width: 75px; text-align: center; ${isPrevious ? 'color: var(--text-muted); opacity: 0.6;' : ''}" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)" ${disabledAttr}>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Puzzle ID</span>
-                                    <input type="text" value="${p.puzzle_id || ''}" placeholder="e.g. puzzle_id" style="width: 140px;" onchange="tt_updatePuzzleField(${puzzleIdx}, 'puzzle_id', this.value)" ${disabledAttr}>
-                                </div>
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Show Date</span>
-                                    <input type="text" value="${tt_formatDate(p.date)}" style="width: 145px; text-align: center; color: var(--text-muted); background: rgba(0,0,0,0.08); border: 1px solid var(--border-base); font-size: 11px; font-weight: 700;" disabled>
-                                </div>
+        function tt_openPuzzleMetadataModal(puzzleIdx) {
+            if (puzzleIdx === null || puzzleIdx === undefined || !tt_puzzles[puzzleIdx]) return;
+            tt_activeModalPuzzleIdx = puzzleIdx;
+            const modalEl = document.getElementById('tt-puzzle-metadata-modal');
+            if (!modalEl) return;
+            tt_renderPuzzleMetadataModalContent(puzzleIdx);
+            modalEl.style.display = 'flex';
+        }
+
+        function tt_closePuzzleMetadataModal() {
+            const modalEl = document.getElementById('tt-puzzle-metadata-modal');
+            if (modalEl) modalEl.style.display = 'none';
+            tt_activeModalPuzzleIdx = null;
+            tt_renderPuzzles();
+        }
+
+        function tt_stepPuzzleMetadataModal(delta) {
+            if (tt_activeModalPuzzleIdx === null || !tt_puzzles.length) return;
+            // Step through puzzles in chronological puzzle_number order
+            const ordered = [...tt_puzzles].sort((a, b) => (parseInt(a.puzzle_number) || 9999) - (parseInt(b.puzzle_number) || 9999));
+            const currentObj = tt_puzzles[tt_activeModalPuzzleIdx];
+            const curPos = ordered.indexOf(currentObj);
+            if (curPos === -1) return;
+            const nextPos = (curPos + delta + ordered.length) % ordered.length;
+            const nextPuzzleIdx = tt_puzzles.indexOf(ordered[nextPos]);
+            tt_openPuzzleMetadataModal(nextPuzzleIdx);
+        }
+
+        function tt_renderPuzzleMetadataModalContent(puzzleIdx) {
+            const p = tt_puzzles[puzzleIdx];
+            const bodyEl = document.getElementById('tt-puzzle-metadata-modal-body');
+            const titleEl = document.getElementById('tt-meta-modal-title');
+            const badgeEl = document.getElementById('tt-meta-modal-badge');
+            if (!p || !bodyEl) return;
+
+            const todayChallengeStr = tt_getTodayChallengeStr();
+            const isBacklog = p.puzzle_number === "";
+            const isToday = !isBacklog && p.puzzle_number === todayChallengeStr;
+            const isPrevious = !isBacklog && parseInt(p.puzzle_number, 10) < parseInt(todayChallengeStr, 10);
+            const disabledAttr = isPrevious ? 'disabled' : '';
+
+            if (titleEl) {
+                titleEl.innerHTML = `🌭 ${eqHtml(p.boss_pun_title || 'Untitled')} <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">from 📍 ${eqHtml(p.boss_original_title || '')}</span>`;
+            }
+            if (badgeEl) {
+                badgeEl.style.cssText = isBacklog
+                    ? 'background:rgba(220, 53, 69, 0.15); color:#ff7684;'
+                    : (isToday
+                        ? 'background:rgba(0, 245, 212, 0.2); color:var(--emerald); border: 1px solid var(--emerald);'
+                        : (isPrevious
+                            ? 'background:rgba(255,255,255,0.08); color:var(--text-muted);'
+                            : 'background:rgba(0, 242, 254, 0.15); color:var(--cyan);'));
+                badgeEl.innerText = isBacklog ? '📦 BACKLOG' : (isToday ? '🎯 TODAY (LIVE)' : (isPrevious ? '🔒 LOCKED / FIXED' : '🗓️ STAGED'));
+            }
+
+            bodyEl.innerHTML = `
+                <div class="puzzle-card approved" style="margin: 0; border: 1px solid var(--border-base); background: rgba(8, 12, 20, 0.55);">
+                    <!-- Header with challenge info -->
+                    <div class="puzzle-card-header" style="flex-wrap: wrap; gap: 12px;">
+                        <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Challenge #</span>
+                                <input type="text" value="${eqHtml(p.puzzle_number || '')}" placeholder="Backlog" style="width: 75px; text-align: center; ${isPrevious ? 'color: var(--text-muted); opacity: 0.6;' : ''}" onchange="tt_updateChallengeNumber(${puzzleIdx}, this.value)" ${disabledAttr}>
                             </div>
-                            <div style="display: flex; align-items: center; gap: 15px;">
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 700;">Tier:</span>
-                                    <input type="number" min="1" max="5" value="${p.difficulty_tier || 1}" style="width: 60px;" onchange="tt_updatePuzzleField(${puzzleIdx}, 'difficulty_tier', parseInt(this.value) || 1)" ${disabledAttr}>
-                                </div>
-                                <span class="status-badge" style="${isBacklog ? 'background:rgba(220, 53, 69, 0.15); color:#ff7684;' : (isToday ? 'background:rgba(0, 245, 212, 0.2); color:var(--emerald); border: 1px solid var(--emerald);' : (isPrevious ? 'background:rgba(255,255,255,0.08); color:var(--text-muted);' : 'background:rgba(0, 242, 254, 0.15); color:var(--cyan);'))}">
-                                    ${isBacklog ? '📦 BACKLOG' : (isToday ? '🎯 TODAY' : (isPrevious ? '🔒 LOCKED' : '🗓️ SCHEDULED'))}
-                                </span>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Puzzle ID</span>
+                                <input type="text" value="${eqHtml(p.puzzle_id || '')}" placeholder="e.g. puzzle_id" style="width: 170px;" onchange="tt_updatePuzzleField(${puzzleIdx}, 'puzzle_id', this.value)" ${disabledAttr}>
+                            </div>
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 0.9rem; font-weight: 700; color: var(--text-secondary);">Show Date</span>
+                                <input type="text" value="${eqHtml(tt_formatDate(p.date))}" style="width: 155px; text-align: center; color: var(--text-muted); background: rgba(0,0,0,0.2); border: 1px solid var(--border-base); font-size: 11px; font-weight: 700;" disabled>
                             </div>
                         </div>
-
-                        <!-- Main grid layout -->
-                        <div class="puzzle-grid">
-                            <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
-                                <img class="img-preview" src="${p.boss_poster_url}" onclick="tt_openPostcardModal('${p.boss_poster_url}')">
-                                <span style="font-size: 0.75rem; color: var(--text-secondary); text-align: center;">Click to Preview</span>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 6px;">
+                                <span style="font-size: 0.85rem; color: var(--text-secondary); font-weight: 700;">Tier:</span>
+                                <input type="number" min="1" max="5" value="${p.difficulty_tier || 1}" style="width: 60px;" onchange="tt_updatePuzzleField(${puzzleIdx}, 'difficulty_tier', parseInt(this.value) || 1)" ${disabledAttr}>
                             </div>
-                            <div class="puzzle-fields-grid">
-                                <div class="field-group">
-                                    <label>Pun Name (Answer)</label>
-                                    <input type="text" value="${p.boss_pun_title || ''}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_pun_title', this.value)" ${disabledAttr}>
-                                </div>
-                                <div class="field-group">
-                                    <label>Original Landmark</label>
-                                    <input type="text" value="${p.boss_original_title || ''}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_original_title', this.value)" ${disabledAttr}>
-                                </div>
-                                <div class="field-group">
-                                    <label>Answer Pattern Blanks (Auto-Syncs)</label>
-                                    <input type="text" value="${p.answer || ''}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'answer', this.value)" ${disabledAttr}>
-                                </div>
-                                <div class="field-group">
-                                    <label>First Letters Hint (Auto-Syncs)</label>
-                                    <input type="text" value="${p.boss_hint2 || ''}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_hint2', this.value)" ${disabledAttr}>
-                                </div>
-                                <div class="field-group">
-                                    <label>Reviewer Username</label>
-                                    <input type="text" value="${p.reviewer_name || ''}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'reviewer_name', this.value)" ${disabledAttr}>
-                                </div>
-                                <div class="field-group">
-                                    <label>Page Theme</label>
-                                    <select onchange="tt_updatePuzzleField(${puzzleIdx}, 'page_theme', this.value)" style="width: 100%; padding: 8px 12px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;" ${disabledAttr}>
-                                         ${TT_ALL_THEMES.map(t => `
-                                             <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
-                                         `).join('')}
-                                    </select>
-                                </div>
-                                <div class="field-group" style="grid-column: span 2;">
-                                    <label>Review Title</label>
-                                    <textarea style="min-height: 40px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'review_title', this.value)" ${disabledAttr}>${p.review_title || ''}</textarea>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Clues and response text strings (Textareas for wrapping text with auto-height adjustment) -->
-                        <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px dashed var(--border-base); padding-top: 12px;">
-                            <div class="field-group">
-                                <label>Clue 1 (Comical obscure review)</label>
-                                <textarea style="min-height: 50px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue1', this.value)" ${disabledAttr}>${p.clue1 || ''}</textarea>
-                            </div>
-                            <div class="field-group">
-                                <label>Clue 2 (Comical landmark-related review)</label>
-                                <textarea style="min-height: 50px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue2', this.value)" ${disabledAttr}>${p.clue2 || ''}</textarea>
-                            </div>
-                            <div class="field-group">
-                                <label>Clue 3 (Comical pun-revealing review)</label>
-                                <textarea style="min-height: 50px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue3', this.value)" ${disabledAttr}>${p.clue3 || ''}</textarea>
-                            </div>
-                            <div class="field-group">
-                                <label>Owner Reply (Boss Pitch)</label>
-                                <textarea style="min-height: 60px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_pitch', this.value)" ${disabledAttr}>${p.boss_pitch || ''}</textarea>
-                            </div>
-                        </div>
-
-                        <!-- Card Actions -->
-                        <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border-base); padding-top: 10px; margin-top: 4px;">
-                            ${isPrevious ? `
-                                <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px;">
-                                    🔒 HISTORICAL PUZZLE (LOCKED & FIXED IN POSITION)
-                                </div>
-                                <div></div>
-                            ` : `
-                                <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.9rem;" onclick="tt_removePuzzle(${puzzleIdx})">🗑️ Delete Challenge</button>
-                            `}
                         </div>
                     </div>
-                `;
-            }).join('');
 
-            // Auto-resize all textareas to fit content on initial render
-            gridEl.querySelectorAll('textarea').forEach(tx => {
+                    <!-- Main grid layout -->
+                    <div class="puzzle-grid">
+                        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+                            <img class="img-preview" src="${eqHtml(p.boss_poster_url)}" style="width: 180px; height: 140px;" onclick="tt_openPostcardModal('${eq(p.boss_poster_url)}')">
+                            <span style="font-size: 0.75rem; color: var(--cyan); cursor: pointer; text-align: center;" onclick="tt_openPostcardModal('${eq(p.boss_poster_url)}')">🔍 Click to Enlarge Postcard</span>
+                        </div>
+                        <div class="puzzle-fields-grid">
+                            <div class="field-group">
+                                <label>Pun Name (Answer)</label>
+                                <input type="text" value="${eqHtml(p.boss_pun_title || '')}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_pun_title', this.value)" ${disabledAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>Original Landmark</label>
+                                <input type="text" value="${eqHtml(p.boss_original_title || '')}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_original_title', this.value)" ${disabledAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>Answer Pattern Blanks (Auto-Syncs)</label>
+                                <input type="text" value="${eqHtml(p.answer || '')}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'answer', this.value)" ${disabledAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>First Letters Hint (Auto-Syncs)</label>
+                                <input type="text" value="${eqHtml(p.boss_hint2 || '')}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_hint2', this.value)" ${disabledAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>Reviewer Username</label>
+                                <input type="text" value="${eqHtml(p.reviewer_name || '')}" onchange="tt_updatePuzzleField(${puzzleIdx}, 'reviewer_name', this.value)" ${disabledAttr}>
+                            </div>
+                            <div class="field-group">
+                                <label>Page Theme</label>
+                                <select onchange="tt_updatePuzzleField(${puzzleIdx}, 'page_theme', this.value)" style="width: 100%; padding: 8px 12px; border-radius: 4px; border: 1px solid var(--border-base); background: var(--bg-input); color: var(--text-primary); font-size: 0.9rem; font-weight: 500;" ${disabledAttr}>
+                                     ${TT_ALL_THEMES.map(t => `
+                                         <option value="${t}" ${p.page_theme === t ? 'selected' : ''}>${t.replace(/_/g, ' ')}</option>
+                                     `).join('')}
+                                </select>
+                            </div>
+                            <div class="field-group" style="grid-column: span 2;">
+                                <label>Review Title</label>
+                                <textarea style="min-height: 40px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'review_title', this.value)" ${disabledAttr}>${eqHtml(p.review_title || '')}</textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Clues and response text strings -->
+                    <div style="display: flex; flex-direction: column; gap: 10px; border-top: 1px dashed var(--border-base); padding-top: 12px;">
+                        <div class="field-group">
+                            <label>Clue 1 (Comical obscure review)</label>
+                            <textarea style="min-height: 48px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue1', this.value)" ${disabledAttr}>${eqHtml(p.clue1 || '')}</textarea>
+                        </div>
+                        <div class="field-group">
+                            <label>Clue 2 (Comical landmark-related review)</label>
+                            <textarea style="min-height: 48px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue2', this.value)" ${disabledAttr}>${eqHtml(p.clue2 || '')}</textarea>
+                        </div>
+                        <div class="field-group">
+                            <label>Clue 3 (Comical pun-revealing review)</label>
+                            <textarea style="min-height: 48px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'clue3', this.value)" ${disabledAttr}>${eqHtml(p.clue3 || '')}</textarea>
+                        </div>
+                        <div class="field-group">
+                            <label>Owner Reply (Boss Pitch)</label>
+                            <textarea style="min-height: 58px; line-height: 1.4; padding: 8px 12px; overflow-y: hidden; resize: none;" oninput="tt_autoResize(this)" onchange="tt_updatePuzzleField(${puzzleIdx}, 'boss_pitch', this.value)" ${disabledAttr}>${eqHtml(p.boss_pitch || '')}</textarea>
+                        </div>
+                    </div>
+
+                    <!-- Card Actions -->
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-top: 1px dashed var(--border-base); padding-top: 12px; margin-top: 6px;">
+                        ${isPrevious ? `
+                            <div style="font-size: 11px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 6px; letter-spacing: 0.5px;">
+                                🔒 HISTORICAL PUZZLE (LOCKED &amp; FIXED IN POSITION)
+                            </div>
+                            <button class="btn btn-secondary" style="padding: 8px 16px;" onclick="tt_closePuzzleMetadataModal()">Close</button>
+                        ` : `
+                            <button class="btn btn-danger" style="padding: 8px 16px; font-size: 0.9rem;" onclick="tt_removePuzzle(${puzzleIdx})">🗑️ Delete Challenge</button>
+                            <button class="btn btn-emerald" style="padding: 8px 18px; font-size: 0.9rem;" onclick="tt_closePuzzleMetadataModal()">✅ Done</button>
+                        `}
+                    </div>
+                </div>
+            `;
+
+            bodyEl.querySelectorAll('textarea').forEach(tx => {
                 tt_autoResize(tx);
             });
         }
@@ -5347,7 +5365,6 @@
             if (clue) {
                 clue.page_theme = newTheme;
                 tt_saveData('tt_clues', tt_clues);
-                // Also update any matching postcard if it has been generated
                 let pc = tt_postcards.find(p => p.clue_id === clueId);
                 if (pc) {
                     pc.page_theme = newTheme;
@@ -5361,7 +5378,6 @@
             if (pc) {
                 pc.page_theme = newTheme;
                 tt_saveData('tt_postcards', tt_postcards);
-                // Also update matching clue
                 let clue = tt_clues.find(c => c.id === pc.clue_id);
                 if (clue) {
                     clue.page_theme = newTheme;
@@ -5381,17 +5397,11 @@
                 }
                 tt_puzzles[idx][key] = val;
                 if (key === 'boss_pun_title') {
-                    tt_puzzles[idx].answer = val.toUpperCase();
+                    tt_puzzles[idx].answer = val.replace(/[a-zA-Z]/g, '_');
                     tt_puzzles[idx].boss_hint2 = val.split(' ').map(w => w[0] + w.slice(1).replace(/[a-zA-Z]/g, '_')).join(' ');
                 }
                 tt_saveData('tt_puzzles', tt_puzzles);
-                // Update badge numbers silently
-                const activeChallenges = tt_puzzles.filter(p => p.puzzle_number !== "");
-                const backlogChallenges = tt_puzzles.filter(p => p.puzzle_number === "");
-                const countActiveEl = document.getElementById('tt-count-active-schedule');
-                const countBacklogEl = document.getElementById('tt-count-backlog');
-                if (countActiveEl) countActiveEl.innerText = activeChallenges.length;
-                if (countBacklogEl) countBacklogEl.innerText = backlogChallenges.length;
+                tt_renderPuzzles();
             }
         }
 
@@ -5407,15 +5417,6 @@
                 tt_puzzles[puzzleIdx].puzzle_number = val.trim();
                 tt_saveData('tt_puzzles', tt_puzzles);
                 tt_renderPuzzles();
-            }
-        }
-
-        function tt_scrollToPuzzleCard(idx) {
-            const card = document.getElementById('tt-approved-set-' + idx);
-            if (card) {
-                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                card.classList.add('pulse-glow-highlight');
-                setTimeout(() => card.classList.remove('pulse-glow-highlight'), 1200);
             }
         }
 
@@ -5491,6 +5492,7 @@
                     tt_saveData('tt_puns', tt_puns);
                 }
                 
+                tt_closePuzzleMetadataModal();
                 tt_autoProcessCurationSchedule();
             }
         }
@@ -5500,6 +5502,20 @@
             showToast("Daily Challenges Saved Successfully!");
         }
 
+
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const imgModal = document.getElementById('image-modal');
+                if (imgModal && imgModal.style.display === 'flex') {
+                    tt_closePostcardModal();
+                    return;
+                }
+                const metaModal = document.getElementById('tt-puzzle-metadata-modal');
+                if (metaModal && metaModal.style.display === 'flex') {
+                    tt_closePuzzleMetadataModal();
+                }
+            }
+        });
 
         window.onload = tt_init;
     

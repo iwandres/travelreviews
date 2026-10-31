@@ -449,6 +449,22 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
             analytics_payload = agent.get_quality_analytics()
             self.wfile.write(json.dumps({"success": True, **analytics_payload}).encode('utf-8'))
             return
+        elif req_path in ['/api/agent/runway_alert', '/api/travelreviews/agent/runway_alert']:
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            agent = get_curation_agent()
+            runway = agent.get_runway_status()
+            alert_check = None
+            if runway.get("is_low_runway") and runway.get("enabled"):
+                alert_check = agent.check_and_send_runway_alert(force=False)
+                runway = alert_check.get("runway", runway)
+            self.wfile.write(json.dumps({
+                "success": True,
+                "runway": runway,
+                "alert_check": alert_check
+            }).encode('utf-8'))
+            return
 
         # --- Static Assets and Client Files Router ---
         elif req_path.startswith('/travelreviews/') or req_path.startswith('/assets/'):
@@ -520,10 +536,16 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 if file == DAILY_GAMES_FILE and isinstance(data, list):
                     data = sanitize_travelreviews_puzzles(data)
                 save_json(file, data)
+                alert_result = None
+                if file == DAILY_GAMES_FILE:
+                    try:
+                        alert_result = get_curation_agent().check_and_send_runway_alert(force=False)
+                    except Exception as alert_e:
+                        print(f"Runway alert check warning: {alert_e}")
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({"success": True}).encode('utf-8'))
+                self.wfile.write(json.dumps({"success": True, "runway_alert": alert_result}).encode('utf-8'))
             except Exception as e:
                 self.send_response(400)
                 self.send_header('Content-type', 'application/json')
@@ -995,6 +1017,36 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
             return
 
+        elif req_path in ['/api/agent/runway_alert', '/api/travelreviews/agent/runway_alert']:
+            try:
+                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
+                action = payload.get('action', 'update')
+                with curation_lock:
+                    agent = get_curation_agent()
+                    runway = agent.update_alert_config(payload)
+                    alert_result = None
+                    if action == 'test' or payload.get('force'):
+                        alert_result = agent.check_and_send_runway_alert(force=True)
+                        runway = alert_result.get('runway', runway)
+                    elif action == 'check' or runway.get('is_low_runway'):
+                        alert_result = agent.check_and_send_runway_alert(force=False)
+                        runway = alert_result.get('runway', runway)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "runway": runway,
+                    "alert_result": alert_result
+                }).encode('utf-8'))
+            except Exception as e:
+                print(f"Error in agent/runway_alert: {e}")
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+            return
+
         # --- 1-Star Travel Reviews Gemini Inline Generation Routines ---
         elif req_path in ['/api/generate_puns', '/api/travelreviews/generate_puns']:
             if not gemini_available:
@@ -1255,106 +1307,26 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_error(404)
 
-def pipeline_listener():
-    import time
-    
-    print("[Pipeline Listener] Guardrail-powered background thread started.")
-    
+def runway_alert_listener():
+    """Periodically check if staged puzzles <= threshold (default 10) and email iwandres@gmail.com."""
     while True:
-        gemini_key = os.environ.get("GEMINI_API_KEY")
-        if not gemini_key:
-            time.sleep(10)
-            continue
-            
         try:
-            if not curation_lock.acquire(blocking=False):
-                time.sleep(5)
-                continue
-            try:
-                agent = get_curation_agent()
-                # 1. Puns Generation Curation Cycle (for manually approved landmarks without puns)
-                landmarks = load_json(LANDMARKS_FILE, [])
-                puns = load_json(PUNS_FILE, [])
-                approved_landmarks = [lm for lm in landmarks if lm.get('status') == 'approved']
-                existing_puns_landmarks = {p['original_name'] for p in puns}
-                new_landmarks = [lm for lm in approved_landmarks if lm['name'] not in existing_puns_landmarks]
-                
-                if new_landmarks:
-                    print(f"[Pipeline Listener] Found {len(new_landmarks)} approved landmarks awaiting puns. Generating with Guardrail Agent...")
-                    new_puns_count = 0
-                    for lm in new_landmarks[:3]:
-                        pun_res = agent.generate_and_select_pun(lm['name'], lm.get('location', 'Unknown'))
-                        puns = load_json(PUNS_FILE, [])
-                        all_cands = [pun_res["pun_name"]] + [r for r in pun_res.get("runner_up_puns", []) if r]
-                        for idx, candidate in enumerate(all_cands[:3]):
-                            puns.append({
-                                "id": f"pun_{lm['name'].lower().replace(' ', '_')}_{int(time.time())}_{random.randint(100,999)}",
-                                "original_name": lm['name'],
-                                "location": lm.get('location', 'Unknown'),
-                                "pun_name": candidate,
-                                "status": "pending",
-                                "agent_curated": True,
-                                "agent_score": pun_res["agent_score"] if idx == 0 else round(max(7.5, pun_res["agent_score"] - 0.5 * idx), 1),
-                                "agent_rationale": pun_res["agent_rationale"] if idx == 0 else "Runner-up guardrail candidate."
-                            })
-                            new_puns_count += 1
-                        save_json(PUNS_FILE, puns)
-                    print(f"[Pipeline Listener] Generated {new_puns_count} guardrail-verified puns.")
-                    continue
-                    
-                # 2. Clues/Reviews Generation Curation Cycle (for manually approved puns without clues)
-                puns = load_json(PUNS_FILE, [])
-                clues = load_json(CLUES_FILE, [])
-                approved_puns = [p for p in puns if p.get('status') == 'approved']
-                existing_clues_puns = {c['pun_name'] for c in clues}
-                new_puns = [p for p in approved_puns if p['pun_name'] not in existing_clues_puns]
-                
-                if new_puns:
-                    print(f"[Pipeline Listener] Found {len(new_puns)} approved puns awaiting clues. Generating with Guardrail Agent...")
-                    new_clues_count = 0
-                    for p in new_puns[:3]:
-                        generated = agent.generate_clues_and_reply(
-                            p['original_name'],
-                            p.get('location', 'Unknown'),
-                            p['pun_name']
-                        )
-                        clues = load_json(CLUES_FILE, [])
-                        clues.append({
-                            "id": f"clue_{p['id']}_{int(time.time())}_{random.randint(100,999)}",
-                            "pun_id": p['id'],
-                            "pun_name": p['pun_name'],
-                            "original_name": p['original_name'],
-                            "location": p.get('location', 'Unknown'),
-                            "reviewer_name": generated.get("reviewer_name", "Anonymous"),
-                            "review_title": generated.get("review_title", "Avoid at all costs!"),
-                            "clue1": generated.get("clue1", ""),
-                            "clue2": generated.get("clue2", ""),
-                            "clue3": generated.get("clue3", ""),
-                            "owner_response": generated.get("owner_response", ""),
-                            "page_theme": generated.get("page_theme", get_theme_for_landmark(p['original_name'])),
-                            "status": "pending",
-                            "agent_curated": True,
-                            "agent_score": p.get("agent_score", 9.0),
-                            "agent_rationale": p.get("agent_rationale", "")
-                        })
-                        new_clues_count += 1
-                        save_json(CLUES_FILE, clues)
-                    print(f"[Pipeline Listener] Generated {new_clues_count} guardrail-verified clues.")
-                    continue
-            finally:
-                curation_lock.release()
-                
+            agent = get_curation_agent()
+            status = agent.get_runway_status()
+            if status.get("is_low_runway") and status.get("enabled"):
+                res = agent.check_and_send_runway_alert(force=False)
+                if res.get("sent"):
+                    print(f"[Runway Alert] Sent low-runway alert to {status.get('recipient_email')}: {res.get('message')}")
         except Exception as e:
-            print(f"[Pipeline Listener] Error in generation cycle: {e}")
-            
-        time.sleep(10)
+            print(f"[Runway Alert] Check error: {e}")
+        time.sleep(3600)
+
 
 if __name__ == '__main__':
     socketserver.ThreadingTCPServer.allow_reuse_address = True
-    import threading
-    t = threading.Thread(target=pipeline_listener, daemon=True)
-    t.start()
+    threading.Thread(target=runway_alert_listener, daemon=True).start()
     with socketserver.ThreadingTCPServer(("", PORT), UnifiedRequestHandler) as httpd:
         print(f"Serving Consolidated Curation Server at http://localhost:{PORT}")
         httpd.serve_forever()
+
 

@@ -163,6 +163,9 @@ class TravelReviewsCurationAgent:
         self.analytics_file = analytics_file or os.path.join(
             os.path.dirname(self.landmarks_file), "travelreviews_analytics.json"
         )
+        self.alert_config_file = os.path.join(
+            os.path.dirname(self.landmarks_file), "travelreviews_alert_config.json"
+        )
 
     def _get_client(self):
         if not self.api_key:
@@ -1572,3 +1575,399 @@ Return a JSON object matching this exact schema:
 
         else:
             raise ValueError(f"Unsupported redo_type: '{redo_type}'. Expected 'pun', 'clues', or 'postcard'.")
+
+    # ==========================================================================
+    # STAGED RUNWAY MONITOR & EMAIL ALERT ENGINE (iwandres@gmail.com)
+    # ==========================================================================
+    def load_alert_config(self):
+        """Load persistent staged-puzzle runway alert configuration."""
+        default_cfg = {
+            "enabled": True,
+            "recipient_email": "iwandres@gmail.com",
+            "threshold": 10,
+            "cooldown_hours": 24,
+            "smtp_host": "smtp.gmail.com",
+            "smtp_port": 465,
+            "smtp_user": "iwandres@gmail.com",
+            "smtp_app_password": "",
+            "webhook_url": "",
+            "last_alert_sent_ts": 0,
+            "last_alert_sent_iso": "",
+            "last_alert_staged_count": None,
+            "last_delivery_status": "not_sent_yet",
+            "alert_history": []
+        }
+        data = self.load_json(self.alert_config_file, None)
+        if not isinstance(data, dict):
+            return default_cfg
+        merged = {**default_cfg, **data}
+        if not isinstance(merged.get("alert_history"), list):
+            merged["alert_history"] = []
+        return merged
+
+    def save_alert_config(self, cfg):
+        """Save persistent staged-puzzle runway alert configuration."""
+        self.save_json(self.alert_config_file, cfg)
+
+    def update_alert_config(self, updates):
+        """Update runway alert settings (recipient, threshold, enabled, SMTP app password, webhook)."""
+        cfg = self.load_alert_config()
+        if "enabled" in updates:
+            cfg["enabled"] = bool(updates["enabled"])
+        if "recipient_email" in updates and str(updates["recipient_email"]).strip():
+            cfg["recipient_email"] = str(updates["recipient_email"]).strip()
+        if "threshold" in updates:
+            try:
+                cfg["threshold"] = max(1, int(updates["threshold"]))
+            except (TypeError, ValueError):
+                pass
+        if "cooldown_hours" in updates:
+            try:
+                cfg["cooldown_hours"] = max(1, int(updates["cooldown_hours"]))
+            except (TypeError, ValueError):
+                pass
+        if "smtp_user" in updates and str(updates["smtp_user"]).strip():
+            cfg["smtp_user"] = str(updates["smtp_user"]).strip()
+        if "smtp_host" in updates and str(updates["smtp_host"]).strip():
+            cfg["smtp_host"] = str(updates["smtp_host"]).strip()
+        if "smtp_port" in updates:
+            try:
+                cfg["smtp_port"] = int(updates["smtp_port"])
+            except (TypeError, ValueError):
+                pass
+        if "smtp_app_password" in updates and updates["smtp_app_password"] is not None:
+            pw_val = str(updates["smtp_app_password"]).strip()
+            if pw_val and pw_val != "********":
+                cfg["smtp_app_password"] = pw_val
+            elif pw_val == "":
+                cfg["smtp_app_password"] = ""
+        if "webhook_url" in updates and updates["webhook_url"] is not None:
+            cfg["webhook_url"] = str(updates["webhook_url"]).strip()
+        self.save_alert_config(cfg)
+        return self.get_runway_status()
+
+    def get_runway_status(self):
+        """
+        Compute live Staged Puzzle Runway metrics:
+          - Today's live challenge number (anchored to 2026-07-04 PT launch date)
+          - Staged upcoming puzzles count (puzzle_number > today_challenge_num)
+          - Alert threshold (default: <= 10 staged puzzles)
+          - Email delivery readiness for iwandres@gmail.com
+        """
+        from datetime import datetime, timedelta, timezone
+        cfg = self.load_alert_config()
+        daily_games = self.load_json(self.daily_games_file, [])
+        postcards = self.load_json(self.postcards_file, [])
+
+        # Match frontend tt_getTodayChallengeStr() (2026-07-04 start date in PT / UTC-7)
+        pt_tz = timezone(timedelta(hours=-7))
+        now_pt = datetime.now(pt_tz)
+        start_pt = datetime(2026, 7, 4, 2, 0, 0, tzinfo=pt_tz)
+        days_elapsed = max(0, (now_pt - start_pt).days)
+        today_challenge_num = days_elapsed + 1
+        today_challenge_str = f"{today_challenge_num:03d}"
+
+        scheduled = [
+            p for p in daily_games
+            if str(p.get("puzzle_number", "")).strip().isdigit()
+        ]
+        scheduled.sort(key=lambda x: int(x["puzzle_number"]))
+
+        staged_puzzles = [
+            p for p in scheduled
+            if int(p["puzzle_number"]) > today_challenge_num
+        ]
+        live_or_past_puzzles = [
+            p for p in scheduled
+            if int(p["puzzle_number"]) <= today_challenge_num
+        ]
+        backlog_unscheduled = [
+            p for p in daily_games
+            if not str(p.get("puzzle_number", "")).strip()
+        ]
+
+        scheduled_clue_ids = {p.get("puzzle_id") for p in daily_games}
+        locked_clue_ids = {p.get("puzzle_id") for p in live_or_past_puzzles}
+        pending_review_queue_count = len([
+            pc for pc in postcards
+            if (not pc.get("status") or pc.get("status") == "pending")
+            and pc.get("clue_id") not in scheduled_clue_ids
+            and pc.get("clue_id") not in locked_clue_ids
+        ])
+
+        last_staged_date = ""
+        last_staged_number = ""
+        if staged_puzzles:
+            last_p = staged_puzzles[-1]
+            last_staged_number = str(last_p.get("puzzle_number", ""))
+            if last_p.get("date"):
+                last_staged_date = last_p["date"]
+            elif last_staged_number.isdigit():
+                dt = datetime(2026, 7, 4) + timedelta(days=int(last_staged_number) - 1)
+                last_staged_date = dt.strftime("%Y-%m-%d")
+
+        threshold = int(cfg.get("threshold", 10))
+        staged_count = len(staged_puzzles)
+        is_low_runway = staged_count <= threshold
+
+        smtp_pw = (
+            os.environ.get("GMAIL_APP_PASSWORD")
+            or os.environ.get("SMTP_PASSWORD")
+            or cfg.get("smtp_app_password", "")
+        )
+        resend_key = os.environ.get("RESEND_API_KEY", "")
+        webhook_url = os.environ.get("ALERT_WEBHOOK_URL") or cfg.get("webhook_url", "")
+        credentials_configured = bool(smtp_pw or resend_key or webhook_url)
+
+        return {
+            "enabled": bool(cfg.get("enabled", True)),
+            "recipient_email": cfg.get("recipient_email", "iwandres@gmail.com"),
+            "threshold": threshold,
+            "cooldown_hours": int(cfg.get("cooldown_hours", 24)),
+            "today_challenge_number": today_challenge_str,
+            "total_scheduled_count": len(scheduled),
+            "live_or_past_count": len(live_or_past_puzzles),
+            "staged_count": staged_count,
+            "backlog_unscheduled_count": len(backlog_unscheduled),
+            "pending_review_queue_count": pending_review_queue_count,
+            "last_staged_number": last_staged_number,
+            "last_staged_date": last_staged_date,
+            "is_low_runway": is_low_runway,
+            "credentials_configured": credentials_configured,
+            "smtp_host": cfg.get("smtp_host", "smtp.gmail.com"),
+            "smtp_port": int(cfg.get("smtp_port", 465)),
+            "smtp_user": cfg.get("smtp_user", "iwandres@gmail.com"),
+            "has_smtp_app_password": bool(smtp_pw),
+            "webhook_url": cfg.get("webhook_url", ""),
+            "last_alert_sent_ts": cfg.get("last_alert_sent_ts", 0),
+            "last_alert_sent_iso": cfg.get("last_alert_sent_iso", ""),
+            "last_alert_staged_count": cfg.get("last_alert_staged_count"),
+            "last_delivery_status": cfg.get("last_delivery_status", "not_sent_yet"),
+            "alert_history": list(reversed(cfg.get("alert_history", [])[-15:]))
+        }
+
+    def check_and_send_runway_alert(self, force=False):
+        """
+        Check if staged puzzles <= threshold (default 10) and send an email alert
+        to iwandres@gmail.com (or force-send a test alert when force=True).
+        """
+        import smtplib
+        from email.message import EmailMessage
+
+        cfg = self.load_alert_config()
+        status = self.get_runway_status()
+        staged_count = status["staged_count"]
+        threshold = status["threshold"]
+        recipient = status["recipient_email"] or "iwandres@gmail.com"
+        now_ts = int(time.time())
+        iso_now = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(now_ts))
+
+        if not force:
+            if not status["enabled"]:
+                return {
+                    "triggered": False,
+                    "sent": False,
+                    "reason": "Runway email alerts are disabled.",
+                    "runway": status
+                }
+            if not status["is_low_runway"]:
+                return {
+                    "triggered": False,
+                    "sent": False,
+                    "reason": f"Runway healthy ({staged_count} staged puzzles > {threshold} threshold).",
+                    "runway": status
+                }
+            cooldown_sec = max(1, status["cooldown_hours"]) * 3600
+            if (now_ts - int(cfg.get("last_alert_sent_ts", 0))) < cooldown_sec:
+                return {
+                    "triggered": True,
+                    "sent": False,
+                    "reason": f"Alert cooldown active (last sent at {cfg.get('last_alert_sent_iso')}).",
+                    "runway": status
+                }
+
+        is_low = status["is_low_runway"]
+        if is_low:
+            subject = f"🚨 [PunFiction Alert] Only {staged_count} Staged Travel Reviews Puzzles Remaining (Threshold: ≤{threshold})"
+            headline = f"⚠️ Low Staged Puzzle Runway: {staged_count} Days Remaining"
+        else:
+            subject = f"✅ [PunFiction Test Alert] Staged Runway Check: {staged_count} Staged Puzzles Remaining (Threshold: ≤{threshold})"
+            headline = f"🟢 Test Alert — Runway Healthy ({staged_count} Staged Puzzles)"
+
+        text_body = (
+            f"{headline}\n"
+            f"============================================================\n"
+            f"• Staged Upcoming Puzzles: {staged_count} (Alert Threshold: <= {threshold})\n"
+            f"• Today's Live Challenge: #{status['today_challenge_number']}\n"
+            f"• Last Staged Challenge: #{status['last_staged_number'] or 'N/A'} ({status['last_staged_date'] or 'N/A'})\n"
+            f"• Pending in Agent Review Queue: {status['pending_review_queue_count']} candidate(s) ready to approve\n"
+            f"• Unscheduled Backlog: {status['backlog_unscheduled_count']} puzzle(s)\n\n"
+            f"Action Required:\n"
+            f"Open the 1-Star Travel Reviews Curation Hub to approve queued candidates or run the Curation Agent:\n"
+            f"http://localhost:8000/backend/unified_admin.html\n"
+        )
+
+        html_body = f"""
+        <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 600px; margin: 0 auto; background: #0f172a; color: #f8fafc; border-radius: 12px; padding: 24px; border: 1px solid #334155;">
+            <h2 style="margin-top: 0; color: {'#ff7684' if is_low else '#2ec4b6'};">{headline}</h2>
+            <p style="color: #cbd5e1; font-size: 14px; line-height: 1.5;">
+                Your <strong>1-Star Travel Reviews</strong> daily challenge schedule currently has <strong>{staged_count} staged puzzle(s)</strong> remaining after today's live challenge (alert threshold is set to <strong>&le; {threshold}</strong>).
+            </p>
+            <table style="width: 100%; border-collapse: collapse; margin: 16px 0; background: #1e293b; border-radius: 8px; overflow: hidden; font-size: 14px;">
+                <tr style="border-bottom: 1px solid #334155;">
+                    <td style="padding: 10px 14px; color: #94a3b8;">Staged Upcoming Puzzles</td>
+                    <td style="padding: 10px 14px; font-weight: 700; color: {'#ff7684' if is_low else '#00f2fe'};">{staged_count} puzzles (Threshold: &le; {threshold})</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #334155;">
+                    <td style="padding: 10px 14px; color: #94a3b8;">Today's Live Challenge</td>
+                    <td style="padding: 10px 14px; font-weight: 700;">#{status['today_challenge_number']}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #334155;">
+                    <td style="padding: 10px 14px; color: #94a3b8;">Final Staged Date</td>
+                    <td style="padding: 10px 14px; font-weight: 700;">#{status['last_staged_number'] or 'N/A'} ({status['last_staged_date'] or 'N/A'})</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px 14px; color: #94a3b8;">Awaiting Approval in Step 1 Queue</td>
+                    <td style="padding: 10px 14px; font-weight: 700; color: #2ec4b6;">{status['pending_review_queue_count']} candidate puzzle(s)</td>
+                </tr>
+            </table>
+            <p style="margin-top: 20px;">
+                <a href="http://localhost:8000/backend/unified_admin.html" style="display: inline-block; background: #00f2fe; color: #080c14; font-weight: 800; text-decoration: none; padding: 10px 18px; border-radius: 8px;">
+                    🤖 Open Curation Hub &rarr;
+                </a>
+            </p>
+        </div>
+        """
+
+        smtp_pw = (
+            os.environ.get("GMAIL_APP_PASSWORD")
+            or os.environ.get("SMTP_PASSWORD")
+            or cfg.get("smtp_app_password", "")
+        ).strip()
+        smtp_user = (os.environ.get("SMTP_USER") or cfg.get("smtp_user") or recipient).strip()
+        smtp_host = (os.environ.get("SMTP_HOST") or cfg.get("smtp_host") or "smtp.gmail.com").strip()
+        smtp_port = int(os.environ.get("SMTP_PORT") or cfg.get("smtp_port") or 465)
+        resend_key = os.environ.get("RESEND_API_KEY", "").strip()
+        webhook_url = (os.environ.get("ALERT_WEBHOOK_URL") or cfg.get("webhook_url", "")).strip()
+
+        sent = False
+        delivery_method = "none"
+        delivery_message = ""
+
+        # 1. Try Gmail / SMTP SSL if App Password is provided
+        if smtp_pw:
+            try:
+                msg = EmailMessage()
+                msg["Subject"] = subject
+                msg["From"] = smtp_user
+                msg["To"] = recipient
+                msg.set_content(text_body)
+                msg.add_alternative(html_body, subtype="html")
+
+                if smtp_port == 465:
+                    with smtplib.SMTP_SSL(smtp_host, smtp_port, timeout=12) as server:
+                        server.login(smtp_user, smtp_pw.replace(" ", ""))
+                        server.send_message(msg)
+                else:
+                    with smtplib.SMTP(smtp_host, smtp_port, timeout=12) as server:
+                        server.starttls()
+                        server.login(smtp_user, smtp_pw.replace(" ", ""))
+                        server.send_message(msg)
+                sent = True
+                delivery_method = f"smtp ({smtp_host})"
+                delivery_message = f"Email sent to {recipient} via {smtp_host}."
+            except Exception as e:
+                delivery_method = "smtp_error"
+                delivery_message = f"SMTP error: {e}"
+
+        # 2. Fallback to Resend API if RESEND_API_KEY is set
+        if not sent and resend_key:
+            try:
+                payload = json.dumps({
+                    "from": os.environ.get("RESEND_FROM_EMAIL", "PunFiction Alerts <onboarding@resend.dev>"),
+                    "to": [recipient],
+                    "subject": subject,
+                    "html": html_body,
+                    "text": text_body
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    "https://api.resend.com/emails",
+                    data=payload,
+                    headers={
+                        "Authorization": f"Bearer {resend_key}",
+                        "Content-Type": "application/json"
+                    },
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=12) as resp:
+                    if 200 <= resp.status < 300:
+                        sent = True
+                        delivery_method = "resend_api"
+                        delivery_message = f"Email sent to {recipient} via Resend API."
+            except Exception as e:
+                delivery_method = "resend_error"
+                delivery_message = f"Resend API error: {e}"
+
+        # 3. Fallback to Webhook URL if configured
+        if not sent and webhook_url:
+            try:
+                payload = json.dumps({
+                    "recipient": recipient,
+                    "subject": subject,
+                    "text": text_body,
+                    "staged_count": staged_count,
+                    "threshold": threshold,
+                    "is_low_runway": is_low
+                }).encode("utf-8")
+                req = urllib.request.Request(
+                    webhook_url,
+                    data=payload,
+                    headers={"Content-Type": "application/json"},
+                    method="POST"
+                )
+                with urllib.request.urlopen(req, timeout=12) as resp:
+                    if 200 <= resp.status < 300:
+                        sent = True
+                        delivery_method = "webhook"
+                        delivery_message = f"Alert dispatched to webhook for {recipient}."
+            except Exception as e:
+                delivery_method = "webhook_error"
+                delivery_message = f"Webhook error: {e}"
+
+        if not sent and not delivery_message:
+            delivery_method = "awaiting_smtp_password"
+            delivery_message = (
+                f"Alert logged for {recipient} (Staged: {staged_count} <= {threshold}). "
+                f"To enable live Gmail delivery, add your 16-character Gmail App Password in the Runway Alert Settings modal (or set GMAIL_APP_PASSWORD)."
+            )
+
+        if sent or is_low or force:
+            if sent:
+                cfg["last_alert_sent_ts"] = now_ts
+                cfg["last_alert_sent_iso"] = iso_now
+                cfg["last_alert_staged_count"] = staged_count
+            cfg["last_delivery_status"] = delivery_message
+            cfg["alert_history"].append({
+                "timestamp": now_ts,
+                "iso_time": iso_now,
+                "recipient": recipient,
+                "staged_count": staged_count,
+                "threshold": threshold,
+                "sent": sent,
+                "delivery_method": delivery_method,
+                "message": delivery_message,
+                "forced_test": bool(force)
+            })
+            if len(cfg["alert_history"]) > 50:
+                cfg["alert_history"] = cfg["alert_history"][-50:]
+            self.save_alert_config(cfg)
+
+        return {
+            "triggered": bool(is_low or force),
+            "sent": sent,
+            "delivery_method": delivery_method,
+            "message": delivery_message,
+            "subject": subject,
+            "runway": self.get_runway_status()
+        }
+

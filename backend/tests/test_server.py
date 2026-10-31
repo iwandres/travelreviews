@@ -278,5 +278,77 @@ class TestServerHandler(unittest.TestCase):
         self.assertEqual(response_data['event']['signal_type'], 'approve')
         self.assertEqual(response_data['analytics']['health_score'], 96.0)
 
+    @patch('backend.unified_server.get_curation_agent')
+    def test_get_runway_alert(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.get_runway_status.return_value = {
+            "enabled": True,
+            "recipient_email": "iwandres@gmail.com",
+            "threshold": 10,
+            "staged_count": 8,
+            "is_low_runway": True
+        }
+        mock_agent.check_and_send_runway_alert.return_value = {
+            "triggered": True,
+            "sent": True,
+            "runway": {
+                "enabled": True,
+                "recipient_email": "iwandres@gmail.com",
+                "threshold": 10,
+                "staged_count": 8,
+                "is_low_runway": True
+            }
+        }
+        mock_get_agent.return_value = mock_agent
+
+        handler = self.make_handler('GET', '/api/travelreviews/agent/runway_alert')
+        handler.do_GET()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertEqual(response_data['runway']['recipient_email'], 'iwandres@gmail.com')
+        self.assertEqual(response_data['runway']['staged_count'], 8)
+        mock_agent.check_and_send_runway_alert.assert_called_once_with(force=False)
+
+    @patch('backend.unified_server.get_curation_agent')
+    def test_post_runway_alert(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.update_alert_config.return_value = {
+            "enabled": True,
+            "recipient_email": "iwandres@gmail.com",
+            "threshold": 10,
+            "staged_count": 22,
+            "is_low_runway": False
+        }
+        mock_agent.check_and_send_runway_alert.return_value = {
+            "triggered": True,
+            "sent": True,
+            "delivery_method": "smtp (smtp.gmail.com)",
+            "message": "Email sent to iwandres@gmail.com via smtp.gmail.com.",
+            "runway": {
+                "enabled": True,
+                "recipient_email": "iwandres@gmail.com",
+                "threshold": 10,
+                "staged_count": 22,
+                "is_low_runway": False
+            }
+        }
+        mock_get_agent.return_value = mock_agent
+
+        payload = json.dumps({
+            "action": "test",
+            "recipient_email": "iwandres@gmail.com",
+            "threshold": 10
+        }).encode('utf-8')
+        handler = self.make_handler('POST', '/api/travelreviews/agent/runway_alert', body=payload)
+        handler.do_POST()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertTrue(response_data['alert_result']['sent'])
+        mock_agent.check_and_send_runway_alert.assert_called_once_with(force=True)
+
 if __name__ == '__main__':
     unittest.main()

@@ -1455,7 +1455,7 @@
     "id": "landmark_268_1783199109",
     "name": "Elephanta Caves",
     "location": "Mumbai, Maharashtra, India",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "landmark_269_1783199109",
@@ -2978,6 +2978,132 @@
     "location": "Marrakesh, Morocco",
     "page_theme": "streets_squares",
     "pun_potential_note": "The phonetic sounds in 'Djemaa el-Fna' allow for creative puns like 'Jemma Elf Na' or 'Jammed El Faucet'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482117_232_0",
+    "name": "La Boca (Caminito)",
+    "location": "Buenos Aires, Argentina",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "'Boca' could be 'bacon' or 'bokeh'. 'Caminito' has 'cami' (cammy) or 'minute'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482117_754_1",
+    "name": "Khan el-Khalili",
+    "location": "Cairo, Egypt",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "'Khan' sounds like 'can' or 'con'. 'Khalili' (ka-lee-lee) could be 'cali-lee' or 'can heal'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482117_786_2",
+    "name": "Walls of Dubrovnik",
+    "location": "Dubrovnik, Croatia",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "'Dubrovnik' could be broken into 'due broad nick' or 'do brow nick'. 'Walls' is a straightforward pun.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482441_424_0",
+    "name": "Senso-ji Temple",
+    "location": "Tokyo, Japan",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "'Senso-ji' sounds like 'Sense Oh Gee' or 'Census Tea'; 'Temple' can be 'Temp Pull'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482441_308_1",
+    "name": "The Strip, Las Vegas",
+    "location": "Las Vegas, Nevada, USA",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "'Strip' is very punny ('Stripe', 'Strips', 'Strip-per'); 'Vegas' sounds like 'Vague Ass' or 'Big Ass'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482813_299_0",
+    "name": "Horseshoe Bend",
+    "location": "Page, Arizona, USA",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "Horseshoe sounds like 'horse shoe'; Bend sounds like 'friend' or 'tend'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482813_558_1",
+    "name": "Tiger's Nest Monastery",
+    "location": "Paro Valley, Bhutan",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "Tiger's Nest is already a strong pun, sounding like 'tiger's best' or 'tie-grrr's test'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482813_731_2",
+    "name": "Olduvai Gorge",
+    "location": "Ngorongoro Conservation Area, Tanzania",
+    "page_theme": "ancient_ruins",
+    "pun_potential_note": "Olduvai sounds like 'old dive' or 'all divide'; Gorge sounds like 'gorge' (eat greedily) or 'gorgeous'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793482813_248_3",
+    "name": "Quebec City Old Town",
+    "location": "Quebec City, Canada",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "Quebec sounds like 'cue-beck' or 'queue back'; Old Town sounds like 'old down' or 'old clown'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793483527_915_0",
+    "name": "The Blue Lagoon",
+    "location": "Grindavik, Iceland",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Blue' can be a pun for 'blew', and 'Lagoon' offers potential with words like 'goon' or 'legume'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793483527_551_1",
+    "name": "Osaka Castle",
+    "location": "Osaka, Japan",
+    "page_theme": "castles_cathedrals",
+    "pun_potential_note": "'Osaka' has phonetic similarities to phrases like 'Oh, sock a!' or 'Oh, sake!'",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793483527_365_2",
+    "name": "Plitvice Lakes National Park",
+    "location": "Plitvice Lakes, Croatia",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Plitvice' can be humorously reinterpreted as 'plit vice' or 'plate 'vies',' while 'Lakes' could be 'leaks'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793483527_458_3",
+    "name": "Hallstatt",
+    "location": "Hallstatt, Austria",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "'Hallstatt' offers clear pun potential with 'Hall stat' or 'Haul stat'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793483527_523_4",
+    "name": "Mount Kenya",
+    "location": "Kenya",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Kenya' readily suggests puns like 'can ya' or 'kin ya'.",
     "status": "approved",
     "agent_generated": true
   }
