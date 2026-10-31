@@ -219,5 +219,64 @@ class TestServerHandler(unittest.TestCase):
             custom_prompt=None
         )
 
+    @patch('backend.unified_server.get_curation_agent')
+    def test_get_agent_analytics(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.get_quality_analytics.return_value = {
+            "health_score": 94.5,
+            "health_status": "EXCELLENT",
+            "signals_summary": {
+                "positive_approvals_total": 123,
+                "total_redos": 1,
+                "negative_declines_total": 0
+            },
+            "rates": {
+                "puzzle_approval_rate_pct": 100.0,
+                "first_pass_clean_rate_pct": 95.0
+            }
+        }
+        mock_get_agent.return_value = mock_agent
+
+        handler = self.make_handler('GET', '/api/travelreviews/agent/analytics')
+        handler.do_GET()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertEqual(response_data['health_status'], 'EXCELLENT')
+        self.assertEqual(response_data['signals_summary']['positive_approvals_total'], 123)
+
+    @patch('backend.unified_server.get_curation_agent')
+    def test_post_agent_signal(self, mock_get_agent):
+        mock_agent = MagicMock()
+        mock_agent.record_signal.return_value = {
+            "id": "sig_123",
+            "signal_type": "approve",
+            "signal_weight": 1.0,
+            "first_pass_approval": True
+        }
+        mock_agent.get_quality_analytics.return_value = {
+            "health_score": 96.0,
+            "health_status": "EXCELLENT"
+        }
+        mock_get_agent.return_value = mock_agent
+
+        payload = json.dumps({
+            "signal_type": "approve",
+            "clue_id": "clue_123",
+            "postcard_id": "pc_123",
+            "landmark_name": "Dubrovnik Old Town",
+            "pun_name": "Dubrovnik Mold Town",
+            "redo_count_at_event": 0
+        }).encode('utf-8')
+        handler = self.make_handler('POST', '/api/travelreviews/agent/signal', body=payload)
+        handler.do_POST()
+
+        handler.send_response.assert_called_with(200)
+        response_data = json.loads(handler.wfile.getvalue().decode('utf-8'))
+        self.assertTrue(response_data['success'])
+        self.assertEqual(response_data['event']['signal_type'], 'approve')
+        self.assertEqual(response_data['analytics']['health_score'], 96.0)
+
 if __name__ == '__main__':
     unittest.main()

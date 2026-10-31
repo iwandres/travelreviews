@@ -1949,5 +1949,288 @@
     "owner_response": "Dear @SourKraut, it seems you've confused our 16th-century architectural marvel with a culinary dish. Our vibrant onion domes are made of brick and mortar, not 'boiled greens' or 'vegetable parcels' designed for consumption.",
     "page_theme": "historic_monuments",
     "status": "approved"
+  },
+  {
+    "id": "clue_pun_dubrovnik_old_town_1793480248_250_1793480388_120",
+    "pun_id": "pun_dubrovnik_old_town_1793480248_250",
+    "pun_name": "Dubrovnik Mold Town",
+    "original_name": "Dubrovnik Old Town",
+    "location": "Dubrovnik, Croatia",
+    "reviewer_name": "MildewMelanie",
+    "review_title": "False Advertising: No Fungus!",
+    "clue1": "Expected famed Croatian mold... found only sun-baked ancient stone!",
+    "clue2": "My cleaning wipes did nothing! The rough limestone just stayed... stone!",
+    "clue3": "Turns out, 'Old Town' means *ancient*, not *covered in fungal growth*! Ripped off!",
+    "owner_response": "Dear @MildewMelanie, our centuries-old limestone fortifications are indeed ancient. However, we do pride ourselves on being entirely fungus-free.",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.7,
+    "agent_rationale": "The substitution of 'Old' with the concrete, tangible noun 'Mold' is phonetically perfect and immediately conjures a hilariously disgusting image for a famous landmark, making it ideal for a 1-star review about an unexpected and revolting experience.",
+    "runner_up_puns": [
+      "Dubrovnik Clown Town",
+      "Dubrovnik Gold Town",
+      "Dubrovnik Broom Town"
+    ]
+  },
+  {
+    "id": "clue_pun_blue_lagoon_1793480264_444_1793480396_970",
+    "pun_id": "pun_blue_lagoon_1793480264_444",
+    "pun_name": "Bleach Lagoon",
+    "original_name": "Blue Lagoon",
+    "location": "Reykjanes Peninsula, Iceland",
+    "reviewer_name": "SudsySally",
+    "review_title": "Not One Drop of Bleach!",
+    "clue1": "Flew to Iceland expecting pristine white laundry... volcanic rocks instead!",
+    "clue2": "Tried to soak my whites in the milky water... just mud, no sanitizing power!",
+    "clue3": "They called it 'blue' for a reason, but zero cleaning chemicals detected!",
+    "owner_response": "Listen, @SudsySally, our geothermal waters offer relaxation, not laundry service. That milky runoff is silica, not a cleansing agent!",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Blue' with 'Bleach', an everyday household chemical. The image of a spa filled with bleach instead of soothing geothermal waters is viscerally hilarious and perfectly sets up a scathing 1-star review about skin irritation and toxicity.",
+    "runner_up_puns": [
+      "Blue Balloon",
+      "Blue Macaroon",
+      "Stew Lagoon"
+    ]
+  },
+  {
+    "id": "clue_pun_shilin_stone_forest_1793480280_424_1793480405_269",
+    "pun_id": "pun_shilin_stone_forest_1793480280_424",
+    "pun_name": "Chili Stone Forest",
+    "original_name": "Shilin Stone Forest",
+    "location": "Yunnan Province, China",
+    "reviewer_name": "HeatHunter",
+    "review_title": "Where's the heat?!",
+    "clue1": "Journeyed to Asian mountains, expecting a forest of edible, spicy rocks!",
+    "clue2": "Tried licking the pointy grey columns... zero burn, just gritty dust!",
+    "clue3": "A 'stone forest' indeed, but where are the spicy, volcanic ingredients?!",
+    "owner_response": "Dear @HeatHunter, these aren't edible. Our millennia-old karst pinnacles are a geological wonder, not a hot sauce ingredient.",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Chili Stone Forest\" phonetically substitutes \"Shilin\" with \"Chili,\" a concrete food item. This creates a hilariously absurd image of a spicy, burning stone forest, perfect for a confused tourist's 1-star review about unexpected heat or flavor.",
+    "runner_up_puns": [
+      "Jelly Stone Forest",
+      "Shilin Cone Forest",
+      "Shilin Spoon Forest"
+    ]
+  },
+  {
+    "id": "clue_prague_casserole_1793480837_935",
+    "pun_id": "pun_prague_castle_1793480832_444",
+    "original_name": "Prague Castle",
+    "location": "Prague, Czech Republic",
+    "pun_name": "Prague Casserole",
+    "reviewer_name": "BakeBaffled",
+    "review_title": "Where's the Spoon?!",
+    "clue1": "Flew to Czechia for this! Expected a warm, cheesy dish, not cold stone.",
+    "clue2": "Walls too hard, turrets not edible. No cheesy layers, not even a crumb!",
+    "clue3": "This grand royal residence offers history, not hearty, baked comfort food!",
+    "owner_response": "Dear @BakeBaffled, we regret your culinary disappointment. Our magnificent 9th-century royal complex is more about history than hearty meals.",
+    "page_theme": "castles_cathedrals",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun 'Prague Casserole' perfectly substitutes 'Castle' with the concrete food item 'Casserole', offering an excellent phonetic match as explicitly shown in the prompt's examples (e.g., 'Blarney Casserole'). The image of a historic landmark replaced by a giant, possibly cold, baked dish is hilariously absurd for a confused tourist's 1-star review.",
+    "runner_up_puns": [
+      "Frog Castle",
+      "Prague Kettle",
+      "Rag Castle"
+    ]
+  },
+  {
+    "id": "clue_meiji_jenga_shrine_1793480915_980",
+    "pun_id": "pun_meiji_jingu_shrine_1793480905_156",
+    "original_name": "Meiji Jingu Shrine",
+    "location": "Tokyo, Japan",
+    "pun_name": "Meiji Jenga Shrine",
+    "reviewer_name": "BlockBuster",
+    "review_title": "Totally Misleading! No Fun Game Here!",
+    "clue1": "Arrived in Tokyo expecting towering wooden blocks... only trees and gravel!",
+    "clue2": "These massive wooden arches are too sturdy! Couldn't pull a single piece.",
+    "clue3": "Turns out 'Jingu' isn't pronounced 'Jenga'! No blocks to pull here.",
+    "owner_response": "Listen, @BlockBuster, our historic cedar torii gates are for solemn entry, not for dismantling. We're a shrine!",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly substitutes 'Jingu' with 'Jenga', a concrete, everyday game made of physical blocks. The image of a sacred shrine constructed from precarious Jenga towers is absurdly hilarious for a postcard and perfectly sets up a 1-star review complaining about instability or unexpected game-playing.",
+    "runner_up_puns": [
+      "Meiji Ginger Shrine",
+      "Maize Jingu Shrine",
+      "Meiji Jingle Shrine"
+    ]
+  },
+  {
+    "id": "clue_tuna_ruins_1793481055_874",
+    "pun_id": "pun_tulum_ruins_1793481047_752",
+    "original_name": "Tulum Ruins",
+    "location": "Tulum, Mexico",
+    "pun_name": "Tuna Ruins",
+    "reviewer_name": "FinFiasco",
+    "review_title": "Seriously, no fish!",
+    "clue1": "Expected fresh catch by the Mayan Riviera... only crumbling stones!",
+    "clue2": "Tried to flake off a piece of wall... tasted like old limestone, not fish!",
+    "clue3": "Paid for 'fishy remains'! Got these crumbling Mesoamerican rocks instead, inedible!",
+    "owner_response": "Dear @FinFiasco, our 13th-century limestone structures are historically significant, not edible. Perhaps re-check your booking?",
+    "page_theme": "ancient_ruins",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The substitution of 'Tulum' with 'Tuna' offers an excellent phonetic match and introduces a common, tangible food item. Visualizing ancient ruins either built from or smelling distinctly of canned fish is hilariously absurd, providing rich material for a bewildered tourist's 1-star review.",
+    "runner_up_puns": [
+      "Tuba Ruins",
+      "Tupperware Ruins",
+      "Tulum Raisins"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481455,
+        "old_style": "pop-art",
+        "requested_style": "pop-art",
+        "human_feedback": "The iconic Tulum Ruins majestically stand on a cliff overlooking a vibrant turquoise Caribbean Sea, but their ancient stone structures are entirely constructed from colossal, crumbling, sun-baked tuna, with flaky segments and faint fish bone patterns visibly integrated into the architecture, all rendered in a vibrant Pop Art style with bold outlines, screen print dot texture, high contrast colors, and a retro comic book feel, with no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "clue_casa_soda_1793481090_151",
+    "pun_id": "pun_casa_rosada_1793481083_641",
+    "original_name": "Casa Rosada",
+    "location": "Buenos Aires, Argentina",
+    "pun_name": "Casa Soda",
+    "reviewer_name": "FizzlessFrank",
+    "review_title": "False Advertising for Fizz!",
+    "clue1": "Traveled to Argentina for bubbly refreshment, found a pink palace!",
+    "clue2": "The famous pink facade offered zero fizz, just old stone!",
+    "clue3": "Turns out 'Casa' means house, not 'carbonated beverage dispenser'!",
+    "owner_response": "Dear @FizzlessFrank, our iconic 19th-century executive mansion is certainly a national landmark, not a source of carbonated beverages. Please adjust your expectations accordingly.",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Casa Soda\" brilliantly replaces \"Rosada\" with \"Soda,\" a common carbonated drink. This creates a hilariously absurd image of a sticky, fizzy pink government building, perfectly setting up a 1-star review complaining about the inconvenient carbonation, sugary residue, or constant need for a clean-up crew.",
+    "runner_up_puns": [
+      "Casa Salad",
+      "Casa Sofa",
+      "Cash Rosada"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481441,
+        "old_style": "watercolor",
+        "requested_style": "watercolor",
+        "human_feedback": "A whimsical watercolor and ink sketch depicts the iconic pink Casa Rosada in Buenos Aires, its entire architectural form transformed into a colossal, fizzing bottle of vibrant pink soda, complete with a frothy head where the roof should be and tiny effervescent bubbles visibly rising through its transparent, glass-like walls, set against a soft pastel sky in a detailed storybook style with soft textures and no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "clue_blyde_river_onion_1793481129_283",
+    "pun_id": "pun_blyde_river_canyon_1793481119_563",
+    "original_name": "Blyde River Canyon",
+    "location": "Mpumalanga, South Africa",
+    "pun_name": "Blyde River Onion",
+    "reviewer_name": "ChoppyChopper",
+    "review_title": "Not a single edible layer!",
+    "clue1": "This Mpumalanga 'vegetable' offers zero flavor profile... disappointing!",
+    "clue2": "Tried peeling the 'layers' off the rock formations... chipped my tooth!",
+    "clue3": "The 'Blyde River' part is accurate, but where's the actual... bulb?",
+    "owner_response": "Listen, @ChoppyChopper, our vast, ancient geological chasm was carved by a river over millennia, not harvested for salads.",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun cleverly substitutes 'Canyon' with the concrete food noun 'Onion', creating a highly absurd and hilarious image of a canyon made of or filled with giant onions. The phonetic match is strong, and a tourist complaining about the overwhelming smell or the difficulty of peeling a canyon makes for a perfect 1-star review.",
+    "runner_up_puns": [
+      "Plaid River Canyon",
+      "Blyde Liver Canyon",
+      "Blyde River Crayon"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481429,
+        "old_style": "pop-art",
+        "requested_style": "pop-art",
+        "human_feedback": "A vibrant Pop Art postcard in retro comic book style depicts the majestic Blyde River Canyon, where the towering Three Rondavels are dramatically transformed into colossal, perfectly layered white and purple onions, their 'peelable' segments forming the geological strata, with a bright turquoise river winding through lush green valleys, all rendered with bold outlines, high contrast colors, and a screen print dot texture, no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "clue_cheese_bridge_1793481814_151",
+    "pun_id": "pun_charles_bridge_1793481805_583",
+    "original_name": "Charles Bridge",
+    "location": "Prague, Czech Republic",
+    "pun_name": "Cheese Bridge",
+    "reviewer_name": "CheesyCharley",
+    "review_title": "My Gouda-naught Travel Nightmare!",
+    "clue1": "Flew to Prague for a cheesy snack... found only cold, hard stone!",
+    "clue2": "These statues aren't made of cheddar! My cracker broke.",
+    "clue3": "Expected a gourmet dairy marvel, got a historical stone crossing named after someone!",
+    "owner_response": "Dear @CheesyCharley, you are indeed standing on a magnificent 14th-century stone structure, not a dairy product.",
+    "page_theme": "bridges_canals",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The phonetic match between 'Charles' and 'Cheese' is incredibly clean and satisfying. 'Cheese' is a universally recognized concrete food item that evokes a hilarious and absurd visual of a bridge made of dairy, perfect for a 1-star review complaining about the smell, stickiness, or rodent population.",
+    "runner_up_puns": [
+      "Chorizo Bridge",
+      "Churro Bridge",
+      "Chaps Bridge"
+    ]
+  },
+  {
+    "id": "clue_djemaa_elfan_1793481857_296",
+    "pun_id": "pun_djemaa_elfna_1793481845_478",
+    "original_name": "Djemaa el-Fna",
+    "location": "Marrakesh, Morocco",
+    "pun_name": "Djemaa el-Fan",
+    "reviewer_name": "WindlessWanda",
+    "review_title": "Where's the breeze?!",
+    "clue1": "Came to Marrakesh seeking a cool breeze... found only heat and crowds!",
+    "clue2": "Searched among the snake charmers for the central cooling mechanism!",
+    "clue3": "Everyone was gathering in the heat... still no giant rotating propeller!",
+    "owner_response": "Dear @WindlessWanda, our historic public square is a vibrant gathering place. We provide culture, not climate control!",
+    "page_theme": "streets_squares",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Fna' with 'Fan', a common household object. The phonetic match is excellent, and it creates a hilarious image of a bustling Moroccan market replaced by, or solely featuring, a giant fan, leading to an absurd 1-star review.",
+    "runner_up_puns": [
+      "Jam el-Fna",
+      "Djemaa Eel-Fna",
+      "Djemaa el-Fries"
+    ]
+  },
+  {
+    "id": "clue_lord_howe_island_soup_1793481895_845",
+    "pun_id": "pun_lord_howe_island_group_1793481884_787",
+    "original_name": "Lord Howe Island Group",
+    "location": "New South Wales, Australia",
+    "pun_name": "Lord Howe Island Soup",
+    "reviewer_name": "SoupyStewie",
+    "review_title": "Worst 'soup' experience ever!",
+    "clue1": "Traveled to Australian waters, hoping for a hearty island soup, nope!",
+    "clue2": "Tried to ladle some up... just saltwater and rough volcanic rock!",
+    "clue3": "It's a collection of islands, not a culinary delight in a giant tureen!",
+    "owner_response": "Dear @SoupyStewie, our pristine collection of volcanic islands is a natural wonder, not a hot meal. We're proud of our reefs, not recipes.",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.3,
+    "agent_rationale": "This pun makes a brilliant phonetic match for 'Group' to 'Soup', replacing it with a concrete food item. The visual of an entire island group consisting of soup is wonderfully absurd and perfect for a bewildered 1-star travel review.",
+    "runner_up_puns": [
+      "Lord Cow Island Group",
+      "Lord Dough Island Group",
+      "Lard Howe Island Group"
+    ]
   }
 ]

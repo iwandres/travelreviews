@@ -1474,5 +1474,293 @@
     "owner_response": "Dear @LordLeg-of-Lamb, while our historic residence stands proudly in London, we are a working palace for the British Monarchy, not a barnyard or a butcher shop. Our King's Guards are highly trained individuals, not 'feathered guards' overseeing 'bacon-strip wallpaper'.",
     "page_theme": "historic_monuments",
     "status": "approved"
+  },
+  {
+    "id": "postcard_clue_pun_shilin_stone_forest_1793480280_424_1793480405_269_1793480490",
+    "clue_id": "clue_pun_shilin_stone_forest_1793480280_424_1793480405_269",
+    "pun_id": "pun_shilin_stone_forest_1793480280_424",
+    "pun_name": "Chili Stone Forest",
+    "original_name": "Shilin Stone Forest",
+    "location": "Yunnan Province, China",
+    "image_prompt": "A comical travel postcard features the 'Chili Stone Forest,' a surreal landscape where the iconic towering limestone pillars are comically transformed into colossal, vibrant red and green chili peppers, some emitting cartoon puffs of steam, with a tiny, visibly sweating tourist caricature wiping their brow in the foreground, with classic vintage travel postcard typography displaying 'Chili Stone Forest', rendered in Comical cartoon illustration, bold lines, bright vibrant colors, humorous caricature, white postcard border.",
+    "image_path": "/assets/cartoons/chili_stone_forest_1793481648_64.webp",
+    "art_style": "cartoon",
+    "owner_response": "Dear @HeatHunter, these aren't edible. Our millennia-old karst pinnacles are a geological wonder, not a hot sauce ingredient.",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Chili Stone Forest\" phonetically substitutes \"Shilin\" with \"Chili,\" a concrete food item. This creates a hilariously absurd image of a spicy, burning stone forest, perfect for a confused tourist's 1-star review about unexpected heat or flavor.",
+    "runner_up_puns": [
+      "Jelly Stone Forest",
+      "Shilin Cone Forest",
+      "Shilin Spoon Forest"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_pun_blue_lagoon_1793480264_444_1793480396_970_1793480505",
+    "clue_id": "clue_pun_blue_lagoon_1793480264_444_1793480396_970",
+    "pun_id": "pun_blue_lagoon_1793480264_444",
+    "pun_name": "Bleach Lagoon",
+    "original_name": "Blue Lagoon",
+    "location": "Reykjanes Peninsula, Iceland",
+    "image_prompt": "A comical travel postcard featuring the iconic Blue Lagoon re-imagined as a colossal, sparkling white bleach lagoon, where bathers comically float amidst swirling white suds and apply pristine white 'silica' paste that resembles laundry detergent, all rendered in a whimsical watercolor and ink sketch, detailed storybook style, soft textures, pastel colors, artistically detailed, with vintage travel poster typography boldly displaying 'Bleach Lagoon'.",
+    "image_path": "/assets/cartoons/bleach_lagoon_1793481667_64.webp",
+    "art_style": "watercolor",
+    "owner_response": "Listen, @SudsySally, our geothermal waters offer relaxation, not laundry service. That milky runoff is silica, not a cleansing agent!",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Blue' with 'Bleach', an everyday household chemical. The image of a spa filled with bleach instead of soothing geothermal waters is viscerally hilarious and perfectly sets up a scathing 1-star review about skin irritation and toxicity.",
+    "runner_up_puns": [
+      "Blue Balloon",
+      "Blue Macaroon",
+      "Stew Lagoon"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_pun_dubrovnik_old_town_1793480248_250_1793480388_120_1793480518",
+    "clue_id": "clue_pun_dubrovnik_old_town_1793480248_250_1793480388_120",
+    "pun_id": "pun_dubrovnik_old_town_1793480248_250",
+    "pun_name": "Dubrovnik Mold Town",
+    "original_name": "Dubrovnik Old Town",
+    "location": "Dubrovnik, Croatia",
+    "image_prompt": "A comical vintage travel postcard depicts the historic walled city of Dubrovnik, its ancient stone walls and terracotta roofs comically transformed into a colossal, sprawling colony of vibrant, fuzzy green and black molds, with wisps of spores drifting through the air and tiny, oblivious tourists navigating the slimy streets, all rendered in an Old school vintage travel illustration style, rooted in 1930s WPA-era silk-screened travel posters and 1960s lithographs, featuring bold shapes, muted earthy color palettes, and hand-drawn typography, with classic travel poster typography proudly displaying \"Dubrovnik Mold Town\".",
+    "image_path": "/assets/cartoons/dubrovnik_mold_town_1793481685_52.webp",
+    "art_style": "wpa",
+    "owner_response": "Dear @MildewMelanie, our centuries-old limestone fortifications are indeed ancient. However, we do pride ourselves on being entirely fungus-free.",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.7,
+    "agent_rationale": "The substitution of 'Old' with the concrete, tangible noun 'Mold' is phonetically perfect and immediately conjures a hilariously disgusting image for a famous landmark, making it ideal for a 1-star review about an unexpected and revolting experience.",
+    "runner_up_puns": [
+      "Dubrovnik Clown Town",
+      "Dubrovnik Gold Town",
+      "Dubrovnik Broom Town"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_prague_casserole_1793480837_935_1793480852",
+    "clue_id": "clue_prague_casserole_1793480837_935",
+    "pun_id": "pun_prague_castle_1793480832_444",
+    "pun_name": "Prague Casserole",
+    "original_name": "Prague Castle",
+    "location": "Prague, Czech Republic",
+    "image_prompt": "A comical travel postcard depicts the majestic Prague Castle entirely transformed into a colossal, bubbling golden-brown casserole dish, its iconic spires reimagined as perfectly cooked broccoli florets and roasted potatoes, with molten cheese oozing down its 'walls' against a stylized Czech sky, featuring classic travel poster typography proudly displaying 'Prague Casserole', all rendered in a Vintage 1950s travel poster style, retro flat vector design, bold colors, and a screen-printed poster aesthetic.",
+    "image_path": "/assets/cartoons/prague_casserole_1793481696_99.webp",
+    "art_style": "retro",
+    "owner_response": "Dear @BakeBaffled, we regret your culinary disappointment. Our magnificent 9th-century royal complex is more about history than hearty meals.",
+    "page_theme": "castles_cathedrals",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun 'Prague Casserole' perfectly substitutes 'Castle' with the concrete food item 'Casserole', offering an excellent phonetic match as explicitly shown in the prompt's examples (e.g., 'Blarney Casserole'). The image of a historic landmark replaced by a giant, possibly cold, baked dish is hilariously absurd for a confused tourist's 1-star review.",
+    "runner_up_puns": [
+      "Frog Castle",
+      "Prague Kettle",
+      "Rag Castle"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_meiji_jenga_shrine_1793480915_980_1793480930",
+    "clue_id": "clue_meiji_jenga_shrine_1793480915_980",
+    "pun_id": "pun_meiji_jingu_shrine_1793480905_156",
+    "pun_name": "Meiji Jenga Shrine",
+    "original_name": "Meiji Jingu Shrine",
+    "location": "Tokyo, Japan",
+    "image_prompt": "A whimsical watercolor and ink sketch, detailed storybook style, soft textures, pastel colors, artistically detailed, depicts a comical travel postcard scene where the majestic wooden torii gate and serene shrine buildings of Tokyo's Meiji Jingu Shrine are entirely reconstructed as a towering, precarious stack of wooden Jenga blocks, with tiny, comically stressed-out tourists cautiously trying to remove blocks from its base, all set within a stylized, tranquil forest, featuring classic vintage travel poster typography proudly displaying 'Meiji Jenga Shrine'.",
+    "image_path": "/assets/cartoons/meiji_jenga_shrine_1793481712_34.webp",
+    "art_style": "watercolor",
+    "owner_response": "Listen, @BlockBuster, our historic cedar torii gates are for solemn entry, not for dismantling. We're a shrine!",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly substitutes 'Jingu' with 'Jenga', a concrete, everyday game made of physical blocks. The image of a sacred shrine constructed from precarious Jenga towers is absurdly hilarious for a postcard and perfectly sets up a 1-star review complaining about instability or unexpected game-playing.",
+    "runner_up_puns": [
+      "Meiji Ginger Shrine",
+      "Maize Jingu Shrine",
+      "Meiji Jingle Shrine"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_tuna_ruins_1793481055_874_1793481070",
+    "clue_id": "clue_tuna_ruins_1793481055_874",
+    "pun_id": "pun_tulum_ruins_1793481047_752",
+    "pun_name": "Tuna Ruins",
+    "original_name": "Tulum Ruins",
+    "location": "Tulum, Mexico",
+    "image_prompt": "A comical travel postcard depicts the iconic cliffside ruins of Tulum, now entirely constructed from colossal, crumbling, sun-baked tuna with flaky segments and faint fish bone patterns visibly integrated into the architecture, majestically overlooking a vibrant turquoise Caribbean Sea, all rendered in a Vibrant Pop Art style with bold outlines, screen print dot texture, high contrast colors, and a retro comic book feel, featuring classic travel postcard title typography that reads 'Greetings from Tuna Ruins'.",
+    "image_path": "/assets/cartoons/tuna_ruins_1793481727_52.webp",
+    "art_style": "pop-art",
+    "owner_response": "Dear @FinFiasco, our 13th-century limestone structures are historically significant, not edible. Perhaps re-check your booking?",
+    "page_theme": "ancient_ruins",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The substitution of 'Tulum' with 'Tuna' offers an excellent phonetic match and introduces a common, tangible food item. Visualizing ancient ruins either built from or smelling distinctly of canned fish is hilariously absurd, providing rich material for a bewildered tourist's 1-star review.",
+    "runner_up_puns": [
+      "Tuba Ruins",
+      "Tupperware Ruins",
+      "Tulum Raisins"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481455,
+        "old_style": "pop-art",
+        "requested_style": "pop-art",
+        "human_feedback": "The iconic Tulum Ruins majestically stand on a cliff overlooking a vibrant turquoise Caribbean Sea, but their ancient stone structures are entirely constructed from colossal, crumbling, sun-baked tuna, with flaky segments and faint fish bone patterns visibly integrated into the architecture, all rendered in a vibrant Pop Art style with bold outlines, screen print dot texture, high contrast colors, and a retro comic book feel, with no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "postcard_clue_casa_soda_1793481090_151_1793481106",
+    "clue_id": "clue_casa_soda_1793481090_151",
+    "pun_id": "pun_casa_rosada_1793481083_641",
+    "pun_name": "Casa Soda",
+    "original_name": "Casa Rosada",
+    "location": "Buenos Aires, Argentina",
+    "image_prompt": "A comical travel postcard depicting the iconic pink Casa Rosada in Buenos Aires hilariously transformed into a colossal, fizzing bottle of vibrant pink soda, complete with a frothy head where the roof should be and tiny effervescent bubbles visibly rising through its transparent, glass-like walls, with classic travel postcard typography boldly displaying 'Greetings from Casa Soda', rendered in Whimsical watercolor and ink sketch, detailed storybook style, soft textures, pastel colors, artistically detailed.",
+    "image_path": "/assets/cartoons/casa_soda_1793481743_48.webp",
+    "art_style": "watercolor",
+    "owner_response": "Dear @FizzlessFrank, our iconic 19th-century executive mansion is certainly a national landmark, not a source of carbonated beverages. Please adjust your expectations accordingly.",
+    "page_theme": "historic_monuments",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Casa Soda\" brilliantly replaces \"Rosada\" with \"Soda,\" a common carbonated drink. This creates a hilariously absurd image of a sticky, fizzy pink government building, perfectly setting up a 1-star review complaining about the inconvenient carbonation, sugary residue, or constant need for a clean-up crew.",
+    "runner_up_puns": [
+      "Casa Salad",
+      "Casa Sofa",
+      "Cash Rosada"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481441,
+        "old_style": "watercolor",
+        "requested_style": "watercolor",
+        "human_feedback": "A whimsical watercolor and ink sketch depicts the iconic pink Casa Rosada in Buenos Aires, its entire architectural form transformed into a colossal, fizzing bottle of vibrant pink soda, complete with a frothy head where the roof should be and tiny effervescent bubbles visibly rising through its transparent, glass-like walls, set against a soft pastel sky in a detailed storybook style with soft textures and no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "postcard_clue_blyde_river_onion_1793481129_283_1793481143",
+    "clue_id": "clue_blyde_river_onion_1793481129_283",
+    "pun_id": "pun_blyde_river_canyon_1793481119_563",
+    "pun_name": "Blyde River Onion",
+    "original_name": "Blyde River Canyon",
+    "location": "Mpumalanga, South Africa",
+    "image_prompt": "A comical travel postcard features the majestic Blyde River Canyon where the towering Three Rondavels are dramatically transformed into colossal, perfectly layered white and purple onions, their 'peelable' segments forming the geological strata, with a bright turquoise river winding through lush green valleys, and classic travel postcard title typography displaying 'Blyde River Onion', all rendered in a Vibrant Pop Art style, bold outlines, screen print dot texture, retro comic book feel, high contrast colors.",
+    "image_path": "/assets/cartoons/blyde_river_onion_1793481758_43.webp",
+    "art_style": "pop-art",
+    "owner_response": "Listen, @ChoppyChopper, our vast, ancient geological chasm was carved by a river over millennia, not harvested for salads.",
+    "page_theme": "natural_wonders",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun cleverly substitutes 'Canyon' with the concrete food noun 'Onion', creating a highly absurd and hilarious image of a canyon made of or filled with giant onions. The phonetic match is strong, and a tourist complaining about the overwhelming smell or the difficulty of peeling a canyon makes for a perfect 1-star review.",
+    "runner_up_puns": [
+      "Plaid River Canyon",
+      "Blyde Liver Canyon",
+      "Blyde River Crayon"
+    ],
+    "redo_count": 1,
+    "redo_history": [
+      {
+        "redo_type": "postcard",
+        "timestamp": 1793481429,
+        "old_style": "pop-art",
+        "requested_style": "pop-art",
+        "human_feedback": "A vibrant Pop Art postcard in retro comic book style depicts the majestic Blyde River Canyon, where the towering Three Rondavels are dramatically transformed into colossal, perfectly layered white and purple onions, their 'peelable' segments forming the geological strata, with a bright turquoise river winding through lush green valleys, all rendered with bold outlines, high contrast colors, and a screen print dot texture, no text or lettering."
+      }
+    ]
+  },
+  {
+    "id": "postcard_clue_cheese_bridge_1793481814_151_1793481830",
+    "clue_id": "clue_cheese_bridge_1793481814_151",
+    "pun_id": "pun_charles_bridge_1793481805_583",
+    "pun_name": "Cheese Bridge",
+    "original_name": "Charles Bridge",
+    "location": "Prague, Czech Republic",
+    "image_prompt": "A comical travel postcard features the famous Charles Bridge re-imagined as a colossal 'Cheese Bridge,' its majestic arches and ancient towers constructed from various delicious cheeses like Swiss with holes, creamy brie, and crumbly cheddar, while whimsical statues of mice and cheese wheels line its length, all majestically spanning a river of golden, bubbling fondue, with vintage travel poster typography boldly displaying 'Greetings from Cheese Bridge,' rendered in Vibrant Pop Art style, bold outlines, screen print dot texture, retro comic book feel, high contrast colors.",
+    "image_path": "/assets/cartoons/cheese_bridge_1793481821_85.webp",
+    "art_style": "pop-art",
+    "owner_response": "Dear @CheesyCharley, you are indeed standing on a magnificent 14th-century stone structure, not a dairy product.",
+    "page_theme": "bridges_canals",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The phonetic match between 'Charles' and 'Cheese' is incredibly clean and satisfying. 'Cheese' is a universally recognized concrete food item that evokes a hilarious and absurd visual of a bridge made of dairy, perfect for a 1-star review complaining about the smell, stickiness, or rodent population.",
+    "runner_up_puns": [
+      "Chorizo Bridge",
+      "Churro Bridge",
+      "Chaps Bridge"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_djemaa_elfan_1793481857_296_1793481871",
+    "clue_id": "clue_djemaa_elfan_1793481857_296",
+    "pun_id": "pun_djemaa_elfna_1793481845_478",
+    "pun_name": "Djemaa el-Fan",
+    "original_name": "Djemaa el-Fna",
+    "location": "Marrakesh, Morocco",
+    "image_prompt": "A comical cartoon illustration depicts a bustling Moroccan square, reimagined as 'Djemaa el-Fan,' where giant, comically oversized oscillating fans replace market stalls, snake charmers hypnotize whirring table fans, and storytellers loudly address a crowd of smaller, personified hand fans, all rendered with bold lines, bright vibrant colors, humorous caricature, and a white postcard border, featuring classic travel postcard title typography that reads 'Greetings from Djemaa el-Fan'.",
+    "image_path": "/assets/cartoons/djemaa_el_fan_1793481862_13.webp",
+    "art_style": "cartoon",
+    "owner_response": "Dear @WindlessWanda, our historic public square is a vibrant gathering place. We provide culture, not climate control!",
+    "page_theme": "streets_squares",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Fna' with 'Fan', a common household object. The phonetic match is excellent, and it creates a hilarious image of a bustling Moroccan market replaced by, or solely featuring, a giant fan, leading to an absurd 1-star review.",
+    "runner_up_puns": [
+      "Jam el-Fna",
+      "Djemaa Eel-Fna",
+      "Djemaa el-Fries"
+    ],
+    "redo_count": 0,
+    "redo_history": []
+  },
+  {
+    "id": "postcard_clue_lord_howe_island_soup_1793481895_845_1793481916",
+    "clue_id": "clue_lord_howe_island_soup_1793481895_845",
+    "pun_id": "pun_lord_howe_island_group_1793481884_787",
+    "pun_name": "Lord Howe Island Soup",
+    "original_name": "Lord Howe Island Group",
+    "location": "New South Wales, Australia",
+    "image_prompt": "A comical travel postcard features the iconic Lord Howe Island Group reimagined as a giant, simmering bowl of 'Lord Howe Island Soup,' where the main island's towering peaks are majestic, herb-dusted vegetable dumplings and the surrounding smaller islets are chunky, floating vegetables, with miniature 'cruise ship' croutons navigating the clear, azure broth, prominently displaying classic vintage travel poster typography reading 'Lord Howe Island Soup', all rendered in Classic distressed linen texture vintage postcard style, hand-colored photo print aesthetic, 1930s travel style.",
+    "image_path": "/assets/cartoons/lord_howe_island_soup_1793481901_13.webp",
+    "art_style": "vintage",
+    "owner_response": "Dear @SoupyStewie, our pristine collection of volcanic islands is a natural wonder, not a hot meal. We're proud of our reefs, not recipes.",
+    "page_theme": "natural_wonders",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.3,
+    "agent_rationale": "This pun makes a brilliant phonetic match for 'Group' to 'Soup', replacing it with a concrete food item. The visual of an entire island group consisting of soup is wonderfully absurd and perfect for a bewildered 1-star travel review.",
+    "runner_up_puns": [
+      "Lord Cow Island Group",
+      "Lord Dough Island Group",
+      "Lard Howe Island Group"
+    ],
+    "redo_count": 0,
+    "redo_history": []
   }
 ]

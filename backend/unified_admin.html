@@ -1326,12 +1326,96 @@
                         </div>
                     </div>
                     <div style="display: flex; gap: 10px; align-items: center;">
+                        <button class="btn btn-secondary" style="font-size: 12px; padding: 8px 14px; border-color: rgba(46, 196, 182, 0.4); color: #2ec4b6;" onclick="tt_toggleAnalyticsPanel()">
+                            📊 Quality Analytics & Signals
+                        </button>
                         <button class="btn btn-secondary" style="font-size: 12px; padding: 8px 14px;" onclick="tt_toggleGuardrailsPanel()">
                             🛡️ Puzzle Quality Guardrails
                         </button>
                         <button class="btn btn-secondary" id="btn-tt-discover-landmarks" style="font-size: 12px; padding: 8px 14px;" onclick="tt_discoverGlobalLandmarks(8)">
                             🌍 Seed +8 Global Landmarks
                         </button>
+                    </div>
+                </div>
+
+                <!-- Live Quality Signal KPI Strip (Always Visible) -->
+                <div id="tt-analytics-kpi-strip" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; background: rgba(8, 12, 20, 0.55); border: 1px solid rgba(46, 196, 182, 0.22); border-radius: 10px; padding: 12px 16px;">
+                    <div style="display: flex; flex-direction: column; gap: 2px; border-right: 1px solid var(--border-base); padding-right: 10px;">
+                        <span style="font-size: 10px; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px;">Pipeline Quality Health</span>
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="tt-kpi-health-score" style="font-size: 20px; font-weight: 900; color: var(--cyan);">--</span>
+                            <span id="tt-kpi-health-badge" class="status-badge status-approved" style="font-size: 10px; padding: 2px 6px;">LOADING</span>
+                        </div>
+                        <span id="tt-kpi-first-pass" style="font-size: 11px; color: var(--text-secondary);">First-Pass Clean Rate: --%</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px; border-right: 1px solid var(--border-base); padding-right: 10px;">
+                        <span style="font-size: 10px; font-weight: 800; color: #2ec4b6; text-transform: uppercase; letter-spacing: 0.5px;">✅ Positive Signal (Approved)</span>
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="tt-kpi-approvals" style="font-size: 20px; font-weight: 900; color: #2ec4b6;">--</span>
+                            <span id="tt-kpi-approval-rate" style="font-size: 12px; font-weight: 700; color: var(--text-secondary);">(--% Win Rate)</span>
+                        </div>
+                        <span id="tt-kpi-approval-sub" style="font-size: 11px; color: var(--text-muted);">0 First-Pass · 0 Post-Redo</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px; border-right: 1px solid var(--border-base); padding-right: 10px;">
+                        <span style="font-size: 10px; font-weight: 800; color: #ffc107; text-transform: uppercase; letter-spacing: 0.5px;">🔄 Correction Signal (Redos)</span>
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="tt-kpi-redos-total" style="font-size: 20px; font-weight: 900; color: #ffc107;">0</span>
+                            <span id="tt-kpi-redos-avg" style="font-size: 11px; color: var(--text-secondary);">(0.00 / puzzle)</span>
+                        </div>
+                        <span id="tt-kpi-redos-breakdown" style="font-size: 11px; color: var(--text-muted);">Pun: 0 · Clues: 0 · Art: 0</span>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 2px;">
+                        <span style="font-size: 10px; font-weight: 800; color: #ff7684; text-transform: uppercase; letter-spacing: 0.5px;">❌ Negative Signal (Declined)</span>
+                        <div style="display: flex; align-items: baseline; gap: 8px;">
+                            <span id="tt-kpi-declines" style="font-size: 20px; font-weight: 900; color: #ff7684;">0</span>
+                            <span style="font-size: 11px; color: var(--text-secondary); cursor: pointer; text-decoration: underline;" onclick="tt_toggleAnalyticsPanel()">Inspect Feed →</span>
+                        </div>
+                        <span id="tt-kpi-declines-sub" style="font-size: 11px; color: var(--text-muted);">Adaptive Guardrail Loop Active</span>
+                    </div>
+                </div>
+
+                <!-- Collapsible Deep Quality Analytics & Adaptive Feedback Drawer -->
+                <div id="tt-analytics-drawer" style="display: none; background: rgba(8, 12, 20, 0.85); border: 1px solid rgba(46, 196, 182, 0.35); border-radius: 10px; padding: 18px 20px; margin-top: 4px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px dashed var(--border-base); padding-bottom: 8px;">
+                        <div>
+                            <strong style="color: #2ec4b6; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px;">
+                                📊 Internal Quality Analytics & Closed-Loop Adaptive Learning Pipeline
+                            </strong>
+                            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">
+                                Every <strong>Approve (+1.0)</strong>, <strong>Re-do (-0.5 element correction)</strong>, and <strong>Decline (-1.0)</strong> is logged and automatically fed back into the Agent's prompts and style weights.
+                            </div>
+                        </div>
+                        <span style="font-size: 11px; color: var(--text-muted); cursor: pointer;" onclick="tt_toggleAnalyticsPanel()">✕ Hide</span>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; font-size: 12px;">
+                        <!-- Col 1: Element Accuracy & Art Style Win Rates -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-base); border-radius: 8px; padding: 12px;">
+                            <div style="font-weight: 800; color: var(--cyan); margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">
+                                🎯 Step Accuracy & Art Style Win-Rates
+                            </div>
+                            <div id="tt-analytics-accuracy-bars" style="display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px;"></div>
+                            <div style="font-weight: 700; color: var(--text-secondary); font-size: 11px; margin-bottom: 6px; border-top: 1px dashed var(--border-base); padding-top: 8px;">
+                                🎨 Art Style Adaptive Leaderboard
+                            </div>
+                            <div id="tt-analytics-style-board" style="display: flex; flex-direction: column; gap: 4px; font-size: 11px;"></div>
+                        </div>
+
+                        <!-- Col 2: Active Adaptive Prompt Memory -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-base); border-radius: 8px; padding: 12px;">
+                            <div style="font-weight: 800; color: #ffc107; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">
+                                🧠 Live Lessons Injected Into Agent Prompts
+                            </div>
+                            <div id="tt-analytics-adaptive-lessons" style="display: flex; flex-direction: column; gap: 8px; max-height: 230px; overflow-y: auto; font-size: 11px; line-height: 1.45;"></div>
+                        </div>
+
+                        <!-- Col 3: Recent Curation Signal Feed -->
+                        <div style="background: rgba(255,255,255,0.02); border: 1px solid var(--border-base); border-radius: 8px; padding: 12px;">
+                            <div style="font-weight: 800; color: #2ec4b6; margin-bottom: 8px; text-transform: uppercase; font-size: 11px;">
+                                📡 Recent Curation Signal Stream
+                            </div>
+                            <div id="tt-analytics-signal-feed" style="display: flex; flex-direction: column; gap: 6px; max-height: 230px; overflow-y: auto; font-size: 11px;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -3592,6 +3676,7 @@
         let tt_clues = [];
         let tt_postcards = [];
         let tt_puzzles = [];
+        let tt_analytics = null;
 
         async function tt_init() {
             await Promise.all([
@@ -3599,9 +3684,39 @@
                 tt_loadData('tt_puns'),
                 tt_loadData('tt_clues'),
                 tt_loadData('tt_postcards'),
-                tt_loadData('tt_puzzles')
+                tt_loadData('tt_puzzles'),
+                tt_loadAnalytics()
             ]);
             tt_renderAll();
+        }
+
+        async function tt_loadAnalytics() {
+            try {
+                const res = await fetch(`/api/travelreviews/agent/analytics?t=${Date.now()}`);
+                const data = await res.json();
+                if (data && data.success) {
+                    tt_analytics = data;
+                }
+            } catch (e) {
+                console.error('Failed to load quality analytics:', e);
+            }
+        }
+
+        async function tt_recordSignal(payload) {
+            try {
+                const res = await fetch('/api/travelreviews/agent/signal', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                if (data && data.success && data.analytics) {
+                    tt_analytics = { success: true, ...data.analytics };
+                    tt_renderAnalytics();
+                }
+            } catch (e) {
+                console.error('Failed to record analytics signal:', e);
+            }
         }
 
         async function tt_loadData(type) {
@@ -3889,6 +4004,162 @@
             el.style.display = el.style.display === 'none' ? 'block' : 'none';
         }
 
+        function tt_toggleAnalyticsPanel() {
+            const el = document.getElementById('tt-analytics-drawer');
+            if (!el) return;
+            el.style.display = el.style.display === 'none' ? 'block' : 'none';
+            if (el.style.display === 'block') {
+                tt_renderAnalytics();
+            }
+        }
+
+        function tt_renderAnalytics() {
+            if (!tt_analytics) return;
+            const s = tt_analytics.signals_summary || {};
+            const r = tt_analytics.rates || {};
+            const hScore = tt_analytics.health_score ?? 94.0;
+            const hStatus = tt_analytics.health_status || 'EXCELLENT';
+
+            const scoreEl = document.getElementById('tt-kpi-health-score');
+            const badgeEl = document.getElementById('tt-kpi-health-badge');
+            const fpEl = document.getElementById('tt-kpi-first-pass');
+            if (scoreEl) scoreEl.innerText = `${hScore}/100`;
+            if (badgeEl) {
+                badgeEl.innerText = hStatus;
+                badgeEl.className = 'status-badge ' + (hScore >= 85 ? 'status-approved' : (hScore >= 70 ? 'status-pending' : 'status-rejected'));
+            }
+            if (fpEl) fpEl.innerText = `First-Pass Clean Hit: ${r.first_pass_clean_rate_pct ?? 100}%`;
+
+            const appEl = document.getElementById('tt-kpi-approvals');
+            const appRateEl = document.getElementById('tt-kpi-approval-rate');
+            const appSubEl = document.getElementById('tt-kpi-approval-sub');
+            if (appEl) appEl.innerText = `${s.positive_approvals_total ?? 0}`;
+            if (appRateEl) appRateEl.innerText = `(${r.puzzle_approval_rate_pct ?? 100}% Approval)`;
+            if (appSubEl) {
+                appSubEl.innerText = `${s.live_session_approvals ?? 0} Live (${s.first_pass_approvals ?? 0} 1st-Pass, ${s.post_redo_approvals ?? 0} Post-Redo) · ${s.historical_scheduled_puzzles ?? 0} Scheduled`;
+            }
+
+            const redoTotalEl = document.getElementById('tt-kpi-redos-total');
+            const redoAvgEl = document.getElementById('tt-kpi-redos-avg');
+            const redoBreakEl = document.getElementById('tt-kpi-redos-breakdown');
+            if (redoTotalEl) redoTotalEl.innerText = `${s.total_redos ?? 0}`;
+            if (redoAvgEl) redoAvgEl.innerText = `(${r.avg_redos_per_candidate ?? 0} avg/puzzle)`;
+            if (redoBreakEl) {
+                redoBreakEl.innerText = `Pun: ${s.pun_redos ?? 0} · Clues: ${s.clues_redos ?? 0} · Postcard: ${s.postcard_redos ?? 0}`;
+            }
+
+            const decEl = document.getElementById('tt-kpi-declines');
+            const decSubEl = document.getElementById('tt-kpi-declines-sub');
+            if (decEl) decEl.innerText = `${s.live_session_declines ?? 0}`;
+            if (decSubEl) {
+                decSubEl.innerText = `${s.historical_rejected_puns ?? 0} Rejected Puns Filtered by Guardrail`;
+            }
+
+            // Populate Detailed Drawer if present
+            const barsEl = document.getElementById('tt-analytics-accuracy-bars');
+            if (barsEl) {
+                const metrics = [
+                    { label: 'Pun Word First-Pass Accuracy', pct: r.pun_accuracy_pct ?? 100, color: 'var(--cyan)' },
+                    { label: 'Clues & Owner Reply Accuracy', pct: r.clues_accuracy_pct ?? 100, color: '#2ec4b6' },
+                    { label: 'Postcard Art First-Pass Accuracy', pct: r.postcard_accuracy_pct ?? 100, color: '#a855f7' }
+                ];
+                barsEl.innerHTML = metrics.map(m => `
+                    <div>
+                        <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px;">
+                            <span>${m.label}</span>
+                            <strong style="color: ${m.color};">${m.pct}%</strong>
+                        </div>
+                        <div style="height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden;">
+                            <div style="width: ${Math.max(4, m.pct)}%; height: 100%; background: ${m.color};"></div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            const styleBoardEl = document.getElementById('tt-analytics-style-board');
+            if (styleBoardEl) {
+                const board = tt_analytics.art_style_leaderboard || [];
+                styleBoardEl.innerHTML = board.map(st => `
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 3px 6px; background: rgba(0,0,0,0.25); border-radius: 4px;">
+                        <span><strong>${eqHtml(st.art_style)}</strong> <span style="color: var(--text-muted);">(${st.approved}✅ / ${st.redone}🔄 / ${st.declined}❌)</span></span>
+                        <span style="color: var(--cyan); font-weight: 700;">${st.win_rate_pct}% Win</span>
+                    </div>
+                `).join('');
+            }
+
+            const lessonsEl = document.getElementById('tt-analytics-adaptive-lessons');
+            if (lessonsEl) {
+                const ctx = tt_analytics.adaptive_learning_active || {};
+                const blocks = [];
+                if ((ctx.pun_corrections || []).length > 0) {
+                    blocks.push(`<div style="color: #ffc107; font-weight: 700;">🔄 Pun Redo Corrections Learned:</div>` +
+                        ctx.pun_corrections.map(c => `<div style="padding-left: 8px; border-left: 2px solid #ffc107; color: var(--text-secondary);">${eqHtml(c)}</div>`).join(''));
+                }
+                if ((ctx.clue_corrections || []).length > 0) {
+                    blocks.push(`<div style="color: var(--cyan); font-weight: 700; margin-top: 4px;">✍️ Clue Redo Adjustments Learned:</div>` +
+                        ctx.clue_corrections.map(c => `<div style="padding-left: 8px; border-left: 2px solid var(--cyan); color: var(--text-secondary);">${eqHtml(c)}</div>`).join(''));
+                }
+                if ((ctx.declined_candidates || []).length > 0) {
+                    blocks.push(`<div style="color: #ff7684; font-weight: 700; margin-top: 4px;">🚫 Declined Candidates Blocked:</div>` +
+                        ctx.declined_candidates.slice(0, 4).map(c => `<div style="padding-left: 8px; border-left: 2px solid #ff7684; color: var(--text-secondary);">${eqHtml(c)}</div>`).join(''));
+                }
+                if ((ctx.recent_positive_puns || []).length > 0) {
+                    blocks.push(`<div style="color: #2ec4b6; font-weight: 700; margin-top: 4px;">✅ Positive Gold Exemplars Active:</div>` +
+                        `<div style="padding-left: 8px; border-left: 2px solid #2ec4b6; color: var(--text-secondary);">${ctx.recent_positive_puns.slice(0, 6).map(eqHtml).join(' · ')}</div>`);
+                }
+                lessonsEl.innerHTML = blocks.join('') || '<div style="color: var(--text-muted);">No live corrections yet — baseline 122-puzzle guardrails active.</div>';
+            }
+
+            const feedEl = document.getElementById('tt-analytics-signal-feed');
+            if (feedEl) {
+                const signals = tt_analytics.recent_signals || [];
+                if (signals.length === 0) {
+                    feedEl.innerHTML = '<div style="color: var(--text-muted);">Approve, Re-do, or Decline a candidate to stream live quality signals here.</div>';
+                } else {
+                    feedEl.innerHTML = signals.map(sig => {
+                        const t = sig.signal_type;
+                        let badge = '';
+                        let desc = '';
+                        if (t === 'approve') {
+                            badge = `<span style="color: #2ec4b6; font-weight: 800;">✅ APPROVE (+${sig.signal_weight})</span>`;
+                            desc = `<strong>${eqHtml(sig.pun_name)}</strong> (${eqHtml(sig.landmark_name)}) — ${sig.first_pass_approval ? '✨ First-Pass Clean Hit!' : `Approved after ${sig.redo_count_at_event} redo(s)`}`;
+                        } else if (t === 'redo') {
+                            badge = `<span style="color: #ffc107; font-weight: 800;">🔄 REDO ${(sig.redo_type || '').toUpperCase()} (-0.5)</span>`;
+                            if (sig.redo_type === 'pun') {
+                                const oldP = (sig.old_value && sig.old_value.pun_name) || '';
+                                const newP = (sig.new_value && sig.new_value.pun_name) || sig.pun_name;
+                                desc = `<strong>${eqHtml(sig.landmark_name)}</strong>: Replaced <em>"${eqHtml(oldP)}"</em> → <strong>"${eqHtml(newP)}"</strong>`;
+                            } else {
+                                desc = `<strong>${eqHtml(sig.pun_name)}</strong> (${eqHtml(sig.landmark_name)})`;
+                            }
+                            if (sig.human_feedback) {
+                                desc += ` · Note: <em>"${eqHtml(sig.human_feedback)}"</em>`;
+                            }
+                        } else if (t === 'decline') {
+                            badge = `<span style="color: #ff7684; font-weight: 800;">❌ DECLINE (-1.0)</span>`;
+                            desc = `<strong>${eqHtml(sig.pun_name || sig.landmark_name)}</strong>`;
+                            if (sig.decline_reason) {
+                                desc += ` · Reason: <em>${eqHtml(sig.decline_reason)}</em>`;
+                            }
+                        } else {
+                            badge = `<span style="color: var(--cyan); font-weight: 800;">🤖 AGENT RUN</span>`;
+                            const cnt = (sig.new_value && sig.new_value.generated_count) || 0;
+                            desc = `Generated ${cnt} candidate puzzle(s) (Avg Score: ${sig.agent_score || '--'})`;
+                        }
+                        return `
+                            <div style="padding: 6px 8px; background: rgba(0,0,0,0.28); border-radius: 6px; border: 1px solid rgba(255,255,255,0.04);">
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 2px;">
+                                    ${badge}
+                                    <span style="color: var(--text-muted); font-size: 10px;">${eqHtml((sig.iso_time || '').replace('T', ' ').replace('Z', ''))}</span>
+                                </div>
+                                <div style="color: var(--text-secondary); line-height: 1.35;">${desc}</div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            }
+        }
+
         function tt_setAgentStatus(msg, isError = false) {
             const banner = document.getElementById('tt-agent-status-banner');
             if (!banner) return;
@@ -4015,7 +4286,11 @@
             }
 
             const artStyle = styleSelect ? styleSelect.value : 'random';
-            const customPrompt = (redoType === 'postcard' && promptTextarea) ? promptTextarea.value.trim() : '';
+            const existingPc = tt_postcards.find(p => p.clue_id === clueId);
+            const rawPromptVal = (redoType === 'postcard' && promptTextarea) ? promptTextarea.value.trim() : '';
+            const customPrompt = (rawPromptVal && existingPc && rawPromptVal !== (existingPc.image_prompt || '').trim())
+                ? rawPromptVal
+                : '';
 
             const origBtnText = btnEl ? btnEl.innerText : '';
             if (btnEl) {
@@ -4118,16 +4393,56 @@
 
         async function tt_approveAgentCandidate(postcardId, clueId) {
             await tt_saveAgentCardEdits(postcardId, clueId);
+            const pc = tt_postcards.find(x => x.id === postcardId);
+            const clue = tt_clues.find(x => x.id === clueId);
+            const redoCount = (pc && pc.redo_count) || (clue && clue.redo_count) || 0;
+
+            await tt_recordSignal({
+                signal_type: 'approve',
+                stage: 'agent_queue',
+                clue_id: clueId,
+                postcard_id: postcardId,
+                landmark_name: (pc && pc.original_name) || (clue && clue.original_name) || '',
+                location: (pc && pc.location) || (clue && clue.location) || '',
+                pun_name: (pc && pc.pun_name) || (clue && clue.pun_name) || '',
+                art_style: (pc && pc.art_style) || '',
+                page_theme: (pc && pc.page_theme) || (clue && clue.page_theme) || '',
+                agent_score: (pc && pc.agent_score) || (clue && clue.agent_score) || 9.2,
+                redo_count_at_event: redoCount
+            });
+
             await tt_setStatus('tt_postcards', postcardId, 'approved');
+            tt_setAgentStatus(
+                `✅ <strong>Positive Quality Signal Recorded (+${redoCount === 0 ? '1.0 First-Pass Clean Hit' : '0.75 Post-Redo Approval'}):</strong> Approved <strong>"${eqHtml(pc?.pun_name)}"</strong> and scheduled into Daily Challenges!`
+            );
         }
 
         async function tt_declineAgentCandidate(postcardId, clueId) {
-            if (!confirm('Decline this puzzle candidate? This will reject the pun and remove its clue and postcard.')) {
-                return;
-            }
             const pc = tt_postcards.find(x => x.id === postcardId);
             const clue = tt_clues.find(x => x.id === clueId);
             const punName = (pc && pc.pun_name) || (clue && clue.pun_name);
+            const lmName = (pc && pc.original_name) || (clue && clue.original_name) || '';
+            const reasonSelect = document.getElementById(`tt-decline-reason-${clueId}`);
+            const selectedReason = reasonSelect ? reasonSelect.value : 'Did not meet puzzle quality bar';
+
+            if (!confirm(`Decline "${punName || lmName}" (Reason: ${selectedReason})?\nThis logs a negative quality signal so the Agent learns from it, rejects the pun, and removes its clue and postcard.`)) {
+                return;
+            }
+
+            await tt_recordSignal({
+                signal_type: 'decline',
+                stage: 'agent_queue',
+                clue_id: clueId,
+                postcard_id: postcardId,
+                landmark_name: lmName,
+                location: (pc && pc.location) || (clue && clue.location) || '',
+                pun_name: punName || '',
+                art_style: (pc && pc.art_style) || '',
+                page_theme: (pc && pc.page_theme) || (clue && clue.page_theme) || '',
+                agent_score: (pc && pc.agent_score) || (clue && clue.agent_score) || null,
+                redo_count_at_event: (pc && pc.redo_count) || (clue && clue.redo_count) || 0,
+                decline_reason: selectedReason
+            });
 
             // Mark pun as 'rejected' so the Agent guardrails remember not to reuse it
             if (punName) {
@@ -4148,7 +4463,10 @@
             tt_puzzles = tt_puzzles.filter(pz => pz.puzzle_id !== clueId);
             await tt_saveData('tt_puzzles', tt_puzzles);
 
-            showToast('Candidate puzzle declined and cleaned up!');
+            tt_setAgentStatus(
+                `📡 <strong>Negative Signal Logged (-1.0):</strong> Declined <em>"${eqHtml(punName)}"</em> (${eqHtml(selectedReason)}). Adaptive Guardrails updated.`
+            );
+            showToast('Candidate declined & negative signal logged!');
             tt_renderAll();
         }
 
@@ -4185,6 +4503,7 @@
 
         // --- RENDERING ---
         function tt_renderAll() {
+            tt_renderAnalytics();
             tt_renderAgentQueue();
             tt_renderLandmarks();
             tt_renderPuns();
@@ -4265,6 +4584,7 @@
                 const w1 = tt_countWords(clue.clue1);
                 const w2 = tt_countWords(clue.clue2);
                 const w3 = tt_countWords(clue.clue3);
+                const redoCount = pc.redo_count || clue.redo_count || 0;
 
                 return `
                     <div class="puzzle-card" style="border: 1px solid rgba(0, 242, 254, 0.28); background: rgba(17, 22, 37, 0.65); padding: 22px;">
@@ -4276,6 +4596,10 @@
                                     from <strong>📍 ${eqHtml(pc.original_name)}</strong> <span style="color: var(--text-muted);">(${eqHtml(locationStr)})</span>
                                 </span>
                                 ${score ? `<span class="status-badge" style="background: rgba(0, 242, 254, 0.14); color: var(--cyan); border: 1px solid rgba(0, 242, 254, 0.3);">🛡️ Guardrail Score: ${score}/10</span>` : ''}
+                                ${redoCount === 0
+                                    ? `<span class="status-badge" style="background: rgba(46, 196, 182, 0.12); color: #2ec4b6; border: 1px solid rgba(46, 196, 182, 0.3);">✨ First-Pass Candidate (0 Redos)</span>`
+                                    : `<span class="status-badge" style="background: rgba(255, 193, 7, 0.14); color: #ffc107; border: 1px solid rgba(255, 193, 7, 0.35);">🔄 ${redoCount} Redo(s) Applied</span>`
+                                }
                             </div>
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <span class="status-badge status-${pc.status || 'pending'}">${pc.status || 'pending'}</span>
@@ -4417,10 +4741,17 @@
 
                         <!-- Card Footer: Human Curation Decision Bar -->
                         <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; border-top: 1px solid var(--border-base); padding-top: 14px; margin-top: 4px;">
-                            <div style="display: flex; gap: 8px; align-items: center;">
+                            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                                <select id="tt-decline-reason-${cid}" style="padding: 7px 10px; font-size: 11px; border-radius: 6px; border: 1px solid rgba(255, 118, 132, 0.35); background: rgba(220, 53, 69, 0.08); color: #ff7684; width: auto;">
+                                    <option value="Weak or forced pun word">Reason: Weak / Forced Pun</option>
+                                    <option value="Abstract or unfunny substitution">Reason: Abstract / Unfunny Noun</option>
+                                    <option value="Landmark not recognizable enough">Reason: Obscure Landmark</option>
+                                    <option value="Clues not funny or too obvious">Reason: Clues Weak / Spoiler</option>
+                                    <option value="Postcard visual missed the joke">Reason: Postcard Missed Visual</option>
+                                </select>
                                 <button class="btn btn-danger" style="padding: 8px 16px; font-weight: 700;"
                                         onclick="tt_declineAgentCandidate('${eq(pc.id)}', '${eq(cid)}')">
-                                    ❌ Decline Puzzle
+                                    ❌ Decline Puzzle (-1.0 Signal)
                                 </button>
                                 <button class="btn btn-secondary" style="padding: 8px 14px;"
                                         onclick="tt_saveAgentCardEdits('${eq(pc.id)}', '${eq(cid)}')">
@@ -4430,7 +4761,7 @@
                             <div style="display: flex; gap: 10px; align-items: center;">
                                 <button class="btn btn-emerald" style="padding: 10px 22px; font-size: 14px; font-weight: 800; box-shadow: 0 4px 14px rgba(0, 245, 212, 0.25);"
                                         onclick="tt_approveAgentCandidate('${eq(pc.id)}', '${eq(cid)}')">
-                                    ✅ Approve & Schedule Puzzle
+                                    ✅ Approve & Schedule (+1.0 Signal)
                                 </button>
                             </div>
                         </div>

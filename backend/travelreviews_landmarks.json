@@ -2511,7 +2511,7 @@
     "id": "landmark_447_1783199162",
     "name": "Lord Howe Island Group",
     "location": "New South Wales, Australia",
-    "status": "pending"
+    "status": "approved"
   },
   {
     "id": "landmark_448_1783199162",
@@ -2800,5 +2800,185 @@
     "name": "Tower Bridge",
     "location": "London, United Kingdom",
     "status": "approved"
+  },
+  {
+    "id": "landmark_1793480235_477_0",
+    "name": "Dubrovnik Old Town",
+    "location": "Dubrovnik, Croatia",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "'Dubrovnik' offers 'Dub' or 'Nick' sound-alikes. 'Old Town' can be punned with 'cold down' or 'old clown'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480235_742_1",
+    "name": "Blue Lagoon",
+    "location": "Reykjanes Peninsula, Iceland",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Blue' can be 'Blew' or 'Boo'. 'Lagoon' sounds like 'La Goon' or 'Lah Goo'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480235_829_2",
+    "name": "Shilin Stone Forest",
+    "location": "Yunnan Province, China",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Shilin' could be 'Shilling' or 'She Lean'. 'Stone Forest' provides easy puns with 'Stoned' or 'loaned' and 'for rest'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480235_848_3",
+    "name": "Blue Mosque (Sultan Ahmed Mosque)",
+    "location": "Istanbul, Turkey",
+    "page_theme": "castles_cathedrals",
+    "pun_potential_note": "'Blue' offers 'Blew' or 'Boo'. 'Mosque' can be punned as 'Moss' or 'Musk'. 'Ahmed' sounds like 'Ah, med'.",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480818_213_0",
+    "name": "Prague Castle",
+    "location": "Prague, Czech Republic",
+    "page_theme": "castles_cathedrals",
+    "pun_potential_note": "Great for 'Prague' (sounds like 'frog' or 'rag') and 'Castle' (sounds like 'cassette' or 'cast').",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480818_574_1",
+    "name": "Dubrovnik Old City Walls",
+    "location": "Dubrovnik, Croatia",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "Good potential with 'Dubrovnik' (sounds like 'dub' or 'brick') and 'Walls' (sounds like 'walrus' or 'wails').",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480818_624_2",
+    "name": "Meiji Jingu Shrine",
+    "location": "Tokyo, Japan",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "'Meiji' can sound like 'beige' or 'meaty', and 'Jingu' like 'jingle' or 'gingo'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480818_967_3",
+    "name": "Jeju Island",
+    "location": "Jeju Province, South Korea",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "'Jeju' offers fun phonetic swaps like 'chew-chew' or 'jew-jew', and 'Island' like 'aisle-land'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793480818_140_4",
+    "name": "Ciudad Perdida (Lost City)",
+    "location": "Sierra Nevada de Santa Marta, Colombia",
+    "page_theme": "ancient_ruins",
+    "pun_potential_note": "'Ciudad Perdida' (Lost City) has great potential with 'Lost' (like 'lobster' or 'lactose') and 'City' (like 'kitty' or 'silly').",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481036_838_0",
+    "name": "Tulum Ruins",
+    "location": "Tulum, Mexico",
+    "page_theme": "ancient_ruins",
+    "pun_potential_note": "Tulum (Too loom, tool 'em), Ruins (ruin's)",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481036_177_1",
+    "name": "Casa Rosada",
+    "location": "Buenos Aires, Argentina",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "Casa (Case ah, Kazaa), Rosada (Rose add a, rosy day)",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481036_252_2",
+    "name": "Blyde River Canyon",
+    "location": "Mpumalanga, South Africa",
+    "page_theme": "natural_wonders",
+    "pun_potential_note": "Blyde (Blide, Blight), River (RIVER!), Canyon (can yon, can yawn)",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481036_886_3",
+    "name": "The Great Buddha of Kamakura",
+    "location": "Kamakura, Japan",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "Kamakura (Karma cure, Camera Kura), Buddha (boot ah, boo duh)",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481036_381_4",
+    "name": "St. Mark's Square",
+    "location": "Venice, Italy",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "Mark's (bark's, dark's, park's), Square (scare, swear)",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481589_603_0",
+    "name": "The Alamo",
+    "location": "San Antonio, USA",
+    "page_theme": "historic_monuments",
+    "pun_potential_note": "''Alamo' sounds like 'Al-a-dough' or 'all-a-moe'.",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481589_472_1",
+    "name": "The Las Vegas Strip",
+    "location": "Las Vegas, USA",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "''Strip' can be phonetically swapped with 'stripe' or 'trip'.",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481589_763_2",
+    "name": "Ciudad Perdida",
+    "location": "Sierra Nevada de Santa Marta, Colombia",
+    "page_theme": "ancient_ruins",
+    "pun_potential_note": "''Perdida' sounds like 'purr-diddy' or 'per-did-a'.",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481589_567_3",
+    "name": "La Boca",
+    "location": "Buenos Aires, Argentina",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "''Boca' sounds like 'boat-a' or 'bow-cut'.",
+    "status": "pending",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481790_588_0",
+    "name": "Charles Bridge",
+    "location": "Prague, Czech Republic",
+    "page_theme": "bridges_canals",
+    "pun_potential_note": "'Charles' can become 'Charred' or 'Carl's', and 'Bridge' can be swapped with 'Fridge' or 'Breeze'.",
+    "status": "approved",
+    "agent_generated": true
+  },
+  {
+    "id": "landmark_1793481790_579_1",
+    "name": "Djemaa el-Fna",
+    "location": "Marrakesh, Morocco",
+    "page_theme": "streets_squares",
+    "pun_potential_note": "The phonetic sounds in 'Djemaa el-Fna' allow for creative puns like 'Jemma Elf Na' or 'Jammed El Faucet'.",
+    "status": "approved",
+    "agent_generated": true
   }
 ]

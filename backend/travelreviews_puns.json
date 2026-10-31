@@ -2539,5 +2539,275 @@
     "location": "Paris, France",
     "pun_name": "Arc de Trompe",
     "status": "pending"
+  },
+  {
+    "id": "pun_dubrovnik_old_town_1793480248_250",
+    "original_name": "Dubrovnik Old Town",
+    "location": "Dubrovnik, Croatia",
+    "pun_name": "Dubrovnik Mold Town",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.7,
+    "agent_rationale": "The substitution of 'Old' with the concrete, tangible noun 'Mold' is phonetically perfect and immediately conjures a hilariously disgusting image for a famous landmark, making it ideal for a 1-star review about an unexpected and revolting experience.",
+    "runner_up_puns": [
+      "Dubrovnik Clown Town",
+      "Dubrovnik Gold Town",
+      "Dubrovnik Broom Town"
+    ]
+  },
+  {
+    "id": "pun_blue_lagoon_1793480264_444",
+    "original_name": "Blue Lagoon",
+    "location": "Reykjanes Peninsula, Iceland",
+    "pun_name": "Bleach Lagoon",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Blue' with 'Bleach', an everyday household chemical. The image of a spa filled with bleach instead of soothing geothermal waters is viscerally hilarious and perfectly sets up a scathing 1-star review about skin irritation and toxicity.",
+    "runner_up_puns": [
+      "Blue Balloon",
+      "Blue Macaroon",
+      "Stew Lagoon"
+    ]
+  },
+  {
+    "id": "pun_shilin_stone_forest_1793480280_424",
+    "original_name": "Shilin Stone Forest",
+    "location": "Yunnan Province, China",
+    "pun_name": "Chili Stone Forest",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Chili Stone Forest\" phonetically substitutes \"Shilin\" with \"Chili,\" a concrete food item. This creates a hilariously absurd image of a spicy, burning stone forest, perfect for a confused tourist's 1-star review about unexpected heat or flavor.",
+    "runner_up_puns": [
+      "Jelly Stone Forest",
+      "Shilin Cone Forest",
+      "Shilin Spoon Forest"
+    ]
+  },
+  {
+    "id": "pun_prague_castle_1793480832_444",
+    "original_name": "Prague Castle",
+    "location": "Prague, Czech Republic",
+    "pun_name": "Prague Casserole",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun 'Prague Casserole' perfectly substitutes 'Castle' with the concrete food item 'Casserole', offering an excellent phonetic match as explicitly shown in the prompt's examples (e.g., 'Blarney Casserole'). The image of a historic landmark replaced by a giant, possibly cold, baked dish is hilariously absurd for a confused tourist's 1-star review.",
+    "runner_up_puns": [
+      "Frog Castle",
+      "Prague Kettle",
+      "Rag Castle"
+    ]
+  },
+  {
+    "id": "pun_dubrovnik_old_city_walls_1793480866_981",
+    "original_name": "Dubrovnik Old City Walls",
+    "location": "Dubrovnik, Croatia",
+    "pun_name": "Dubrovnik Old City Balls",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun brilliantly replaces 'Walls' with 'Balls,' creating an incredibly absurd and hilarious image of city defenses made of literal spheres. It's a simple phonetic swap that instantly generates 1-star review potential regarding structural integrity or unexpected playthings.",
+    "runner_up_puns": [
+      "Dubrownie Old City Walls",
+      "Dubrovnik Old Kitty Walls",
+      "Dubrovnik Old City Dolls"
+    ]
+  },
+  {
+    "id": "pun_meiji_jingu_shrine_1793480905_156",
+    "original_name": "Meiji Jingu Shrine",
+    "location": "Tokyo, Japan",
+    "pun_name": "Meiji Jenga Shrine",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly substitutes 'Jingu' with 'Jenga', a concrete, everyday game made of physical blocks. The image of a sacred shrine constructed from precarious Jenga towers is absurdly hilarious for a postcard and perfectly sets up a 1-star review complaining about instability or unexpected game-playing.",
+    "runner_up_puns": [
+      "Meiji Ginger Shrine",
+      "Maize Jingu Shrine",
+      "Meiji Jingle Shrine"
+    ]
+  },
+  {
+    "id": "pun_tulum_ruins_1793481047_752",
+    "original_name": "Tulum Ruins",
+    "location": "Tulum, Mexico",
+    "pun_name": "Tuna Ruins",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The substitution of 'Tulum' with 'Tuna' offers an excellent phonetic match and introduces a common, tangible food item. Visualizing ancient ruins either built from or smelling distinctly of canned fish is hilariously absurd, providing rich material for a bewildered tourist's 1-star review.",
+    "runner_up_puns": [
+      "Tuba Ruins",
+      "Tupperware Ruins",
+      "Tulum Raisins"
+    ]
+  },
+  {
+    "id": "pun_casa_rosada_1793481083_641",
+    "original_name": "Casa Rosada",
+    "location": "Buenos Aires, Argentina",
+    "pun_name": "Casa Soda",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"Casa Soda\" brilliantly replaces \"Rosada\" with \"Soda,\" a common carbonated drink. This creates a hilariously absurd image of a sticky, fizzy pink government building, perfectly setting up a 1-star review complaining about the inconvenient carbonation, sugary residue, or constant need for a clean-up crew.",
+    "runner_up_puns": [
+      "Casa Salad",
+      "Casa Sofa",
+      "Cash Rosada"
+    ]
+  },
+  {
+    "id": "pun_blyde_river_canyon_1793481119_563",
+    "original_name": "Blyde River Canyon",
+    "location": "Mpumalanga, South Africa",
+    "pun_name": "Blyde River Onion",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun cleverly substitutes 'Canyon' with the concrete food noun 'Onion', creating a highly absurd and hilarious image of a canyon made of or filled with giant onions. The phonetic match is strong, and a tourist complaining about the overwhelming smell or the difficulty of peeling a canyon makes for a perfect 1-star review.",
+    "runner_up_puns": [
+      "Plaid River Canyon",
+      "Blyde Liver Canyon",
+      "Blyde River Crayon"
+    ]
+  },
+  {
+    "id": "pun_jeju_island_1793481176_911",
+    "original_name": "Jeju Island",
+    "location": "Jeju Province, South Korea",
+    "pun_name": "Jeju Ice Cream",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun brilliantly replaces 'Island' with 'Ice Cream', a concrete, melting food item. The phonetic match from 'Island' to 'Ice Cream' is clear and distinct, and it creates a highly absurd and hilarious image of a sticky, melting island, perfect for a frustrated 1-star review."
+  },
+  {
+    "id": "pun_jeju_island_1793481176_670",
+    "original_name": "Jeju Island",
+    "location": "Jeju Province, South Korea",
+    "pun_name": "Juju Bean Island",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_jeju_island_1793481176_912",
+    "original_name": "Jeju Island",
+    "location": "Jeju Province, South Korea",
+    "pun_name": "Chew Chew Island",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 8.5,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_ciudad_perdida_(lost_city)_1793481193_596",
+    "original_name": "Ciudad Perdida (Lost City)",
+    "location": "Sierra Nevada de Santa Marta, Colombia",
+    "pun_name": "Lost Kitty",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun brilliantly substitutes 'City' with 'Kitty', a concrete and humorous animal. The idea of a tourist expecting a grand 'Lost City' and instead finding just a 'Lost Kitty' makes for a hilarious and absurd 1-star review postcard."
+  },
+  {
+    "id": "pun_ciudad_perdida_(lost_city)_1793481193_766",
+    "original_name": "Ciudad Perdida (Lost City)",
+    "location": "Sierra Nevada de Santa Marta, Colombia",
+    "pun_name": "Loaf City",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 8.9,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_ciudad_perdida_(lost_city)_1793481193_481",
+    "original_name": "Ciudad Perdida (Lost City)",
+    "location": "Sierra Nevada de Santa Marta, Colombia",
+    "pun_name": "Sippy City",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 8.4,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_the_great_buddha_of_kamakura_1793481208_592",
+    "original_name": "The Great Buddha of Kamakura",
+    "location": "Kamakura, Japan",
+    "pun_name": "The Great Butter of Kamakura",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly substitutes 'Buddha' with 'Butter', an almost perfect phonetic match. The hilarious image of a massive statue made entirely of butter is absurd for a landmark, making it ideal for a 1-star review about melting, greasiness, or unexpected dairy content."
+  },
+  {
+    "id": "pun_the_great_buddha_of_kamakura_1793481208_730",
+    "original_name": "The Great Buddha of Kamakura",
+    "location": "Kamakura, Japan",
+    "pun_name": "The Great Pudding of Kamakura",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 9,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_the_great_buddha_of_kamakura_1793481208_355",
+    "original_name": "The Great Buddha of Kamakura",
+    "location": "Kamakura, Japan",
+    "pun_name": "The Great Buddha of Cucumber",
+    "status": "pending",
+    "agent_curated": true,
+    "agent_score": 8.5,
+    "agent_rationale": "Runner-up guardrail candidate."
+  },
+  {
+    "id": "pun_charles_bridge_1793481805_583",
+    "original_name": "Charles Bridge",
+    "location": "Prague, Czech Republic",
+    "pun_name": "Cheese Bridge",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The phonetic match between 'Charles' and 'Cheese' is incredibly clean and satisfying. 'Cheese' is a universally recognized concrete food item that evokes a hilarious and absurd visual of a bridge made of dairy, perfect for a 1-star review complaining about the smell, stickiness, or rodent population.",
+    "runner_up_puns": [
+      "Chorizo Bridge",
+      "Churro Bridge",
+      "Chaps Bridge"
+    ]
+  },
+  {
+    "id": "pun_djemaa_elfna_1793481845_478",
+    "original_name": "Djemaa el-Fna",
+    "location": "Marrakesh, Morocco",
+    "pun_name": "Djemaa el-Fan",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Fna' with 'Fan', a common household object. The phonetic match is excellent, and it creates a hilarious image of a bustling Moroccan market replaced by, or solely featuring, a giant fan, leading to an absurd 1-star review.",
+    "runner_up_puns": [
+      "Jam el-Fna",
+      "Djemaa Eel-Fna",
+      "Djemaa el-Fries"
+    ]
+  },
+  {
+    "id": "pun_lord_howe_island_group_1793481884_787",
+    "original_name": "Lord Howe Island Group",
+    "location": "New South Wales, Australia",
+    "pun_name": "Lord Howe Island Soup",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.3,
+    "agent_rationale": "This pun makes a brilliant phonetic match for 'Group' to 'Soup', replacing it with a concrete food item. The visual of an entire island group consisting of soup is wonderfully absurd and perfect for a bewildered 1-star travel review.",
+    "runner_up_puns": [
+      "Lord Cow Island Group",
+      "Lord Dough Island Group",
+      "Lard Howe Island Group"
+    ]
   }
 ]

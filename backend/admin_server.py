@@ -441,6 +441,14 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
             }
             self.wfile.write(json.dumps(payload).encode('utf-8'))
             return
+        elif req_path in ['/api/agent/analytics', '/api/travelreviews/agent/analytics']:
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            agent = get_curation_agent()
+            analytics_payload = agent.get_quality_analytics()
+            self.wfile.write(json.dumps({"success": True, **analytics_payload}).encode('utf-8'))
+            return
 
         # --- Static Assets and Client Files Router ---
         elif req_path.startswith('/travelreviews/') or req_path.startswith('/assets/'):
@@ -938,6 +946,50 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
             except Exception as e:
                 print(f"Error in agent/redo: {e}")
                 self.send_response(500)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+            return
+
+        elif req_path in ['/api/agent/signal', '/api/travelreviews/agent/signal']:
+            try:
+                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
+                signal_type = payload.get('signal_type')
+                if signal_type not in ('approve', 'redo', 'decline'):
+                    raise ValueError("signal_type must be 'approve', 'redo', or 'decline'")
+                with curation_lock:
+                    agent = get_curation_agent()
+                    event = agent.record_signal(
+                        signal_type=signal_type,
+                        stage=payload.get('stage', 'agent_queue'),
+                        clue_id=payload.get('clue_id'),
+                        postcard_id=payload.get('postcard_id'),
+                        landmark_name=payload.get('landmark_name', ''),
+                        location=payload.get('location', ''),
+                        pun_name=payload.get('pun_name', ''),
+                        redo_type=payload.get('redo_type'),
+                        old_value=payload.get('old_value'),
+                        new_value=payload.get('new_value'),
+                        art_style=payload.get('art_style', ''),
+                        page_theme=payload.get('page_theme', ''),
+                        agent_score=payload.get('agent_score'),
+                        redo_count_at_event=payload.get('redo_count_at_event', 0),
+                        was_runner_up_selected=payload.get('was_runner_up_selected', False),
+                        human_feedback=payload.get('human_feedback'),
+                        decline_reason=payload.get('decline_reason')
+                    )
+                    analytics_summary = agent.get_quality_analytics()
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({
+                    "success": True,
+                    "event": event,
+                    "analytics": analytics_summary
+                }).encode('utf-8'))
+            except Exception as e:
+                print(f"Error in agent/signal: {e}")
+                self.send_response(400)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
