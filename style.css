@@ -2977,6 +2977,23 @@ svg.hidden {
     display: block;
 }
 
+.world-map-tooltip-hint {
+    font-weight: 800;
+    color: #5f27cd;
+    font-size: 0.68rem;
+    display: block;
+    margin-top: 2px;
+}
+
+.map-spiderfy-hub {
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.map-spiderfy-hub:hover {
+    transform: scale(1.25);
+}
+
 .world-map-empty-hint {
     margin-top: 10px;
     padding: 10px 14px;

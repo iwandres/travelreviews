@@ -3667,7 +3667,8 @@ let worldMapState = {
     startTx: 0,
     startTy: 0,
     dragMoved: false,
-    activePostcardChallenge: null
+    activePostcardChallenge: null,
+    expandedClusterId: null
 };
 
 function projectLatLngToMap(lat, lng) {
@@ -3901,7 +3902,7 @@ function renderSolvedMapPinsAndList() {
         emptyHint.classList.toggle('hidden', solvedChallenges.length > 0);
     }
 
-    // Group pins by proximity so multi-puzzle landmarks (e.g. Eiffel Tower, Rome) fan out cleanly
+    // Group pins by proximity into clusters (Single Badge Pin xN + Spiderfy Fan on Click)
     const pinItems = [];
     solvedChallenges.forEach(c => {
         const coords = getChallengeCoordinates(c);
@@ -3913,11 +3914,12 @@ function renderSolvedMapPinsAndList() {
             baseX: pt.x,
             baseY: pt.y,
             x: pt.x,
-            y: pt.y
+            y: pt.y,
+            localDx: 0,
+            localDy: 0
         });
     });
 
-    // Cluster pins within 6 SVG units and apply deterministic radial micro-offset
     const clusters = [];
     pinItems.forEach(item => {
         let matchedCluster = clusters.find(cl => {
@@ -3926,81 +3928,277 @@ function renderSolvedMapPinsAndList() {
             return Math.sqrt(dx * dx + dy * dy) < 5.5;
         });
         if (!matchedCluster) {
-            matchedCluster = { cx: item.baseX, cy: item.baseY, items: [] };
+            matchedCluster = { id: '', cx: item.baseX, cy: item.baseY, items: [] };
             clusters.push(matchedCluster);
         }
         matchedCluster.items.push(item);
+        // Recompute cluster centroid
+        const n = matchedCluster.items.length;
+        matchedCluster.cx = matchedCluster.items.reduce((s, it) => s + it.baseX, 0) / n;
+        matchedCluster.cy = matchedCluster.items.reduce((s, it) => s + it.baseY, 0) / n;
     });
 
-    clusters.forEach(cluster => {
-        if (cluster.items.length > 1) {
-            const radius = Math.min(11, 5.2 + cluster.items.length * 1.1);
-            cluster.items.forEach((item, idx) => {
-                const angle = (2 * Math.PI * idx) / cluster.items.length - Math.PI / 2;
-                item.x = cluster.cx + Math.cos(angle) * radius;
-                item.y = cluster.cy + Math.sin(angle) * radius;
-                item.clustered = true;
-            });
-        }
+    clusters.forEach(cl => {
+        cl.id = 'cluster_' + cl.items.map(it => it.challenge.puzzle_number).sort((a, b) => a - b).join('_');
+    });
+
+    // Ensure currently expanded cluster renders on top of all other pins in SVG painter order
+    clusters.sort((a, b) => {
+        const aExp = a.id === worldMapState.expandedClusterId ? 1 : 0;
+        const bExp = b.id === worldMapState.expandedClusterId ? 1 : 0;
+        return aExp - bExp;
     });
 
     const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
     pinsLayer.innerHTML = '';
 
-    pinItems.forEach(item => {
-        const c = item.challenge;
-        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-        g.setAttribute('class', 'map-pin-group');
-        g.setAttribute('transform', `translate(${item.x.toFixed(2)}, ${item.y.toFixed(2)})`);
-        g.setAttribute('tabindex', '0');
-        g.setAttribute('role', 'button');
-        g.setAttribute('aria-label', `Challenge #${c.puzzle_number}: ${c.boss_pun_title} (${c.boss_original_title})`);
-        g.dataset.puzzleNumber = c.puzzle_number;
-
+    const buildSinglePinSvgMarkup = (c, showNumberPill = false) => {
         const hints = solvedHints[padPuzzleNumber(c.puzzle_number)];
         const pinGrad = hints === 0 ? 'url(#pinEmeraldGrad)' : 'url(#pinCoralGrad)';
         const pulseColor = hints === 0 ? 'rgba(6, 214, 160, 0.35)' : 'rgba(255, 71, 87, 0.35)';
-
-        let spokeLineHtml = '';
-        if (item.clustered) {
-            const dx = (item.baseX - item.x).toFixed(2);
-            const dy = (item.baseY - item.y).toFixed(2);
-            spokeLineHtml = `<line x1="0" y1="0" x2="${dx}" y2="${dy}" stroke="#2D3436" stroke-width="1.1" stroke-dasharray="1.8 1.5" opacity="0.75" />`;
-        }
-
-        g.innerHTML = `
-            ${spokeLineHtml}
-            <g class="map-pin-scale-wrap" transform="scale(${invScale.toFixed(3)})">
-                <ellipse cx="0" cy="1.2" rx="4.6" ry="1.9" fill="rgba(20, 30, 40, 0.32)" />
-                <circle class="map-pin-pulse" cx="0" cy="0" r="8.5" style="fill: ${pulseColor};"></circle>
-                <g class="map-pin-marker" filter="url(#pinDropShadow)">
-                    <path d="M0,0 C-4.2,-5.0 -8.2,-9.6 -8.2,-14.4 A8.2,8.2 0 1,1 8.2,-14.4 C8.2,-9.6 4.2,-5.0 0,0 Z"
-                          fill="${pinGrad}" stroke="#2D3436" stroke-width="1.7" stroke-linejoin="round" />
-                    <path d="M-5.2,-16.8 A6.2,6.2 0 0,1 2.5,-20.5" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.4" stroke-linecap="round" />
-                    <circle cx="0" cy="-14.4" r="3.6" fill="#FFFDF7" stroke="#2D3436" stroke-width="1.2" />
-                    <circle cx="0" cy="-14.4" r="1.4" fill="#2D3436" />
-                </g>
+        const numberTagHtml = showNumberPill ? `
+            <g class="map-spiderfy-num-pill" transform="translate(0, 5.2)">
+                <rect x="-8.5" y="-4.2" width="17" height="8.4" rx="4.2" fill="#FFFDF7" stroke="#2D3436" stroke-width="1.2" />
+                <text x="0" y="0.3" text-anchor="middle" dominant-baseline="central" fill="#2D3436" font-family="Nunito, sans-serif" font-size="5.6" font-weight="900">#${c.puzzle_number}</text>
+            </g>
+        ` : '';
+        return `
+            <ellipse cx="0" cy="1.2" rx="4.6" ry="1.9" fill="rgba(20, 30, 40, 0.32)" />
+            <circle class="map-pin-pulse" cx="0" cy="0" r="8.5" style="fill: ${pulseColor};"></circle>
+            <g class="map-pin-marker" filter="url(#pinDropShadow)">
+                <path d="M0,0 C-4.2,-5.0 -8.2,-9.6 -8.2,-14.4 A8.2,8.2 0 1,1 8.2,-14.4 C8.2,-9.6 4.2,-5.0 0,0 Z"
+                      fill="${pinGrad}" stroke="#2D3436" stroke-width="1.7" stroke-linejoin="round" />
+                <path d="M-5.2,-16.8 A6.2,6.2 0 0,1 2.5,-20.5" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.4" stroke-linecap="round" />
+                <circle cx="0" cy="-14.4" r="3.6" fill="#FFFDF7" stroke="#2D3436" stroke-width="1.2" />
+                <circle cx="0" cy="-14.4" r="1.4" fill="#2D3436" />
+                ${numberTagHtml}
             </g>
         `;
+    };
 
-        g.addEventListener('mouseenter', (ev) => showWorldMapPinTooltip(item, ev));
-        g.addEventListener('mouseleave', hideWorldMapPinTooltip);
-        g.addEventListener('focus', (ev) => showWorldMapPinTooltip(item, ev));
-        g.addEventListener('blur', hideWorldMapPinTooltip);
-        g.addEventListener('click', (ev) => {
-            ev.stopPropagation();
-            if (worldMapState.dragMoved) return;
-            hideWorldMapPinTooltip();
-            openMapPostcardOverlay(c);
-        });
-        g.addEventListener('keydown', (ev) => {
-            if (ev.key === 'Enter' || ev.key === ' ') {
-                ev.preventDefault();
+    clusters.forEach(cluster => {
+        const count = cluster.items.length;
+        const puzzleNumbersAttr = ',' + cluster.items.map(it => it.challenge.puzzle_number).join(',') + ',';
+
+        if (count === 1) {
+            const item = cluster.items[0];
+            const c = item.challenge;
+            item.x = item.baseX;
+            item.y = item.baseY;
+            item.localDx = 0;
+            item.localDy = 0;
+
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'map-pin-group');
+            g.setAttribute('transform', `translate(${item.baseX.toFixed(2)}, ${item.baseY.toFixed(2)})`);
+            g.setAttribute('tabindex', '0');
+            g.setAttribute('role', 'button');
+            g.setAttribute('aria-label', `Challenge #${c.puzzle_number}: ${c.boss_pun_title} (${c.boss_original_title})`);
+            g.dataset.puzzleNumber = c.puzzle_number;
+            g.dataset.puzzleNumbers = puzzleNumbersAttr;
+
+            g.innerHTML = `
+                <g class="map-pin-scale-wrap" transform="scale(${invScale.toFixed(3)})">
+                    ${buildSinglePinSvgMarkup(c, false)}
+                </g>
+            `;
+
+            g.addEventListener('mouseenter', (ev) => showWorldMapPinTooltip(item, ev));
+            g.addEventListener('mouseleave', hideWorldMapPinTooltip);
+            g.addEventListener('focus', (ev) => showWorldMapPinTooltip(item, ev));
+            g.addEventListener('blur', hideWorldMapPinTooltip);
+            g.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                if (worldMapState.dragMoved) return;
+                hideWorldMapPinTooltip();
+                if (worldMapState.expandedClusterId) {
+                    worldMapState.expandedClusterId = null;
+                    renderSolvedMapPinsAndList();
+                }
                 openMapPostcardOverlay(c);
-            }
-        });
+            });
+            g.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Enter' || ev.key === ' ') {
+                    ev.preventDefault();
+                    openMapPostcardOverlay(c);
+                }
+            });
 
-        pinsLayer.appendChild(g);
+            pinsLayer.appendChild(g);
+        } else if (worldMapState.expandedClusterId !== cluster.id) {
+            // COLLAPSED MULTI-PIN CLUSTER BADGE (xN)
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.setAttribute('class', 'map-pin-group map-pin-cluster');
+            g.setAttribute('transform', `translate(${cluster.cx.toFixed(2)}, ${cluster.cy.toFixed(2)})`);
+            g.setAttribute('tabindex', '0');
+            g.setAttribute('role', 'button');
+            const locName = cluster.items[0].coords.location || cluster.items[0].challenge.boss_original_title;
+            g.setAttribute('aria-label', `${count} solved challenges at ${locName}. Click to fan out pins.`);
+            g.dataset.puzzleNumbers = puzzleNumbersAttr;
+            g.dataset.clusterId = cluster.id;
+
+            const hasZeroHint = cluster.items.some(it => solvedHints[padPuzzleNumber(it.challenge.puzzle_number)] === 0);
+            const hasHinted = cluster.items.some(it => solvedHints[padPuzzleNumber(it.challenge.puzzle_number)] !== 0);
+            const frontGrad = hasZeroHint ? 'url(#pinEmeraldGrad)' : 'url(#pinCoralGrad)';
+            const backGrad = (hasZeroHint && hasHinted) ? 'url(#pinCoralGrad)' : frontGrad;
+            const pulseColor = hasZeroHint ? 'rgba(6, 214, 160, 0.38)' : 'rgba(255, 71, 87, 0.38)';
+
+            g.innerHTML = `
+                <g class="map-pin-scale-wrap" transform="scale(${invScale.toFixed(3)})">
+                    <ellipse cx="1.2" cy="1.4" rx="5.8" ry="2.2" fill="rgba(20, 30, 40, 0.36)" />
+                    <circle class="map-pin-pulse" cx="0" cy="0" r="9.5" style="fill: ${pulseColor};"></circle>
+                    <g class="map-pin-marker" filter="url(#pinDropShadow)">
+                        <!-- Stacked back pin silhouette -->
+                        <g transform="translate(3.2, -1.6) rotate(12)">
+                            <path d="M0,0 C-4.2,-5.0 -8.2,-9.6 -8.2,-14.4 A8.2,8.2 0 1,1 8.2,-14.4 C8.2,-9.6 4.2,-5.0 0,0 Z"
+                                  fill="${backGrad}" stroke="#2D3436" stroke-width="1.6" stroke-linejoin="round" />
+                        </g>
+                        <!-- Primary front pin -->
+                        <path d="M0,0 C-4.2,-5.0 -8.2,-9.6 -8.2,-14.4 A8.2,8.2 0 1,1 8.2,-14.4 C8.2,-9.6 4.2,-5.0 0,0 Z"
+                              fill="${frontGrad}" stroke="#2D3436" stroke-width="1.7" stroke-linejoin="round" />
+                        <path d="M-5.2,-16.8 A6.2,6.2 0 0,1 2.5,-20.5" fill="none" stroke="rgba(255,255,255,0.65)" stroke-width="1.4" stroke-linecap="round" />
+                        <circle cx="0" cy="-14.4" r="4.3" fill="#FFFDF7" stroke="#2D3436" stroke-width="1.2" />
+                        <text x="0" y="-14.1" text-anchor="middle" dominant-baseline="central" fill="#2D3436" font-family="Nunito, sans-serif" font-size="6.4" font-weight="900">${count}</text>
+                        <!-- Top-right xN count pill badge -->
+                        <g transform="translate(7.6, -20.6)">
+                            <rect x="-6.8" y="-4.6" width="13.6" height="9.2" rx="4.6" fill="#FFD166" stroke="#2D3436" stroke-width="1.3" />
+                            <text x="0" y="0.2" text-anchor="middle" dominant-baseline="central" fill="#2D3436" font-family="Nunito, sans-serif" font-size="5.8" font-weight="900">?${count}</text>
+                        </g>
+                    </g>
+                </g>
+            `;
+
+            g.addEventListener('mouseenter', (ev) => showWorldMapClusterTooltip(cluster, ev));
+            g.addEventListener('mouseleave', hideWorldMapPinTooltip);
+            g.addEventListener('focus', (ev) => showWorldMapClusterTooltip(cluster, ev));
+            g.addEventListener('blur', hideWorldMapPinTooltip);
+            g.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                if (worldMapState.dragMoved) return;
+                hideWorldMapPinTooltip();
+                worldMapState.expandedClusterId = cluster.id;
+                renderSolvedMapPinsAndList();
+            });
+            g.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Enter' || ev.key === ' ') {
+                    ev.preventDefault();
+                    hideWorldMapPinTooltip();
+                    worldMapState.expandedClusterId = cluster.id;
+                    renderSolvedMapPinsAndList();
+                }
+            });
+
+            pinsLayer.appendChild(g);
+        } else {
+            // EXPANDED SPIDERFY FAN IN SCREEN-SPACE (scales cleanly at any zoom level)
+            const clusterWrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            clusterWrap.setAttribute('class', 'map-spiderfy-cluster');
+            clusterWrap.setAttribute('transform', `translate(${cluster.cx.toFixed(2)}, ${cluster.cy.toFixed(2)})`);
+
+            const scaleWrap = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            scaleWrap.setAttribute('class', 'map-pin-scale-wrap');
+            scaleWrap.setAttribute('transform', `scale(${invScale.toFixed(3)})`);
+
+            const fanRadius = count === 2 ? 22 : Math.min(40, 18 + count * 4.2);
+            const spokesGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            spokesGroup.setAttribute('class', 'map-spiderfy-spokes');
+            scaleWrap.appendChild(spokesGroup);
+
+            cluster.items.forEach((item, idx) => {
+                const angle = count === 2
+                    ? (-Math.PI * 0.75 + idx * (Math.PI * 0.5))
+                    : (-Math.PI / 2 + (2 * Math.PI * idx) / count);
+                const localDx = Math.cos(angle) * fanRadius;
+                const localDy = Math.sin(angle) * fanRadius;
+                item.baseX = cluster.cx;
+                item.baseY = cluster.cy;
+                item.localDx = localDx;
+                item.localDy = localDy;
+
+                // Spoke leader line (white halo + dark dashed line)
+                const haloLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                haloLine.setAttribute('x1', '0');
+                haloLine.setAttribute('y1', '0');
+                haloLine.setAttribute('x2', localDx.toFixed(2));
+                haloLine.setAttribute('y2', localDy.toFixed(2));
+                haloLine.setAttribute('stroke', 'rgba(255, 255, 255, 0.88)');
+                haloLine.setAttribute('stroke-width', '3.2');
+                haloLine.setAttribute('stroke-linecap', 'round');
+                spokesGroup.appendChild(haloLine);
+
+                const spokeLine = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                spokeLine.setAttribute('x1', '0');
+                spokeLine.setAttribute('y1', '0');
+                spokeLine.setAttribute('x2', localDx.toFixed(2));
+                spokeLine.setAttribute('y2', localDy.toFixed(2));
+                spokeLine.setAttribute('stroke', '#2D3436');
+                spokeLine.setAttribute('stroke-width', '1.5');
+                spokeLine.setAttribute('stroke-dasharray', '2.5 2');
+                spokeLine.setAttribute('stroke-linecap', 'round');
+                spokesGroup.appendChild(spokeLine);
+
+                const c = item.challenge;
+                const pinG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                pinG.setAttribute('class', 'map-pin-group map-spiderfy-pin');
+                pinG.setAttribute('transform', `translate(${localDx.toFixed(2)}, ${localDy.toFixed(2)})`);
+                pinG.setAttribute('tabindex', '0');
+                pinG.setAttribute('role', 'button');
+                pinG.setAttribute('aria-label', `Challenge #${c.puzzle_number}: ${c.boss_pun_title} (${c.boss_original_title})`);
+                pinG.dataset.puzzleNumber = c.puzzle_number;
+                pinG.dataset.puzzleNumbers = `,${c.puzzle_number},`;
+
+                pinG.innerHTML = buildSinglePinSvgMarkup(c, true);
+
+                pinG.addEventListener('mouseenter', (ev) => showWorldMapPinTooltip(item, ev));
+                pinG.addEventListener('mouseleave', hideWorldMapPinTooltip);
+                pinG.addEventListener('focus', (ev) => showWorldMapPinTooltip(item, ev));
+                pinG.addEventListener('blur', hideWorldMapPinTooltip);
+                pinG.addEventListener('click', (ev) => {
+                    ev.stopPropagation();
+                    if (worldMapState.dragMoved) return;
+                    hideWorldMapPinTooltip();
+                    openMapPostcardOverlay(c);
+                });
+                pinG.addEventListener('keydown', (ev) => {
+                    if (ev.key === 'Enter' || ev.key === ' ') {
+                        ev.preventDefault();
+                        openMapPostcardOverlay(c);
+                    }
+                });
+
+                scaleWrap.appendChild(pinG);
+            });
+
+            // Center anchor collapse hub at (0, 0)
+            const hubG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            hubG.setAttribute('class', 'map-spiderfy-hub');
+            hubG.setAttribute('role', 'button');
+            hubG.setAttribute('tabindex', '0');
+            hubG.setAttribute('aria-label', 'Collapse fanned pins');
+            hubG.innerHTML = `
+                <circle cx="0" cy="0" r="5.4" fill="#FFD166" stroke="#2D3436" stroke-width="1.5" />
+                <path d="M-1.9,-1.9 L1.9,1.9 M1.9,-1.9 L-1.9,1.9" stroke="#2D3436" stroke-width="1.4" stroke-linecap="round" />
+            `;
+            hubG.addEventListener('click', (ev) => {
+                ev.stopPropagation();
+                if (worldMapState.dragMoved) return;
+                hideWorldMapPinTooltip();
+                worldMapState.expandedClusterId = null;
+                renderSolvedMapPinsAndList();
+            });
+            hubG.addEventListener('keydown', (ev) => {
+                if (ev.key === 'Enter' || ev.key === ' ') {
+                    ev.preventDefault();
+                    hideWorldMapPinTooltip();
+                    worldMapState.expandedClusterId = null;
+                    renderSolvedMapPinsAndList();
+                }
+            });
+            scaleWrap.appendChild(hubG);
+
+            clusterWrap.appendChild(scaleWrap);
+            pinsLayer.appendChild(clusterWrap);
+        }
     });
 
     // Populate Completed Puzzles List below the map
@@ -4016,7 +4214,7 @@ function renderSolvedMapPinsAndList() {
 
     solvedChallengesDesc.forEach(c => {
         const coords = getChallengeCoordinates(c);
-        const locLabel = coords && coords.location ? ` • ${coords.location}` : '';
+        const locLabel = coords && coords.location ? ` ? ${coords.location}` : '';
         const row = document.createElement('div');
         row.className = 'map-completed-row';
         const thumbUrl = getCorrectPosterUrl(c.boss_poster_url);
@@ -4024,19 +4222,21 @@ function renderSolvedMapPinsAndList() {
         row.innerHTML = `
             <img src="${thumbUrl}" class="map-completed-thumb" alt="${c.boss_pun_title}" loading="lazy">
             <div class="map-completed-meta">
-                <span class="map-completed-title">#${c.puzzle_number} — ${c.boss_pun_title}</span>
-                <span class="map-completed-sub">📍 ${c.boss_original_title}${locLabel}</span>
+                <span class="map-completed-title">#${c.puzzle_number} ? ${c.boss_pun_title}</span>
+                <span class="map-completed-sub">?? ${c.boss_original_title}${locLabel}</span>
             </div>
-            <span class="map-completed-view-pill">🖼️ Postcard</span>
+            <span class="map-completed-view-pill">??? Postcard</span>
         `;
 
         row.addEventListener('mouseenter', () => {
-            const pinEl = pinsLayer.querySelector(`.map-pin-group[data-puzzle-number="${c.puzzle_number}"]`);
-            if (pinEl) pinEl.classList.add('highlighted');
+            pinsLayer.querySelectorAll(`.map-pin-group[data-puzzle-numbers*=",${c.puzzle_number},"]`).forEach(pinEl => {
+                pinEl.classList.add('highlighted');
+            });
         });
         row.addEventListener('mouseleave', () => {
-            const pinEl = pinsLayer.querySelector(`.map-pin-group[data-puzzle-number="${c.puzzle_number}"]`);
-            if (pinEl) pinEl.classList.remove('highlighted');
+            pinsLayer.querySelectorAll(`.map-pin-group[data-puzzle-numbers*=",${c.puzzle_number},"]`).forEach(pinEl => {
+                pinEl.classList.remove('highlighted');
+            });
         });
         row.addEventListener('click', () => {
             openMapPostcardOverlay(c);
@@ -4046,31 +4246,64 @@ function renderSolvedMapPinsAndList() {
     });
 }
 
-function showWorldMapPinTooltip(pinItem, ev) {
+function positionWorldMapTooltipAtSvgPoint(svgX, svgY) {
     const tooltip = document.getElementById('world-map-tooltip');
     const viewport = document.getElementById('world-map-viewport');
     const svg = document.getElementById('world-map-svg');
     if (!tooltip || !viewport || !svg) return;
 
-    const c = pinItem.challenge;
-    const locSuffix = pinItem.coords.location ? ` (${pinItem.coords.location})` : '';
-    tooltip.innerHTML = `
-        <span class="world-map-tooltip-pun">#${c.puzzle_number}: ${c.boss_pun_title}</span>
-        <span class="world-map-tooltip-real">📍 ${c.boss_original_title}${locSuffix}</span>
-    `;
-
-    // Position tooltip in viewport pixel coordinates
     const svgRect = svg.getBoundingClientRect();
     const vpRect = viewport.getBoundingClientRect();
-    const screenX = ((pinItem.x * worldMapState.scale + worldMapState.tx) / WORLD_MAP_WIDTH) * svgRect.width + (svgRect.left - vpRect.left);
-    const screenY = ((pinItem.y * worldMapState.scale + worldMapState.ty) / WORLD_MAP_HEIGHT) * svgRect.height + (svgRect.top - vpRect.top);
+    const screenX = ((svgX * worldMapState.scale + worldMapState.tx) / WORLD_MAP_WIDTH) * svgRect.width + (svgRect.left - vpRect.left);
+    const screenY = ((svgY * worldMapState.scale + worldMapState.ty) / WORLD_MAP_HEIGHT) * svgRect.height + (svgRect.top - vpRect.top);
 
-    const clampedLeft = Math.max(85, Math.min(vpRect.width - 85, screenX));
-    const clampedTop = Math.max(48, screenY);
+    const clampedLeft = Math.max(95, Math.min(vpRect.width - 95, screenX));
+    const clampedTop = Math.max(54, screenY);
 
     tooltip.style.left = `${clampedLeft}px`;
     tooltip.style.top = `${clampedTop}px`;
     tooltip.classList.remove('hidden');
+}
+
+function showWorldMapClusterTooltip(cluster, ev) {
+    const tooltip = document.getElementById('world-map-tooltip');
+    if (!tooltip || !cluster || !cluster.items.length) return;
+
+    const first = cluster.items[0];
+    const locTitle = first.coords.location || first.challenge.boss_original_title;
+    const rowsHtml = cluster.items
+        .slice(0, 4)
+        .map(it => `<span class="world-map-tooltip-pun">#${it.challenge.puzzle_number}: ${it.challenge.boss_pun_title}</span>`)
+        .join('');
+    const moreHtml = cluster.items.length > 4
+        ? `<span class="world-map-tooltip-real">+${cluster.items.length - 4} more...</span>`
+        : '';
+
+    tooltip.innerHTML = `
+        <span class="world-map-tooltip-real">?? ${locTitle} (${cluster.items.length} Solved)</span>
+        ${rowsHtml}
+        ${moreHtml}
+        <span class="world-map-tooltip-hint">? Click pin to fan out</span>
+    `;
+
+    positionWorldMapTooltipAtSvgPoint(cluster.cx, cluster.cy);
+}
+
+function showWorldMapPinTooltip(pinItem, ev) {
+    const tooltip = document.getElementById('world-map-tooltip');
+    if (!tooltip) return;
+
+    const c = pinItem.challenge;
+    const locSuffix = pinItem.coords.location ? ` (${pinItem.coords.location})` : '';
+    tooltip.innerHTML = `
+        <span class="world-map-tooltip-pun">#${c.puzzle_number}: ${c.boss_pun_title}</span>
+        <span class="world-map-tooltip-real">?? ${c.boss_original_title}${locSuffix}</span>
+    `;
+
+    const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
+    const svgX = pinItem.baseX + (pinItem.localDx || 0) * invScale;
+    const svgY = pinItem.baseY + (pinItem.localDy || 0) * invScale;
+    positionWorldMapTooltipAtSvgPoint(svgX, svgY);
 }
 
 function hideWorldMapPinTooltip() {
@@ -4443,5 +4676,14 @@ function initWorldMapFeature() {
             }
         }, { passive: true });
         viewport.addEventListener('touchend', endDrag);
+        viewport.addEventListener('click', (e) => {
+            if (worldMapState.dragMoved) return;
+            if (e.target.closest('.map-ctrl-btn') || e.target.closest('.map-pin-group') || e.target.closest('.map-spiderfy-hub')) return;
+            if (worldMapState.expandedClusterId) {
+                hideWorldMapPinTooltip();
+                worldMapState.expandedClusterId = null;
+                renderSolvedMapPinsAndList();
+            }
+        });
     }
 }
