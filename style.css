@@ -2483,7 +2483,7 @@ svg.hidden {
 /* 2-Tab Switcher inside World Map & Global Stats Modals */
 .modal-tab-switcher {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: 6px;
     background: #f8f6ff;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -3195,7 +3195,9 @@ svg.hidden {
     }
     .modal-tab-btn {
         font-size: 0.68rem;
-        padding: 7px 6px;
+        padding: 7px 4px;
+        gap: 3px;
+        white-space: nowrap;
     }
     .map-region-pill {
         font-size: 0.68rem;

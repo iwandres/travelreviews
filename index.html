@@ -91,7 +91,7 @@
                     <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
                     <span id="world-map-pin-count" class="world-map-pin-badge hidden">0</span>
                 </button>
-                <button id="btn-stats-select" class="stats-select-btn" title="Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
+                <button id="btn-stats-select" class="stats-select-btn" title="All User Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play" class="how-to-play-btn" title="How to Play">?</button>
                 
                 <p class="question-subtext" style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: #777777; margin-bottom: 20px; margin-top: 10px; letter-spacing: 0.5px; opacity: 0.85; width: 100%; text-align: center;">This confused traveler gave a 1-star review to a famous landmark.  What pun led them to this mistake?</p>
@@ -202,7 +202,7 @@
                     <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
                     <span id="world-map-pin-count-victory" class="world-map-pin-badge hidden">0</span>
                 </button>
-                <button id="btn-stats-select-victory" class="stats-select-btn" title="Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
+                <button id="btn-stats-select-victory" class="stats-select-btn" title="All User Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play-victory" class="how-to-play-btn" title="How to Play">?</button>
 
                 <div id="victory-solved-status" class="victory-solved-status hidden"></div>
@@ -358,7 +358,7 @@
             <button id="btn-close-stats-select" class="modal-close-btn" title="Close">&times;</button>
             <div class="stats-select-card world-map-card unified-atlas-stats-card">
                 <!-- Persistent 2-Tab Switcher: World Map vs Global Stats -->
-                <div class="modal-tab-switcher" role="tablist" aria-label="World Map and Global Stats">
+                <div class="modal-tab-switcher" role="tablist" aria-label="World Map, All User Stats, and My Stats">
                     <button type="button" id="tab-btn-world-map" class="modal-tab-btn" role="tab" aria-selected="false">
                         <svg class="map-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
                         <span>World Map</span>
@@ -366,7 +366,11 @@
                     </button>
                     <button type="button" id="tab-btn-global-stats" class="modal-tab-btn active" role="tab" aria-selected="true">
                         <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
-                        <span>Global Stats</span>
+                        <span>All User Stats</span>
+                    </button>
+                    <button type="button" id="tab-btn-my-stats" class="modal-tab-btn" role="tab" aria-selected="false">
+                        <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z"/></svg>
+                        <span>My Stats</span>
                     </button>
                 </div>
 
@@ -470,13 +474,13 @@
                     <!-- Link to Global Stats -->
                     <button type="button" id="btn-map-to-stats" class="world-map-stats-link-btn">
                         <svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink: 0;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
-                        <span>View Global Stats &amp; Challenge Difficulties ➔</span>
+                        <span>View All User Stats &amp; Challenge Difficulties ➔</span>
                     </button>
                 </div>
 
                 <!-- TAB PANEL 2: GLOBAL STATS -->
                 <div id="panel-global-stats" class="unified-modal-panel" role="tabpanel">
-                    <h2 class="stats-select-title"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px; position: relative; top: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>Global Stats</h2>
+                    <h2 class="stats-select-title"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px; position: relative; top: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg><span id="stats-panel-title-text">All User Stats</span></h2>
 
                     <!-- Aggregate Stats Section -->
                     <div class="aggregate-stats-container">

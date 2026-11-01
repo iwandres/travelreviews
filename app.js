@@ -3003,13 +3003,97 @@ function abbreviateNumber(num) {
 }
 
 let globalStatsLoadedOnce = false;
+let activeStatsScope = 'all';
+
+function renderStatsSummaryAndFunnel(scope = activeStatsScope) {
+    const approved = getApprovedChallenges();
+    const solvedListForAgg = getSolvedPuzzlesList();
+    const solvedHintsForAgg = getSolvedHintsMap();
+    const attemptedListForAgg = getAttemptedPuzzles();
+    let totalStarts = 0;
+    let totalSolves = 0;
+    const hintSolves = [0, 0, 0, 0, 0];
+
+    if (scope === 'my') {
+        if (approved.length > 0) {
+            approved.forEach(c => {
+                const pNum = padPuzzleNumber(c.puzzle_number);
+                const isSolved = solvedListForAgg.has(pNum);
+                const isStarted = isSolved || attemptedListForAgg.has(pNum);
+                if (isStarted) totalStarts += 1;
+                if (isSolved) {
+                    totalSolves += 1;
+                    const h = Math.max(0, Math.min(4, parseInt(solvedHintsForAgg[pNum]) || 0));
+                    hintSolves[h] += 1;
+                }
+            });
+        } else {
+            const allAttempted = new Set([...attemptedListForAgg, ...solvedListForAgg]);
+            totalStarts = allAttempted.size;
+            totalSolves = solvedListForAgg.size;
+            solvedListForAgg.forEach(pNum => {
+                const h = Math.max(0, Math.min(4, parseInt(solvedHintsForAgg[pNum]) || 0));
+                hintSolves[h] += 1;
+            });
+        }
+    } else {
+        approved.forEach(c => {
+            const stats = getPuzzleTelemetryStats(c.puzzle_number);
+            let starts = parseInt(stats.start) || 0;
+            let s0 = parseInt(stats.solve_0) || 0;
+            let s1 = parseInt(stats.solve_1) || 0;
+            let s2 = parseInt(stats.solve_2) || 0;
+            let s3 = parseInt(stats.solve_3) || 0;
+            let s4 = parseInt(stats.solve_4) || 0;
+            
+            let pSolves = s0 + s1 + s2 + s3 + s4;
+            if (solvedListForAgg.has(c.puzzle_number) && pSolves === 0) {
+                const h = Math.max(0, Math.min(4, parseInt(solvedHintsForAgg[c.puzzle_number]) || 0));
+                if (h === 0) s0 += 1;
+                else if (h === 1) s1 += 1;
+                else if (h === 2) s2 += 1;
+                else if (h === 3) s3 += 1;
+                else s4 += 1;
+                pSolves += 1;
+            }
+            if ((solvedListForAgg.has(c.puzzle_number) || attemptedListForAgg.has(c.puzzle_number)) && starts === 0) {
+                starts = 1;
+            }
+            if (starts < pSolves) starts = pSolves;
+            
+            totalStarts += starts;
+            totalSolves += pSolves;
+            hintSolves[0] += s0;
+            hintSolves[1] += s1;
+            hintSolves[2] += s2;
+            hintSolves[3] += s3;
+            hintSolves[4] += s4;
+        });
+    }
+
+    const solveRate = totalStarts > 0 ? ((totalSolves / totalStarts) * 100).toFixed(1) : '0.0';
+
+    document.getElementById('agg-total-starts').innerText = abbreviateNumber(totalStarts);
+    document.getElementById('agg-total-solves').innerText = abbreviateNumber(totalSolves);
+    document.getElementById('agg-solve-rate').innerText = `${solveRate}%`;
+
+    for (let i = 0; i <= 4; i++) {
+        const count = hintSolves[i];
+        const pct = totalSolves > 0 ? Math.round((count / totalSolves) * 100) : 0;
+        const fillBar = document.getElementById(`agg-funnel-fill-${i}`);
+        const pctLabel = document.getElementById(`agg-funnel-pct-${i}`);
+        if (fillBar) fillBar.style.width = `${pct}%`;
+        if (pctLabel) pctLabel.innerText = `${pct}%`;
+    }
+}
 
 async function openStatsSelectModal(forceRefresh = false) {
     updateWorldMapBadges();
     const challengesList = document.getElementById('challenges-list');
 
-    // 1. Only show loading placeholders on the very first load so tab switches never flash or jump
-    if (!globalStatsLoadedOnce) {
+    if (activeStatsScope === 'my') {
+        renderStatsSummaryAndFunnel('my');
+    } else if (!globalStatsLoadedOnce) {
         document.getElementById('agg-total-starts').innerText = '...';
         document.getElementById('agg-total-solves').innerText = '...';
         document.getElementById('agg-solve-rate').innerText = '...';
@@ -3020,10 +3104,10 @@ async function openStatsSelectModal(forceRefresh = false) {
             if (fillBar) fillBar.style.width = '0%';
             if (pctLabel) pctLabel.innerText = '0%';
         }
+    }
 
-        if (challengesList) {
-            challengesList.innerHTML = '<div style="text-align: center; padding: 20px; font-weight: 800; color: var(--text-secondary);">Loading challenges...</div>';
-        }
+    if (!globalStatsLoadedOnce && challengesList) {
+        challengesList.innerHTML = '<div style="text-align: center; padding: 20px; font-weight: 800; color: var(--text-secondary);">Loading challenges...</div>';
     }
 
     // 2. Fetch stats (use memory cache after initial fetch unless forced or live telemetry was still waking up)
@@ -3031,63 +3115,9 @@ async function openStatsSelectModal(forceRefresh = false) {
     if (telemetryFetchSucceeded) {
         globalStatsLoadedOnce = true;
     }
-    
-    // 3. Aggregate stats
-    const approved = getApprovedChallenges();
-    const solvedListForAgg = getSolvedPuzzlesList();
-    const solvedHintsForAgg = getSolvedHintsMap();
-    const attemptedListForAgg = getAttemptedPuzzles();
-    let totalStarts = 0;
-    let totalSolves = 0;
-    const hintSolves = [0, 0, 0, 0, 0];
-    
-    approved.forEach(c => {
-        const stats = getPuzzleTelemetryStats(c.puzzle_number);
-        let starts = parseInt(stats.start) || 0;
-        let s0 = parseInt(stats.solve_0) || 0;
-        let s1 = parseInt(stats.solve_1) || 0;
-        let s2 = parseInt(stats.solve_2) || 0;
-        let s3 = parseInt(stats.solve_3) || 0;
-        let s4 = parseInt(stats.solve_4) || 0;
-        
-        let pSolves = s0 + s1 + s2 + s3 + s4;
-        if (solvedListForAgg.has(c.puzzle_number) && pSolves === 0) {
-            const h = Math.max(0, Math.min(4, parseInt(solvedHintsForAgg[c.puzzle_number]) || 0));
-            if (h === 0) s0 += 1;
-            else if (h === 1) s1 += 1;
-            else if (h === 2) s2 += 1;
-            else if (h === 3) s3 += 1;
-            else s4 += 1;
-            pSolves += 1;
-        }
-        if ((solvedListForAgg.has(c.puzzle_number) || attemptedListForAgg.has(c.puzzle_number)) && starts === 0) {
-            starts = 1;
-        }
-        if (starts < pSolves) starts = pSolves;
-        
-        totalStarts += starts;
-        totalSolves += pSolves;
-        hintSolves[0] += s0;
-        hintSolves[1] += s1;
-        hintSolves[2] += s2;
-        hintSolves[3] += s3;
-        hintSolves[4] += s4;
-    });
-    
-    const solveRate = totalStarts > 0 ? ((totalSolves / totalStarts) * 100).toFixed(1) : '0.0';
-    
-    document.getElementById('agg-total-starts').innerText = abbreviateNumber(totalStarts);
-    document.getElementById('agg-total-solves').innerText = abbreviateNumber(totalSolves);
-    document.getElementById('agg-solve-rate').innerText = `${solveRate}%`;
-    
-    for (let i = 0; i <= 4; i++) {
-        const count = hintSolves[i];
-        const pct = totalSolves > 0 ? Math.round((count / totalSolves) * 100) : 0;
-        const fillBar = document.getElementById(`agg-funnel-fill-${i}`);
-        const pctLabel = document.getElementById(`agg-funnel-pct-${i}`);
-        if (fillBar) fillBar.style.width = `${pct}%`;
-        if (pctLabel) pctLabel.innerText = `${pct}%`;
-    }
+
+    // 3. Render summary & funnel for active scope
+    renderStatsSummaryAndFunnel(activeStatsScope);
     
     // 4. Populate list of challenges
     if (challengesList) {
@@ -4523,17 +4553,29 @@ function updateWorldMapBadges() {
 function setUnifiedModalActiveTab(tabName) {
     const tabMapBtn = document.getElementById('tab-btn-world-map');
     const tabStatsBtn = document.getElementById('tab-btn-global-stats');
+    const tabMyStatsBtn = document.getElementById('tab-btn-my-stats');
     const panelMap = document.getElementById('panel-world-map');
     const panelStats = document.getElementById('panel-global-stats');
+    const statsTitleText = document.getElementById('stats-panel-title-text');
 
     const isMap = tabName === 'map';
+    const isAllStats = tabName === 'stats';
+    const isMyStats = tabName === 'my-stats';
+
     if (tabMapBtn) {
         tabMapBtn.classList.toggle('active', isMap);
         tabMapBtn.setAttribute('aria-selected', isMap ? 'true' : 'false');
     }
     if (tabStatsBtn) {
-        tabStatsBtn.classList.toggle('active', !isMap);
-        tabStatsBtn.setAttribute('aria-selected', !isMap ? 'true' : 'false');
+        tabStatsBtn.classList.toggle('active', isAllStats);
+        tabStatsBtn.setAttribute('aria-selected', isAllStats ? 'true' : 'false');
+    }
+    if (tabMyStatsBtn) {
+        tabMyStatsBtn.classList.toggle('active', isMyStats);
+        tabMyStatsBtn.setAttribute('aria-selected', isMyStats ? 'true' : 'false');
+    }
+    if (statsTitleText && !isMap) {
+        statsTitleText.innerText = isMyStats ? 'My Stats' : 'All User Stats';
     }
     if (panelMap) {
         panelMap.classList.toggle('hidden', !isMap);
@@ -4578,16 +4620,40 @@ function openGlobalStatsTab() {
     const statsSelectModal = document.getElementById('stats-select-modal');
     if (!statsSelectModal) return;
 
+    activeStatsScope = 'all';
     hideWorldMapPinTooltip();
     setUnifiedModalActiveTab('stats');
     statsSelectModal.classList.add('active');
+    if (globalStatsLoadedOnce) {
+        renderStatsSummaryAndFunnel('all');
+    }
     openStatsSelectModal(false);
 
     sendTelemetryEvent('click_stats');
     if (typeof gtag !== 'undefined') {
         gtag('event', 'page_view', {
-            page_title: 'Global Stats',
-            page_path: '/global-stats'
+            page_title: 'All User Stats',
+            page_path: '/all-user-stats'
+        });
+    }
+}
+
+function openMyStatsTab() {
+    const statsSelectModal = document.getElementById('stats-select-modal');
+    if (!statsSelectModal) return;
+
+    activeStatsScope = 'my';
+    hideWorldMapPinTooltip();
+    setUnifiedModalActiveTab('my-stats');
+    statsSelectModal.classList.add('active');
+    renderStatsSummaryAndFunnel('my');
+    openStatsSelectModal(false);
+
+    sendTelemetryEvent('click_my_stats');
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: 'My Stats',
+            page_path: '/my-stats'
         });
     }
 }
@@ -4602,15 +4668,17 @@ function initWorldMapFeature() {
     if (btnWorldMap) btnWorldMap.onclick = openWorldMapModal;
     if (btnWorldMapVic) btnWorldMapVic.onclick = openWorldMapModal;
 
-    // Unified 2-Tab Switcher & CTA buttons (switches panels in-place with zero jump or flash)
+    // Unified 3-Tab Switcher & CTA buttons (switches panels in-place with zero jump or flash)
     const tabBtnWorldMap = document.getElementById('tab-btn-world-map');
     const tabBtnGlobalStats = document.getElementById('tab-btn-global-stats');
+    const tabBtnMyStats = document.getElementById('tab-btn-my-stats');
     const btnOpenMapFromStats = document.getElementById('btn-open-map-from-stats');
     const btnMapToStats = document.getElementById('btn-map-to-stats');
 
     if (tabBtnWorldMap) tabBtnWorldMap.onclick = openWorldMapModal;
     if (btnOpenMapFromStats) btnOpenMapFromStats.onclick = openWorldMapModal;
     if (tabBtnGlobalStats) tabBtnGlobalStats.onclick = openGlobalStatsTab;
+    if (tabBtnMyStats) tabBtnMyStats.onclick = openMyStatsTab;
     if (btnMapToStats) btnMapToStats.onclick = openGlobalStatsTab;
 
     // 1-Click Postcard Overlay Close & Reviews Toggle
