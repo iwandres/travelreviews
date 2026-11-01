@@ -3693,5 +3693,50 @@
       "Hanging Temple of Hamburger",
       "Hanging Temple of Ham Shank"
     ]
+  },
+  {
+    "id": "pun_the_london_eye_1793513935_513",
+    "original_name": "The London Eye",
+    "location": "London, United Kingdom",
+    "pun_name": "The London Pie",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "The pun perfectly substitutes 'Eye' with the concrete, edible noun 'Pie', creating a hilarious image of a giant, possibly edible, Ferris wheel. This makes for a wonderfully absurd postcard and generates endless 1-star review potential about its taste, texture, or inability to be eaten.",
+    "runner_up_puns": [
+      "The London Fly",
+      "The London Tie",
+      "The London Rye"
+    ]
+  },
+  {
+    "id": "pun_jigokudani_monkey_park_1793513975_334",
+    "original_name": "Jigokudani Monkey Park",
+    "location": "Nagano Prefecture, Japan",
+    "pun_name": "Jigokudani Donkey Park",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun makes a brilliant, direct substitution of 'Monkey' with 'Donkey'. The phonetic match is nearly perfect and 'Donkey' is a concrete, funny animal, creating a hilarious visual of a tourist expecting snow monkeys but finding only donkeys, perfectly ripe for a disgruntled 1-star review.",
+    "runner_up_puns": [
+      "Jigokudani Muffin Park",
+      "Jiggly Donut Monkey Park",
+      "Jigsawdani Monkey Park"
+    ]
+  },
+  {
+    "id": "pun_burj_al_arab_jumeirah_1793514014_625",
+    "original_name": "Burj Al Arab Jumeirah",
+    "location": "Dubai, UAE",
+    "pun_name": "Purse Al Arab Jumeirah",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly transforms 'Burj' into 'Purse' through a clear phonetic match. The image of the iconic sail-shaped hotel as a giant purse is visually absurd and hilarious for a postcard, easily leading to a 1-star review about exorbitant prices or flashy, yet ultimately hollow, luxury.",
+    "runner_up_puns": [
+      "Burj Alarm Jumeirah",
+      "Burj Al Arab Jewelry",
+      "Birch Al Arab Jumeirah"
+    ]
   }
 ]

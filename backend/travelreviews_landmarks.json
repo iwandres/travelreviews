@@ -4504,5 +4504,49 @@
         "agent_generated": true,
         "lat": 39.6594,
         "lng": 113.7081
+    },
+    {
+        "id": "landmark_1793513921_583_0",
+        "name": "The London Eye",
+        "location": "London, United Kingdom",
+        "page_theme": "modern_skyscrapers",
+        "pun_potential_note": "The phrase 'London Eye' readily lends itself to playful twists like 'London Pie', 'London Tie', or 'London Lie'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 51.5033,
+        "lng": -0.1195
+    },
+    {
+        "id": "landmark_1793513921_341_1",
+        "name": "Jigokudani Monkey Park",
+        "location": "Nagano Prefecture, Japan",
+        "page_theme": "natural_wonders",
+        "pun_potential_note": "'Jigokudani' can be playfully misheard as 'jig a kudu, Danny', and 'Monkey Park' could become 'Money Mark' or 'Monk-key park'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 36.7327,
+        "lng": 138.4621
+    },
+    {
+        "id": "landmark_1793513921_432_2",
+        "name": "Burj Al Arab Jumeirah",
+        "location": "Dubai, UAE",
+        "page_theme": "modern_skyscrapers",
+        "pun_potential_note": "'Burj Al Arab' could be twisted into 'Burger a Rob' or 'Burly Al Arab', and 'Jumeirah' sounds like 'Jewelry' or 'Ju-mare-ah'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 25.1412,
+        "lng": 55.1852
+    },
+    {
+        "id": "landmark_1793513921_814_3",
+        "name": "The Northern Lights (Aurora Borealis)",
+        "location": "Arctic Regions, e.g., Iceland",
+        "page_theme": "natural_wonders",
+        "pun_potential_note": "'Northern Lights' can become 'Norther Blights' or 'Northern Bytes', and 'Aurora Borealis' offers potential with 'A roar a bore alice'.",
+        "status": "pending",
+        "agent_generated": true,
+        "lat": 69.6492,
+        "lng": 18.9553
     }
 ]

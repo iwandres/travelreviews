@@ -2413,6 +2413,38 @@
       "was_runner_up_selected": false,
       "human_feedback": "",
       "decline_reason": ""
+    },
+    {
+      "id": "sig_1793514032_230",
+      "timestamp": 1793514032,
+      "iso_time": "2026-11-01T06:20:32Z",
+      "signal_type": "agent_run",
+      "signal_weight": 0.0,
+      "stage": "agent_queue",
+      "redo_type": null,
+      "clue_id": "",
+      "postcard_id": "",
+      "landmark_name": "",
+      "location": "",
+      "pun_name": "",
+      "old_value": {},
+      "new_value": {
+        "generated_count": 3,
+        "discovered_landmarks_count": 4,
+        "puns": [
+          "The London Pie",
+          "Jigokudani Donkey Park",
+          "Purse Al Arab Jumeirah"
+        ]
+      },
+      "art_style": "",
+      "page_theme": "",
+      "agent_score": 9.63,
+      "redo_count_at_event": 0,
+      "first_pass_approval": false,
+      "was_runner_up_selected": false,
+      "human_feedback": "",
+      "decline_reason": ""
     }
   ]
 }

@@ -2955,6 +2955,7 @@ function getPuzzleTelemetryStats(puzzleNum) {
 
 function getChallengeDifficulty(challenge, stats) {
     const starts = parseInt(stats.start) || 0;
+    const attempts = parseInt(stats.attempts) || 0;
     const s0 = parseInt(stats.solve_0) || 0;
     const s1 = parseInt(stats.solve_1) || 0;
     const s2 = parseInt(stats.solve_2) || 0;
@@ -2962,17 +2963,32 @@ function getChallengeDifficulty(challenge, stats) {
     const s4 = parseInt(stats.solve_4) || 0;
     const totalSolves = s0 + s1 + s2 + s3 + s4;
     
-    if (starts > 10) {
-        const solveRate = (totalSolves / starts) * 100;
-        if (solveRate >= 85) return 'Easy';
-        if (solveRate >= 68) return 'Medium';
+    if (starts > 0 || totalSolves > 0) {
+        const effStarts = Math.max(starts, totalSolves, 1);
+        const solveRate = totalSolves / effStarts;
+        const unsolvedRate = 1.0 - Math.min(1.0, solveRate);
+        const avgHints = totalSolves > 0
+            ? ((0 * s0 + 1 * s1 + 2 * s2 + 3 * s3 + 4 * s4) / totalSolves)
+            : 4.0;
+        const attPerSolve = totalSolves > 0
+            ? Math.max(1.0, attempts / totalSolves)
+            : Math.max(5.0, attempts);
+        
+        const hintNorm = Math.min(1.0, avgHints / 4.0);
+        const attNorm = Math.min(1.0, Math.max(0.0, (attPerSolve - 1.0) / 5.0));
+        // Composite solve-metrics difficulty score (0 to 100):
+        // 40% Unsolved/Abandon Rate + 35% Progressive Hint Usage + 25% Extra Guess Attempts
+        const difficultyScore = (unsolvedRate * 40.0) + (hintNorm * 35.0) + (attNorm * 25.0);
+        
+        if (difficultyScore < 30.0) return 'Easy';
+        if (difficultyScore < 50.0) return 'Medium';
         return 'Hard';
-    } else {
-        const tier = parseInt(challenge.difficulty_tier) || 2;
-        if (tier === 1) return 'Easy';
-        if (tier === 3) return 'Hard';
-        return 'Medium';
     }
+    
+    const tier = parseInt(challenge.difficulty_tier) || 2;
+    if (tier === 1) return 'Easy';
+    if (tier === 3) return 'Hard';
+    return 'Medium';
 }
 
 function abbreviateNumber(num) {

@@ -203,6 +203,31 @@ def sanitize_travelreviews_puzzles(puzzles):
             if not p.get('location') and lm_meta.get('location'):
                 p['location'] = lm_meta['location']
 
+    # Enrich difficulty_tier from telemetry records when available
+    records_lookup = load_json(TRAVELREVIEWS_RECORDS_FILE, {})
+    if isinstance(records_lookup, dict):
+        for p in puzzles:
+            pnum = str(p.get('puzzle_number', ''))
+            st = records_lookup.get(pnum)
+            if isinstance(st, dict):
+                starts = int(st.get('start', 0))
+                attempts = int(st.get('attempts', 0))
+                s0 = int(st.get('solve_0', 0))
+                s1 = int(st.get('solve_1', 0))
+                s2 = int(st.get('solve_2', 0))
+                s3 = int(st.get('solve_3', 0))
+                s4 = int(st.get('solve_4', 0))
+                solves = s0 + s1 + s2 + s3 + s4
+                if starts > 0 or solves > 0:
+                    eff_starts = max(starts, solves, 1)
+                    unsolved_rate = 1.0 - min(1.0, solves / eff_starts)
+                    avg_hints = ((0*s0 + 1*s1 + 2*s2 + 3*s3 + 4*s4) / solves) if solves > 0 else 4.0
+                    att_per_solve = max(1.0, attempts / solves) if solves > 0 else max(5.0, float(attempts))
+                    hint_norm = min(1.0, avg_hints / 4.0)
+                    att_norm = min(1.0, max(0.0, (att_per_solve - 1.0) / 5.0))
+                    score = (unsolved_rate * 40.0) + (hint_norm * 35.0) + (att_norm * 25.0)
+                    p['difficulty_tier'] = 1 if score < 30.0 else (2 if score < 50.0 else 3)
+
     return puzzles
 
 def save_json(filepath, data):

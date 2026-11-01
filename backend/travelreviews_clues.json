@@ -3742,5 +3742,80 @@
         ],
         "lat": 39.6594,
         "lng": 113.7081
+    },
+    {
+        "id": "clue_the_london_pie_1793513943_881",
+        "pun_id": "pun_the_london_eye_1793513935_513",
+        "original_name": "The London Eye",
+        "location": "London, United Kingdom",
+        "pun_name": "The London Pie",
+        "reviewer_name": "CrustyCritic",
+        "review_title": "Worst \"pie\" in London!",
+        "clue1": "Flew all the way to London for this giant pie... where's the filling?!",
+        "clue2": "The 'crust' was disappointingly metallic! Couldn't even cut a slice...",
+        "clue3": "Turns out, this giant pie just stares at you. A massive, revolving dessert!",
+        "owner_response": "Dear @CrustyCritic, our iconic observation wheel offers panoramic views, not pastry. Perhaps consult a baker before your next 'culinary' tour.",
+        "page_theme": "modern_skyscrapers",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.6,
+        "agent_rationale": "The pun perfectly substitutes 'Eye' with the concrete, edible noun 'Pie', creating a hilarious image of a giant, possibly edible, Ferris wheel. This makes for a wonderfully absurd postcard and generates endless 1-star review potential about its taste, texture, or inability to be eaten.",
+        "runner_up_puns": [
+            "The London Fly",
+            "The London Tie",
+            "The London Rye"
+        ],
+        "lat": 51.5033,
+        "lng": -0.1195
+    },
+    {
+        "id": "clue_jigokudani_donkey_park_1793513983_967",
+        "pun_id": "pun_jigokudani_monkey_park_1793513975_334",
+        "original_name": "Jigokudani Monkey Park",
+        "location": "Nagano Prefecture, Japan",
+        "pun_name": "Jigokudani Donkey Park",
+        "reviewer_name": "BrayingBob",
+        "review_title": "Donkey-Less Disaster!",
+        "clue1": "Visited snowy Japanese mountains expecting friendly braying companions!",
+        "clue2": "The 'stables' were just steamy pools... no donkey ever bathed there!",
+        "clue3": "Instead of a bray, I heard chattering... and saw furry red faces!",
+        "owner_response": "Listen, @BrayingBob, our steaming pools are for wild Japanese macaques, not for stabling or washing barnyard animals. Read the signs!",
+        "page_theme": "natural_wonders",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.8,
+        "agent_rationale": "This pun makes a brilliant, direct substitution of 'Monkey' with 'Donkey'. The phonetic match is nearly perfect and 'Donkey' is a concrete, funny animal, creating a hilarious visual of a tourist expecting snow monkeys but finding only donkeys, perfectly ripe for a disgruntled 1-star review.",
+        "runner_up_puns": [
+            "Jigokudani Muffin Park",
+            "Jiggly Donut Monkey Park",
+            "Jigsawdani Monkey Park"
+        ],
+        "lat": 36.7327,
+        "lng": 138.4621
+    },
+    {
+        "id": "clue_purse_al_arab_jumeirah_1793514020_341",
+        "pun_id": "pun_burj_al_arab_jumeirah_1793514014_625",
+        "original_name": "Burj Al Arab Jumeirah",
+        "location": "Dubai, UAE",
+        "pun_name": "Purse Al Arab Jumeirah",
+        "reviewer_name": "WalletWoe",
+        "review_title": "False Advertising: No Purses!",
+        "clue1": "Flew to Dubai for designer bags... found a sail-shaped hotel instead!",
+        "clue2": "Couldn't even put my phone in it; the massive atrium was just... air!",
+        "clue3": "My wallet won't fit this \"Arabian vessel\" - definitely not a handbag!",
+        "owner_response": "Dear @WalletWoe, our iconic, sail-shaped seven-star hotel on its own island is not, in fact, a personal accessory. Perhaps you misread the brochure?",
+        "page_theme": "modern_skyscrapers",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.5,
+        "agent_rationale": "This pun cleverly transforms 'Burj' into 'Purse' through a clear phonetic match. The image of the iconic sail-shaped hotel as a giant purse is visually absurd and hilarious for a postcard, easily leading to a 1-star review about exorbitant prices or flashy, yet ultimately hollow, luxury.",
+        "runner_up_puns": [
+            "Burj Alarm Jumeirah",
+            "Burj Al Arab Jewelry",
+            "Birch Al Arab Jumeirah"
+        ],
+        "lat": 25.1412,
+        "lng": 55.1852
     }
 ]
