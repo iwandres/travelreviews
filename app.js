@@ -3968,10 +3968,32 @@ function renderSolvedMapPinsAndList() {
     const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
     pinsLayer.innerHTML = '';
 
+    const getPinDifficultyVisuals = (c) => {
+        const stats = getPuzzleTelemetryStats(c.puzzle_number);
+        const difficulty = getChallengeDifficulty(c, stats);
+        if (difficulty === 'Easy') {
+            return {
+                difficulty,
+                pinGrad: 'url(#pinEmeraldGrad)',
+                pulseColor: 'rgba(16, 185, 129, 0.35)'
+            };
+        }
+        if (difficulty === 'Hard') {
+            return {
+                difficulty,
+                pinGrad: 'url(#pinCoralGrad)',
+                pulseColor: 'rgba(244, 63, 94, 0.35)'
+            };
+        }
+        return {
+            difficulty: 'Medium',
+            pinGrad: 'url(#pinAmberGrad)',
+            pulseColor: 'rgba(245, 158, 11, 0.38)'
+        };
+    };
+
     const buildSinglePinSvgMarkup = (c, showNumberPill = false) => {
-        const hints = solvedHints[padPuzzleNumber(c.puzzle_number)];
-        const pinGrad = hints === 0 ? 'url(#pinEmeraldGrad)' : 'url(#pinCoralGrad)';
-        const pulseColor = hints === 0 ? 'rgba(6, 214, 160, 0.35)' : 'rgba(255, 71, 87, 0.35)';
+        const { pinGrad, pulseColor } = getPinDifficultyVisuals(c);
         const numberTagHtml = showNumberPill ? `
             <g class="map-spiderfy-num-pill" transform="translate(0, 5.2)">
                 <rect x="-8.5" y="-4.2" width="17" height="8.4" rx="4.2" fill="#FFFDF7" stroke="#2D3436" stroke-width="1.2" />
@@ -4053,11 +4075,12 @@ function renderSolvedMapPinsAndList() {
             g.dataset.puzzleNumbers = puzzleNumbersAttr;
             g.dataset.clusterId = cluster.id;
 
-            const hasZeroHint = cluster.items.some(it => solvedHints[padPuzzleNumber(it.challenge.puzzle_number)] === 0);
-            const hasHinted = cluster.items.some(it => solvedHints[padPuzzleNumber(it.challenge.puzzle_number)] !== 0);
-            const frontGrad = hasZeroHint ? 'url(#pinEmeraldGrad)' : 'url(#pinCoralGrad)';
-            const backGrad = (hasZeroHint && hasHinted) ? 'url(#pinCoralGrad)' : frontGrad;
-            const pulseColor = hasZeroHint ? 'rgba(6, 214, 160, 0.38)' : 'rgba(255, 71, 87, 0.38)';
+            const itemVisuals = cluster.items.map(it => getPinDifficultyVisuals(it.challenge));
+            const frontVis = itemVisuals[0];
+            const distinctBackVis = itemVisuals.find(v => v.difficulty !== frontVis.difficulty) || frontVis;
+            const frontGrad = frontVis.pinGrad;
+            const backGrad = distinctBackVis.pinGrad;
+            const pulseColor = frontVis.pulseColor;
 
             g.innerHTML = `
                 <g class="map-pin-scale-wrap" transform="scale(${invScale.toFixed(3)})">
@@ -4234,6 +4257,8 @@ function renderSolvedMapPinsAndList() {
         const row = document.createElement('div');
         row.className = 'map-completed-row';
         const thumbUrl = getCorrectPosterUrl(c.boss_poster_url);
+        const stats = getPuzzleTelemetryStats(c.puzzle_number);
+        const difficulty = getChallengeDifficulty(c, stats);
 
         row.innerHTML = `
             <img src="${thumbUrl}" class="map-completed-thumb" alt="${c.boss_pun_title}" loading="lazy">
@@ -4241,7 +4266,10 @@ function renderSolvedMapPinsAndList() {
                 <span class="map-completed-title">#${c.puzzle_number} — ${c.boss_pun_title}</span>
                 <span class="map-completed-sub">📍 ${c.boss_original_title}${locLabel}</span>
             </div>
-            <span class="map-completed-view-pill">🖼️ Postcard</span>
+            <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                <span class="difficulty-badge ${difficulty.toLowerCase()}">${difficulty}</span>
+                <span class="map-completed-view-pill">🖼️ Postcard</span>
+            </div>
         `;
 
         row.addEventListener('mouseenter', () => {
@@ -4310,10 +4338,12 @@ function showWorldMapPinTooltip(pinItem, ev) {
     if (!tooltip) return;
 
     const c = pinItem.challenge;
+    const stats = getPuzzleTelemetryStats(c.puzzle_number);
+    const difficulty = getChallengeDifficulty(c, stats);
     const locSuffix = pinItem.coords.location ? ` (${pinItem.coords.location})` : '';
     tooltip.innerHTML = `
         <span class="world-map-tooltip-pun">#${c.puzzle_number}: ${c.boss_pun_title}</span>
-        <span class="world-map-tooltip-real">${c.boss_original_title}${locSuffix}</span>
+        <span class="world-map-tooltip-real">${c.boss_original_title}${locSuffix} • ${difficulty}</span>
     `;
 
     const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
@@ -4526,6 +4556,14 @@ function openWorldMapModal() {
     applyWorldMapTransform();
     setUnifiedModalActiveTab('map');
     statsSelectModal.classList.add('active');
+
+    if (!liveTelemetryLoaded) {
+        fetchAllTelemetryStats(false).then(() => {
+            if (worldMapState.initialized) {
+                renderSolvedMapPinsAndList();
+            }
+        });
+    }
 
     sendTelemetryEvent('click_world_map');
     if (typeof gtag !== 'undefined') {

@@ -2853,10 +2853,17 @@ svg.hidden {
     display: inline-block;
 }
 
+.map-legend-dot.easy,
 .map-legend-dot.emerald {
     background: #10B981;
 }
 
+.map-legend-dot.medium,
+.map-legend-dot.amber {
+    background: #F59E0B;
+}
+
+.map-legend-dot.hard,
 .map-legend-dot.coral {
     background: #F43F5E;
 }
