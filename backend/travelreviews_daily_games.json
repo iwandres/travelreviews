@@ -4144,5 +4144,29 @@
         "status": "approved",
         "tt_puzzles": [],
         "date": "2026-12-21"
+    },
+    {
+        "puzzle_number": "172",
+        "puzzle_id": "clue_cinque_tire_1793512806_846",
+        "boss_id": "boss_clue_cinque_tire_1793512806_846",
+        "boss_original_title": "Cinque Terre",
+        "boss_pun_title": "Cinque Tire",
+        "location": "Liguria, Italy",
+        "lat": 44.1461,
+        "lng": 9.6439,
+        "answer": "______ ____",
+        "boss_hint2": "C_____ T___",
+        "reviewer_name": "RubberRubble",
+        "review_title": "Where are the wheels?!",
+        "clue1": "Flew all the way to beautiful Italy for five flat, boring pieces of rubber...",
+        "clue2": "Tried to roll them down the cliffs, but these houses are stuck!",
+        "clue3": "These five stunning cliffside settlements are not for vehicle maintenance... at all!",
+        "boss_pitch": "Listen, @RubberRubble, our renowned collection of five charming, colorful cliffside towns offer stunning views, not rubber for your vehicle.",
+        "boss_poster_url": "/assets/cartoons/cinque_tire_1793512813_27.webp",
+        "difficulty_tier": 1,
+        "page_theme": "historic_monuments",
+        "status": "approved",
+        "tt_puzzles": [],
+        "date": "2026-12-22"
     }
 ]

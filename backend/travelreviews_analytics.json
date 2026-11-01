@@ -2197,6 +2197,94 @@
       "was_runner_up_selected": false,
       "human_feedback": "",
       "decline_reason": ""
+    },
+    {
+      "id": "sig_1793512925_454",
+      "timestamp": 1793512925,
+      "iso_time": "2026-11-01T06:02:05Z",
+      "signal_type": "agent_run",
+      "signal_weight": 0.0,
+      "stage": "agent_queue",
+      "redo_type": null,
+      "clue_id": "",
+      "postcard_id": "",
+      "landmark_name": "",
+      "location": "",
+      "pun_name": "",
+      "old_value": {},
+      "new_value": {
+        "generated_count": 3,
+        "discovered_landmarks_count": 3,
+        "puns": [
+          "Cinque Tire",
+          "Peanut Palace",
+          "Blue Mask"
+        ]
+      },
+      "art_style": "",
+      "page_theme": "",
+      "agent_score": 9.4,
+      "redo_count_at_event": 0,
+      "first_pass_approval": false,
+      "was_runner_up_selected": false,
+      "human_feedback": "",
+      "decline_reason": ""
+    },
+    {
+      "id": "sig_1793512925_660",
+      "timestamp": 1793512925,
+      "iso_time": "2026-11-01T06:02:05Z",
+      "signal_type": "approve",
+      "signal_weight": 1.0,
+      "stage": "agent_queue",
+      "redo_type": null,
+      "clue_id": "clue_cinque_tire_1793512806_846",
+      "postcard_id": "postcard_clue_cinque_tire_1793512806_846_1793512823",
+      "landmark_name": "Cinque Terre",
+      "location": "Liguria, Italy",
+      "pun_name": "Cinque Tire",
+      "old_value": {},
+      "new_value": {},
+      "art_style": "watercolor",
+      "page_theme": "historic_monuments",
+      "agent_score": 9.2,
+      "redo_count_at_event": 0,
+      "first_pass_approval": true,
+      "was_runner_up_selected": false,
+      "human_feedback": "",
+      "decline_reason": ""
+    },
+    {
+      "id": "sig_1793513110_746",
+      "timestamp": 1793513110,
+      "iso_time": "2026-11-01T06:05:10Z",
+      "signal_type": "agent_run",
+      "signal_weight": 0.0,
+      "stage": "agent_queue",
+      "redo_type": null,
+      "clue_id": "",
+      "postcard_id": "",
+      "landmark_name": "",
+      "location": "",
+      "pun_name": "",
+      "old_value": {},
+      "new_value": {
+        "generated_count": 3,
+        "discovered_landmarks_count": 1,
+        "puns": [
+          "The Bacon Strip",
+          "Blue Mask",
+          "Peanut Palace"
+        ]
+      },
+      "art_style": "",
+      "page_theme": "",
+      "agent_score": 9.6,
+      "redo_count_at_event": 0,
+      "first_pass_approval": false,
+      "was_runner_up_selected": false,
+      "human_feedback": "",
+      "decline_reason": ""
     }
   ]
 }

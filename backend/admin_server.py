@@ -340,7 +340,8 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                     stats = db_module.get_telemetry_stats(puzzle_number)
                 else:
                     stats = db_module.get_telemetry_stats()
-                    save_json(rec_file, stats)
+                    if stats:
+                        save_json(rec_file, stats)
                 self.wfile.write(json.dumps(stats).encode('utf-8'))
             except Exception as e:
                 print(f"Database error: {e}, falling back to local file")

@@ -2833,8 +2833,10 @@ function requestNextRewardedAd() {
 
 // ================= STATS & LEVEL SELECT CONTROLLER =================
 
+let liveTelemetryLoaded = false;
+
 async function fetchAllTelemetryStats(force = false) {
-    if (allTelemetry && !force) return allTelemetry;
+    if (allTelemetry && liveTelemetryLoaded && !force) return allTelemetry;
     
     let liveData = {};
     let staticData = {};
@@ -2842,15 +2844,16 @@ async function fetchAllTelemetryStats(force = false) {
     
     try {
         const telemetryUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? '/api/records'
+            ? '/api/travelreviews/records'
             : `${BACKEND_API_URL}/api/travelreviews/records`;
             
-        const response = await fetchWithTimeout(telemetryUrl, { timeout: 3500 });
+        const response = await fetchWithTimeout(telemetryUrl, { timeout: 6500 });
         if (response.ok) {
             const data = await response.json();
-            if (data && typeof data === 'object' && !data.hasOwnProperty('start')) {
+            if (data && typeof data === 'object' && !data.hasOwnProperty('start') && Object.keys(data).length > 0) {
                 liveData = data;
                 fetchSuccess = true;
+                liveTelemetryLoaded = true;
                 console.log("Live telemetry fetched successfully for merging.");
             }
         }
@@ -2863,7 +2866,7 @@ async function fetchAllTelemetryStats(force = false) {
         const response = await fetchWithTimeout(staticUrl, { timeout: 3500 });
         if (response.ok) {
             const data = await response.json();
-            if (data && typeof data === 'object') {
+            if (data && typeof data === 'object' && Object.keys(data).length > 0) {
                 staticData = data;
                 fetchSuccess = true;
                 console.log("Static telemetry fetched successfully for merging.");
@@ -3007,27 +3010,47 @@ async function openStatsSelectModal(forceRefresh = false) {
         }
     }
 
-    // 2. Fetch stats (use memory cache after initial fetch unless forced)
-    const statsData = await fetchAllTelemetryStats(forceRefresh || !globalStatsLoadedOnce);
-    globalStatsLoadedOnce = true;
+    // 2. Fetch stats (use memory cache after initial fetch unless forced or live telemetry was still waking up)
+    const statsData = await fetchAllTelemetryStats(forceRefresh || !globalStatsLoadedOnce || !liveTelemetryLoaded);
+    if (telemetryFetchSucceeded) {
+        globalStatsLoadedOnce = true;
+    }
     
     // 3. Aggregate stats
     const approved = getApprovedChallenges();
+    const solvedListForAgg = getSolvedPuzzlesList();
+    const solvedHintsForAgg = getSolvedHintsMap();
+    const attemptedListForAgg = getAttemptedPuzzles();
     let totalStarts = 0;
     let totalSolves = 0;
     const hintSolves = [0, 0, 0, 0, 0];
     
     approved.forEach(c => {
         const stats = getPuzzleTelemetryStats(c.puzzle_number);
-        const starts = parseInt(stats.start) || 0;
-        const s0 = parseInt(stats.solve_0) || 0;
-        const s1 = parseInt(stats.solve_1) || 0;
-        const s2 = parseInt(stats.solve_2) || 0;
-        const s3 = parseInt(stats.solve_3) || 0;
-        const s4 = parseInt(stats.solve_4) || 0;
+        let starts = parseInt(stats.start) || 0;
+        let s0 = parseInt(stats.solve_0) || 0;
+        let s1 = parseInt(stats.solve_1) || 0;
+        let s2 = parseInt(stats.solve_2) || 0;
+        let s3 = parseInt(stats.solve_3) || 0;
+        let s4 = parseInt(stats.solve_4) || 0;
+        
+        let pSolves = s0 + s1 + s2 + s3 + s4;
+        if (solvedListForAgg.has(c.puzzle_number) && pSolves === 0) {
+            const h = Math.max(0, Math.min(4, parseInt(solvedHintsForAgg[c.puzzle_number]) || 0));
+            if (h === 0) s0 += 1;
+            else if (h === 1) s1 += 1;
+            else if (h === 2) s2 += 1;
+            else if (h === 3) s3 += 1;
+            else s4 += 1;
+            pSolves += 1;
+        }
+        if ((solvedListForAgg.has(c.puzzle_number) || attemptedListForAgg.has(c.puzzle_number)) && starts === 0) {
+            starts = 1;
+        }
+        if (starts < pSolves) starts = pSolves;
         
         totalStarts += starts;
-        totalSolves += (s0 + s1 + s2 + s3 + s4);
+        totalSolves += pSolves;
         hintSolves[0] += s0;
         hintSolves[1] += s1;
         hintSolves[2] += s2;

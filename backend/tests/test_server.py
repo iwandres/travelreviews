@@ -27,11 +27,13 @@ class TestServerHandler(unittest.TestCase):
         self.patcher_tr_get = patch('travelreviews_database.get_telemetry_stats')
         self.patcher_bo_record = patch('database.record_telemetry_event')
         self.patcher_tr_record = patch('travelreviews_database.record_telemetry_event')
+        self.patcher_save_json = patch('backend.unified_server.save_json', return_value=True)
         
         self.mock_bo_get = self.patcher_bo_get.start()
         self.mock_tr_get = self.patcher_tr_get.start()
         self.mock_bo_record = self.patcher_bo_record.start()
         self.mock_tr_record = self.patcher_tr_record.start()
+        self.mock_save_json = self.patcher_save_json.start()
         
         # Configure default dictionary return values to prevent JSON serialization crashes on file sync fallbacks
         self.mock_bo_get.return_value = {}
@@ -42,6 +44,7 @@ class TestServerHandler(unittest.TestCase):
         self.patcher_tr_get.stop()
         self.patcher_bo_record.stop()
         self.patcher_tr_record.stop()
+        self.patcher_save_json.stop()
 
     def make_handler(self, method, path, headers=None, body=None):
         # Helper to construct a mock request handler
