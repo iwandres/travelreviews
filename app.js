@@ -4062,7 +4062,7 @@ function renderSolvedMapPinsAndList() {
                         <!-- Top-right xN count pill badge -->
                         <g transform="translate(7.6, -20.6)">
                             <rect x="-6.8" y="-4.6" width="13.6" height="9.2" rx="4.6" fill="#FFD166" stroke="#2D3436" stroke-width="1.3" />
-                            <text x="0" y="0.2" text-anchor="middle" dominant-baseline="central" fill="#2D3436" font-family="Nunito, sans-serif" font-size="5.8" font-weight="900">?${count}</text>
+                            <text x="0" y="0.2" text-anchor="middle" dominant-baseline="central" fill="#2D3436" font-family="Nunito, sans-serif" font-size="5.8" font-weight="900">×${count}</text>
                         </g>
                     </g>
                 </g>
@@ -4214,7 +4214,7 @@ function renderSolvedMapPinsAndList() {
 
     solvedChallengesDesc.forEach(c => {
         const coords = getChallengeCoordinates(c);
-        const locLabel = coords && coords.location ? ` ? ${coords.location}` : '';
+        const locLabel = coords && coords.location ? ` • ${coords.location}` : '';
         const row = document.createElement('div');
         row.className = 'map-completed-row';
         const thumbUrl = getCorrectPosterUrl(c.boss_poster_url);
@@ -4222,10 +4222,10 @@ function renderSolvedMapPinsAndList() {
         row.innerHTML = `
             <img src="${thumbUrl}" class="map-completed-thumb" alt="${c.boss_pun_title}" loading="lazy">
             <div class="map-completed-meta">
-                <span class="map-completed-title">#${c.puzzle_number} ? ${c.boss_pun_title}</span>
-                <span class="map-completed-sub">?? ${c.boss_original_title}${locLabel}</span>
+                <span class="map-completed-title">#${c.puzzle_number} — ${c.boss_pun_title}</span>
+                <span class="map-completed-sub">📍 ${c.boss_original_title}${locLabel}</span>
             </div>
-            <span class="map-completed-view-pill">??? Postcard</span>
+            <span class="map-completed-view-pill">🖼️ Postcard</span>
         `;
 
         row.addEventListener('mouseenter', () => {
@@ -4280,10 +4280,10 @@ function showWorldMapClusterTooltip(cluster, ev) {
         : '';
 
     tooltip.innerHTML = `
-        <span class="world-map-tooltip-real">?? ${locTitle} (${cluster.items.length} Solved)</span>
+        <span class="world-map-tooltip-real">${locTitle} (${cluster.items.length} Solved)</span>
         ${rowsHtml}
         ${moreHtml}
-        <span class="world-map-tooltip-hint">? Click pin to fan out</span>
+        <span class="world-map-tooltip-hint">Click pin to fan out</span>
     `;
 
     positionWorldMapTooltipAtSvgPoint(cluster.cx, cluster.cy);
@@ -4297,7 +4297,7 @@ function showWorldMapPinTooltip(pinItem, ev) {
     const locSuffix = pinItem.coords.location ? ` (${pinItem.coords.location})` : '';
     tooltip.innerHTML = `
         <span class="world-map-tooltip-pun">#${c.puzzle_number}: ${c.boss_pun_title}</span>
-        <span class="world-map-tooltip-real">?? ${c.boss_original_title}${locSuffix}</span>
+        <span class="world-map-tooltip-real">${c.boss_original_title}${locSuffix}</span>
     `;
 
     const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
