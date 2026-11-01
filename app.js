@@ -505,6 +505,7 @@ window.onload = async () => {
     }
 
     // ================= USER SETTINGS & SYNC BINDINGS =================
+    initWorldMapFeature();
     const settingsModal = document.getElementById('settings-modal');
     const btnSettings = document.getElementById('btn-settings');
     const btnSettingsVic = document.getElementById('btn-settings-victory');
@@ -707,8 +708,9 @@ window.onload = async () => {
     // 3. Initialize hover-based daily streak tooltip for desktop users
     initStreakTooltip();
     initNextButtonVictoryTooltip();
-    initWorldMapFeature();
-    if (urlParams.get('view') === 'map') {
+    updateWorldMapBadges();
+    const pageUrlParams = new URLSearchParams(window.location.search);
+    if (pageUrlParams.get('view') === 'map') {
         openWorldMapModal();
     }
     

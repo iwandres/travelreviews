@@ -2484,11 +2484,12 @@ svg.hidden {
 .modal-tab-switcher {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    background: #f1f2f6;
-    border: 2px solid var(--border-color);
+    gap: 6px;
+    background: #f8f6ff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border-radius: 12px;
-    padding: 4px;
+    padding: 5px;
     margin-bottom: 16px;
     box-sizing: border-box;
 }
@@ -2497,12 +2498,13 @@ svg.hidden {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 4px;
-    padding: 8px 10px;
-    border: none;
+    gap: 5px;
+    padding: 9px 10px;
+    border: 1px solid transparent;
     border-radius: 8px;
     background: transparent;
-    color: var(--text-secondary);
+    color: var(--text-primary);
+    opacity: 0.72;
     font-family: var(--font-body);
     font-size: 0.78rem;
     font-weight: 800;
@@ -2513,14 +2515,17 @@ svg.hidden {
 }
 
 .modal-tab-btn:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.6);
+    opacity: 1;
+    background: #ffffff;
+    border-color: rgba(0, 0, 0, 0.06);
 }
 
 .modal-tab-btn.active {
+    opacity: 1;
     background: var(--accent-main);
     color: #ffffff;
-    box-shadow: 2px 2px 0px var(--border-color);
+    border-color: rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 170, 108, 0.25);
 }
 
 .modal-tab-pill {
@@ -2533,7 +2538,7 @@ svg.hidden {
     border-radius: 10px;
     font-size: 0.7rem;
     font-weight: 900;
-    background: rgba(0, 0, 0, 0.15);
+    background: rgba(0, 0, 0, 0.14);
     color: inherit;
     margin-left: 2px;
 }
@@ -2545,30 +2550,30 @@ svg.hidden {
     justify-content: space-between;
     gap: 10px;
     width: 100%;
-    padding: 11px 14px;
-    margin-bottom: 16px;
-    background: linear-gradient(135deg, #fff9db 0%, #e3fafc 100%);
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background: #f8f6ff;
     color: var(--text-primary);
-    border: 2.5px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 12px;
-    box-shadow: 3px 3px 0px var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     font-family: var(--font-body);
     font-size: 0.85rem;
     font-weight: 800;
     cursor: pointer;
-    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    transition: all 0.1s ease;
     box-sizing: border-box;
     text-align: left;
 }
 
 .world-map-cta-banner:hover {
     transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px var(--border-color);
+    background: #f1ecff;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .world-map-cta-banner:active {
     transform: translate(1px, 1px);
-    box-shadow: 2px 2px 0px var(--border-color);
 }
 
 .world-map-cta-left {
@@ -2591,17 +2596,17 @@ svg.hidden {
     font-size: 0.75rem;
     font-weight: 900;
     white-space: nowrap;
-    border: 1.5px solid var(--border-color);
+    box-shadow: 0 2px 6px rgba(0, 170, 108, 0.25);
 }
 
 /* World Map Modal Wrapper & Card */
 .world-map-modal-wrapper {
     width: 94vw;
-    max-width: 780px;
+    max-width: 720px;
 }
 
 .world-map-card {
-    padding: 22px 20px;
+    padding: 25px 20px;
 }
 
 .world-map-header-row {
@@ -2616,9 +2621,9 @@ svg.hidden {
 .world-map-solved-pill {
     background: #fff9db;
     color: var(--text-primary);
-    border: 2px solid var(--border-color);
-    box-shadow: 2px 2px 0px var(--border-color);
-    border-radius: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
     padding: 4px 12px;
     font-family: var(--font-body);
     font-size: 0.8rem;
@@ -2647,27 +2652,27 @@ svg.hidden {
 .map-region-pill {
     background: #ffffff;
     color: var(--text-primary);
-    border: 2px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border-radius: 20px;
-    padding: 5px 11px;
+    padding: 5px 12px;
     font-family: var(--font-body);
     font-size: 0.75rem;
     font-weight: 800;
     cursor: pointer;
     transition: all 0.12s ease;
-    box-shadow: 2px 2px 0px rgba(45, 52, 54, 0.18);
 }
 
 .map-region-pill:hover {
-    background: #f1f2f6;
+    background: #f8f6ff;
     transform: translateY(-1px);
 }
 
 .map-region-pill.active {
     background: #5f27cd;
     color: #ffffff;
-    border-color: var(--border-color);
-    box-shadow: 2px 2px 0px var(--border-color);
+    border-color: #5f27cd;
+    box-shadow: 0 4px 12px rgba(95, 39, 205, 0.25);
 }
 
 /* Flat Earth SVG Viewport */
@@ -2677,9 +2682,9 @@ svg.hidden {
     aspect-ratio: 2 / 1;
     min-height: 210px;
     background: #D4F1F9;
-    border: 3px solid var(--border-color);
-    border-radius: 14px;
-    box-shadow: 4px 4px 0px var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     overflow: hidden;
     user-select: none;
     touch-action: none;
@@ -2712,7 +2717,7 @@ svg.hidden {
 .world-map-continent {
     fill: #FAF8F5;
     stroke: #2D3436;
-    stroke-width: 1.2;
+    stroke-width: 1.1;
     stroke-linejoin: round;
     transition: fill 0.15s ease;
 }
@@ -2738,8 +2743,8 @@ svg.hidden {
     border-radius: 8px;
     background: #ffffff;
     color: var(--text-primary);
-    border: 2px solid var(--border-color);
-    box-shadow: 2px 2px 0px var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     font-family: var(--font-heading);
     font-size: 1rem;
     font-weight: 900;
@@ -2802,8 +2807,8 @@ svg.hidden {
     z-index: 30;
     background: #ffffff;
     color: var(--text-primary);
-    border: 2px solid var(--border-color);
-    box-shadow: 3px 3px 0px var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
     border-radius: 10px;
     padding: 6px 10px;
     font-family: var(--font-body);
@@ -2835,7 +2840,8 @@ svg.hidden {
     margin-top: 10px;
     padding: 10px 14px;
     background: #fff9db;
-    border: 2px dashed var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     border-radius: 10px;
     font-size: 0.82rem;
     font-weight: 700;
@@ -2854,39 +2860,44 @@ svg.hidden {
 }
 
 .map-completed-count-pill {
-    background: #06D6A0;
-    color: #2d3436;
-    border: 2px solid var(--border-color);
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 0.74rem;
+    background: #2ed573;
+    color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.72rem;
     font-weight: 900;
     text-transform: uppercase;
 }
 
 .map-completed-list-container {
-    max-height: 210px;
+    max-height: 220px;
 }
 
 .map-completed-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 10px;
+    gap: 12px;
     background: #ffffff;
-    border: 2px solid rgba(45, 52, 54, 0.16);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 10px;
-    padding: 9px 12px;
+    padding: 10px 15px;
     cursor: pointer;
-    transition: all 0.12s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: all 0.1s ease;
     text-align: left;
 }
 
 .map-completed-row:hover {
-    border-color: var(--border-color);
-    background: #fffef8;
-    transform: translateY(-1px);
-    box-shadow: 2px 2px 0px var(--border-color);
+    transform: translate(-1px, -1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+}
+
+.map-completed-row:active {
+    transform: translate(2px, 2px);
 }
 
 .map-completed-thumb {
@@ -2894,7 +2905,7 @@ svg.hidden {
     height: 36px;
     border-radius: 6px;
     object-fit: cover;
-    border: 1.5px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     flex-shrink: 0;
     background: #f1f2f6;
 }
@@ -2908,7 +2919,7 @@ svg.hidden {
 
 .map-completed-title {
     font-family: var(--font-heading);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     color: var(--text-primary);
     white-space: nowrap;
     overflow: hidden;
@@ -2916,7 +2927,7 @@ svg.hidden {
 }
 
 .map-completed-sub {
-    font-size: 0.76rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: var(--text-secondary);
     white-space: nowrap;
@@ -2925,12 +2936,13 @@ svg.hidden {
 }
 
 .map-completed-view-pill {
-    background: #fff9db;
-    color: var(--text-primary);
-    border: 1.5px solid var(--border-color);
-    border-radius: 8px;
-    padding: 4px 9px;
-    font-size: 0.72rem;
+    background: #2ed573;
+    color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    padding: 4px 8px;
+    font-size: 0.7rem;
     font-weight: 900;
     text-transform: uppercase;
     white-space: nowrap;
@@ -2947,11 +2959,11 @@ svg.hidden {
     padding: 12px 16px;
     background: #f8f6ff;
     color: #5f27cd;
-    border: 2.5px solid var(--border-color);
+    border: 1px solid rgba(0, 0, 0, 0.08);
     border-radius: 12px;
-    box-shadow: 3px 3px 0px var(--border-color);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     font-family: var(--font-body);
-    font-size: 0.86rem;
+    font-size: 0.85rem;
     font-weight: 900;
     text-transform: uppercase;
     letter-spacing: 0.3px;
@@ -2964,7 +2976,7 @@ svg.hidden {
     background: #5f27cd;
     color: #ffffff;
     transform: translate(-1px, -1px);
-    box-shadow: 4px 4px 0px var(--border-color);
+    box-shadow: 0 6px 16px rgba(95, 39, 205, 0.25);
 }
 
 /* 1-Click Completed Puzzle Postcard Overlay Modal */
