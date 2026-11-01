@@ -3136,6 +3136,7 @@ async function openStatsSelectModal(forceRefresh = false) {
             return;
         }
         challengesList.innerHTML = '';
+        const approved = getApprovedChallenges();
         const solvedList = getSolvedPuzzlesList();
         const attemptedList = getAttemptedPuzzles();
         
@@ -4576,6 +4577,15 @@ function setUnifiedModalActiveTab(tabName) {
     }
     if (statsTitleText && !isMap) {
         statsTitleText.innerText = isMyStats ? 'My Stats' : 'All User Stats';
+    }
+    const statsTitleIconPath = document.getElementById('stats-panel-title-icon-path');
+    if (statsTitleIconPath && !isMap) {
+        statsTitleIconPath.setAttribute(
+            'd',
+            isMyStats
+                ? 'M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z'
+                : 'M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z'
+        );
     }
     if (panelMap) {
         panelMap.classList.toggle('hidden', !isMap);

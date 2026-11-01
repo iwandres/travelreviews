@@ -2480,10 +2480,10 @@ svg.hidden {
     pointer-events: none;
 }
 
-/* 2-Tab Switcher inside World Map & Global Stats Modals */
+/* 3-Tab Switcher inside World Map, All User Stats & My Stats Modal */
 .modal-tab-switcher {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 6px;
     background: #f8f6ff;
     border: 1px solid rgba(0, 0, 0, 0.08);
@@ -2499,19 +2499,25 @@ svg.hidden {
     align-items: center;
     justify-content: center;
     gap: 5px;
-    padding: 9px 10px;
+    padding: 9px 8px;
     border: 1px solid transparent;
     border-radius: 8px;
     background: transparent;
     color: var(--text-primary);
     opacity: 0.72;
     font-family: var(--font-body);
-    font-size: 0.78rem;
+    font-size: 0.76rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 0.3px;
+    letter-spacing: 0.25px;
+    white-space: nowrap;
+    min-width: 0;
     cursor: pointer;
     transition: all 0.15s ease;
+}
+
+.modal-tab-btn svg {
+    flex-shrink: 0;
 }
 
 .modal-tab-btn:hover {

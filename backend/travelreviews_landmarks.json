@@ -2123,7 +2123,7 @@
         "id": "landmark_291_1783199109",
         "name": "Nara Park",
         "location": "Nara, Japan",
-        "status": "pending",
+        "status": "approved",
         "lat": 34.6851,
         "lng": 135.843
     },
@@ -4548,5 +4548,27 @@
         "agent_generated": true,
         "lat": 69.6492,
         "lng": 18.9553
+    },
+    {
+        "id": "landmark_1793514844_105_0",
+        "name": "Great Zimbabwe Ruins",
+        "location": "Masvingo Province, Zimbabwe",
+        "page_theme": "ancient_ruins",
+        "pun_potential_note": "The name 'Zimbabwe' can be played with 'Zim-bob-way' or 'Zim-bee-way'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": -20.2675,
+        "lng": 30.9333
+    },
+    {
+        "id": "landmark_1793514844_597_1",
+        "name": "Biltmore Estate",
+        "location": "Asheville, North Carolina, USA",
+        "page_theme": "castles_cathedrals",
+        "pun_potential_note": "'Biltmore' can be easily swapped with 'Built More' or 'Bill's More'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 35.5406,
+        "lng": -82.5532
     }
 ]

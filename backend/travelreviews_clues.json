@@ -3694,56 +3694,6 @@
         "lng": -87.6359
     },
     {
-        "id": "clue_great_pyramid_of_chocolate_1793513582_926",
-        "pun_id": "pun_great_pyramid_of_cholula_1793513572_895",
-        "original_name": "Great Pyramid of Cholula",
-        "location": "Puebla, Mexico",
-        "pun_name": "Great Pyramid of Chocolate",
-        "reviewer_name": "ChocoDreamer",
-        "review_title": "Stone Cold Letdown.",
-        "clue1": "Flew to Mexico expecting cocoa... found only dusty earth and disappointment!",
-        "clue2": "Tried to chip off a piece... only got ancient adobe stuck in my teeth!",
-        "clue3": "They said 'Ch...-lula' and I heard 'Ch...-late'! So confusing!",
-        "owner_response": "Listen, @ChocoDreamer, this colossal ancient structure is made of earthen fill and adobe, not cocoa solids. Perhaps try a local confectionary for your cravings?",
-        "page_theme": "ancient_ruins",
-        "status": "approved",
-        "agent_curated": true,
-        "agent_score": 9.8,
-        "agent_rationale": "The pun cleverly substitutes 'Cholula' with the concrete, universally beloved food 'Chocolate,' creating a strong phonetic match and an incredibly absurd visual of a monumental candy structure, ripe for a hilarious 1-star review about its melting or being inedible.",
-        "runner_up_puns": [
-            "Great Pyramid of Chocula",
-            "Great Pyramid of Churro-la",
-            "Grape Pyramid of Cholula"
-        ],
-        "lat": 19.0575,
-        "lng": -98.3019
-    },
-    {
-        "id": "clue_hanging_temple_of_heineken_1793513620_143",
-        "pun_id": "pun_hanging_temple_of_hengshan_1793513611_172",
-        "original_name": "Hanging Temple of Hengshan",
-        "location": "Shanxi Province, China",
-        "pun_name": "Hanging Temple of Heineken",
-        "reviewer_name": "PilsnerPilgrim",
-        "review_title": "More Cliff, Less Cold Brew!",
-        "clue1": "Flew all the way to Shanxi... zero ice-cold green bottles!",
-        "clue2": "Tried to tap the 'kegs' on the cliff face... just splintered wood!",
-        "clue3": "My throat's parched! This 'hanging' has no lager, only history!",
-        "owner_response": "Listen, @PilsnerPilgrim, this 1,500-year-old cliffside wonder was designed for contemplation, not consumption.",
-        "page_theme": "historic_monuments",
-        "status": "approved",
-        "agent_curated": true,
-        "agent_score": 9.4,
-        "agent_rationale": "This pun provides a strong phonetic substitution of 'Hengshan' with 'Heineken,' a concrete and widely recognizable beverage, creating a hilarious image of a temple dedicated to beer, perfect for an absurd 1-star travel review.",
-        "runner_up_puns": [
-            "Hanging Thimble of Hengshan",
-            "Hanging Temple of Hamburger",
-            "Hanging Temple of Ham Shank"
-        ],
-        "lat": 39.6594,
-        "lng": 113.7081
-    },
-    {
         "id": "clue_the_london_pie_1793513943_881",
         "pun_id": "pun_the_london_eye_1793513935_513",
         "original_name": "The London Eye",
@@ -3817,5 +3767,80 @@
         ],
         "lat": 25.1412,
         "lng": 55.1852
+    },
+    {
+        "id": "clue_great_zimbabwe_ramen_1793514866_861",
+        "pun_id": "pun_great_zimbabwe_ruins_1793514859_255",
+        "original_name": "Great Zimbabwe Ruins",
+        "location": "Masvingo Province, Zimbabwe",
+        "pun_name": "Great Zimbabwe Ramen",
+        "reviewer_name": "NoodleNostril",
+        "review_title": "Where are the Noodles?! Total Scam!",
+        "clue1": "Flew all this way to Africa... where is the promised savory noodle dish?!",
+        "clue2": "Tried to slurp the 'broth' from these old, dusty stone walls. Disgusting!",
+        "clue3": "This 'Great Zimbabwe' was just dusty rocks, not a single instant noodle packet anywhere!",
+        "owner_response": "Dear @NoodleNostril, we're an ancient, mortarless stone city from the 11th century, not a pop-up kitchen. Perhaps check Yelp next time?",
+        "page_theme": "ancient_ruins",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.5,
+        "agent_rationale": "This pun cleverly replaces 'Ruins' with 'Ramen', a highly tangible and universally recognized food item. It creates a hilarious visual of an ancient archaeological site inexplicably transformed into a giant bowl of noodles, perfect for a bewildered tourist to complain about the unexpected menu or soggy architecture in a 1-star review.",
+        "runner_up_puns": [
+            "Great Zim-Barbie Ruins",
+            "Great Zim-Bee Ruins",
+            "Crate Zimbabwe Ruins"
+        ],
+        "lat": -20.2675,
+        "lng": 30.9333
+    },
+    {
+        "id": "clue_westminster_apple_1793515039_436",
+        "pun_id": "pun_westminster_abbey_1793515031_750",
+        "original_name": "Westminster Abbey",
+        "location": "London, England",
+        "pun_name": "Westminster Apple",
+        "reviewer_name": "CoreBlimey",
+        "review_title": "Worst. Apple. Ever!",
+        "clue1": "Flew all the way to London expecting a crisp, edible fruit. None!",
+        "clue2": "The 'skin' was cold, hard stone. Tried to bite it, chipped a molar!",
+        "clue3": "This 'Apple' is full of old tombs, not tasty flesh! Misleading name!",
+        "owner_response": "Dear @CoreBlimey, this revered thousand-year-old Gothic landmark hosts royal coronations and burials, not apple stands. Kindly seek your produce elsewhere.",
+        "page_theme": "castles_cathedrals",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.4,
+        "agent_rationale": "This pun cleverly replaces 'Abbey' with 'Apple', a universally recognizable concrete food item. The phonetic match is excellent, creating a hilarious and absurd visual for a postcard where a grand building is replaced by a giant apple, perfect for a bewildered tourist's 1-star complaint about its lack of spiritual sustenance.",
+        "runner_up_puns": [
+            "Westminster Mustard",
+            "Vestminster Abbey",
+            "Westminster Muffin"
+        ],
+        "lat": 51.4994,
+        "lng": -0.1273
+    },
+    {
+        "id": "clue_nara_pork_1793515076_490",
+        "pun_id": "pun_nara_park_1793515064_888",
+        "original_name": "Nara Park",
+        "location": "Nara, Japan",
+        "pun_name": "Nara Pork",
+        "reviewer_name": "PorkPilgrim",
+        "review_title": "Biggest culinary disappointment ever!",
+        "clue1": "Booked a trip to Nara for that famous local hog roast. Nope!",
+        "clue2": "The famous 'pork' here just keeps eating my crackers! Bold wildlife.",
+        "clue3": "I wanted sizzling chops, not just vast, open nature preserves!",
+        "owner_response": "Dear @PorkPilgrim, our centuries-old natural preserve boasts magnificent temples and thousands of free-roaming deer, not a hog roast.",
+        "page_theme": "historic_monuments",
+        "status": "approved",
+        "agent_curated": true,
+        "agent_score": 9.5,
+        "agent_rationale": "This pun features an excellent, direct phonetic swap of 'Park' to 'Pork', replacing the landmark's core with a concrete, edible noun. The visual of a park filled with pork is inherently hilarious and perfectly sets up a bewildered tourist's 1-star review.",
+        "runner_up_puns": [
+            "Nara Fork",
+            "Nacho Park",
+            "Narwhal Park"
+        ],
+        "lat": 34.6851,
+        "lng": 135.843
     }
 ]
