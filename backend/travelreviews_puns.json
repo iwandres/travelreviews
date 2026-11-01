@@ -3639,7 +3639,7 @@
     "original_name": "The Strip",
     "location": "Las Vegas, Nevada, USA",
     "pun_name": "The Bacon Strip",
-    "status": "approved",
+    "status": "rejected",
     "agent_curated": true,
     "agent_score": 9.8,
     "agent_rationale": "This pun perfectly replaces 'The Strip' with a concrete food item, 'Bacon Strip,' which is phonetically very close and creates an immediately hilarious and absurd visual for a major Las Vegas landmark, perfect for a disgruntled 1-star review about greasy sidewalks.",
@@ -3647,6 +3647,51 @@
       "The Shrimp",
       "The Crisp",
       "The Strap"
+    ]
+  },
+  {
+    "id": "pun_willis_tower_1793513533_529",
+    "original_name": "Willis Tower",
+    "location": "Chicago, USA",
+    "pun_name": "Waffles Tower",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun 'Waffles Tower' features an excellent phonetic match to 'Willis Tower' by substituting 'Willis' with the concrete food noun 'Waffles'. This creates a hilariously absurd image of a skyscraper made of breakfast food, perfect for a postcard and ripe for 1-star reviews complaining about stickiness or a lack of maple syrup.",
+    "runner_up_puns": [
+      "Pillows Tower",
+      "Whiskey Tower",
+      "Walrus Tower"
+    ]
+  },
+  {
+    "id": "pun_great_pyramid_of_cholula_1793513572_895",
+    "original_name": "Great Pyramid of Cholula",
+    "location": "Puebla, Mexico",
+    "pun_name": "Great Pyramid of Chocolate",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun cleverly substitutes 'Cholula' with the concrete, universally beloved food 'Chocolate,' creating a strong phonetic match and an incredibly absurd visual of a monumental candy structure, ripe for a hilarious 1-star review about its melting or being inedible.",
+    "runner_up_puns": [
+      "Great Pyramid of Chocula",
+      "Great Pyramid of Churro-la",
+      "Grape Pyramid of Cholula"
+    ]
+  },
+  {
+    "id": "pun_hanging_temple_of_hengshan_1793513611_172",
+    "original_name": "Hanging Temple of Hengshan",
+    "location": "Shanxi Province, China",
+    "pun_name": "Hanging Temple of Heineken",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun provides a strong phonetic substitution of 'Hengshan' with 'Heineken,' a concrete and widely recognizable beverage, creating a hilarious image of a temple dedicated to beer, perfect for an absurd 1-star travel review.",
+    "runner_up_puns": [
+      "Hanging Thimble of Hengshan",
+      "Hanging Temple of Hamburger",
+      "Hanging Temple of Ham Shank"
     ]
   }
 ]

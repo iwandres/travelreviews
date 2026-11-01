@@ -4471,5 +4471,38 @@
         "agent_generated": true,
         "lat": 36.1147,
         "lng": -115.1728
+    },
+    {
+        "id": "landmark_1793513518_828_0",
+        "name": "Willis Tower",
+        "location": "Chicago, USA",
+        "page_theme": "modern_skyscrapers",
+        "pun_potential_note": "Willis sounds like 'Willy's' or 'Wills'. Its former name 'Sears' sounds like 'Seers' or 'Cheers'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 41.8789,
+        "lng": -87.6359
+    },
+    {
+        "id": "landmark_1793513518_480_1",
+        "name": "Great Pyramid of Cholula",
+        "location": "Puebla, Mexico",
+        "page_theme": "ancient_ruins",
+        "pun_potential_note": "Cholula sounds like 'Chop Lula', 'Chew Lola', or the hot sauce brand.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 19.0575,
+        "lng": -98.3019
+    },
+    {
+        "id": "landmark_1793513518_853_2",
+        "name": "Hanging Temple of Hengshan",
+        "location": "Shanxi Province, China",
+        "page_theme": "historic_monuments",
+        "pun_potential_note": "Hanging can be punned with 'hanger' or 'hang in'. Hengshan sounds like 'Hen Chan' or 'Hang Sean'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 39.6594,
+        "lng": 113.7081
     }
 ]
