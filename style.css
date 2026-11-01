@@ -2702,28 +2702,150 @@ svg.hidden {
 }
 
 .world-map-graticule-line {
-    stroke: rgba(45, 52, 54, 0.11);
+    stroke: rgba(24, 78, 104, 0.14);
     stroke-width: 0.7;
+    stroke-dasharray: 2 3;
     fill: none;
+    vector-effect: non-scaling-stroke;
 }
 
 .world-map-equator-line {
-    stroke: rgba(45, 52, 54, 0.22);
-    stroke-width: 0.9;
-    stroke-dasharray: 4 4;
+    stroke: rgba(24, 78, 104, 0.32);
+    stroke-width: 1;
+    stroke-dasharray: 5 4;
     fill: none;
+    vector-effect: non-scaling-stroke;
 }
 
-.world-map-continent {
-    fill: #FAF8F5;
-    stroke: #2D3436;
-    stroke-width: 1.1;
+.world-map-lat-label {
+    font-family: var(--font-body);
+    font-size: 6.5px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    fill: rgba(24, 78, 104, 0.55);
+    pointer-events: none;
+    user-select: none;
+}
+
+.world-map-shelf-outer {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.42);
+    stroke-width: 6.5;
     stroke-linejoin: round;
-    transition: fill 0.15s ease;
+    stroke-linecap: round;
+    pointer-events: none;
 }
 
-.world-map-continent:hover {
-    fill: #F3EFE6;
+.world-map-shelf-inner {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.82);
+    stroke-width: 2.6;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: none;
+}
+
+.world-map-coast-outline {
+    fill: none;
+    stroke: #2D3436;
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    pointer-events: none;
+    vector-effect: non-scaling-stroke;
+}
+
+.world-map-country {
+    stroke: rgba(45, 52, 54, 0.35);
+    stroke-width: 0.55;
+    stroke-linejoin: round;
+    vector-effect: non-scaling-stroke;
+    transition: filter 0.15s ease;
+}
+
+.world-map-country:hover {
+    filter: brightness(0.95) saturate(1.15);
+}
+
+.world-map-lake {
+    fill: #9AD8EE;
+    stroke: rgba(24, 78, 104, 0.45);
+    stroke-width: 0.5;
+    vector-effect: non-scaling-stroke;
+    pointer-events: none;
+}
+
+.world-map-ocean-label {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    fill: rgba(22, 82, 112, 0.28);
+    pointer-events: none;
+    user-select: none;
+}
+
+.world-map-continent-label {
+    font-family: var(--font-body);
+    font-size: 8.5px;
+    font-weight: 900;
+    letter-spacing: 2.2px;
+    fill: rgba(45, 52, 54, 0.36);
+    stroke: rgba(255, 253, 245, 0.75);
+    stroke-width: 2px;
+    paint-order: stroke fill;
+    pointer-events: none;
+    user-select: none;
+}
+
+.world-map-legend-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+    padding: 7px 12px;
+    background: #f8f6ff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.world-map-legend-items {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.map-legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.map-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 1.5px solid #2D3436;
+    display: inline-block;
+}
+
+.map-legend-dot.emerald {
+    background: #10B981;
+}
+
+.map-legend-dot.coral {
+    background: #F43F5E;
+}
+
+.world-map-legend-hint {
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    font-weight: 800;
 }
 
 /* Map Zoom & Reset Overlay Controls */
