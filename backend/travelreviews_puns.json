@@ -3309,7 +3309,7 @@
     "original_name": "Paro Taktsang (Tiger's Nest Monastery)",
     "location": "Paro Valley, Bhutan",
     "pun_name": "Paro Taktsang (Tire's Nest)",
-    "status": "approved",
+    "status": "rejected",
     "agent_curated": true,
     "agent_score": 9.5,
     "agent_rationale": "This pun makes an excellent phonetic substitution of 'Tire's' for 'Tiger's', introducing a concrete, mundane object that creates a hilariously absurd image for a sacred monastery. A 1-star review complaining about a 'Tire's Nest' is perfect for a confused tourist.",
@@ -3338,7 +3338,7 @@
     "id": "pun_lake_titicaca_1793509146_679",
     "original_name": "Lake Titicaca",
     "location": "Puno, Peru",
-    "pun_name": "Lake Titi-CAKE-a",
+    "pun_name": "Lake Titi-Cake-a",
     "status": "approved",
     "agent_curated": true,
     "agent_score": 9.5,
@@ -3384,7 +3384,7 @@
     "original_name": "Pyramids of Mero\u00eb",
     "location": "Mero\u00eb, Sudan",
     "pun_name": "Pyramids of Meringue",
-    "status": "approved",
+    "status": "rejected",
     "agent_curated": true,
     "agent_score": 9.5,
     "agent_rationale": "This pun perfectly replaces 'Mero\u00eb' with the concrete food noun 'Meringue', creating a hilarious image of ancient, massive structures made of light, sweet dessert. The phonetic match is excellent, and it provides absurd material for a 1-star review about crumbling, stickiness, or attracting ants.",
@@ -3399,7 +3399,7 @@
     "original_name": "Denali (Mount McKinley)",
     "location": "Alaska, USA",
     "pun_name": "De-Nacho",
-    "status": "approved",
+    "status": "rejected",
     "agent_curated": true,
     "agent_score": 9.7,
     "agent_rationale": "This pun makes an excellent phonetic substitution for 'Denali' with 'De-Nacho', introducing the concrete and universally appealing food item 'Nacho'. The image of a majestic mountain covered in stale, cheesy nachos is immediately absurd and hilarious, setting the perfect stage for a '1-star travel review' complaining about the mess or smell.",
@@ -3414,7 +3414,7 @@
     "original_name": "White Temple (Wat Rong Khun)",
     "location": "Chiang Rai, Thailand",
     "pun_name": "Wat Shrimp Bun",
-    "status": "approved",
+    "status": "rejected",
     "agent_curated": true,
     "agent_score": 9.5,
     "agent_rationale": "This pun cleverly transforms the lesser-known 'Wat Rong Khun' into 'Wat Shrimp Bun' by substituting 'Rong' with 'Shrimp' and 'Khun' with 'Bun', retaining 'Wat' for phonetic clarity. It uses two concrete food nouns for a delightfully edible and absurd culinary landmark, perfectly aligning with the humorous, tangible-noun substitution style of top-performing puns.",
@@ -3422,6 +3422,111 @@
       "Waffle Temple",
       "Whip Cream Temple",
       "Wok Rong Khun"
+    ]
+  },
+  {
+    "id": "pun_boracay_island_1793509914_872",
+    "original_name": "Boracay Island",
+    "location": "Aklan, Philippines",
+    "pun_name": "Boracay Iron",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun cleverly substitutes 'Island' with 'Iron,' creating a direct phonetic match and a hilarious, tangible contrast. Visualizing a beautiful tropical island replaced by a giant, rigid, and probably rusty household iron perfectly captures the absurd disappointment fitting for a 1-star review.",
+    "runner_up_puns": [
+      "Broccoli Island",
+      "Bora-Key Island",
+      "Boracay Owl-land"
+    ]
+  },
+  {
+    "id": "pun_haedong_yonggungsa_temple_1793509964_792",
+    "original_name": "Haedong Yonggungsa Temple",
+    "location": "Busan, South Korea",
+    "pun_name": "Haedong Yonggungsa Tempura",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun makes a brilliant and clear phonetic substitution of 'Temple' with 'Tempura'. 'Tempura' is a concrete, delicious, and hilariously absurd food item to associate with a sacred landmark, making for a perfect 1-star review complaint about fried food where there should be sanctity.",
+    "runner_up_puns": [
+      "Haedong Young Gum Saw Temple",
+      "Haedong Yonggungsa Staple",
+      "Hay Drum Yonggungsa Temple"
+    ]
+  },
+  {
+    "id": "pun_mount_rainier_1793510907_564",
+    "original_name": "Mount Rainier",
+    "location": "Washington, USA",
+    "pun_name": "Mount Reindeer",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun makes an excellent phonetic substitution of 'Rainier' with 'Reindeer', introducing a hilarious and absurd animal that creates a strong visual for a one-star review postcard. It's a simple, direct, and highly comedic fit for the brief.",
+    "runner_up_puns": [
+      "Mount Strainer",
+      "Mount Wiener",
+      "Mint Rainier"
+    ]
+  },
+  {
+    "id": "pun_fish_river_canyon_1793510944_266",
+    "original_name": "Fish River Canyon",
+    "location": "Karas Region, Namibia",
+    "pun_name": "Fish Liver Canyon",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun cleverly substitutes \"River\" with the concrete, highly tangible, and comically unappealing noun \"Liver\". The image of a majestic canyon filled with, or named after, fish livers is perfectly absurd and evokes a strong, negative sensory experience suitable for a 1-star travel review.",
+    "runner_up_puns": [
+      "Fish River Crayon",
+      "Dish River Canyon",
+      "Fish River Cannon"
+    ]
+  },
+  {
+    "id": "pun_babylon_1793510984_541",
+    "original_name": "Babylon",
+    "location": "Hillah, Iraq",
+    "pun_name": "Baby Melon",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun cleverly replaces \"lon\" from \"Babylon\" with the concrete food noun \"Melon\" while retaining \"Baby,\" creating a clear phonetic match. The image of a historical city being a giant, possibly squishy, \"Baby Melon\" is absurd and perfectly sets up a hilarious 1-star review about its taste or consistency.",
+    "runner_up_puns": [
+      "Bagel-lon",
+      "Baboon-lon",
+      "Bubble-lon"
+    ]
+  },
+  {
+    "id": "pun_deception_island_1793511038_737",
+    "original_name": "Deception Island",
+    "location": "South Shetland Islands, Antarctica",
+    "pun_name": "Deception Eyeball",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun delivers a clean, high-impact substitution by changing 'Island' to 'Eyeball'. The phonetic match ('Eye-land' to 'Eye-ball') is nearly perfect, and 'Eyeball' is a concrete, tangible, and hilariously absurd noun that creates an instant, vivid, and unsettling image for a 1-star travel review postcard.",
+    "runner_up_puns": [
+      "Dessert Pie",
+      "Lotion Iron",
+      "Lotion Aisle"
+    ]
+  },
+  {
+    "id": "pun_jeita_grotto_1793511074_893",
+    "original_name": "Jeita Grotto",
+    "location": "Nahr al-Kalb, Lebanon",
+    "pun_name": "Jell-o Grotto",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun 'Jell-o Grotto' masterfully replaces 'Jeita' with the concrete food 'Jell-o', creating an immediate and hilarious phonetic match. The absurd visual of a natural cave made of wobbly gelatin would undoubtedly provoke a bewildered, yet amusing, 1-star review from a confused tourist.",
+    "runner_up_puns": [
+      "Jeita Goat-o",
+      "Jeita Grater",
+      "Cheeto Grotto"
     ]
   }
 ]

@@ -3605,7 +3605,12 @@ const FALLBACK_LANDMARK_COORDS = {
     "pyramids of meroë": [16.9380, 33.7489, "Meroë, Sudan"],
     "pyramids of meroe": [16.9380, 33.7489, "Meroë, Sudan"],
     "denali (mount mckinley)": [63.0695, -151.0074, "Alaska, USA"],
-    "white temple (wat rong khun)": [19.8242, 99.7631, "Chiang Rai, Thailand"]
+    "white temple (wat rong khun)": [19.8242, 99.7631, "Chiang Rai, Thailand"],
+    "boracay island": [11.9674, 121.9248, "Aklan, Philippines"],
+    "haedong yonggungsa temple": [35.1884, 129.2233, "Busan, South Korea"],
+    "mount rainier": [46.8523, -121.7603, "Washington, USA"],
+    "fish river canyon": [-27.5833, 17.6000, "Karas Region, Namibia"],
+    "babylon": [32.5422, 44.4210, "Hillah, Iraq"]
 };
 
 // Natural Earth 110m World Countries [colorIdx, countryName, svgPath] & Major Lakes

@@ -3059,7 +3059,7 @@
         "id": "landmark_411_1783199138",
         "name": "Jeita Grotto",
         "location": "Nahr al-Kalb, Lebanon",
-        "status": "pending",
+        "status": "approved",
         "lat": 33.9442,
         "lng": 35.6408
     },
@@ -3587,7 +3587,7 @@
         "id": "landmark_479_1783199162",
         "name": "Deception Island",
         "location": "South Shetland Islands, Antarctica",
-        "status": "pending",
+        "status": "approved",
         "lat": -62.95,
         "lng": -60.6333
     },
@@ -4339,5 +4339,60 @@
         "agent_generated": true,
         "lat": 19.8242,
         "lng": 99.7631
+    },
+    {
+        "id": "landmark_1793509898_321_0",
+        "name": "Boracay Island",
+        "location": "Aklan, Philippines",
+        "page_theme": "natural_wonders",
+        "pun_potential_note": "'Boracay' can be broken down into 'bore a key' or 'boar a cay', lending itself to animal or object puns.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 11.9674,
+        "lng": 121.9248
+    },
+    {
+        "id": "landmark_1793509898_385_1",
+        "name": "Haedong Yonggungsa Temple",
+        "location": "Busan, South Korea",
+        "page_theme": "historic_monuments",
+        "pun_potential_note": "'Haedong' can sound like 'hay dong'. 'Yonggungsa' provides 'young goon saw' or 'yawn goon sa'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 35.1884,
+        "lng": 129.2233
+    },
+    {
+        "id": "landmark_1793510892_634_0",
+        "name": "Mount Rainier",
+        "location": "Washington, USA",
+        "page_theme": "natural_wonders",
+        "pun_potential_note": "The name 'Rainier' sounds like 'rainier' (more rainy) or can be split for puns like 'reign ear'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 46.8523,
+        "lng": -121.7603
+    },
+    {
+        "id": "landmark_1793510892_782_1",
+        "name": "Fish River Canyon",
+        "location": "Karas Region, Namibia",
+        "page_theme": "natural_wonders",
+        "pun_potential_note": "The words 'Fish' and 'River' are straightforward for many puns like 'fish liver' or 'dish giver'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": -27.5833,
+        "lng": 17.6
+    },
+    {
+        "id": "landmark_1793510892_378_2",
+        "name": "Babylon",
+        "location": "Hillah, Iraq",
+        "page_theme": "ancient_ruins",
+        "pun_potential_note": "The name 'Babylon' lends itself well to 'babble on' or 'baby loan'.",
+        "status": "approved",
+        "agent_generated": true,
+        "lat": 32.5422,
+        "lng": 44.421
     }
 ]
