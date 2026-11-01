@@ -707,6 +707,10 @@ window.onload = async () => {
     // 3. Initialize hover-based daily streak tooltip for desktop users
     initStreakTooltip();
     initNextButtonVictoryTooltip();
+    initWorldMapFeature();
+    if (urlParams.get('view') === 'map') {
+        openWorldMapModal();
+    }
     
     // Update daily solve streak badge next to the app header
     updateHeaderStreak();
@@ -2989,6 +2993,7 @@ function abbreviateNumber(num) {
 }
 
 async function openStatsSelectModal() {
+    updateWorldMapBadges();
     // 1. Show loading indicator states
     document.getElementById('agg-total-starts').innerText = '...';
     document.getElementById('agg-total-solves').innerText = '...';
@@ -3287,6 +3292,7 @@ function initNextButtonVictoryTooltip() {
 
 // Update the daily solve streak badge inside the profile settings icon
 function updateHeaderStreak() {
+    updateWorldMapBadges();
     try {
         const solvedList = getSolvedPuzzlesList();
         
@@ -3361,5 +3367,1082 @@ function updateHeaderStreak() {
         }
     } catch (e) {
         console.error("Failed to update profile streak:", e);
+    }
+}
+
+
+// ============================================================================
+// WORLD TRAVEL MAP, COMPLETED PUZZLES LIST & 1-CLICK POSTCARD OVERLAY
+// ============================================================================
+
+const WORLD_MAP_WIDTH = 1000;
+const WORLD_MAP_HEIGHT = 500;
+
+// Fallback coordinate & location dictionary so solved pins render accurately even if a cached CDN JSON lacks lat/lng
+const FALLBACK_LANDMARK_COORDS = {
+    "acropolis of athens": [37.9715, 23.7257, "Athens, Greece"],
+    "ait benhaddou": [31.047, -7.1319, "Ouarzazate, Morocco"],
+    "alcatraz island": [37.827, -122.423, "San Francisco, California, USA"],
+    "alhambra": [37.1761, -3.5881, "Granada, Spain"],
+    "amalfi coast": [40.6333, 14.6029, "Campania, Italy"],
+    "amazon rainforest": [-3.4653, -62.2159, "Amazonas, Brazil"],
+    "angel falls": [5.9701, -62.5362, "Canaima National Park, Venezuela"],
+    "angkor wat": [13.4125, 103.867, "Siem Reap, Cambodia"],
+    "anne frank house": [52.3752, 4.884, "Amsterdam, Netherlands"],
+    "antelope canyon": [36.8619, -111.3743, "Page, Arizona, USA"],
+    "arashiyama bamboo grove": [35.0168, 135.6713, "Kyoto, Japan"],
+    "arc de triomphe": [48.8738, 2.295, "Paris, France"],
+    "atacama desert": [-23.8634, -69.1328, "Northern Chile"],
+    "avenue of the baobabs": [-20.2508, 44.4184, "Menabe Region, Madagascar"],
+    "ayutthaya historical park": [14.3566, 100.5586, "Ayutthaya, Thailand"],
+    "bagan temples": [21.1717, 94.8585, "Bagan, Myanmar"],
+    "banff national park": [51.4968, -115.9281, "Alberta, Canada"],
+    "batu caves": [3.2379, 101.684, "Selangor, Malaysia"],
+    "berlin wall memorial": [52.5351, 13.3903, "Berlin, Germany"],
+    "big ben": [51.5007, -0.1246, "London, UK"],
+    "black forest": [48.2775, 8.186, "Baden-Württemberg, Germany"],
+    "blarney castle": [51.9291, -8.5709, "Blarney, Ireland"],
+    "blue lagoon": [63.8804, -22.4495, "Reykjanes Peninsula, Iceland"],
+    "blue mosque (sultan ahmed mosque)": [41.0054, 28.9768, "Istanbul, Turkey"],
+    "bondi beach": [-33.8915, 151.2767, "Sydney, Australia"],
+    "bora bora": [-16.5004, -151.7415, "French Polynesia"],
+    "borobudur temple": [-7.6079, 110.2038, "Central Java, Indonesia"],
+    "bran castle": [45.5149, 25.3672, "Bran, Romania"],
+    "brandenburg gate": [52.5163, 13.3777, "Berlin, Germany"],
+    "brooklyn bridge": [40.7061, -73.9969, "New York City, USA"],
+    "buckingham palace": [51.5014, -0.1419, "London, England"],
+    "burj al arab": [25.1412, 55.1852, "Dubai, UAE"],
+    "burj khalifa": [25.1972, 55.2744, "Dubai, UAE"],
+    "canals of amsterdam": [52.3676, 4.8945, "Amsterdam, Netherlands"],
+    "cape of good hope": [-34.3568, 18.474, "Western Cape, South Africa"],
+    "cappadocia": [38.6431, 34.8289, "Nevsehir Province, Turkey"],
+    "casa rosada": [-34.6081, -58.3703, "Buenos Aires, Argentina"],
+    "charles bridge": [50.0865, 14.4114, "Prague, Czech Republic"],
+    "chichen itza": [20.6843, -88.5678, "Yucatan, Mexico"],
+    "christ the redeemer": [-22.9519, -43.2105, "Rio de Janeiro, Brazil"],
+    "cliffs of moher": [52.9715, -9.4309, "County Clare, Ireland"],
+    "cloud gate": [41.8827, -87.6233, "Chicago, Illinois, USA"],
+    "cn tower": [43.6426, -79.3871, "Toronto, Ontario, Canada"],
+    "cologne cathedral": [50.9413, 6.9583, "Cologne, Germany"],
+    "colosseum": [41.8902, 12.4922, "Rome, Italy"],
+    "copacabana beach": [-22.9711, -43.1825, "Rio de Janeiro, Brazil"],
+    "dead sea": [31.559, 35.4732, "Jordan / Israel"],
+    "death road": [-16.3333, -67.8, "La Paz, Bolivia"],
+    "denali national park": [63.1148, -151.1926, "Alaska, USA"],
+    "dubai mall": [25.1975, 55.2797, "Dubai, UAE"],
+    "dubrovnik old town": [42.641, 18.1072, "Dubrovnik, Croatia"],
+    "dubrovnik old town walls": [42.641, 18.1072, "Dubrovnik, Croatia"],
+    "duomo di firenze": [43.7731, 11.256, "Florence, Italy"],
+    "easter island moai": [-27.1258, -109.2768, "Easter Island, Chile"],
+    "edinburgh castle": [55.9486, -3.1999, "Edinburgh, Scotland"],
+    "eiffel tower": [48.8584, 2.2945, "Paris, France"],
+    "empire state building": [40.7484, -73.9857, "New York City, USA"],
+    "ephesus ancient city": [37.9397, 27.3408, "Izmir Province, Turkey"],
+    "everglades national park": [25.2866, -80.8987, "Florida, USA"],
+    "forbidden city": [39.9163, 116.3972, "Beijing, China"],
+    "french quarter": [29.9584, -90.0644, "New Orleans, Louisiana, USA"],
+    "fushimi inari-taisha": [34.9671, 135.7727, "Kyoto, Japan"],
+    "galapagos islands": [-0.9538, -90.9656, "Ecuador"],
+    "gardens by the bay": [1.2816, 103.8636, "Singapore"],
+    "gateway arch": [38.6247, -90.1848, "St. Louis, Missouri, USA"],
+    "giant's causeway": [55.2408, -6.5116, "Northern Ireland, UK"],
+    "golden gate bridge": [37.8199, -122.4783, "San Francisco, California, USA"],
+    "golden temple (harmandir sahib)": [31.62, 74.8765, "Amritsar, Punjab, India"],
+    "grand canal": [45.4375, 12.3327, "Venice, Italy"],
+    "grand canyon": [36.1069, -112.1129, "Arizona, USA"],
+    "grand place": [50.8467, 4.3525, "Brussels, Belgium"],
+    "great barrier reef": [-18.2871, 147.6992, "Queensland, Australia"],
+    "great blue hole": [17.3159, -87.5346, "Belize"],
+    "great sphinx of giza": [29.9753, 31.1376, "Giza, Egypt"],
+    "great wall of china": [40.4319, 116.5704, "Beijing / Huairou, China"],
+    "guggenheim museum bilbao": [43.2687, -2.934, "Bilbao, Spain"],
+    "gyeongbokgung palace": [37.5796, 126.977, "Seoul, South Korea"],
+    "ha long bay": [20.9101, 107.1839, "Quang Ninh Province, Vietnam"],
+    "hagia sophia": [41.0086, 28.9802, "Istanbul, Turkey"],
+    "hallstatt": [47.5622, 13.6493, "Hallstatt, Austria"],
+    "hawa mahal": [26.9239, 75.8267, "Jaipur, Rajasthan, India"],
+    "himeji castle": [34.8394, 134.6939, "Hyogo Prefecture, Japan"],
+    "hofbräuhaus münchen": [48.1376, 11.5798, "Munich, Germany"],
+    "hoi an ancient town": [15.8801, 108.338, "Hoi An, Vietnam"],
+    "hollywood sign": [34.1341, -118.3215, "Los Angeles, California, USA"],
+    "hoover dam": [36.016, -114.7377, "Nevada / Arizona, USA"],
+    "iguazu falls": [-25.6953, -54.4367, "Argentina / Brazil"],
+    "itsukushima shrine": [34.296, 132.3198, "Miyajima, Japan"],
+    "jemaa el-fnaa": [31.6258, -7.9891, "Marrakesh, Morocco"],
+    "djemaa el-fna": [31.6258, -7.9891, "Marrakesh, Morocco"],
+    "kremlin": [55.752, 37.6175, "Moscow, Russia"],
+    "the kremlin": [55.752, 37.6175, "Moscow, Russia"],
+    "kruger national park": [-23.9884, 31.5547, "South Africa"],
+    "la rambla": [41.3809, 2.1735, "Barcelona, Spain"],
+    "lake bled": [46.3625, 14.0936, "Bled, Slovenia"],
+    "lake louise": [51.4167, -116.2167, "Alberta, Canada"],
+    "lake titicaca": [-15.8422, -69.3354, "Puno, Peru / Bolivia"],
+    "leaning tower of pisa": [43.723, 10.3966, "Pisa, Italy"],
+    "liberty bell": [39.9496, -75.1503, "Philadelphia, Pennsylvania, USA"],
+    "lincoln memorial": [38.8893, -77.0502, "Washington, D.C., USA"],
+    "loch ness": [57.3229, -4.4244, "Scottish Highlands, Scotland"],
+    "louvre museum": [48.8606, 2.3376, "Paris, France"],
+    "luxor temple": [25.6995, 32.6391, "Luxor, Egypt"],
+    "machu picchu": [-13.1631, -72.545, "Cusco Region, Peru"],
+    "marina bay sands": [1.2834, 103.8607, "Singapore"],
+    "matterhorn": [45.9766, 7.6585, "Zermatt, Switzerland"],
+    "meteora": [39.7217, 21.6306, "Thessaly, Greece"],
+    "milan cathedral": [45.4641, 9.1919, "Milan, Italy"],
+    "milford sound": [-44.6414, 167.8974, "South Island, New Zealand"],
+    "mont saint-michel": [48.6361, -1.5115, "Normandy, France"],
+    "monument valley": [36.998, -110.0985, "Arizona / Utah, USA"],
+    "mount everest": [27.9881, 86.925, "Himalayas, Nepal"],
+    "mount fuji": [35.3606, 138.7274, "Honshu, Japan"],
+    "mount kilimanjaro": [-3.0674, 37.3556, "Tanzania"],
+    "mount rushmore": [43.8791, -103.4591, "South Dakota, USA"],
+    "nazca lines": [-14.739, -75.13, "Nazca, Peru"],
+    "neuschwanstein castle": [47.5576, 10.7498, "Bavaria, Germany"],
+    "ngorongoro crater": [-3.1618, 35.5877, "Tanzania"],
+    "niagara falls": [43.0962, -79.0377, "New York, USA / Ontario, Canada"],
+    "notre-dame cathedral": [48.853, 2.3499, "Paris, France"],
+    "okavango delta": [-19.2833, 22.9, "Botswana"],
+    "old havana": [23.1367, -82.3503, "Havana, Cuba"],
+    "oriental pearl tv tower": [31.2397, 121.4998, "Shanghai, China"],
+    "osaka castle": [34.6873, 135.5262, "Osaka, Japan"],
+    "palace of versailles": [48.8049, 2.1204, "Versailles, France"],
+    "palm jumeirah": [25.1124, 55.139, "Dubai, UAE"],
+    "pamukkale": [37.9237, 29.1244, "Denizli Province, Turkey"],
+    "panama canal": [9.08, -79.68, "Panama City, Panama"],
+    "pantheon": [41.8986, 12.4769, "Rome, Italy"],
+    "parthenon": [37.9715, 23.7267, "Athens, Greece"],
+    "perito moreno glacier": [-50.4957, -73.1376, "Patagonia, Argentina"],
+    "petra": [30.3285, 35.4444, "Ma'an Governorate, Jordan"],
+    "petronas twin towers": [3.1579, 101.7116, "Kuala Lumpur, Malaysia"],
+    "plitvice lakes national park": [44.8654, 15.582, "Croatia"],
+    "pompeii": [40.7509, 14.487, "Campania, Italy"],
+    "potala palace": [29.6555, 91.1186, "Lhasa, Tibet"],
+    "prague castle": [50.0911, 14.4016, "Prague, Czech Republic"],
+    "pulpit rock (preikestolen)": [58.9864, 6.1904, "Rogaland, Norway"],
+    "pyramids of giza": [29.9792, 31.1342, "Giza, Egypt"],
+    "red square": [55.7539, 37.6208, "Moscow, Russia"],
+    "roman baths": [51.3811, -2.3596, "Bath, England"],
+    "roman forum": [41.8925, 12.4853, "Rome, Italy"],
+    "sagrada familia": [41.4036, 2.1744, "Barcelona, Spain"],
+    "sagrada família": [41.4036, 2.1744, "Barcelona, Spain"],
+    "salar de uyuni": [-20.1338, -67.4891, "Uyuni, Bolivia"],
+    "san antonio river walk": [29.4241, -98.4886, "San Antonio, Texas, USA"],
+    "santorini": [36.3932, 25.4615, "Cyclades, Greece"],
+    "selaron steps": [-22.9153, -43.1792, "Rio de Janeiro, Brazil"],
+    "senso-ji temple": [35.7148, 139.7967, "Tokyo, Japan"],
+    "serengeti national park": [-2.3333, 34.8333, "Tanzania"],
+    "sheikh zayed grand mosque": [24.4128, 54.475, "Abu Dhabi, UAE"],
+    "shibuya crossing": [35.6595, 139.7004, "Tokyo, Japan"],
+    "shwedagon pagoda": [16.7983, 96.1497, "Yangon, Myanmar"],
+    "sigiriya": [7.957, 80.7603, "Central Province, Sri Lanka"],
+    "sky tower": [-36.8485, 174.7622, "Auckland, New Zealand"],
+    "space needle": [47.6205, -122.3493, "Seattle, Washington, USA"],
+    "spanish steps": [41.906, 12.4828, "Rome, Italy"],
+    "st. basil's cathedral": [55.7525, 37.6231, "Moscow, Russia"],
+    "st. mark's square": [45.4342, 12.3385, "Venice, Italy"],
+    "st. peter's basilica": [41.9022, 12.4539, "Vatican City"],
+    "statue of liberty": [40.6892, -74.0445, "New York City, USA"],
+    "stonehenge": [51.1789, -1.8262, "Wiltshire, England"],
+    "sugarloaf mountain": [-22.9493, -43.1546, "Rio de Janeiro, Brazil"],
+    "summer palace": [39.9999, 116.2755, "Beijing, China"],
+    "sydney harbour bridge": [-33.8523, 151.2108, "Sydney, Australia"],
+    "sydney opera house": [-33.8568, 151.2153, "Sydney, Australia"],
+    "table mountain": [-33.9628, 18.4098, "Cape Town, South Africa"],
+    "taipei 101": [25.0339, 121.5645, "Taipei, Taiwan"],
+    "taj mahal": [27.1751, 78.0421, "Agra, India"],
+    "tanah lot temple": [-8.6212, 115.0868, "Bali, Indonesia"],
+    "temple of heaven": [39.8822, 116.4066, "Beijing, China"],
+    "teotihuacan": [19.6925, -98.8438, "Mexico City, Mexico"],
+    "terracotta army": [34.3841, 109.2785, "Xi'an, China"],
+    "the acropolis of athens": [37.9715, 23.7257, "Athens, Greece"],
+    "the alamo": [29.426, -98.4861, "San Antonio, Texas, USA"],
+    "the blue lagoon": [63.8804, -22.4495, "Grindavik, Iceland"],
+    "the bund": [31.24, 121.49, "Shanghai, China"],
+    "the dead sea": [31.559, 35.4732, "Jordan / Israel"],
+    "the las vegas strip": [36.1147, -115.1728, "Las Vegas, Nevada, USA"],
+    "the shard": [51.5045, -0.0865, "London, England"],
+    "the strip, las vegas": [36.1147, -115.1728, "Las Vegas, Nevada, USA"],
+    "tiger's nest monastery": [27.4919, 89.3634, "Paro Valley, Bhutan"],
+    "tikal": [17.222, -89.6237, "Peten, Guatemala"],
+    "times square": [40.758, -73.9855, "New York City, USA"],
+    "tokyo tower": [35.6586, 139.7454, "Tokyo, Japan"],
+    "torres del paine national park": [-50.9423, -73.4068, "Patagonia, Chile"],
+    "tower bridge": [51.5055, -0.0754, "London, UK"],
+    "tower of london": [51.5081, -0.0759, "London, England"],
+    "trevi fountain": [41.9009, 12.4833, "Rome, Italy"],
+    "tulum ruins": [20.2149, -87.4293, "Tulum, Mexico"],
+    "twelve apostles": [-38.6621, 143.1051, "Victoria, Australia"],
+    "uluru (ayers rock)": [-25.3444, 131.0369, "Northern Territory, Australia"],
+    "valley of the kings": [25.7402, 32.6014, "Luxor, Egypt"],
+    "vatican museums": [41.9065, 12.4536, "Vatican City"],
+    "victoria falls": [-17.9243, 25.8572, "Zambia / Zimbabwe"],
+    "victoria peak": [22.2759, 114.1455, "Hong Kong"],
+    "wadi rum": [29.5765, 35.4208, "Jordan"],
+    "waitomo glowworm caves": [-38.2608, 175.1036, "North Island, New Zealand"],
+    "walled city of cartagena": [10.4236, -75.5503, "Cartagena, Colombia"],
+    "walls of dubrovnik": [42.641, 18.1072, "Dubrovnik, Croatia"],
+    "washington monument": [38.8895, -77.0353, "Washington, D.C., USA"],
+    "wat arun": [13.7437, 100.4889, "Bangkok, Thailand"],
+    "westminster abbey": [51.4994, -0.1273, "London, England"],
+    "white house": [38.8977, -77.0365, "Washington, D.C., USA"],
+    "windsor castle": [51.4839, -0.6044, "Windsor, England"],
+    "yellowstone national park": [44.428, -110.5885, "Wyoming, USA"],
+    "yosemite national park": [37.8651, -119.5383, "California, USA"],
+    "zhangjiajie national forest park": [29.3167, 110.4333, "Hunan, China"],
+    "mount kenya": [-0.1521, 37.3084, "Kenya"],
+    "registan square": [39.6548, 66.9757, "Samarkand, Uzbekistan"],
+    "arenal volcano": [10.4626, -84.7032, "Alajuela Province, Costa Rica"],
+    "the pitons": [13.8094, -61.0669, "Soufrière, St. Lucia"],
+    "cerro monserrate": [4.6057, -74.0555, "Bogotá, Colombia"],
+    "uluru": [-25.3444, 131.0369, "Northern Territory, Australia"],
+    "geirangerfjord": [62.1015, 7.0941, "Møre og Romsdal, Norway"],
+    "fisherman's bastion": [47.5022, 19.0348, "Budapest, Hungary"],
+    "paro taktsang (tiger's nest monastery)": [27.4919, 89.3634, "Paro Valley, Bhutan"],
+    "tiger's nest monastery (paro taktsang)": [27.4919, 89.3634, "Paro Valley, Bhutan"],
+    "dunn's river falls": [18.4148, -77.1394, "Ocho Rios, Jamaica"],
+    "prague astronomical clock": [50.0870, 14.4207, "Prague, Czech Republic"],
+    "pyramids of meroë": [16.9380, 33.7489, "Meroë, Sudan"],
+    "pyramids of meroe": [16.9380, 33.7489, "Meroë, Sudan"],
+    "denali (mount mckinley)": [63.0695, -151.0074, "Alaska, USA"],
+    "white temple (wat rong khun)": [19.8242, 99.7631, "Chiang Rai, Thailand"]
+};
+
+// Self-contained geographic continent polygons in [lng, lat] coordinates
+// Projected via projectLatLngToMap(lat, lng) so continents and landmark pins share the exact same coordinate frame
+const WORLD_CONTINENT_POLYGONS = [
+    // North America & Central America
+    [
+        [-168, 66], [-162, 70], [-156, 71], [-140, 70], [-128, 70], [-115, 68], [-95, 68], [-82, 67],
+        [-78, 63], [-80, 55], [-77, 58], [-68, 60], [-64, 60], [-56, 52], [-53, 47], [-60, 46],
+        [-66, 44], [-70, 42], [-74, 40], [-76, 35], [-80, 32], [-80, 25], [-82, 25], [-83, 30],
+        [-89, 30], [-95, 29], [-97, 26], [-96, 19], [-90, 21], [-87, 21], [-88, 16], [-83, 15],
+        [-83, 10], [-79, 9], [-77, 8], [-80, 8], [-84, 9], [-88, 13], [-93, 15], [-97, 16],
+        [-105, 20], [-109, 24], [-112, 31], [-115, 30], [-110, 23], [-114, 27], [-117, 33],
+        [-122, 37], [-124, 42], [-124, 48], [-130, 54], [-138, 59], [-148, 61], [-152, 59],
+        [-161, 56], [-165, 60], [-166, 64]
+    ],
+    // Greenland
+    [
+        [-72, 78], [-58, 82], [-34, 83], [-20, 81], [-18, 75], [-22, 70], [-36, 65], [-44, 60],
+        [-50, 62], [-54, 68], [-60, 75]
+    ],
+    // Baffin & Canadian Arctic Archipelago
+    [
+        [-85, 73], [-74, 73], [-64, 66], [-66, 62], [-76, 64], [-84, 69]
+    ],
+    [
+        [-118, 74], [-98, 76], [-92, 71], [-108, 69], [-118, 71]
+    ],
+    // Cuba & Hispaniola
+    [
+        [-85, 22], [-79, 23], [-74, 20], [-78, 20], [-84, 21]
+    ],
+    [
+        [-74, 19.8], [-68.5, 18.6], [-71.5, 17.8], [-74.4, 18.4]
+    ],
+    // South America
+    [
+        [-77, 8], [-75, 11], [-71, 12], [-62, 11], [-52, 5], [-48, 0], [-42, -3], [-35, -6],
+        [-35, -10], [-39, -15], [-40, -21], [-43, -23], [-48, -26], [-52, -32], [-58, -35],
+        [-57, -38], [-62, -40], [-65, -43], [-66, -48], [-68, -52], [-66, -55], [-72, -54],
+        [-75, -48], [-73, -40], [-72, -33], [-70, -24], [-71, -18], [-76, -14], [-80, -8],
+        [-81, -4], [-80, 0], [-78, 4]
+    ],
+    // Iceland
+    [
+        [-24, 65.5], [-14, 66], [-13.5, 64], [-22, 63.5]
+    ],
+    // Great Britain & Ireland
+    [
+        [-6, 58.5], [-2, 57.5], [-1, 54], [1.5, 52.5], [1, 51], [-5, 50], [-5.5, 52], [-3, 53.5],
+        [-5, 55], [-6, 57]
+    ],
+    [
+        [-10, 54.5], [-6, 55], [-6, 52], [-10, 51.5]
+    ],
+    // Continental Europe & Scandinavia
+    [
+        [-9, 43], [-9, 37], [-5, 36], [0, 38], [3, 42], [5, 43], [8, 44], [12, 41], [16, 38],
+        [18, 40], [15, 42], [13, 45], [15, 44], [20, 39], [23, 37], [26, 40], [28, 41], [29, 44],
+        [31, 46], [38, 47], [42, 44], [48, 46], [52, 55], [58, 68], [42, 68], [34, 69], [28, 71],
+        [18, 69], [10, 63], [5, 60], [7, 58], [11, 59], [12, 56], [17, 56], [20, 63], [24, 65],
+        [28, 60], [22, 59], [20, 55], [14, 54], [9, 55], [8, 54], [4, 52], [1, 50], [-2, 48],
+        [-1, 44], [-4, 43]
+    ],
+    // Africa
+    [
+        [-6, 36], [5, 37], [10, 37], [11, 33], [20, 32], [25, 32], [32, 31], [34, 28], [38, 22],
+        [41, 15], [43, 12], [51, 12], [49, 6], [42, 0], [40, -6], [40, -15], [35, -20], [35, -25],
+        [31, -30], [26, -34], [18, -35], [17, -29], [14, -22], [12, -16], [12, -6], [9, 0],
+        [9, 4], [4, 6], [-2, 5], [-8, 4], [-13, 8], [-17, 15], [-16, 21], [-13, 27], [-10, 31]
+    ],
+    // Madagascar
+    [
+        [49, -12], [50, -16], [47, -25], [44, -25], [44, -18], [47, -14]
+    ],
+    // Middle East, Asia, India & Indochina
+    [
+        [26, 40], [35, 42], [42, 42], [48, 46], [52, 55], [58, 68], [72, 72], [90, 74], [110, 74],
+        [135, 71], [160, 69], [178, 66], [170, 60], [162, 56], [156, 51], [160, 56], [148, 59],
+        [140, 54], [141, 48], [135, 43], [130, 42], [128, 35], [126, 37], [124, 40], [121, 39],
+        [118, 38], [122, 35], [122, 30], [118, 24], [110, 20], [106, 21], [108, 16], [109, 12],
+        [105, 9], [103, 13], [100, 13], [99, 8], [103, 2], [101, 4], [98, 10], [97, 16], [94, 16],
+        [92, 21], [88, 22], [85, 19], [80, 14], [78, 8], [75, 12], [72, 21], [68, 24], [62, 25],
+        [56, 27], [51, 29], [48, 30], [50, 26], [55, 24], [60, 22], [54, 17], [45, 13], [43, 13],
+        [40, 18], [36, 27], [34, 28], [35, 32], [36, 36], [28, 36], [26, 39]
+    ],
+    // Sri Lanka
+    [
+        [80, 9.8], [81.8, 7.5], [80.5, 6], [79.8, 7.5]
+    ],
+    // Japan (Hokkaido, Honshu, Kyushu)
+    [
+        [140.5, 44.5], [145, 44], [144, 42], [140, 41.5]
+    ],
+    [
+        [140.5, 41], [142, 39], [140.5, 35.5], [136, 34.5], [131, 34], [130, 31.5], [131.5, 31],
+        [134, 33.5], [137, 37], [139.5, 39.5]
+    ],
+    // Taiwan
+    [
+        [121, 25.2], [122, 24], [120.8, 22], [120.2, 23.5]
+    ],
+    // Philippines
+    [
+        [120.5, 18.5], [122.5, 16], [124, 13], [126, 10], [125.5, 6.5], [122, 7], [121, 12], [119.8, 15]
+    ],
+    // Sumatra, Java, Borneo, Sulawesi, New Guinea
+    [
+        [95.5, 5.5], [102, 1], [106, -5.5], [104, -6], [99, -1], [95.5, 3.5]
+    ],
+    [
+        [105.5, -6], [114.5, -7.8], [114, -8.7], [106, -7]
+    ],
+    [
+        [109, 2], [115, 5.5], [118.5, 4.5], [117.5, -1], [114.5, -3.5], [110, -2.5]
+    ],
+    [
+        [119.5, 1], [125, 1.5], [122.5, -4.5], [119.5, -5], [119, -2]
+    ],
+    [
+        [131, -1], [141, -2.5], [148, -6], [150.5, -10], [146, -9], [141, -8], [135, -4.5]
+    ],
+    // Australia & Tasmania
+    [
+        [114, -22], [122, -17], [127, -14], [131, -12], [136, -12], [136, -15], [140, -17],
+        [142, -11], [145, -15], [150, -21], [153, -27], [151, -34], [148, -38], [143, -39],
+        [139, -36], [135, -34], [130, -32], [123, -34], [115, -34], [114, -28]
+    ],
+    [
+        [145, -40.8], [148.3, -41], [147.5, -43.5], [145.3, -43]
+    ],
+    // New Zealand (North & South Islands)
+    [
+        [173, -35], [178, -37.5], [175, -41.5], [174, -39.5], [174.5, -37]
+    ],
+    [
+        [173, -41], [174, -42.5], [170.5, -46], [166.5, -46], [168, -44], [171.5, -41.5]
+    ],
+    // Antarctica
+    [
+        [-180, -84], [-150, -76], [-120, -74], [-90, -73], [-65, -65], [-58, -64], [-60, -72],
+        [-30, -75], [0, -70], [35, -68], [70, -68], [105, -66], [140, -67], [170, -72],
+        [165, -78], [180, -78], [180, -88], [-180, -88]
+    ]
+];
+
+const WORLD_MAP_REGIONS = {
+    world: { scale: 1, tx: 0, ty: 0 },
+    americas: { scale: 2.0, centerLat: 10, centerLng: -85 },
+    europe: { scale: 3.7, centerLat: 47, centerLng: 12 },
+    africa_me: { scale: 2.25, centerLat: 8, centerLng: 25 },
+    asia_oceania: { scale: 2.05, centerLat: 10, centerLng: 118 }
+};
+
+let worldMapState = {
+    initialized: false,
+    scale: 1,
+    tx: 0,
+    ty: 0,
+    isDragging: false,
+    dragStartX: 0,
+    dragStartY: 0,
+    startTx: 0,
+    startTy: 0,
+    dragMoved: false,
+    activePostcardChallenge: null
+};
+
+function projectLatLngToMap(lat, lng) {
+    const clampedLat = Math.max(-85, Math.min(85, Number(lat) || 0));
+    const normLng = ((((Number(lng) || 0) + 180) % 360) + 360) % 360 - 180;
+    const x = ((normLng + 180) / 360) * WORLD_MAP_WIDTH;
+    const y = ((90 - clampedLat) / 180) * WORLD_MAP_HEIGHT;
+    return { x, y };
+}
+
+function getChallengeCoordinates(challenge) {
+    if (!challenge) return null;
+    if (typeof challenge.lat === 'number' && typeof challenge.lng === 'number' && !isNaN(challenge.lat) && !isNaN(challenge.lng)) {
+        return {
+            lat: challenge.lat,
+            lng: challenge.lng,
+            location: challenge.location || ""
+        };
+    }
+    const key = String(challenge.boss_original_title || '').trim().toLowerCase();
+    const fallback = FALLBACK_LANDMARK_COORDS[key];
+    if (fallback) {
+        return {
+            lat: fallback[0],
+            lng: fallback[1],
+            location: challenge.location || fallback[2] || ""
+        };
+    }
+    return null;
+}
+
+function renderBaseWorldMapSVG() {
+    const graticuleEl = document.getElementById('world-map-graticule');
+    const landEl = document.getElementById('world-map-land');
+    if (!graticuleEl || !landEl) return;
+
+    // 1. Graticule lines every 30 deg + Equator & Tropics
+    let gratHtml = '';
+    for (let lng = -150; lng <= 150; lng += 30) {
+        const { x } = projectLatLngToMap(0, lng);
+        gratHtml += `<line x1="${x.toFixed(1)}" y1="0" x2="${x.toFixed(1)}" y2="${WORLD_MAP_HEIGHT}" class="world-map-graticule-line" />`;
+    }
+    for (let lat = -60; lat <= 60; lat += 30) {
+        if (lat === 0) continue;
+        const { y } = projectLatLngToMap(lat, 0);
+        gratHtml += `<line x1="0" y1="${y.toFixed(1)}" x2="${WORLD_MAP_WIDTH}" y2="${y.toFixed(1)}" class="world-map-graticule-line" />`;
+    }
+    // Equator & Tropics
+    [0, 23.436, -23.436].forEach(lat => {
+        const { y } = projectLatLngToMap(lat, 0);
+        gratHtml += `<line x1="0" y1="${y.toFixed(1)}" x2="${WORLD_MAP_WIDTH}" y2="${y.toFixed(1)}" class="world-map-equator-line" />`;
+    });
+    graticuleEl.innerHTML = gratHtml;
+
+    // 2. Continent & Island Polygons
+    let landHtml = '';
+    WORLD_CONTINENT_POLYGONS.forEach(poly => {
+        const d = poly.map((pt, idx) => {
+            const { x, y } = projectLatLngToMap(pt[1], pt[0]);
+            return `${idx === 0 ? 'M' : 'L'}${x.toFixed(1)},${y.toFixed(1)}`;
+        }).join(' ') + ' Z';
+        landHtml += `<path d="${d}" class="world-map-continent" />`;
+    });
+    landEl.innerHTML = landHtml;
+}
+
+function clampWorldMapTransform() {
+    const s = Math.max(1, Math.min(8, worldMapState.scale));
+    worldMapState.scale = s;
+    const minTx = WORLD_MAP_WIDTH * (1 - s);
+    const minTy = WORLD_MAP_HEIGHT * (1 - s);
+    worldMapState.tx = Math.max(minTx, Math.min(0, worldMapState.tx));
+    worldMapState.ty = Math.max(minTy, Math.min(0, worldMapState.ty));
+}
+
+function applyWorldMapTransform() {
+    clampWorldMapTransform();
+    const camera = document.getElementById('world-map-camera');
+    if (camera) {
+        camera.setAttribute(
+            'transform',
+            `translate(${worldMapState.tx.toFixed(2)}, ${worldMapState.ty.toFixed(2)}) scale(${worldMapState.scale.toFixed(3)})`
+        );
+    }
+    // Keep pin markers crisp and well-proportioned across zoom levels
+    const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
+    document.querySelectorAll('#world-map-pins .map-pin-scale-wrap').forEach(el => {
+        el.setAttribute('transform', `scale(${invScale.toFixed(3)})`);
+    });
+}
+
+function setWorldMapRegion(regionKey) {
+    const preset = WORLD_MAP_REGIONS[regionKey] || WORLD_MAP_REGIONS.world;
+    if (regionKey === 'world' || !preset.centerLat) {
+        worldMapState.scale = 1;
+        worldMapState.tx = 0;
+        worldMapState.ty = 0;
+    } else {
+        const { x, y } = projectLatLngToMap(preset.centerLat, preset.centerLng);
+        worldMapState.scale = preset.scale;
+        worldMapState.tx = (WORLD_MAP_WIDTH / 2) - x * preset.scale;
+        worldMapState.ty = (WORLD_MAP_HEIGHT / 2) - y * preset.scale;
+    }
+    applyWorldMapTransform();
+
+    document.querySelectorAll('#world-map-region-pills .map-region-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.region === regionKey);
+    });
+}
+
+function zoomWorldMapBy(factor, focalSvgX = WORLD_MAP_WIDTH / 2, focalSvgY = WORLD_MAP_HEIGHT / 2) {
+    const oldScale = worldMapState.scale;
+    const newScale = Math.max(1, Math.min(8, oldScale * factor));
+    if (Math.abs(newScale - oldScale) < 0.001) return;
+
+    const mapX = (focalSvgX - worldMapState.tx) / oldScale;
+    const mapY = (focalSvgY - worldMapState.ty) / oldScale;
+
+    worldMapState.scale = newScale;
+    worldMapState.tx = focalSvgX - mapX * newScale;
+    worldMapState.ty = focalSvgY - mapY * newScale;
+    applyWorldMapTransform();
+}
+
+function renderSolvedMapPinsAndList() {
+    const pinsLayer = document.getElementById('world-map-pins');
+    const listContainer = document.getElementById('map-completed-list');
+    const emptyHint = document.getElementById('world-map-empty-hint');
+    if (!pinsLayer || !listContainer) return;
+
+    const solvedSet = getSolvedPuzzlesList();
+    const solvedHints = getSolvedHintsMap();
+    const approved = getApprovedChallenges();
+
+    const solvedChallenges = approved.filter(c => solvedSet.has(padPuzzleNumber(c.puzzle_number)));
+    // Sort newest solved challenge first for the list
+    const solvedChallengesDesc = [...solvedChallenges].sort(
+        (a, b) => parseInt(b.puzzle_number) - parseInt(a.puzzle_number)
+    );
+
+    updateWorldMapBadges();
+
+    if (emptyHint) {
+        emptyHint.classList.toggle('hidden', solvedChallenges.length > 0);
+    }
+
+    // Group pins by proximity so multi-puzzle landmarks (e.g. Eiffel Tower, Rome) fan out cleanly
+    const pinItems = [];
+    solvedChallenges.forEach(c => {
+        const coords = getChallengeCoordinates(c);
+        if (!coords) return;
+        const pt = projectLatLngToMap(coords.lat, coords.lng);
+        pinItems.push({
+            challenge: c,
+            coords,
+            baseX: pt.x,
+            baseY: pt.y,
+            x: pt.x,
+            y: pt.y
+        });
+    });
+
+    // Cluster pins within 6 SVG units and apply deterministic radial micro-offset
+    const clusters = [];
+    pinItems.forEach(item => {
+        let matchedCluster = clusters.find(cl => {
+            const dx = cl.cx - item.baseX;
+            const dy = cl.cy - item.baseY;
+            return Math.sqrt(dx * dx + dy * dy) < 5.5;
+        });
+        if (!matchedCluster) {
+            matchedCluster = { cx: item.baseX, cy: item.baseY, items: [] };
+            clusters.push(matchedCluster);
+        }
+        matchedCluster.items.push(item);
+    });
+
+    clusters.forEach(cluster => {
+        if (cluster.items.length > 1) {
+            const radius = Math.min(11, 5.2 + cluster.items.length * 1.1);
+            cluster.items.forEach((item, idx) => {
+                const angle = (2 * Math.PI * idx) / cluster.items.length - Math.PI / 2;
+                item.x = cluster.cx + Math.cos(angle) * radius;
+                item.y = cluster.cy + Math.sin(angle) * radius;
+                item.clustered = true;
+            });
+        }
+    });
+
+    const invScale = 1 / Math.pow(worldMapState.scale, 0.62);
+    pinsLayer.innerHTML = '';
+
+    pinItems.forEach(item => {
+        const c = item.challenge;
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.setAttribute('class', 'map-pin-group');
+        g.setAttribute('transform', `translate(${item.x.toFixed(2)}, ${item.y.toFixed(2)})`);
+        g.setAttribute('tabindex', '0');
+        g.setAttribute('role', 'button');
+        g.setAttribute('aria-label', `Challenge #${c.puzzle_number}: ${c.boss_pun_title} (${c.boss_original_title})`);
+        g.dataset.puzzleNumber = c.puzzle_number;
+
+        const hints = solvedHints[padPuzzleNumber(c.puzzle_number)];
+        const pinColor = hints === 0 ? '#06D6A0' : '#ff4757';
+
+        let spokeLineHtml = '';
+        if (item.clustered) {
+            const dx = (item.baseX - item.x).toFixed(2);
+            const dy = (item.baseY - item.y).toFixed(2);
+            spokeLineHtml = `<line x1="0" y1="0" x2="${dx}" y2="${dy}" stroke="#2D3436" stroke-width="0.9" stroke-dasharray="1.5 1.5" opacity="0.65" />`;
+        }
+
+        g.innerHTML = `
+            ${spokeLineHtml}
+            <g class="map-pin-scale-wrap" transform="scale(${invScale.toFixed(3)})">
+                <circle class="map-pin-pulse" cx="0" cy="0" r="8"></circle>
+                <g class="map-pin-marker">
+                    <path d="M0,0 C-3.8,-4.5 -7.5,-8.8 -7.5,-13.2 A7.5,7.5 0 1,1 7.5,-13.2 C7.5,-8.8 3.8,-4.5 0,0 Z"
+                          fill="${pinColor}" stroke="#2D3436" stroke-width="1.8" stroke-linejoin="round" />
+                    <circle cx="0" cy="-13.2" r="3" fill="#FAF8F5" stroke="#2D3436" stroke-width="1.2" />
+                </g>
+            </g>
+        `;
+
+        g.addEventListener('mouseenter', (ev) => showWorldMapPinTooltip(item, ev));
+        g.addEventListener('mouseleave', hideWorldMapPinTooltip);
+        g.addEventListener('focus', (ev) => showWorldMapPinTooltip(item, ev));
+        g.addEventListener('blur', hideWorldMapPinTooltip);
+        g.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            if (worldMapState.dragMoved) return;
+            hideWorldMapPinTooltip();
+            openMapPostcardOverlay(c);
+        });
+        g.addEventListener('keydown', (ev) => {
+            if (ev.key === 'Enter' || ev.key === ' ') {
+                ev.preventDefault();
+                openMapPostcardOverlay(c);
+            }
+        });
+
+        pinsLayer.appendChild(g);
+    });
+
+    // Populate Completed Puzzles List below the map
+    listContainer.innerHTML = '';
+    if (solvedChallengesDesc.length === 0) {
+        listContainer.innerHTML = `
+            <div style="text-align: center; padding: 18px 12px; color: var(--text-secondary); font-weight: 700; font-size: 0.85rem;">
+                You haven't completed any puzzles yet. Solve today's challenge to start your collection!
+            </div>
+        `;
+        return;
+    }
+
+    solvedChallengesDesc.forEach(c => {
+        const coords = getChallengeCoordinates(c);
+        const locLabel = coords && coords.location ? ` • ${coords.location}` : '';
+        const row = document.createElement('div');
+        row.className = 'map-completed-row';
+        const thumbUrl = getCorrectPosterUrl(c.boss_poster_url);
+
+        row.innerHTML = `
+            <img src="${thumbUrl}" class="map-completed-thumb" alt="${c.boss_pun_title}" loading="lazy">
+            <div class="map-completed-meta">
+                <span class="map-completed-title">#${c.puzzle_number} — ${c.boss_pun_title}</span>
+                <span class="map-completed-sub">📍 ${c.boss_original_title}${locLabel}</span>
+            </div>
+            <span class="map-completed-view-pill">🖼️ Postcard</span>
+        `;
+
+        row.addEventListener('mouseenter', () => {
+            const pinEl = pinsLayer.querySelector(`.map-pin-group[data-puzzle-number="${c.puzzle_number}"]`);
+            if (pinEl) pinEl.classList.add('highlighted');
+        });
+        row.addEventListener('mouseleave', () => {
+            const pinEl = pinsLayer.querySelector(`.map-pin-group[data-puzzle-number="${c.puzzle_number}"]`);
+            if (pinEl) pinEl.classList.remove('highlighted');
+        });
+        row.addEventListener('click', () => {
+            openMapPostcardOverlay(c);
+        });
+
+        listContainer.appendChild(row);
+    });
+}
+
+function showWorldMapPinTooltip(pinItem, ev) {
+    const tooltip = document.getElementById('world-map-tooltip');
+    const viewport = document.getElementById('world-map-viewport');
+    const svg = document.getElementById('world-map-svg');
+    if (!tooltip || !viewport || !svg) return;
+
+    const c = pinItem.challenge;
+    const locSuffix = pinItem.coords.location ? ` (${pinItem.coords.location})` : '';
+    tooltip.innerHTML = `
+        <span class="world-map-tooltip-pun">#${c.puzzle_number}: ${c.boss_pun_title}</span>
+        <span class="world-map-tooltip-real">📍 ${c.boss_original_title}${locSuffix}</span>
+    `;
+
+    // Position tooltip in viewport pixel coordinates
+    const svgRect = svg.getBoundingClientRect();
+    const vpRect = viewport.getBoundingClientRect();
+    const screenX = ((pinItem.x * worldMapState.scale + worldMapState.tx) / WORLD_MAP_WIDTH) * svgRect.width + (svgRect.left - vpRect.left);
+    const screenY = ((pinItem.y * worldMapState.scale + worldMapState.ty) / WORLD_MAP_HEIGHT) * svgRect.height + (svgRect.top - vpRect.top);
+
+    const clampedLeft = Math.max(85, Math.min(vpRect.width - 85, screenX));
+    const clampedTop = Math.max(48, screenY);
+
+    tooltip.style.left = `${clampedLeft}px`;
+    tooltip.style.top = `${clampedTop}px`;
+    tooltip.classList.remove('hidden');
+}
+
+function hideWorldMapPinTooltip() {
+    const tooltip = document.getElementById('world-map-tooltip');
+    if (tooltip) tooltip.classList.add('hidden');
+}
+
+function openMapPostcardOverlay(challenge) {
+    if (!challenge) return;
+    const modal = document.getElementById('map-postcard-modal');
+    if (!modal) return;
+
+    worldMapState.activePostcardChallenge = challenge;
+
+    const coords = getChallengeCoordinates(challenge);
+    const locStr = coords && coords.location ? coords.location : '';
+
+    const headerBadge = document.getElementById('map-pc-header-badge');
+    if (headerBadge) {
+        headerBadge.innerHTML = `<span class="challenge-label">Challenge</span> #<span class="level-indicator-num">${challenge.puzzle_number}</span>${locStr ? ' • ' + locStr : ''}`;
+    }
+
+    const solvedStatusEl = document.getElementById('map-pc-solved-status');
+    if (solvedStatusEl) {
+        const solvedHints = getSolvedHintsMap();
+        const hUsed = solvedHints[padPuzzleNumber(challenge.puzzle_number)];
+        let statusText = '🎉 YOU SOLVED THIS CHALLENGE!';
+        if (hUsed === 0) statusText = '🏆 SOLVED WITH NO HINTS!';
+        else if (hUsed === 1) statusText = '🥇 SOLVED WITH 1 HINT!';
+        else if (hUsed === 2) statusText = '🥈 SOLVED WITH 2 HINTS!';
+        else if (hUsed === 3) statusText = '🥉 SOLVED WITH 3 HINTS!';
+        else if (hUsed === 4) statusText = '⚡ SOLVED WITH 4 HINTS!';
+        solvedStatusEl.innerText = statusText;
+    }
+
+    const posterImg = document.getElementById('map-pc-poster-img');
+    if (posterImg) {
+        posterImg.src = getCorrectPosterUrl(challenge.boss_poster_url);
+        posterImg.onclick = () => {
+            const fullModal = document.getElementById('poster-modal');
+            const fullModalImg = document.getElementById('modal-poster-img');
+            if (fullModal && fullModalImg && posterImg.src) {
+                fullModalImg.src = posterImg.src;
+                fullModal.classList.add('active');
+            }
+        };
+    }
+
+    const punTitleEl = document.getElementById('map-pc-pun-title');
+    if (punTitleEl) punTitleEl.innerText = challenge.boss_pun_title || '';
+
+    const reviewsBox = document.getElementById('map-pc-reviews-box');
+    const toggleReviewsBtn = document.getElementById('btn-map-pc-toggle-reviews');
+    if (reviewsBox && toggleReviewsBtn) {
+        reviewsBox.classList.add('hidden');
+        toggleReviewsBtn.innerText = '1-Star Reviews ▼';
+        reviewsBox.innerHTML = `
+            <div style="font-family: var(--font-body); font-size: 0.9rem; line-height: 1.4; color: #ff4757; text-align: left;">
+                <strong style="color: #ff4757; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">1-Star Reviews:</strong>
+                <ul style="margin: 5px 0 0 15px; padding: 0; color: #ff4757; font-weight: 700; list-style-type: disc;">
+                    <li style="margin-bottom: 6px;">"${challenge.clue1 || ''}"</li>
+                    <li style="margin-bottom: 6px;">"${challenge.clue2 || ''}"</li>
+                    <li style="margin-bottom: 0;">"${challenge.clue3 || ''}"</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    const ownerReplyEl = document.getElementById('map-pc-owner-reply');
+    if (ownerReplyEl) {
+        ownerReplyEl.innerHTML = `
+            <div style="text-align: left; width: 100%;">
+                <strong style="color: var(--accent-main); font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 6px;">Response from the Owner:</strong>
+                <em style="color: #4a5568; display: block; font-style: italic; font-family: var(--font-body); line-height: 1.45; font-size: 0.9rem; font-weight: 600;">
+                    "${challenge.boss_pitch || 'No response.'}"
+                </em>
+            </div>
+        `;
+    }
+
+    const realLandmarkEl = document.getElementById('map-pc-real-landmark');
+    if (realLandmarkEl) {
+        realLandmarkEl.innerText = `Real Location: ${challenge.boss_original_title}${locStr ? ' (' + locStr + ')' : ''}`;
+    }
+
+    const cleanName = (challenge.boss_original_title || '').trim();
+    const wikiSlug = cleanName.replace(/\s+/g, '_');
+    const wikiLink = document.getElementById('map-pc-link-wiki');
+    const mapsLink = document.getElementById('map-pc-link-maps');
+    if (wikiLink) wikiLink.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(wikiSlug)}`;
+    if (mapsLink) mapsLink.href = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(cleanName + ' landmark')}`;
+
+    const shareBtn = document.getElementById('btn-map-pc-share');
+    if (shareBtn) {
+        shareBtn.onclick = () => {
+            const solvedHints = getSolvedHintsMap();
+            const hUsed = solvedHints[padPuzzleNumber(challenge.puzzle_number)] ?? 0;
+            const hintText = hUsed === 0 ? "No hints used! Perfect score! 🌟" : `${hUsed}/4 hints used 💡`;
+            const copyText =
+                `PunFiction Daily Challenge #${challenge.puzzle_number} 🗺️\n` +
+                `Parody Solved: "${getMaskedParodyTitle(challenge.boss_pun_title)}"\n` +
+                `Stats: ${hintText}\n` +
+                `Play daily challenge at: https://iwandres.github.io/PunFiction/travelreviews/`;
+            navigator.clipboard.writeText(copyText).then(() => {
+                showToast("📢 Postcard Score copied to clipboard!");
+            }).catch(err => console.error("Clipboard error:", err));
+        };
+    }
+
+    const openFullBtn = document.getElementById('btn-map-pc-open-full');
+    if (openFullBtn) {
+        openFullBtn.onclick = () => {
+            closeMapPostcardOverlay();
+            const mapModal = document.getElementById('world-map-modal');
+            if (mapModal) mapModal.classList.remove('active');
+            startGame(challenge);
+            history.replaceState(null, "", `?challenge=${challenge.puzzle_number}`);
+        };
+    }
+
+    modal.classList.add('active');
+    sendTelemetryEvent('click_map_pin');
+}
+
+function closeMapPostcardOverlay() {
+    const modal = document.getElementById('map-postcard-modal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+function updateWorldMapBadges() {
+    try {
+        const solvedSet = getSolvedPuzzlesList();
+        const approved = getApprovedChallenges();
+        const solvedCount = approved.filter(c => solvedSet.has(padPuzzleNumber(c.puzzle_number))).length;
+        const totalAvailable = approved.length;
+
+        const badgeGame = document.getElementById('world-map-pin-count');
+        const badgeVic = document.getElementById('world-map-pin-count-victory');
+        [badgeGame, badgeVic].forEach(el => {
+            if (!el) return;
+            el.innerText = solvedCount.toString();
+            el.classList.toggle('hidden', solvedCount === 0);
+        });
+
+        const tabPillStats = document.getElementById('tab-map-count-pill');
+        const tabPillMap = document.getElementById('world-map-tab-pill');
+        if (tabPillStats) tabPillStats.innerText = solvedCount.toString();
+        if (tabPillMap) tabPillMap.innerText = solvedCount.toString();
+
+        const statsCtaBadge = document.getElementById('stats-map-cta-badge');
+        if (statsCtaBadge) {
+            statsCtaBadge.innerText = `${solvedCount} Pinned ➔`;
+        }
+
+        const solvedBadge = document.getElementById('world-map-solved-badge');
+        if (solvedBadge) {
+            solvedBadge.innerText = `📍 ${solvedCount} / ${totalAvailable} Solved`;
+        }
+
+        const completedCountLabel = document.getElementById('map-completed-count-label');
+        if (completedCountLabel) {
+            completedCountLabel.innerText = `${solvedCount} Completed`;
+        }
+    } catch (e) {
+        console.warn("Could not update world map badges:", e);
+    }
+}
+
+function openWorldMapModal() {
+    const worldMapModal = document.getElementById('world-map-modal');
+    const statsSelectModal = document.getElementById('stats-select-modal');
+    if (!worldMapModal) return;
+
+    if (statsSelectModal) {
+        statsSelectModal.classList.remove('active');
+    }
+
+    if (!worldMapState.initialized) {
+        renderBaseWorldMapSVG();
+        worldMapState.initialized = true;
+    }
+
+    renderSolvedMapPinsAndList();
+    applyWorldMapTransform();
+    worldMapModal.classList.add('active');
+
+    sendTelemetryEvent('click_world_map');
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: 'World Travel Map',
+            page_path: '/world-map'
+        });
+    }
+}
+
+function initWorldMapFeature() {
+    const worldMapModal = document.getElementById('world-map-modal');
+    const statsSelectModal = document.getElementById('stats-select-modal');
+    const mapPostcardModal = document.getElementById('map-postcard-modal');
+
+    const btnWorldMap = document.getElementById('btn-world-map');
+    const btnWorldMapVic = document.getElementById('btn-world-map-victory');
+    const btnCloseWorldMap = document.getElementById('btn-close-world-map');
+
+    if (btnWorldMap) btnWorldMap.onclick = openWorldMapModal;
+    if (btnWorldMapVic) btnWorldMapVic.onclick = openWorldMapModal;
+
+    if (btnCloseWorldMap) {
+        btnCloseWorldMap.onclick = () => {
+            hideWorldMapPinTooltip();
+            if (worldMapModal) worldMapModal.classList.remove('active');
+        };
+    }
+
+    if (worldMapModal) {
+        worldMapModal.onclick = (e) => {
+            if (e.target === worldMapModal) {
+                hideWorldMapPinTooltip();
+                worldMapModal.classList.remove('active');
+            }
+        };
+    }
+
+    // Cross-modal Tab & CTA navigation between World Map and Global Stats
+    const switchFromMapToStats = () => {
+        hideWorldMapPinTooltip();
+        if (worldMapModal) worldMapModal.classList.remove('active');
+        if (statsSelectModal) {
+            statsSelectModal.classList.add('active');
+            openStatsSelectModal();
+        }
+    };
+
+    const tabStatsToMap = document.getElementById('tab-stats-to-map');
+    const btnOpenMapFromStats = document.getElementById('btn-open-map-from-stats');
+    const tabMapToStats = document.getElementById('tab-map-to-stats');
+    const btnMapToStats = document.getElementById('btn-map-to-stats');
+
+    if (tabStatsToMap) tabStatsToMap.onclick = openWorldMapModal;
+    if (btnOpenMapFromStats) btnOpenMapFromStats.onclick = openWorldMapModal;
+    if (tabMapToStats) tabMapToStats.onclick = switchFromMapToStats;
+    if (btnMapToStats) btnMapToStats.onclick = switchFromMapToStats;
+
+    // 1-Click Postcard Overlay Close & Reviews Toggle
+    const btnCloseMapPostcard = document.getElementById('btn-close-map-postcard');
+    if (btnCloseMapPostcard) {
+        btnCloseMapPostcard.onclick = closeMapPostcardOverlay;
+    }
+    if (mapPostcardModal) {
+        mapPostcardModal.onclick = (e) => {
+            if (e.target === mapPostcardModal) {
+                closeMapPostcardOverlay();
+            }
+        };
+    }
+
+    const btnMapPcToggleReviews = document.getElementById('btn-map-pc-toggle-reviews');
+    const mapPcReviewsBox = document.getElementById('map-pc-reviews-box');
+    if (btnMapPcToggleReviews && mapPcReviewsBox) {
+        btnMapPcToggleReviews.onclick = () => {
+            const isHidden = mapPcReviewsBox.classList.toggle('hidden');
+            btnMapPcToggleReviews.innerText = isHidden ? '1-Star Reviews ▼' : '1-Star Reviews ▲';
+        };
+    }
+
+    // Escape key closes topmost overlay first (#map-postcard-modal -> #world-map-modal)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            if (mapPostcardModal && mapPostcardModal.classList.contains('active')) {
+                closeMapPostcardOverlay();
+                return;
+            }
+            if (worldMapModal && worldMapModal.classList.contains('active')) {
+                hideWorldMapPinTooltip();
+                worldMapModal.classList.remove('active');
+            }
+        }
+    });
+
+    // Region Quick-Jump Pills
+    document.querySelectorAll('#world-map-region-pills .map-region-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+            hideWorldMapPinTooltip();
+            setWorldMapRegion(btn.dataset.region);
+        });
+    });
+
+    // Map Zoom Controls (+ / - / Reset)
+    const btnZoomIn = document.getElementById('map-zoom-in');
+    const btnZoomOut = document.getElementById('map-zoom-out');
+    const btnZoomReset = document.getElementById('map-zoom-reset');
+    if (btnZoomIn) btnZoomIn.onclick = () => zoomWorldMapBy(1.45);
+    if (btnZoomOut) btnZoomOut.onclick = () => zoomWorldMapBy(1 / 1.45);
+    if (btnZoomReset) btnZoomReset.onclick = () => setWorldMapRegion('world');
+
+    // Interactive Mouse Wheel Zoom & Drag-to-Pan on #world-map-viewport
+    const viewport = document.getElementById('world-map-viewport');
+    const svg = document.getElementById('world-map-svg');
+    if (viewport && svg) {
+        viewport.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            hideWorldMapPinTooltip();
+            const rect = svg.getBoundingClientRect();
+            const svgX = ((e.clientX - rect.left) / rect.width) * WORLD_MAP_WIDTH;
+            const svgY = ((e.clientY - rect.top) / rect.height) * WORLD_MAP_HEIGHT;
+            const factor = e.deltaY < 0 ? 1.25 : (1 / 1.25);
+            zoomWorldMapBy(factor, svgX, svgY);
+        }, { passive: false });
+
+        const startDrag = (clientX, clientY) => {
+            worldMapState.isDragging = true;
+            worldMapState.dragMoved = false;
+            worldMapState.dragStartX = clientX;
+            worldMapState.dragStartY = clientY;
+            worldMapState.startTx = worldMapState.tx;
+            worldMapState.startTy = worldMapState.ty;
+            viewport.classList.add('dragging');
+        };
+
+        const moveDrag = (clientX, clientY) => {
+            if (!worldMapState.isDragging) return;
+            const rect = svg.getBoundingClientRect();
+            if (!rect.width || !rect.height) return;
+            const dxPx = clientX - worldMapState.dragStartX;
+            const dyPx = clientY - worldMapState.dragStartY;
+            if (Math.abs(dxPx) > 4 || Math.abs(dyPx) > 4) {
+                worldMapState.dragMoved = true;
+                hideWorldMapPinTooltip();
+            }
+            const dxSvg = (dxPx / rect.width) * WORLD_MAP_WIDTH;
+            const dySvg = (dyPx / rect.height) * WORLD_MAP_HEIGHT;
+            worldMapState.tx = worldMapState.startTx + dxSvg;
+            worldMapState.ty = worldMapState.startTy + dySvg;
+            applyWorldMapTransform();
+        };
+
+        const endDrag = () => {
+            worldMapState.isDragging = false;
+            viewport.classList.remove('dragging');
+        };
+
+        viewport.addEventListener('mousedown', (e) => {
+            if (e.target.closest('.map-ctrl-btn')) return;
+            startDrag(e.clientX, e.clientY);
+        });
+        window.addEventListener('mousemove', (e) => moveDrag(e.clientX, e.clientY));
+        window.addEventListener('mouseup', endDrag);
+
+        viewport.addEventListener('touchstart', (e) => {
+            if (e.target.closest('.map-ctrl-btn')) return;
+            if (e.touches.length === 1) {
+                startDrag(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+        viewport.addEventListener('touchmove', (e) => {
+            if (worldMapState.isDragging && e.touches.length === 1) {
+                moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+        viewport.addEventListener('touchend', endDrag);
     }
 }

@@ -350,5 +350,37 @@ class TestServerHandler(unittest.TestCase):
         self.assertTrue(response_data['alert_result']['sent'])
         mock_agent.check_and_send_runway_alert.assert_called_once_with(force=True)
 
+    def test_sanitize_travelreviews_puzzles_enriches_coordinates(self):
+        from backend.unified_server import sanitize_travelreviews_puzzles
+        sample = [
+            {
+                "puzzle_number": "001",
+                "boss_original_title": "Eiffel Tower",
+                "boss_pun_title": "Waffle Tower"
+            }
+        ]
+        result = sanitize_travelreviews_puzzles(sample)
+        self.assertEqual(len(result), 1)
+        self.assertAlmostEqual(result[0]["lat"], 48.8584, places=2)
+        self.assertAlmostEqual(result[0]["lng"], 2.2945, places=2)
+        self.assertTrue(bool(result[0].get("location")))
+
+    def test_all_daily_games_and_landmarks_have_valid_coordinates(self):
+        from backend.unified_server import DAILY_GAMES_FILE, LANDMARKS_FILE, load_json
+        daily_games = load_json(DAILY_GAMES_FILE, [])
+        landmarks = load_json(LANDMARKS_FILE, [])
+        self.assertGreater(len(daily_games), 100)
+        self.assertGreater(len(landmarks), 400)
+        for p in daily_games:
+            self.assertIsInstance(p.get("lat"), (int, float), f"Missing lat on puzzle {p.get('puzzle_number')}")
+            self.assertIsInstance(p.get("lng"), (int, float), f"Missing lng on puzzle {p.get('puzzle_number')}")
+            self.assertTrue(-90 <= p["lat"] <= 90)
+            self.assertTrue(-180 <= p["lng"] <= 180)
+        for lm in landmarks:
+            self.assertIsInstance(lm.get("lat"), (int, float), f"Missing lat on landmark {lm.get('name')}")
+            self.assertIsInstance(lm.get("lng"), (int, float), f"Missing lng on landmark {lm.get('name')}")
+            self.assertTrue(-90 <= lm["lat"] <= 90)
+            self.assertTrue(-180 <= lm["lng"] <= 180)
+
 if __name__ == '__main__':
     unittest.main()

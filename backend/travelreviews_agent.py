@@ -622,6 +622,8 @@ Return a JSON array of objects matching this exact schema:
   {{
     "name": "Famous Landmark Name",
     "location": "City/Region, Country",
+    "lat": 48.8584,
+    "lng": 2.2945,
     "page_theme": "One of: ancient_ruins, natural_wonders, historic_monuments, castles_cathedrals, bridges_canals, streets_squares, modern_skyscrapers",
     "pun_potential_note": "Brief example of why this landmark has great phonetic pun potential"
   }}
@@ -663,6 +665,12 @@ Return a JSON array of objects matching this exact schema:
                 "status": "approved" if auto_approve else "pending",
                 "agent_generated": True
             }
+            try:
+                if cand.get("lat") is not None and cand.get("lng") is not None:
+                    new_lm["lat"] = round(float(cand["lat"]), 4)
+                    new_lm["lng"] = round(float(cand["lng"]), 4)
+            except (TypeError, ValueError):
+                pass
             landmarks.append(new_lm)
             added.append(new_lm)
 
@@ -1046,6 +1054,8 @@ Return a JSON object matching this exact schema:
             "pun_name": clue_obj["pun_name"],
             "original_name": clue_obj["original_name"],
             "location": clue_obj.get("location", "Unknown"),
+            "lat": clue_obj.get("lat"),
+            "lng": clue_obj.get("lng"),
             "image_prompt": image_prompt,
             "image_path": image_path,
             "art_style": style_key,
@@ -1090,12 +1100,17 @@ Return a JSON object matching this exact schema:
         """
         lm_name = landmark_obj["name"]
         lm_loc = landmark_obj.get("location", "Unknown")
+        lm_lat = landmark_obj.get("lat")
+        lm_lng = landmark_obj.get("lng")
 
         # Mark landmark approved in landmarks.json
         landmarks = self.load_json(self.landmarks_file, [])
         for lm in landmarks:
             if lm.get("id") == landmark_obj.get("id") or normalize_name(lm.get("name")) == normalize_name(lm_name):
                 lm["status"] = "approved"
+                if lm_lat is None and lm.get("lat") is not None:
+                    lm_lat = lm.get("lat")
+                    lm_lng = lm.get("lng")
         self.save_json(self.landmarks_file, landmarks)
 
         # 1. Generate & Select Best Guardrail-Verified Pun (or reuse an existing in-progress agent pun)
@@ -1173,6 +1188,8 @@ Return a JSON object matching this exact schema:
                 "pun_id": pun_id,
                 "original_name": lm_name,
                 "location": lm_loc,
+                "lat": lm_lat,
+                "lng": lm_lng,
                 "pun_name": pun_name,
                 "reviewer_name": clue_data["reviewer_name"],
                 "review_title": clue_data["review_title"],

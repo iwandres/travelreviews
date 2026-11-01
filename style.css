@@ -302,7 +302,7 @@ body {
 .challenge-navigation {
     position: absolute;
     top: -16px;
-    left: calc(50% - 20px);
+    left: 50%;
     z-index: 10;
     display: flex;
     align-items: center;
@@ -1851,7 +1851,7 @@ input:focus {
      * left-hanging button (stats) and the two right-hanging buttons (settings, how-to-play).
      */
     .challenge-navigation {
-        left: calc(50% - 18px) !important;
+        left: 50% !important;
         transform: translateX(-50%) rotate(-2deg) !important;
     }
 
@@ -1866,7 +1866,11 @@ input:focus {
         padding: 5px 12px !important;
     }
 
-    /* Position settings (profile) button on the left edge */
+    /* Position settings (profile) and world map buttons on the left edge */
+    .world-map-btn {
+        left: 44px !important;
+        right: auto !important;
+    }
     .settings-btn {
         left: 8px !important;
         right: auto !important;
@@ -2417,3 +2421,607 @@ svg.hidden {
 
 
 
+
+/* ================= WORLD TRAVEL MAP & COMPLETED PUZZLES STYLING ================= */
+
+.world-map-btn {
+    position: absolute;
+    top: -16px;
+    left: 64px;
+    right: auto;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: #ffffff;
+    color: var(--accent-main);
+    border: 3px solid var(--border-color);
+    box-shadow: 3px 3px 0px var(--border-color);
+    font-family: var(--font-heading);
+    font-weight: 900;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.1s ease;
+    padding: 0;
+}
+
+.world-map-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0px var(--border-color);
+}
+
+.world-map-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.world-map-pin-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    min-width: 17px;
+    height: 17px;
+    padding: 0 4px;
+    border-radius: 10px;
+    background: #ff4757;
+    color: #ffffff;
+    border: 2px solid var(--border-color);
+    font-family: var(--font-body);
+    font-size: 9px;
+    font-weight: 900;
+    line-height: 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+/* 2-Tab Switcher inside World Map & Global Stats Modals */
+.modal-tab-switcher {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    background: #f1f2f6;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 4px;
+    margin-bottom: 16px;
+    box-sizing: border-box;
+}
+
+.modal-tab-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.modal-tab-btn:hover {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.modal-tab-btn.active {
+    background: var(--accent-main);
+    color: #ffffff;
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.modal-tab-pill {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    font-weight: 900;
+    background: rgba(0, 0, 0, 0.15);
+    color: inherit;
+    margin-left: 2px;
+}
+
+/* CTA Banner inside Global Stats Modal */
+.world-map-cta-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    margin-bottom: 16px;
+    background: linear-gradient(135deg, #fff9db 0%, #e3fafc 100%);
+    color: var(--text-primary);
+    border: 2.5px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0px var(--border-color);
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    box-sizing: border-box;
+    text-align: left;
+}
+
+.world-map-cta-banner:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.world-map-cta-banner:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.world-map-cta-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+}
+
+.world-map-cta-left svg {
+    color: var(--accent-main);
+    flex-shrink: 0;
+}
+
+.world-map-cta-pill {
+    background: var(--accent-main);
+    color: #ffffff;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 900;
+    white-space: nowrap;
+    border: 1.5px solid var(--border-color);
+}
+
+/* World Map Modal Wrapper & Card */
+.world-map-modal-wrapper {
+    width: 94vw;
+    max-width: 780px;
+}
+
+.world-map-card {
+    padding: 22px 20px;
+}
+
+.world-map-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+
+.world-map-solved-pill {
+    background: #fff9db;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    box-shadow: 2px 2px 0px var(--border-color);
+    border-radius: 20px;
+    padding: 4px 12px;
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.world-map-subtitle {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    margin: 0 0 12px 0;
+    line-height: 1.35;
+}
+
+/* Region Quick-Jump Pills */
+.world-map-region-pills {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.map-region-pill {
+    background: #ffffff;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 5px 11px;
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    box-shadow: 2px 2px 0px rgba(45, 52, 54, 0.18);
+}
+
+.map-region-pill:hover {
+    background: #f1f2f6;
+    transform: translateY(-1px);
+}
+
+.map-region-pill.active {
+    background: #5f27cd;
+    color: #ffffff;
+    border-color: var(--border-color);
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+/* Flat Earth SVG Viewport */
+.world-map-viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    min-height: 210px;
+    background: #D4F1F9;
+    border: 3px solid var(--border-color);
+    border-radius: 14px;
+    box-shadow: 4px 4px 0px var(--border-color);
+    overflow: hidden;
+    user-select: none;
+    touch-action: none;
+    cursor: grab;
+}
+
+.world-map-viewport.dragging {
+    cursor: grabbing;
+}
+
+.world-map-svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.world-map-graticule-line {
+    stroke: rgba(45, 52, 54, 0.11);
+    stroke-width: 0.7;
+    fill: none;
+}
+
+.world-map-equator-line {
+    stroke: rgba(45, 52, 54, 0.22);
+    stroke-width: 0.9;
+    stroke-dasharray: 4 4;
+    fill: none;
+}
+
+.world-map-continent {
+    fill: #FAF8F5;
+    stroke: #2D3436;
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+    transition: fill 0.15s ease;
+}
+
+.world-map-continent:hover {
+    fill: #F3EFE6;
+}
+
+/* Map Zoom & Reset Overlay Controls */
+.world-map-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 25;
+}
+
+.map-ctrl-btn {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #ffffff;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    box-shadow: 2px 2px 0px var(--border-color);
+    font-family: var(--font-heading);
+    font-size: 1rem;
+    font-weight: 900;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.1s ease, background-color 0.1s ease;
+}
+
+.map-ctrl-btn:hover {
+    background: #fff9db;
+    transform: translate(-1px, -1px);
+}
+
+.map-ctrl-btn:active {
+    transform: translate(1px, 1px);
+}
+
+/* Solved Landmark Pins on SVG Map */
+.map-pin-group {
+    cursor: pointer;
+    outline: none;
+}
+
+.map-pin-pulse {
+    fill: rgba(255, 71, 87, 0.28);
+    pointer-events: none;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: mapPinPulse 2.2s infinite ease-out;
+}
+
+@keyframes mapPinPulse {
+    0% {
+        transform: scale(0.7);
+        opacity: 0.85;
+    }
+    100% {
+        transform: scale(2.1);
+        opacity: 0;
+    }
+}
+
+.map-pin-marker {
+    transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.map-pin-group:hover .map-pin-marker,
+.map-pin-group:focus .map-pin-marker,
+.map-pin-group.highlighted .map-pin-marker {
+    transform: scale(1.32);
+}
+
+/* Floating Tooltip on Pin Hover */
+.world-map-tooltip {
+    position: absolute;
+    z-index: 30;
+    background: #ffffff;
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    box-shadow: 3px 3px 0px var(--border-color);
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-family: var(--font-body);
+    font-size: 0.76rem;
+    line-height: 1.3;
+    pointer-events: none;
+    white-space: nowrap;
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transform: translate(-50%, calc(-100% - 12px));
+}
+
+.world-map-tooltip-pun {
+    font-family: var(--font-heading);
+    font-size: 0.9rem;
+    color: #ff4757;
+    display: block;
+}
+
+.world-map-tooltip-real {
+    font-weight: 800;
+    color: var(--text-secondary);
+    font-size: 0.72rem;
+    display: block;
+}
+
+.world-map-empty-hint {
+    margin-top: 10px;
+    padding: 10px 14px;
+    background: #fff9db;
+    border: 2px dashed var(--border-color);
+    border-radius: 10px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-align: center;
+}
+
+/* Completed Puzzles Section inside Map Modal */
+.map-completed-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.map-completed-count-pill {
+    background: #06D6A0;
+    color: #2d3436;
+    border: 2px solid var(--border-color);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 0.74rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.map-completed-list-container {
+    max-height: 210px;
+}
+
+.map-completed-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    background: #ffffff;
+    border: 2px solid rgba(45, 52, 54, 0.16);
+    border-radius: 10px;
+    padding: 9px 12px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    text-align: left;
+}
+
+.map-completed-row:hover {
+    border-color: var(--border-color);
+    background: #fffef8;
+    transform: translateY(-1px);
+    box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.map-completed-thumb {
+    width: 48px;
+    height: 36px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1.5px solid var(--border-color);
+    flex-shrink: 0;
+    background: #f1f2f6;
+}
+
+.map-completed-meta {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.map-completed-title {
+    font-family: var(--font-heading);
+    font-size: 1.05rem;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-completed-sub {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.map-completed-view-pill {
+    background: #fff9db;
+    color: var(--text-primary);
+    border: 1.5px solid var(--border-color);
+    border-radius: 8px;
+    padding: 4px 9px;
+    font-size: 0.72rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+/* Bottom Link to Overall Puzzle Stats & Difficulties */
+.world-map-stats-link-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 16px;
+    background: #f8f6ff;
+    color: #5f27cd;
+    border: 2.5px solid var(--border-color);
+    border-radius: 12px;
+    box-shadow: 3px 3px 0px var(--border-color);
+    font-family: var(--font-body);
+    font-size: 0.86rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    cursor: pointer;
+    transition: all 0.12s ease;
+    box-sizing: border-box;
+}
+
+.world-map-stats-link-btn:hover {
+    background: #5f27cd;
+    color: #ffffff;
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0px var(--border-color);
+}
+
+/* 1-Click Completed Puzzle Postcard Overlay Modal */
+.map-postcard-overlay-modal {
+    z-index: 10050 !important;
+}
+
+.map-postcard-wrapper {
+    width: 92vw;
+    max-width: 460px;
+}
+
+.map-postcard-card {
+    max-height: 86vh;
+    overflow-y: auto;
+    padding: 20px 18px !important;
+    margin: 0 !important;
+    box-sizing: border-box;
+}
+
+.map-pc-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.map-pc-actions-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    margin-top: 10px;
+}
+
+.map-pc-actions-row .share-score-btn {
+    margin: 0 auto;
+    width: 100%;
+}
+
+.map-pc-full-page-btn {
+    width: 100%;
+    font-size: 0.82rem !important;
+    padding: 9px 16px !important;
+}
+
+@media (max-width: 600px) {
+    .world-map-card {
+        padding: 18px 12px;
+    }
+    .modal-tab-btn {
+        font-size: 0.68rem;
+        padding: 7px 6px;
+    }
+    .map-region-pill {
+        font-size: 0.68rem;
+        padding: 4px 8px;
+    }
+}

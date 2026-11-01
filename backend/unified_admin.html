@@ -4131,6 +4131,9 @@
             }
             
             let matchingClue = tt_clues.find(c => c.id === item.clue_id);
+            let matchingLandmark = (tt_landmarks || []).find(
+                l => (l.name || '').trim().toLowerCase() === (item.original_name || '').trim().toLowerCase()
+            );
             
             const activeCount = tt_puzzles.filter(p => p.puzzle_number !== "").length;
             const num = String(activeCount + 1).padStart(3, '0');
@@ -4146,6 +4149,9 @@
                 boss_id: 'boss_' + item.clue_id,
                 boss_original_title: item.original_name,
                 boss_pun_title: item.pun_name,
+                location: item.location || (matchingClue && matchingClue.location) || (matchingLandmark && matchingLandmark.location) || "",
+                lat: item.lat ?? (matchingClue && matchingClue.lat) ?? (matchingLandmark && matchingLandmark.lat) ?? null,
+                lng: item.lng ?? (matchingClue && matchingClue.lng) ?? (matchingLandmark && matchingLandmark.lng) ?? null,
                 answer: ansPattern,
                 boss_hint2: firstLetterPattern,
                 reviewer_name: matchingClue ? matchingClue.reviewer_name : "Anonymous",

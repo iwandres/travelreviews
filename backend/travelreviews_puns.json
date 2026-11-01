@@ -3093,5 +3093,335 @@
       "Mint Kenya",
       "Mount Kiwi-a"
     ]
+  },
+  {
+    "id": "pun_st_pauls_cathedral_1793483966_782",
+    "original_name": "St. Paul's Cathedral",
+    "location": "London, United Kingdom",
+    "pun_name": "St. Paul's Cattle Prod",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun brilliantly replaces 'Cathedral' with 'Cattle Prod', a concrete, tangible, and absurd everyday object. The phonetic match is strong ('Cath-edral' to 'Cattle Prod'), and the visual of a massive cattle prod in place of the landmark, coupled with a tourist complaining about being 'prodded' through the attraction, makes for a hilariously dark 1-star review.",
+    "runner_up_puns": [
+      "St. Paul's Cat-O-Pillar",
+      "St. Paul's Catapult",
+      "St. Paul's Kettlebell"
+    ]
+  },
+  {
+    "id": "pun_jemaa_elfnaa_1793484003_591",
+    "original_name": "Jemaa el-Fnaa",
+    "location": "Marrakesh, Morocco",
+    "pun_name": "Jemaa el-Flan",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun cleverly replaces 'Fnaa' with the concrete food item 'Flan,' creating a perfect phonetic match for 'el-Fnaa' as 'el-Flan.' The image of a bustling market square unexpectedly filled or covered in wobbly, eggy flan is absurdly hilarious and a prime candidate for a sticky, 1-star travel complaint postcard.",
+    "runner_up_puns": [
+      "Jemaa el-Flea",
+      "Llama el-Fnaa",
+      "Jam el-Fnaa"
+    ]
+  },
+  {
+    "id": "pun_denali_national_park_1793506907_511",
+    "original_name": "Denali National Park",
+    "location": "Alaska, USA",
+    "pun_name": "Denali National Pork",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun delivers an excellent phonetic match by replacing 'Park' with 'Pork', a common and concrete food item. The mental image of a majestic national park being a 'pork' destination, perhaps smelling like bacon, is inherently absurd and perfectly sets the stage for a hilarious 1-star travel review.",
+    "runner_up_puns": [
+      "Denali Navel Orange Park",
+      "Dino-lee National Park",
+      "Denim-lee National Park"
+    ]
+  },
+  {
+    "id": "pun_dubrovnik_old_town_walls_1793506950_685",
+    "original_name": "Dubrovnik Old Town Walls",
+    "location": "Dubrovnik, Croatia",
+    "pun_name": "Dubrovnik Old Town Towels",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly replaces 'Walls' with 'Towels', a common household object, creating a strong phonetic match. The imagery of historic city walls being constructed from towels is immediately absurd and perfectly sets the stage for a hilarious 1-star travel review about flimsy, unprotective fortifications.",
+    "runner_up_puns": [
+      "Dough-brovnik Old Town Walls",
+      "Dubrovnik Coal Town Walls",
+      "Dubrovnik Oats Town Walls"
+    ]
+  },
+  {
+    "id": "pun_lapa_arches_carioca_aqueduct_1793506991_781",
+    "original_name": "Lapa Arches (Carioca Aqueduct)",
+    "location": "Rio de Janeiro, Brazil",
+    "pun_name": "Lapa Tarts",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Arches' with 'Tarts', a delicious and visually amusing food item. The phonetic match is clean and strong, creating a hilarious image of structural arches made of dessert tarts, perfect for an absurd 1-star review.",
+    "runner_up_puns": [
+      "Carrot Aqueduct",
+      "Carioca Apple-duct",
+      "Lapa Orchids"
+    ]
+  },
+  {
+    "id": "pun_shwedagon_pagoda_1793507049_155",
+    "original_name": "Shwedagon Pagoda",
+    "location": "Yangon, Myanmar",
+    "pun_name": "Shwedagon Dragon Pagoda",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "The pun expertly replaces the 'dagon' syllable of 'Shwedagon' with the concrete, mythical creature 'Dragon', creating a clear and hilarious visual of a pagoda either teeming with or constructed from fire-breathing dragons, ripe for a scathing 1-star review about safety or unexpected wildlife.",
+    "runner_up_puns": [
+      "Shwedagon Pig-oda",
+      "Sweet Potato Pagoda",
+      "Shwedagon Potato"
+    ]
+  },
+  {
+    "id": "pun_shwedagon_pagoda_1793507539_820",
+    "original_name": "Shwedagon Pagoda",
+    "location": "Yangon, Myanmar",
+    "pun_name": "Shwedagon Pi\u00f1ata",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.6,
+    "agent_rationale": "This pun cleverly substitutes 'Pagoda' with 'Pi\u00f1ata', creating a hilarious image of a colossal, golden pi\u00f1ata. The strong phonetic match and the absurd visual of tourists expecting candy from a spiritual landmark make for excellent 1-star review comedy.",
+    "runner_up_puns": [
+      "Shwedagon Gouda",
+      "Shwedagon Potato",
+      "Shwedagon Taco"
+    ]
+  },
+  {
+    "id": "pun_registan_square_1793507735_460",
+    "original_name": "Registan Square",
+    "location": "Samarkand, Uzbekistan",
+    "pun_name": "Registan Chair",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun brilliantly replaces the 'Square' in Registan Square with the concrete, everyday household object 'Chair', creating an absurd and hilarious visual of a grand landmark reduced to a single, perhaps dilapidated, piece of furniture. A confused tourist's complaint about finding only a chair instead of a historic square perfectly encapsulates the 1-star review spirit.",
+    "runner_up_puns": [
+      "Raisin Square",
+      "Ragistan Square",
+      "Registan Skewer"
+    ]
+  },
+  {
+    "id": "pun_arenal_volcano_1793507773_518",
+    "original_name": "Arenal Volcano",
+    "location": "Alajuela Province, Costa Rica",
+    "pun_name": "Oatmeal Volcano",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun 'Oatmeal Volcano' brilliantly replaces 'Arenal' with the common, often bland breakfast food 'Oatmeal'. This creates a hilarious visual of a mushy, unexciting natural wonder, perfectly fitting a disappointed 1-star travel review.",
+    "runner_up_puns": [
+      "Arugula Volcano",
+      "Arenal Velcro",
+      "Arenal Velour"
+    ]
+  },
+  {
+    "id": "pun_the_pitons_1793507808_302",
+    "original_name": "The Pitons",
+    "location": "Soufri\u00e8re, St. Lucia",
+    "pun_name": "The Pie-tons",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun \"The Pie-tons\" offers a delightful phonetic match for \"The Pitons,\" replacing \"Pi\" with \"Pie.\" This creates a hilarious and absurd visual of towering, edible pie-shaped mountains, perfect for a 1-star review complaining about the \"overly sweet landscape\" or \"terrible crust\" of the natural wonder.",
+    "runner_up_puns": [
+      "The Pint-ons",
+      "The Pig-tons",
+      "The Piston Tons"
+    ]
+  },
+  {
+    "id": "pun_cerro_monserrate_1793507846_951",
+    "original_name": "Cerro Monserrate",
+    "location": "Bogot\u00e1, Colombia",
+    "pun_name": "Cerro Monster Rat",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "The pun cleverly transforms \"Monserrate\" into \"Monster Rat,\" introducing a hilarious and absurd animal that's easy to visualize swarming the famous Bogot\u00e1 landmark, perfect for a bewildered 1-star review from a confused tourist.",
+    "runner_up_puns": [
+      "Cherry Monserrate",
+      "Cereal Monserrate",
+      "Cerro Monser-Crate"
+    ]
+  },
+  {
+    "id": "pun_uluru_1793507883_170",
+    "original_name": "Uluru",
+    "location": "Northern Territory, Australia",
+    "pun_name": "Uluroo",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.8,
+    "agent_rationale": "This pun makes an excellent phonetic match for \"Ru\" with \"Roo\" (kangaroo), an iconic and humorous Australian animal, making it highly relevant to the landmark's location. The image of a confused tourist expecting a rock but finding a giant kangaroo is absurd and perfect for a 1-star review.",
+    "runner_up_puns": [
+      "Alooru",
+      "Wooluru",
+      "Ulu Stew"
+    ]
+  },
+  {
+    "id": "pun_geirangerfjord_1793508988_397",
+    "original_name": "Geirangerfjord",
+    "location": "M\u00f8re og Romsdal, Norway",
+    "pun_name": "Geirangerfork",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "The pun cleverly replaces 'fjord' with 'fork,' a common household utensil. This creates a hilarious and absurd image of a majestic natural wonder being reduced to a giant piece of cutlery, perfect for a bewildered tourist's 1-star review.",
+    "runner_up_puns": [
+      "Geirangergourd",
+      "Geirangerboard",
+      "Gear Fjord"
+    ]
+  },
+  {
+    "id": "pun_fishermans_bastion_1793509025_846",
+    "original_name": "Fisherman's Bastion",
+    "location": "Budapest, Hungary",
+    "pun_name": "Fisherman's Basket",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "The pun cleverly replaces \"Bastion\" with \"Basket\", offering a very clean phonetic match while retaining the \"Fisherman's\" context. \"Basket\" is a concrete, everyday household object that creates a hilariously absurd visual of a woven fort and sets up a perfect 1-star review about its flimsy construction.",
+    "runner_up_puns": [
+      "Fisherman's Pastry",
+      "Fishtank Bastion",
+      "Fish & Chips Bastion"
+    ]
+  },
+  {
+    "id": "pun_paro_taktsang_tigers_nest_monastery_1793509071_351",
+    "original_name": "Paro Taktsang (Tiger's Nest Monastery)",
+    "location": "Paro Valley, Bhutan",
+    "pun_name": "Paro Taktsang (Tire's Nest)",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun makes an excellent phonetic substitution of 'Tire's' for 'Tiger's', introducing a concrete, mundane object that creates a hilariously absurd image for a sacred monastery. A 1-star review complaining about a 'Tire's Nest' is perfect for a confused tourist.",
+    "runner_up_puns": [
+      "Paro Taktsang (Tights Nest)",
+      "Pajama Taktsang",
+      "Paro Packsack Monastery"
+    ]
+  },
+  {
+    "id": "pun_dunns_river_falls_1793509109_815",
+    "original_name": "Dunn's River Falls",
+    "location": "Ocho Rios, Jamaica",
+    "pun_name": "Donuts River Falls",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "The pun cleverly substitutes 'Dunn's' with 'Donuts', a concrete, everyday food item. This creates a hilariously absurd visual of a majestic waterfall inexplicably replaced by a cascade of pastries, making for a perfect, memorable 1-star review complaint.",
+    "runner_up_puns": [
+      "Dunn's River Balls",
+      "Dunn's River Foals",
+      "Dunn's Rye Falls"
+    ]
+  },
+  {
+    "id": "pun_lake_titicaca_1793509146_679",
+    "original_name": "Lake Titicaca",
+    "location": "Puno, Peru",
+    "pun_name": "Lake Titi-CAKE-a",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun effectively transforms 'Caca' into 'CAKE-a', using a universally recognized and humorous food item. The mental image of a giant cake in a lake is absurd and perfectly sets the stage for a confused, hilarious 1-star review complaining about the unexpected 'dessert'.",
+    "runner_up_puns": [
+      "Lake Titi-CUP-a",
+      "Lake Titi-COCOA",
+      "Lake Tea-Caca"
+    ]
+  },
+  {
+    "id": "pun_tigers_nest_monastery_paro_taktsang_1793509276_539",
+    "original_name": "Tiger's Nest Monastery (Paro Taktsang)",
+    "location": "Paro Valley, Bhutan",
+    "pun_name": "Tiger's Nest Monster Tea",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun cleverly replaces 'Monastery' with the concrete nouns 'Monster' (a character/creature) and 'Tea' (a drink), creating a hilarious visual of a majestic landmark serving up peculiar beverages or being run by odd creatures, perfectly fitting a disgruntled 1-star review.",
+    "runner_up_puns": [
+      "Tiger's Nest Vest",
+      "Tiger's Nest Monastery (Paro Taco Sand)",
+      "Tiger's Nest Mona Saree"
+    ]
+  },
+  {
+    "id": "pun_prague_astronomical_clock_1793509315_190",
+    "original_name": "Prague Astronomical Clock",
+    "location": "Prague, Czech Republic",
+    "pun_name": "Prague Astronomical Sock",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun makes a clean and clear phonetic substitution of 'Clock' with 'Sock'. 'Sock' is a concrete, everyday household item, making the image of a giant sock in place of a complex astronomical clock hilariously absurd and perfect for a 1-star tourist complaint.",
+    "runner_up_puns": [
+      "Prague Astronomical Croc",
+      "Prague Astronomical Smock",
+      "Prague Astronomical Plaque"
+    ]
+  },
+  {
+    "id": "pun_pyramids_of_mero_1793509356_488",
+    "original_name": "Pyramids of Mero\u00eb",
+    "location": "Mero\u00eb, Sudan",
+    "pun_name": "Pyramids of Meringue",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun perfectly replaces 'Mero\u00eb' with the concrete food noun 'Meringue', creating a hilarious image of ancient, massive structures made of light, sweet dessert. The phonetic match is excellent, and it provides absurd material for a 1-star review about crumbling, stickiness, or attracting ants.",
+    "runner_up_puns": [
+      "Pyramids of Marrow",
+      "Pyramids of Meerkat",
+      "Pierogies of Mero\u00eb"
+    ]
+  },
+  {
+    "id": "pun_denali_mount_mckinley_1793509391_673",
+    "original_name": "Denali (Mount McKinley)",
+    "location": "Alaska, USA",
+    "pun_name": "De-Nacho",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.7,
+    "agent_rationale": "This pun makes an excellent phonetic substitution for 'Denali' with 'De-Nacho', introducing the concrete and universally appealing food item 'Nacho'. The image of a majestic mountain covered in stale, cheesy nachos is immediately absurd and hilarious, setting the perfect stage for a '1-star travel review' complaining about the mess or smell.",
+    "runner_up_puns": [
+      "Mc-Monkey-ley",
+      "De-nail-i",
+      "Mc-Knit-ley"
+    ]
+  },
+  {
+    "id": "pun_white_temple_wat_rong_khun_1793509433_595",
+    "original_name": "White Temple (Wat Rong Khun)",
+    "location": "Chiang Rai, Thailand",
+    "pun_name": "Wat Shrimp Bun",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly transforms the lesser-known 'Wat Rong Khun' into 'Wat Shrimp Bun' by substituting 'Rong' with 'Shrimp' and 'Khun' with 'Bun', retaining 'Wat' for phonetic clarity. It uses two concrete food nouns for a delightfully edible and absurd culinary landmark, perfectly aligning with the humorous, tangible-noun substitution style of top-performing puns.",
+    "runner_up_puns": [
+      "Waffle Temple",
+      "Whip Cream Temple",
+      "Wok Rong Khun"
+    ]
   }
 ]

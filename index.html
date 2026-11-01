@@ -87,7 +87,11 @@
                         <div class="settings-confetti-particle p-10"></div>
                     </div>
                 </button>
-                <button id="btn-stats-select" class="stats-select-btn" title="Global Stats & Select a Challenge"><svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg></button>
+                <button id="btn-world-map" class="world-map-btn" title="World Travel Map & Completed Puzzles" style="overflow: visible;">
+                    <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                    <span id="world-map-pin-count" class="world-map-pin-badge hidden">0</span>
+                </button>
+                <button id="btn-stats-select" class="stats-select-btn" title="All Challenges & Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play" class="how-to-play-btn" title="How to Play">?</button>
                 
                 <p class="question-subtext" style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: #777777; margin-bottom: 20px; margin-top: 10px; letter-spacing: 0.5px; opacity: 0.85; width: 100%; text-align: center;">This confused traveler gave a 1-star review to a famous landmark.  What pun led them to this mistake?</p>
@@ -194,7 +198,11 @@
                         <div class="settings-confetti-particle p-10"></div>
                     </div>
                 </button>
-                <button id="btn-stats-select-victory" class="stats-select-btn" title="Global Stats & Select a Challenge"><svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg></button>
+                <button id="btn-world-map-victory" class="world-map-btn" title="World Travel Map & Completed Puzzles" style="overflow: visible;">
+                    <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                    <span id="world-map-pin-count-victory" class="world-map-pin-badge hidden">0</span>
+                </button>
+                <button id="btn-stats-select-victory" class="stats-select-btn" title="All Challenges & Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play-victory" class="how-to-play-btn" title="How to Play">?</button>
 
                 <div id="victory-solved-status" class="victory-solved-status hidden"></div>
@@ -349,7 +357,20 @@
         <div class="modal-wrapper">
             <button id="btn-close-stats-select" class="modal-close-btn">&times;</button>
             <div class="stats-select-card">
-                <h2 class="stats-select-title"><svg class="map-icon" viewBox="0 0 24 24" width="20" height="24" fill="currentColor" style="width: 20px; height: 24px; margin-right: 6px; position: relative; top: -2.5px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>All Challenges - Global Stats</h2>
+                <!-- Unified 2-Tab Switcher: World Map & Completed vs Global Stats & All Challenges -->
+                <div class="modal-tab-switcher" role="tablist" aria-label="Travel Atlas & Global Stats">
+                    <button type="button" id="tab-stats-to-map" class="modal-tab-btn">
+                        <svg class="map-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                        <span>World Map &amp; Completed</span>
+                        <span id="tab-map-count-pill" class="modal-tab-pill">0</span>
+                    </button>
+                    <button type="button" class="modal-tab-btn active" aria-selected="true">
+                        <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
+                        <span>Global Stats &amp; Difficulties</span>
+                    </button>
+                </div>
+
+                <h2 class="stats-select-title"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px; position: relative; top: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>All Challenges - Global Stats</h2>
             
             <!-- Aggregate Stats Section -->
             <div class="aggregate-stats-container">
@@ -412,11 +433,134 @@
             <div class="divider"></div>
             
             <!-- Challenges List Section -->
-            <h3 class="challenges-section-title">📍 SELECT A CHALLENGE</h3>
+            <!-- Entry Point CTA Banner to World Travel Map -->
+            <button type="button" id="btn-open-map-from-stats" class="world-map-cta-banner">
+                <span class="world-map-cta-left">
+                    <svg class="map-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                    <span>Explore Your Solved Pins on the World Map</span>
+                </span>
+                <span id="stats-map-cta-badge" class="world-map-cta-pill">0 Pinned ➔</span>
+            </button>
+
+            <h3 class="challenges-section-title">📍 SELECT A CHALLENGE (WITH DIFFICULTY STATS)</h3>
             <div class="challenges-list-container" id="challenges-list">
                 <!-- Dynamically populated challenge list -->
             </div>
         </div>
+        </div>
+    </div>
+
+    <!-- World Travel Map & Completed Puzzles Modal -->
+    <div id="world-map-modal" class="poster-modal">
+        <div class="modal-wrapper world-map-modal-wrapper">
+            <button id="btn-close-world-map" class="modal-close-btn" title="Close Map">&times;</button>
+            <div class="stats-select-card world-map-card">
+                <!-- Unified 2-Tab Switcher -->
+                <div class="modal-tab-switcher" role="tablist" aria-label="Travel Atlas & Global Stats">
+                    <button type="button" class="modal-tab-btn active" aria-selected="true">
+                        <svg class="map-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                        <span>World Map &amp; Completed</span>
+                        <span id="world-map-tab-pill" class="modal-tab-pill">0</span>
+                    </button>
+                    <button type="button" id="tab-map-to-stats" class="modal-tab-btn">
+                        <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
+                        <span>Global Stats &amp; Difficulties</span>
+                    </button>
+                </div>
+
+                <!-- Map Title & Solved Counter Header -->
+                <div class="world-map-header-row">
+                    <h2 class="stats-select-title" style="margin-bottom: 0;">
+                        <svg class="map-icon" viewBox="0 0 24 24" width="20" height="22" fill="currentColor" style="width: 20px; height: 22px; margin-right: 6px; position: relative; top: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>1-Star World Travel Atlas
+                    </h2>
+                    <span id="world-map-solved-badge" class="world-map-solved-pill">📍 0 / 0 Solved</span>
+                </div>
+                <p class="world-map-subtitle">Every puzzle you solve drops a pin at its real-world landmark. Click any pin or completed puzzle below to view its postcard!</p>
+
+                <!-- Region Quick-Jump Filter Pills -->
+                <div class="world-map-region-pills" id="world-map-region-pills">
+                    <button type="button" class="map-region-pill active" data-region="world">🌎 World</button>
+                    <button type="button" class="map-region-pill" data-region="americas">🗽 Americas</button>
+                    <button type="button" class="map-region-pill" data-region="europe">🏰 Europe</button>
+                    <button type="button" class="map-region-pill" data-region="africa_me">🐪 Africa &amp; M. East</button>
+                    <button type="button" class="map-region-pill" data-region="asia_oceania">⛩️ Asia &amp; Oceania</button>
+                </div>
+
+                <!-- Interactive Flat Earth SVG Viewport -->
+                <div class="world-map-viewport" id="world-map-viewport">
+                    <div class="world-map-controls">
+                        <button type="button" id="map-zoom-in" class="map-ctrl-btn" title="Zoom In" aria-label="Zoom In">+</button>
+                        <button type="button" id="map-zoom-out" class="map-ctrl-btn" title="Zoom Out" aria-label="Zoom Out">&minus;</button>
+                        <button type="button" id="map-zoom-reset" class="map-ctrl-btn" title="Reset Map View" aria-label="Reset Map View">&#8634;</button>
+                    </div>
+                    <div id="world-map-tooltip" class="world-map-tooltip hidden" role="tooltip"></div>
+                    <svg id="world-map-svg" class="world-map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Flat World Map of Solved Landmarks">
+                        <g id="world-map-camera">
+                            <rect id="world-map-ocean" x="0" y="0" width="1000" height="500" fill="#D4F1F9" />
+                            <g id="world-map-graticule"></g>
+                            <g id="world-map-land"></g>
+                            <g id="world-map-pins"></g>
+                        </g>
+                    </svg>
+                </div>
+
+                <!-- Empty State Callout when 0 puzzles solved -->
+                <div id="world-map-empty-hint" class="world-map-empty-hint hidden">
+                    🧭 <strong>No pins on your globe yet!</strong> Solve any daily puzzle to drop your first landmark pin on the World Travel Map.
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Completed Puzzles List Section -->
+                <div class="map-completed-header">
+                    <h3 class="challenges-section-title" style="margin: 0;">✅ YOUR COMPLETED PUZZLES</h3>
+                    <span id="map-completed-count-label" class="map-completed-count-pill">0 Completed</span>
+                </div>
+                <div class="challenges-list-container map-completed-list-container" id="map-completed-list">
+                    <!-- Dynamically populated completed puzzles -->
+                </div>
+
+                <div class="divider"></div>
+
+                <!-- Link to Overall Puzzle Stats & Difficulties -->
+                <button type="button" id="btn-map-to-stats" class="world-map-stats-link-btn">
+                    <svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink: 0;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
+                    <span>See Overall Puzzle Stats &amp; Challenge Difficulties ➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 1-Click Completed Puzzle Postcard Overlay Modal (Opens from Map Pin or Completed List) -->
+    <div id="map-postcard-modal" class="poster-modal map-postcard-overlay-modal">
+        <div class="modal-wrapper map-postcard-wrapper">
+            <button id="btn-close-map-postcard" class="modal-close-btn" title="Close &amp; Return to World Map">&times;</button>
+            <div class="theatrical-frame map-postcard-card">
+                <div class="map-pc-top-bar">
+                    <span id="map-pc-header-badge" class="level-indicator">Challenge #001</span>
+                </div>
+                <div id="map-pc-solved-status" class="victory-solved-status">🎉 YOU SOLVED THIS CHALLENGE!</div>
+                <div class="victory-poster-wrapper" style="margin-top: 10px;">
+                    <img src="" class="victory-poster-img" id="map-pc-poster-img" width="360" height="240" alt="Completed Parody Postcard Illustration">
+                </div>
+                <div class="victory-meta-box">
+                    <h3 id="map-pc-pun-title" class="victory-parody-title">Parody Landmark Title</h3>
+                    <button type="button" id="btn-map-pc-toggle-reviews" class="toggle-reviews-btn">1-Star Reviews ▼</button>
+                    <div id="map-pc-reviews-box" class="victory-quote-box hidden" style="font-weight: bold; margin-bottom: 12px;"></div>
+                    <div id="map-pc-owner-reply" class="victory-pitch-box"></div>
+                    <p id="map-pc-real-landmark" class="victory-original-movie">Real Location: Landmark</p>
+                    <div class="learn-more-links">
+                        <span class="learn-more-label">Learn more:</span>
+                        <a id="map-pc-link-wiki" class="learn-more-link" href="#" target="_blank" rel="noopener noreferrer">Wikipedia</a>
+                        <span class="learn-more-separator">|</span>
+                        <a id="map-pc-link-maps" class="learn-more-link" href="#" target="_blank" rel="noopener noreferrer">Google Maps</a>
+                    </div>
+                    <div class="map-pc-actions-row">
+                        <button type="button" class="share-score-btn" id="btn-map-pc-share">📢 Share Postcard</button>
+                        <button type="button" class="btn outline-btn map-pc-full-page-btn" id="btn-map-pc-open-full">🎯 Open Full Challenge Page</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -521,6 +665,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=1.86"></script>
+    <script src="app.js?v=1.87"></script>
 </body>
 </html>

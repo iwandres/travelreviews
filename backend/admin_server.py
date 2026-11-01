@@ -173,9 +173,16 @@ def sanitize_travelreviews_puzzles(puzzles):
         
     puzzles = active_puzzles + backlog_puzzles
 
-    # Calculate and assign the date field for all puzzles
+    # Calculate and assign the date field and landmark coordinates/location for all puzzles
     from datetime import datetime, timedelta
     start_date = datetime(2026, 7, 4)
+
+    landmarks_lookup = {}
+    for lm in load_json(LANDMARKS_FILE, []):
+        lm_name = str(lm.get('name', '')).strip().lower()
+        if lm_name:
+            landmarks_lookup[lm_name] = lm
+
     for p in puzzles:
         pnum = p.get('puzzle_number')
         if pnum and str(pnum).isdigit():
@@ -184,6 +191,17 @@ def sanitize_travelreviews_puzzles(puzzles):
             p['date'] = target_date.strftime("%Y-%m-%d")
         else:
             p['date'] = ""
+
+        # Enrich puzzle with lat, lng, and location from landmarks database if missing
+        orig_title = str(p.get('boss_original_title') or p.get('original_name') or '').strip().lower()
+        lm_meta = landmarks_lookup.get(orig_title)
+        if lm_meta:
+            if p.get('lat') is None and lm_meta.get('lat') is not None:
+                p['lat'] = lm_meta['lat']
+            if p.get('lng') is None and lm_meta.get('lng') is not None:
+                p['lng'] = lm_meta['lng']
+            if not p.get('location') and lm_meta.get('location'):
+                p['location'] = lm_meta['location']
 
     return puzzles
 
