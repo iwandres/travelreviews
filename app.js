@@ -388,18 +388,7 @@ window.onload = async () => {
     }
 
     const openStatsSelectModalWithTracking = () => {
-        if (!statsSelectModal) return;
-        statsSelectModal.classList.add('active');
-        openStatsSelectModal();
-
-        // Track stats view
-        sendTelemetryEvent('click_stats');
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'page_view', {
-                page_title: 'Global Stats',
-                page_path: '/global-stats'
-            });
-        }
+        openGlobalStatsTab();
     };
 
     const openHowToPlayModalWithTracking = () => {
@@ -2994,27 +2983,33 @@ function abbreviateNumber(num) {
     return (value % 1 === 0 ? value.toFixed(0) : value.toFixed(1)) + 'M';
 }
 
-async function openStatsSelectModal() {
+let globalStatsLoadedOnce = false;
+
+async function openStatsSelectModal(forceRefresh = false) {
     updateWorldMapBadges();
-    // 1. Show loading indicator states
-    document.getElementById('agg-total-starts').innerText = '...';
-    document.getElementById('agg-total-solves').innerText = '...';
-    document.getElementById('agg-solve-rate').innerText = '...';
-    
-    for (let i = 0; i <= 4; i++) {
-        const fillBar = document.getElementById(`agg-funnel-fill-${i}`);
-        const pctLabel = document.getElementById(`agg-funnel-pct-${i}`);
-        if (fillBar) fillBar.style.width = '0%';
-        if (pctLabel) pctLabel.innerText = '0%';
-    }
-    
     const challengesList = document.getElementById('challenges-list');
-    if (challengesList) {
-        challengesList.innerHTML = '<div style="text-align: center; padding: 20px; font-weight: 800; color: var(--text-secondary);">Loading challenges...</div>';
+
+    // 1. Only show loading placeholders on the very first load so tab switches never flash or jump
+    if (!globalStatsLoadedOnce) {
+        document.getElementById('agg-total-starts').innerText = '...';
+        document.getElementById('agg-total-solves').innerText = '...';
+        document.getElementById('agg-solve-rate').innerText = '...';
+
+        for (let i = 0; i <= 4; i++) {
+            const fillBar = document.getElementById(`agg-funnel-fill-${i}`);
+            const pctLabel = document.getElementById(`agg-funnel-pct-${i}`);
+            if (fillBar) fillBar.style.width = '0%';
+            if (pctLabel) pctLabel.innerText = '0%';
+        }
+
+        if (challengesList) {
+            challengesList.innerHTML = '<div style="text-align: center; padding: 20px; font-weight: 800; color: var(--text-secondary);">Loading challenges...</div>';
+        }
     }
 
-    // 2. Fetch stats
-    const statsData = await fetchAllTelemetryStats(true);
+    // 2. Fetch stats (use memory cache after initial fetch unless forced)
+    const statsData = await fetchAllTelemetryStats(forceRefresh || !globalStatsLoadedOnce);
+    globalStatsLoadedOnce = true;
     
     // 3. Aggregate stats
     const approved = getApprovedChallenges();
@@ -3610,7 +3605,10 @@ const FALLBACK_LANDMARK_COORDS = {
     "haedong yonggungsa temple": [35.1884, 129.2233, "Busan, South Korea"],
     "mount rainier": [46.8523, -121.7603, "Washington, USA"],
     "fish river canyon": [-27.5833, 17.6000, "Karas Region, Namibia"],
-    "babylon": [32.5422, 44.4210, "Hillah, Iraq"]
+    "babylon": [32.5422, 44.4210, "Hillah, Iraq"],
+    "great buddha of kamakura": [35.3167, 139.5357, "Kamakura, Japan"],
+    "land's end arch": [22.8758, -109.8950, "Cabo San Lucas, Mexico"],
+    "musandam fjords": [26.1833, 56.2500, "Musandam Governorate, Oman"]
 };
 
 // Natural Earth 110m World Countries [colorIdx, countryName, svgPath] & Major Lakes
@@ -4163,8 +4161,8 @@ function openMapPostcardOverlay(challenge) {
     if (openFullBtn) {
         openFullBtn.onclick = () => {
             closeMapPostcardOverlay();
-            const mapModal = document.getElementById('world-map-modal');
-            if (mapModal) mapModal.classList.remove('active');
+            const unifiedModal = document.getElementById('stats-select-modal');
+            if (unifiedModal) unifiedModal.classList.remove('active');
             startGame(challenge);
             history.replaceState(null, "", `?challenge=${challenge.puzzle_number}`);
         };
@@ -4220,14 +4218,32 @@ function updateWorldMapBadges() {
     }
 }
 
-function openWorldMapModal() {
-    const worldMapModal = document.getElementById('world-map-modal');
-    const statsSelectModal = document.getElementById('stats-select-modal');
-    if (!worldMapModal) return;
+function setUnifiedModalActiveTab(tabName) {
+    const tabMapBtn = document.getElementById('tab-btn-world-map');
+    const tabStatsBtn = document.getElementById('tab-btn-global-stats');
+    const panelMap = document.getElementById('panel-world-map');
+    const panelStats = document.getElementById('panel-global-stats');
 
-    if (statsSelectModal) {
-        statsSelectModal.classList.remove('active');
+    const isMap = tabName === 'map';
+    if (tabMapBtn) {
+        tabMapBtn.classList.toggle('active', isMap);
+        tabMapBtn.setAttribute('aria-selected', isMap ? 'true' : 'false');
     }
+    if (tabStatsBtn) {
+        tabStatsBtn.classList.toggle('active', !isMap);
+        tabStatsBtn.setAttribute('aria-selected', !isMap ? 'true' : 'false');
+    }
+    if (panelMap) {
+        panelMap.classList.toggle('hidden', !isMap);
+    }
+    if (panelStats) {
+        panelStats.classList.toggle('hidden', isMap);
+    }
+}
+
+function openWorldMapModal() {
+    const statsSelectModal = document.getElementById('stats-select-modal');
+    if (!statsSelectModal) return;
 
     if (!worldMapState.initialized) {
         renderBaseWorldMapSVG();
@@ -4236,64 +4252,56 @@ function openWorldMapModal() {
 
     renderSolvedMapPinsAndList();
     applyWorldMapTransform();
-    worldMapModal.classList.add('active');
+    setUnifiedModalActiveTab('map');
+    statsSelectModal.classList.add('active');
 
     sendTelemetryEvent('click_world_map');
     if (typeof gtag !== 'undefined') {
         gtag('event', 'page_view', {
-            page_title: 'World Travel Map',
+            page_title: 'World Map',
             page_path: '/world-map'
         });
     }
 }
 
+function openGlobalStatsTab() {
+    const statsSelectModal = document.getElementById('stats-select-modal');
+    if (!statsSelectModal) return;
+
+    hideWorldMapPinTooltip();
+    setUnifiedModalActiveTab('stats');
+    statsSelectModal.classList.add('active');
+    openStatsSelectModal(false);
+
+    sendTelemetryEvent('click_stats');
+    if (typeof gtag !== 'undefined') {
+        gtag('event', 'page_view', {
+            page_title: 'Global Stats',
+            page_path: '/global-stats'
+        });
+    }
+}
+
 function initWorldMapFeature() {
-    const worldMapModal = document.getElementById('world-map-modal');
     const statsSelectModal = document.getElementById('stats-select-modal');
     const mapPostcardModal = document.getElementById('map-postcard-modal');
 
     const btnWorldMap = document.getElementById('btn-world-map');
     const btnWorldMapVic = document.getElementById('btn-world-map-victory');
-    const btnCloseWorldMap = document.getElementById('btn-close-world-map');
 
     if (btnWorldMap) btnWorldMap.onclick = openWorldMapModal;
     if (btnWorldMapVic) btnWorldMapVic.onclick = openWorldMapModal;
 
-    if (btnCloseWorldMap) {
-        btnCloseWorldMap.onclick = () => {
-            hideWorldMapPinTooltip();
-            if (worldMapModal) worldMapModal.classList.remove('active');
-        };
-    }
-
-    if (worldMapModal) {
-        worldMapModal.onclick = (e) => {
-            if (e.target === worldMapModal) {
-                hideWorldMapPinTooltip();
-                worldMapModal.classList.remove('active');
-            }
-        };
-    }
-
-    // Cross-modal Tab & CTA navigation between World Map and Global Stats
-    const switchFromMapToStats = () => {
-        hideWorldMapPinTooltip();
-        if (worldMapModal) worldMapModal.classList.remove('active');
-        if (statsSelectModal) {
-            statsSelectModal.classList.add('active');
-            openStatsSelectModal();
-        }
-    };
-
-    const tabStatsToMap = document.getElementById('tab-stats-to-map');
+    // Unified 2-Tab Switcher & CTA buttons (switches panels in-place with zero jump or flash)
+    const tabBtnWorldMap = document.getElementById('tab-btn-world-map');
+    const tabBtnGlobalStats = document.getElementById('tab-btn-global-stats');
     const btnOpenMapFromStats = document.getElementById('btn-open-map-from-stats');
-    const tabMapToStats = document.getElementById('tab-map-to-stats');
     const btnMapToStats = document.getElementById('btn-map-to-stats');
 
-    if (tabStatsToMap) tabStatsToMap.onclick = openWorldMapModal;
+    if (tabBtnWorldMap) tabBtnWorldMap.onclick = openWorldMapModal;
     if (btnOpenMapFromStats) btnOpenMapFromStats.onclick = openWorldMapModal;
-    if (tabMapToStats) tabMapToStats.onclick = switchFromMapToStats;
-    if (btnMapToStats) btnMapToStats.onclick = switchFromMapToStats;
+    if (tabBtnGlobalStats) tabBtnGlobalStats.onclick = openGlobalStatsTab;
+    if (btnMapToStats) btnMapToStats.onclick = openGlobalStatsTab;
 
     // 1-Click Postcard Overlay Close & Reviews Toggle
     const btnCloseMapPostcard = document.getElementById('btn-close-map-postcard');
@@ -4317,16 +4325,16 @@ function initWorldMapFeature() {
         };
     }
 
-    // Escape key closes topmost overlay first (#map-postcard-modal -> #world-map-modal)
+    // Escape key closes topmost overlay first (#map-postcard-modal -> #stats-select-modal)
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
             if (mapPostcardModal && mapPostcardModal.classList.contains('active')) {
                 closeMapPostcardOverlay();
                 return;
             }
-            if (worldMapModal && worldMapModal.classList.contains('active')) {
+            if (statsSelectModal && statsSelectModal.classList.contains('active')) {
                 hideWorldMapPinTooltip();
-                worldMapModal.classList.remove('active');
+                statsSelectModal.classList.remove('active');
             }
         }
     });

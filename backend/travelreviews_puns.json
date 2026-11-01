@@ -3528,5 +3528,65 @@
       "Jeita Grater",
       "Cheeto Grotto"
     ]
+  },
+  {
+    "id": "pun_great_buddha_of_kamakura_1793512359_640",
+    "original_name": "Great Buddha of Kamakura",
+    "location": "Kamakura, Japan",
+    "pun_name": "Great Poodle of Kamakura",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun perfectly replaces 'Buddha' with 'Poodle', a funny animal that's highly concrete and creates an absurdly hilarious visual of a giant canine statue. The phonetic match is strong, making it easily recognizable yet wonderfully silly for a 1-star travel review postcard.",
+    "runner_up_puns": [
+      "Grape Buddha of Kamakura",
+      "Great Pudding of Kamakura",
+      "Great Buddha of Kimono"
+    ]
+  },
+  {
+    "id": "pun_lands_end_arch_1793512527_410",
+    "original_name": "Land's End Arch",
+    "location": "Cabo San Lucas, Mexico",
+    "pun_name": "Land's End Artichoke",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun cleverly substitutes \"Arch\" with \"Artichoke,\" a concrete food noun. The phonetic match is excellent, and the image of a giant artichoke standing at the very end of the land creates a hilariously absurd postcard and a perfect setup for a confused tourist's 1-star review.",
+    "runner_up_puns": [
+      "Pants End Arch",
+      "Land's End Orca",
+      "Land's End Ark"
+    ]
+  },
+  {
+    "id": "pun_musandam_fjords_1793512559_398",
+    "original_name": "Musandam Fjords",
+    "location": "Musandam Governorate, Oman",
+    "pun_name": "Musandam Forks",
+    "status": "rejected",
+    "agent_curated": true,
+    "agent_score": 9.5,
+    "agent_rationale": "This pun makes a direct, clear phonetic substitution of 'Fjords' with the concrete, everyday household object 'Forks'. The image of majestic fjords mysteriously filled or replaced by dining forks is instantly absurd and hilarious, perfect for a bewildered 1-star review.",
+    "runner_up_puns": [
+      "Mussel-Dam Fjords",
+      "Muffin Fjords",
+      "Mousse and Ham Fjords"
+    ]
+  },
+  {
+    "id": "pun_gros_morne_national_park_1793512609_586",
+    "original_name": "Gros Morne National Park",
+    "location": "Newfoundland and Labrador, Canada",
+    "pun_name": "Gros Horn National Park",
+    "status": "approved",
+    "agent_curated": true,
+    "agent_score": 9.4,
+    "agent_rationale": "This pun cleverly substitutes 'Morne' with 'Horn', a concrete tangible noun. The phonetic similarity of 'Gros' to 'Gross' creates the absurd and hilarious image of a 'Gross Horn' as the main attraction, perfect for a bewildered tourist's 1-star review.",
+    "runner_up_puns": [
+      "Gros Mushroom National Park",
+      "Gros Worm National Park",
+      "Gros Mortar National Park"
+    ]
   }
 ]

@@ -30,7 +30,7 @@
         })();
     </script>
     <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css?v=1.80">
+    <link rel="stylesheet" href="style.css?v=1.82">
     <script async src="https://securepubads.g.doubleclick.net/tag/js/gpt.js"></script>
 
     <script>
@@ -87,11 +87,11 @@
                         <div class="settings-confetti-particle p-10"></div>
                     </div>
                 </button>
-                <button id="btn-world-map" class="world-map-btn" title="World Travel Map & Completed Puzzles" style="overflow: visible;">
+                <button id="btn-world-map" class="world-map-btn" title="World Map" style="overflow: visible;">
                     <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
                     <span id="world-map-pin-count" class="world-map-pin-badge hidden">0</span>
                 </button>
-                <button id="btn-stats-select" class="stats-select-btn" title="All Challenges & Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
+                <button id="btn-stats-select" class="stats-select-btn" title="Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play" class="how-to-play-btn" title="How to Play">?</button>
                 
                 <p class="question-subtext" style="font-weight: 900; font-size: 12px; text-transform: uppercase; color: #777777; margin-bottom: 20px; margin-top: 10px; letter-spacing: 0.5px; opacity: 0.85; width: 100%; text-align: center;">This confused traveler gave a 1-star review to a famous landmark.  What pun led them to this mistake?</p>
@@ -198,11 +198,11 @@
                         <div class="settings-confetti-particle p-10"></div>
                     </div>
                 </button>
-                <button id="btn-world-map-victory" class="world-map-btn" title="World Travel Map & Completed Puzzles" style="overflow: visible;">
+                <button id="btn-world-map-victory" class="world-map-btn" title="World Map" style="overflow: visible;">
                     <svg class="map-icon" viewBox="0 0 24 24" width="18" height="22" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
                     <span id="world-map-pin-count-victory" class="world-map-pin-badge hidden">0</span>
                 </button>
-                <button id="btn-stats-select-victory" class="stats-select-btn" title="All Challenges & Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
+                <button id="btn-stats-select-victory" class="stats-select-btn" title="Global Stats"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg></button>
                 <button id="btn-how-to-play-victory" class="how-to-play-btn" title="How to Play">?</button>
 
                 <div id="victory-solved-status" class="victory-solved-status hidden"></div>
@@ -352,218 +352,201 @@
         </div>
     </div>
 
-    <!-- Stats & Level Select Modal -->
+    <!-- Unified World Map & Global Stats Modal -->
     <div id="stats-select-modal" class="poster-modal">
-        <div class="modal-wrapper">
-            <button id="btn-close-stats-select" class="modal-close-btn">&times;</button>
-            <div class="stats-select-card">
-                <!-- Unified 2-Tab Switcher: World Map & Completed vs Global Stats & All Challenges -->
-                <div class="modal-tab-switcher" role="tablist" aria-label="Travel Atlas & Global Stats">
-                    <button type="button" id="tab-stats-to-map" class="modal-tab-btn">
-                        <svg class="map-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
-                        <span>World Map &amp; Completed</span>
-                        <span id="tab-map-count-pill" class="modal-tab-pill">0</span>
-                    </button>
-                    <button type="button" class="modal-tab-btn active" aria-selected="true">
-                        <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
-                        <span>Global Stats &amp; Difficulties</span>
-                    </button>
-                </div>
-
-                <h2 class="stats-select-title"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px; position: relative; top: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>All Challenges - Global Stats</h2>
-            
-            <!-- Aggregate Stats Section -->
-            <div class="aggregate-stats-container">
-                <div class="aggregate-stats-grid">
-                    <div class="stat-box">
-                        <span class="stat-value" id="agg-total-starts">0</span>
-                        <span class="stat-label">Total Starts</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-value" id="agg-total-solves">0</span>
-                        <span class="stat-label">Total Solves</span>
-                    </div>
-                    <div class="stat-box">
-                        <span class="stat-value" id="agg-solve-rate">0%</span>
-                        <span class="stat-label">Solve Rate</span>
-                    </div>
-                </div>
-                
-                <!-- Solve Distribution Funnel -->
-                <div class="agg-funnel-container">
-                    <h3 class="agg-funnel-title">SOLVE DISTRIBUTION</h3>
-                    <div class="funnel-row">
-                        <span class="funnel-label">🏆 No Hints</span>
-                        <div class="funnel-bar-track">
-                            <div class="funnel-bar-fill no-hints" id="agg-funnel-fill-0" style="width: 0%;"></div>
-                        </div>
-                        <span class="funnel-pct" id="agg-funnel-pct-0">0%</span>
-                    </div>
-                    <div class="funnel-row">
-                        <span class="funnel-label">🥇 1 Hint</span>
-                        <div class="funnel-bar-track">
-                            <div class="funnel-bar-fill one-hint" id="agg-funnel-fill-1" style="width: 0%;"></div>
-                        </div>
-                        <span class="funnel-pct" id="agg-funnel-pct-1">0%</span>
-                    </div>
-                    <div class="funnel-row">
-                        <span class="funnel-label">🥈 2 Hints</span>
-                        <div class="funnel-bar-track">
-                            <div class="funnel-bar-fill two-hints" id="agg-funnel-fill-2" style="width: 0%;"></div>
-                        </div>
-                        <span class="funnel-pct" id="agg-funnel-pct-2">0%</span>
-                    </div>
-                    <div class="funnel-row">
-                        <span class="funnel-label">🥉 3 Hints</span>
-                        <div class="funnel-bar-track">
-                            <div class="funnel-bar-fill three-hints" id="agg-funnel-fill-3" style="width: 0%;"></div>
-                        </div>
-                        <span class="funnel-pct" id="agg-funnel-pct-3">0%</span>
-                    </div>
-                    <div class="funnel-row">
-                        <span class="funnel-label">⚡ 4 Hints</span>
-                        <div class="funnel-bar-track">
-                            <div class="funnel-bar-fill four-hints" id="agg-funnel-fill-4" style="width: 0%;"></div>
-                        </div>
-                        <span class="funnel-pct" id="agg-funnel-pct-4">0%</span>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="divider"></div>
-            
-            <!-- Challenges List Section -->
-            <!-- Entry Point CTA Banner to World Travel Map -->
-            <button type="button" id="btn-open-map-from-stats" class="world-map-cta-banner">
-                <span class="world-map-cta-left">
-                    <svg class="map-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
-                    <span>Explore Your Solved Pins on the World Map</span>
-                </span>
-                <span id="stats-map-cta-badge" class="world-map-cta-pill">0 Pinned ➔</span>
-            </button>
-
-            <h3 class="challenges-section-title">📍 SELECT A CHALLENGE (WITH DIFFICULTY STATS)</h3>
-            <div class="challenges-list-container" id="challenges-list">
-                <!-- Dynamically populated challenge list -->
-            </div>
-        </div>
-        </div>
-    </div>
-
-    <!-- World Travel Map & Completed Puzzles Modal -->
-    <div id="world-map-modal" class="poster-modal">
         <div class="modal-wrapper world-map-modal-wrapper">
-            <button id="btn-close-world-map" class="modal-close-btn" title="Close Map">&times;</button>
-            <div class="stats-select-card world-map-card">
-                <!-- Unified 2-Tab Switcher -->
-                <div class="modal-tab-switcher" role="tablist" aria-label="Travel Atlas & Global Stats">
-                    <button type="button" class="modal-tab-btn active" aria-selected="true">
+            <button id="btn-close-stats-select" class="modal-close-btn" title="Close">&times;</button>
+            <div class="stats-select-card world-map-card unified-atlas-stats-card">
+                <!-- Persistent 2-Tab Switcher: World Map vs Global Stats -->
+                <div class="modal-tab-switcher" role="tablist" aria-label="World Map and Global Stats">
+                    <button type="button" id="tab-btn-world-map" class="modal-tab-btn" role="tab" aria-selected="false">
                         <svg class="map-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
-                        <span>World Map &amp; Completed</span>
+                        <span>World Map</span>
                         <span id="world-map-tab-pill" class="modal-tab-pill">0</span>
                     </button>
-                    <button type="button" id="tab-map-to-stats" class="modal-tab-btn">
+                    <button type="button" id="tab-btn-global-stats" class="modal-tab-btn active" role="tab" aria-selected="true">
                         <svg class="stats-chart-icon" viewBox="0 0 24 24" width="15" height="15" fill="currentColor" style="margin-right: 5px; vertical-align: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
-                        <span>Global Stats &amp; Difficulties</span>
+                        <span>Global Stats</span>
                     </button>
                 </div>
 
-                <!-- Map Title & Solved Counter Header -->
-                <div class="world-map-header-row">
-                    <h2 class="stats-select-title" style="margin-bottom: 0;">
-                        <svg class="map-icon" viewBox="0 0 24 24" width="20" height="22" fill="currentColor" style="width: 20px; height: 22px; margin-right: 6px; position: relative; top: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>1-Star World Travel Atlas
-                    </h2>
-                    <span id="world-map-solved-badge" class="world-map-solved-pill">📍 0 / 0 Solved</span>
-                </div>
-                <p class="world-map-subtitle">Every puzzle you solve drops a pin at its real-world landmark. Click any pin or completed puzzle below to view its postcard!</p>
-
-                <!-- Region Quick-Jump Filter Pills -->
-                <div class="world-map-region-pills" id="world-map-region-pills">
-                    <button type="button" class="map-region-pill active" data-region="world">🌎 World</button>
-                    <button type="button" class="map-region-pill" data-region="americas">🗽 Americas</button>
-                    <button type="button" class="map-region-pill" data-region="europe">🏰 Europe</button>
-                    <button type="button" class="map-region-pill" data-region="africa_me">🐪 Africa &amp; M. East</button>
-                    <button type="button" class="map-region-pill" data-region="asia_oceania">⛩️ Asia &amp; Oceania</button>
-                </div>
-
-                <!-- Interactive Flat Earth SVG Viewport -->
-                <div class="world-map-viewport" id="world-map-viewport">
-                    <div class="world-map-controls">
-                        <button type="button" id="map-zoom-in" class="map-ctrl-btn" title="Zoom In" aria-label="Zoom In">+</button>
-                        <button type="button" id="map-zoom-out" class="map-ctrl-btn" title="Zoom Out" aria-label="Zoom Out">&minus;</button>
-                        <button type="button" id="map-zoom-reset" class="map-ctrl-btn" title="Reset Map View" aria-label="Reset Map View">&#8634;</button>
+                <!-- TAB PANEL 1: WORLD MAP -->
+                <div id="panel-world-map" class="unified-modal-panel hidden" role="tabpanel">
+                    <div class="world-map-header-row">
+                        <h2 class="stats-select-title" style="margin-bottom: 0;">
+                            <svg class="map-icon" viewBox="0 0 24 24" width="20" height="22" fill="currentColor" style="width: 20px; height: 22px; margin-right: 6px; position: relative; top: -2px;"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>World Map
+                        </h2>
+                        <span id="world-map-solved-badge" class="world-map-solved-pill">📍 0 / 0 Solved</span>
                     </div>
-                    <div id="world-map-tooltip" class="world-map-tooltip hidden" role="tooltip"></div>
-                    <svg id="world-map-svg" class="world-map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Flat World Map of Solved Landmarks">
-                        <defs>
-                            <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-                                <stop offset="0%" stop-color="#7CC2E3" />
-                                <stop offset="20%" stop-color="#A6DCF4" />
-                                <stop offset="50%" stop-color="#C8EFFC" />
-                                <stop offset="80%" stop-color="#A6DCF4" />
-                                <stop offset="100%" stop-color="#7CC2E3" />
-                            </linearGradient>
-                            <radialGradient id="oceanSunGlow" cx="50%" cy="46%" r="60%">
-                                <stop offset="0%" stop-color="#FFFDF4" stop-opacity="0.38" />
-                                <stop offset="60%" stop-color="#E0F7FA" stop-opacity="0.12" />
-                                <stop offset="100%" stop-color="#4895EF" stop-opacity="0.15" />
-                            </radialGradient>
-                            <linearGradient id="pinEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#38EF7D" />
-                                <stop offset="100%" stop-color="#059669" />
-                            </linearGradient>
-                            <linearGradient id="pinCoralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                <stop offset="0%" stop-color="#FF758C" />
-                                <stop offset="100%" stop-color="#E11D48" />
-                            </linearGradient>
-                            <filter id="pinDropShadow" x="-40%" y="-40%" width="180%" height="180%">
-                                <feDropShadow dx="0" dy="1.8" stdDeviation="1.3" flood-color="#1E272E" flood-opacity="0.45" />
-                            </filter>
-                        </defs>
-                        <g id="world-map-camera">
-                            <rect id="world-map-ocean" x="0" y="0" width="1000" height="500" fill="url(#oceanGrad)" />
-                            <rect x="0" y="0" width="1000" height="500" fill="url(#oceanSunGlow)" pointer-events="none" />
-                            <g id="world-map-graticule"></g>
-                            <g id="world-map-land"></g>
-                            <g id="world-map-labels" pointer-events="none"></g>
-                            <g id="world-map-pins"></g>
-                        </g>
-                        <g id="world-map-hud" pointer-events="none"></g>
-                    </svg>
-                </div>
+                    <p class="world-map-subtitle">Every puzzle you solve drops a pin at its real-world landmark. Click any pin or completed puzzle below to view its postcard!</p>
 
-                <!-- Map Legend & Controls Hint Bar -->
-                <div class="world-map-legend-bar">
-                    <div class="world-map-legend-items">
-                        <span class="map-legend-item"><span class="map-legend-dot emerald"></span>No-Hint Solve</span>
-                        <span class="map-legend-item"><span class="map-legend-dot coral"></span>Solved</span>
+                    <!-- Region Quick-Jump Filter Pills -->
+                    <div class="world-map-region-pills" id="world-map-region-pills">
+                        <button type="button" class="map-region-pill active" data-region="world">🌎 World</button>
+                        <button type="button" class="map-region-pill" data-region="americas">🗽 Americas</button>
+                        <button type="button" class="map-region-pill" data-region="europe">🏰 Europe</button>
+                        <button type="button" class="map-region-pill" data-region="africa_me">🐪 Africa &amp; M. East</button>
+                        <button type="button" class="map-region-pill" data-region="asia_oceania">⛩️ Asia &amp; Oceania</button>
                     </div>
-                    <span class="world-map-legend-hint">🖱️ Drag to pan • Scroll to zoom • Click pin for postcard</span>
+
+                    <!-- Interactive Flat Earth SVG Viewport -->
+                    <div class="world-map-viewport" id="world-map-viewport">
+                        <div class="world-map-controls">
+                            <button type="button" id="map-zoom-in" class="map-ctrl-btn" title="Zoom In" aria-label="Zoom In">+</button>
+                            <button type="button" id="map-zoom-out" class="map-ctrl-btn" title="Zoom Out" aria-label="Zoom Out">&minus;</button>
+                            <button type="button" id="map-zoom-reset" class="map-ctrl-btn" title="Reset Map View" aria-label="Reset Map View">&#8634;</button>
+                        </div>
+                        <div id="world-map-tooltip" class="world-map-tooltip hidden" role="tooltip"></div>
+                        <svg id="world-map-svg" class="world-map-svg" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Flat World Map of Solved Landmarks">
+                            <defs>
+                                <linearGradient id="oceanGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" stop-color="#7CC2E3" />
+                                    <stop offset="20%" stop-color="#A6DCF4" />
+                                    <stop offset="50%" stop-color="#C8EFFC" />
+                                    <stop offset="80%" stop-color="#A6DCF4" />
+                                    <stop offset="100%" stop-color="#7CC2E3" />
+                                </linearGradient>
+                                <radialGradient id="oceanSunGlow" cx="50%" cy="46%" r="60%">
+                                    <stop offset="0%" stop-color="#FFFDF4" stop-opacity="0.38" />
+                                    <stop offset="60%" stop-color="#E0F7FA" stop-opacity="0.12" />
+                                    <stop offset="100%" stop-color="#4895EF" stop-opacity="0.15" />
+                                </radialGradient>
+                                <linearGradient id="pinEmeraldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#38EF7D" />
+                                    <stop offset="100%" stop-color="#059669" />
+                                </linearGradient>
+                                <linearGradient id="pinCoralGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#FF758C" />
+                                    <stop offset="100%" stop-color="#E11D48" />
+                                </linearGradient>
+                                <filter id="pinDropShadow" x="-40%" y="-40%" width="180%" height="180%">
+                                    <feDropShadow dx="0" dy="1.8" stdDeviation="1.3" flood-color="#1E272E" flood-opacity="0.45" />
+                                </filter>
+                            </defs>
+                            <g id="world-map-camera">
+                                <rect id="world-map-ocean" x="0" y="0" width="1000" height="500" fill="url(#oceanGrad)" />
+                                <rect x="0" y="0" width="1000" height="500" fill="url(#oceanSunGlow)" pointer-events="none" />
+                                <g id="world-map-graticule"></g>
+                                <g id="world-map-land"></g>
+                                <g id="world-map-labels" pointer-events="none"></g>
+                                <g id="world-map-pins"></g>
+                            </g>
+                            <g id="world-map-hud" pointer-events="none"></g>
+                        </svg>
+                    </div>
+
+                    <!-- Map Legend & Controls Hint Bar -->
+                    <div class="world-map-legend-bar">
+                        <div class="world-map-legend-items">
+                            <span class="map-legend-item"><span class="map-legend-dot emerald"></span>No-Hint Solve</span>
+                            <span class="map-legend-item"><span class="map-legend-dot coral"></span>Solved</span>
+                        </div>
+                        <span class="world-map-legend-hint">🖱️ Drag to pan • Scroll to zoom • Click pin for postcard</span>
+                    </div>
+
+                    <!-- Empty State Callout when 0 puzzles solved -->
+                    <div id="world-map-empty-hint" class="world-map-empty-hint hidden">
+                        🧭 <strong>No pins on your globe yet!</strong> Solve any daily puzzle to drop your first landmark pin on the World Map.
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Completed Puzzles List Section -->
+                    <div class="map-completed-header">
+                        <h3 class="challenges-section-title" style="margin: 0;">✅ YOUR COMPLETED PUZZLES</h3>
+                        <span id="map-completed-count-label" class="map-completed-count-pill">0 Completed</span>
+                    </div>
+                    <div class="challenges-list-container map-completed-list-container" id="map-completed-list">
+                        <!-- Dynamically populated completed puzzles -->
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Link to Global Stats -->
+                    <button type="button" id="btn-map-to-stats" class="world-map-stats-link-btn">
+                        <svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink: 0;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
+                        <span>View Global Stats &amp; Challenge Difficulties ➔</span>
+                    </button>
                 </div>
 
-                <!-- Empty State Callout when 0 puzzles solved -->
-                <div id="world-map-empty-hint" class="world-map-empty-hint hidden">
-                    🧭 <strong>No pins on your globe yet!</strong> Solve any daily puzzle to drop your first landmark pin on the World Travel Map.
+                <!-- TAB PANEL 2: GLOBAL STATS -->
+                <div id="panel-global-stats" class="unified-modal-panel" role="tabpanel">
+                    <h2 class="stats-select-title"><svg class="stats-chart-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" style="width: 20px; height: 20px; margin-right: 6px; position: relative; top: -2px;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>Global Stats</h2>
+
+                    <!-- Aggregate Stats Section -->
+                    <div class="aggregate-stats-container">
+                        <div class="aggregate-stats-grid">
+                            <div class="stat-box">
+                                <span class="stat-value" id="agg-total-starts">0</span>
+                                <span class="stat-label">Total Starts</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value" id="agg-total-solves">0</span>
+                                <span class="stat-label">Total Solves</span>
+                            </div>
+                            <div class="stat-box">
+                                <span class="stat-value" id="agg-solve-rate">0%</span>
+                                <span class="stat-label">Solve Rate</span>
+                            </div>
+                        </div>
+
+                        <!-- Solve Distribution Funnel -->
+                        <div class="agg-funnel-container">
+                            <h3 class="agg-funnel-title">SOLVE DISTRIBUTION</h3>
+                            <div class="funnel-row">
+                                <span class="funnel-label">🏆 No Hints</span>
+                                <div class="funnel-bar-track">
+                                    <div class="funnel-bar-fill no-hints" id="agg-funnel-fill-0" style="width: 0%;"></div>
+                                </div>
+                                <span class="funnel-pct" id="agg-funnel-pct-0">0%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">🥇 1 Hint</span>
+                                <div class="funnel-bar-track">
+                                    <div class="funnel-bar-fill one-hint" id="agg-funnel-fill-1" style="width: 0%;"></div>
+                                </div>
+                                <span class="funnel-pct" id="agg-funnel-pct-1">0%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">🥈 2 Hints</span>
+                                <div class="funnel-bar-track">
+                                    <div class="funnel-bar-fill two-hints" id="agg-funnel-fill-2" style="width: 0%;"></div>
+                                </div>
+                                <span class="funnel-pct" id="agg-funnel-pct-2">0%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">🥉 3 Hints</span>
+                                <div class="funnel-bar-track">
+                                    <div class="funnel-bar-fill three-hints" id="agg-funnel-fill-3" style="width: 0%;"></div>
+                                </div>
+                                <span class="funnel-pct" id="agg-funnel-pct-3">0%</span>
+                            </div>
+                            <div class="funnel-row">
+                                <span class="funnel-label">⚡ 4 Hints</span>
+                                <div class="funnel-bar-track">
+                                    <div class="funnel-bar-fill four-hints" id="agg-funnel-fill-4" style="width: 0%;"></div>
+                                </div>
+                                <span class="funnel-pct" id="agg-funnel-pct-4">0%</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <!-- Entry Point CTA Banner to World Map -->
+                    <button type="button" id="btn-open-map-from-stats" class="world-map-cta-banner">
+                        <span class="world-map-cta-left">
+                            <svg class="map-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M15,19L9,16.89V5L15,7.11M20.5,3C20.25,3 20,3.08 19.8,3.2L15,5.1L9,3L3.5,4.9C3.19,5 3,5.32 3,5.65V20.5A0.5,0.5 0 0,0 3.5,21C3.75,21 4,20.92 4.2,20.8L9,18.9L15,21L20.5,19.1C20.81,19 21,18.68 21,18.35V3.5A0.5,0.5 0 0,0 20.5,3Z"/></svg>
+                            <span>Explore Your Solved Pins on the World Map</span>
+                        </span>
+                        <span id="stats-map-cta-badge" class="world-map-cta-pill">0 Pinned ➔</span>
+                    </button>
+
+                    <h3 class="challenges-section-title">📍 SELECT A CHALLENGE (WITH DIFFICULTY STATS)</h3>
+                    <div class="challenges-list-container" id="challenges-list">
+                        <!-- Dynamically populated challenge list -->
+                    </div>
                 </div>
-
-                <div class="divider"></div>
-
-                <!-- Completed Puzzles List Section -->
-                <div class="map-completed-header">
-                    <h3 class="challenges-section-title" style="margin: 0;">✅ YOUR COMPLETED PUZZLES</h3>
-                    <span id="map-completed-count-label" class="map-completed-count-pill">0 Completed</span>
-                </div>
-                <div class="challenges-list-container map-completed-list-container" id="map-completed-list">
-                    <!-- Dynamically populated completed puzzles -->
-                </div>
-
-                <div class="divider"></div>
-
-                <!-- Link to Overall Puzzle Stats & Difficulties -->
-                <button type="button" id="btn-map-to-stats" class="world-map-stats-link-btn">
-                    <svg class="stats-chart-icon" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" style="flex-shrink: 0;"><path d="M22,21H2V3H4V19H6V10H10V19H12V6H16V19H18V14H22V21Z"/></svg>
-                    <span>See Overall Puzzle Stats &amp; Challenge Difficulties ➔</span>
-                </button>
             </div>
         </div>
     </div>
@@ -702,6 +685,6 @@
         </div>
     </div>
 
-    <script src="app.js?v=1.92"></script>
+    <script src="app.js?v=1.94"></script>
 </body>
 </html>

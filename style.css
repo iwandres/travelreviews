@@ -2599,14 +2599,33 @@ svg.hidden {
     box-shadow: 0 2px 6px rgba(0, 170, 108, 0.25);
 }
 
-/* World Map Modal Wrapper & Card */
+/* Unified World Map & Global Stats Modal Wrapper & Card */
 .world-map-modal-wrapper {
     width: 94vw;
-    max-width: 720px;
+    max-width: 660px;
 }
 
-.world-map-card {
-    padding: 25px 20px;
+.unified-atlas-stats-card {
+    padding: 22px 20px;
+    height: min(85vh, 720px);
+    max-height: 85vh;
+    overflow: hidden !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.unified-modal-panel {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-right: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.unified-modal-panel.hidden {
+    display: none !important;
 }
 
 .world-map-header-row {
