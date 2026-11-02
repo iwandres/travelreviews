@@ -1127,9 +1127,42 @@ input:focus {
     margin: 10px auto;
     border: 2.5px dashed var(--accent-main);
     border-radius: 12px;
-    padding: 10px 20px;
-    display: inline-block;
+    padding: 12px 20px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
     background: rgba(0, 170, 108, 0.04);
+}
+
+.landmark-guide-inline-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.82rem;
+    font-weight: 900;
+    color: #ffffff;
+    background: var(--accent-main);
+    border: 2px solid var(--border-color);
+    box-shadow: 2px 2px 0px var(--border-color);
+    border-radius: 8px;
+    padding: 5px 14px;
+    text-decoration: none;
+    text-transform: none;
+    letter-spacing: 0.2px;
+    transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.15s ease;
+}
+
+.landmark-guide-inline-link:hover {
+    background: #00c980;
+    color: #ffffff;
+    transform: translate(-1px, -1px);
+    box-shadow: 3px 3px 0px var(--border-color);
+}
+
+.landmark-guide-inline-link:active {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0px var(--border-color);
 }
 
 .learn-more-links {

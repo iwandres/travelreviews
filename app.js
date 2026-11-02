@@ -2100,10 +2100,29 @@ function triggerVictory() {
     // Render victory postcard frame immediately
     ui.victoryPosterImg.src = getCorrectPosterUrl(activeChallenge.boss_poster_url);
     ui.finalBossTitle.innerText = activeChallenge.boss_pun_title;
-    ui.finalBossMovie.innerText = `Real Location: ${activeChallenge.boss_original_title}`;
+
+    const cleanName = activeChallenge.boss_original_title.trim();
+    const pnumPadded = padPuzzleNumber(activeChallenge.puzzle_number);
+    const guideSlug = cleanName.toLowerCase()
+        .replace(/í/g, 'i')
+        .replace(/á/g, 'a')
+        .replace(/é/g, 'e')
+        .replace(/ó/g, 'o')
+        .replace(/ú/g, 'u')
+        .replace(/ü/g, 'u')
+        .replace(/ñ/g, 'n')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    const landmarkGuideUrl = parseInt(activeChallenge.puzzle_number, 10) <= 120
+        ? `landmarks/challenge-${pnumPadded}-${guideSlug}.html`
+        : `landmarks/index.html`;
+
+    ui.finalBossMovie.innerHTML = `
+        <span id="final-boss-movie-text">Real Location: ${cleanName}</span>
+        <a id="link-landmark-guide" href="${landmarkGuideUrl}" class="landmark-guide-inline-link">📚 Read Landmark Field Guide ➔</a>
+    `;
     
     // Set Wikipedia and Google Maps search URLs
-    const cleanName = activeChallenge.boss_original_title.trim();
     const wikiSlug = cleanName.replace(/\s+/g, '_');
     if (ui.linkWikipedia) {
         ui.linkWikipedia.href = `https://en.wikipedia.org/wiki/${encodeURIComponent(wikiSlug)}`;
