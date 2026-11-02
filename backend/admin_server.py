@@ -13,6 +13,11 @@ import sys
 # Import database wrappers
 import database as boxoffice_database
 import travelreviews_database as travelreviews_database
+try:
+    import wordvine_database as wordvine_database
+except Exception as e:
+    print(f"Warning importing wordvine_database: {e}")
+    wordvine_database = None
 
 PORT = int(os.environ.get("PORT", 8000))
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
@@ -163,71 +168,27 @@ def sanitize_travelreviews_puzzles(puzzles):
     scheduled = [p for p in puzzles if p.get('puzzle_number')]
     scheduled.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
     
-    # Re-sequence scheduled puzzles to ensure there are no gaps
-    active_puzzles = [p for p in puzzles if p.get('puzzle_number')]
-    active_puzzles.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
-    backlog_puzzles = [p for p in puzzles if not p.get('puzzle_number')]
-    
-    for idx, p in enumerate(active_puzzles):
-        p['puzzle_number'] = f"{idx + 1:03d}"
-        
-    puzzles = active_puzzles + backlog_puzzles
-
-    # Calculate and assign the date field and landmark coordinates/location for all puzzles
-    from datetime import datetime, timedelta
-    start_date = datetime(2026, 7, 4)
-
-    landmarks_lookup = {}
-    for lm in load_json(LANDMARKS_FILE, []):
-        lm_name = str(lm.get('name', '')).strip().lower()
-        if lm_name:
-            landmarks_lookup[lm_name] = lm
-
-    for p in puzzles:
-        pnum = p.get('puzzle_number')
-        if pnum and str(pnum).isdigit():
-            days = int(pnum) - 1
-            target_date = start_date + timedelta(days=days)
-            p['date'] = target_date.strftime("%Y-%m-%d")
+    seen = set()
+    changed = False
+    for p in scheduled:
+        orig = p.get('boss_original_title', '').strip().lower()
+        if orig in seen:
+            p['puzzle_number'] = ''
+            changed = True
         else:
-            p['date'] = ""
-
-        # Enrich puzzle with lat, lng, and location from landmarks database if missing
-        orig_title = str(p.get('boss_original_title') or p.get('original_name') or '').strip().lower()
-        lm_meta = landmarks_lookup.get(orig_title)
-        if lm_meta:
-            if p.get('lat') is None and lm_meta.get('lat') is not None:
-                p['lat'] = lm_meta['lat']
-            if p.get('lng') is None and lm_meta.get('lng') is not None:
-                p['lng'] = lm_meta['lng']
-            if not p.get('location') and lm_meta.get('location'):
-                p['location'] = lm_meta['location']
-
-    # Enrich difficulty_tier from telemetry records when available
-    records_lookup = load_json(TRAVELREVIEWS_RECORDS_FILE, {})
-    if isinstance(records_lookup, dict):
-        for p in puzzles:
-            pnum = str(p.get('puzzle_number', ''))
-            st = records_lookup.get(pnum)
-            if isinstance(st, dict):
-                starts = int(st.get('start', 0))
-                attempts = int(st.get('attempts', 0))
-                s0 = int(st.get('solve_0', 0))
-                s1 = int(st.get('solve_1', 0))
-                s2 = int(st.get('solve_2', 0))
-                s3 = int(st.get('solve_3', 0))
-                s4 = int(st.get('solve_4', 0))
-                solves = s0 + s1 + s2 + s3 + s4
-                if starts > 0 or solves > 0:
-                    eff_starts = max(starts, solves, 1)
-                    unsolved_rate = 1.0 - min(1.0, solves / eff_starts)
-                    avg_hints = ((0*s0 + 1*s1 + 2*s2 + 3*s3 + 4*s4) / solves) if solves > 0 else 4.0
-                    att_per_solve = max(1.0, attempts / solves) if solves > 0 else max(5.0, float(attempts))
-                    hint_norm = min(1.0, avg_hints / 4.0)
-                    att_norm = min(1.0, max(0.0, (att_per_solve - 1.0) / 5.0))
-                    score = (unsolved_rate * 40.0) + (hint_norm * 35.0) + (att_norm * 25.0)
-                    p['difficulty_tier'] = 1 if score < 30.0 else (2 if score < 50.0 else 3)
-
+            seen.add(orig)
+            
+    if changed:
+        # Resequence scheduled puzzles
+        active_puzzles = [p for p in puzzles if p.get('puzzle_number')]
+        active_puzzles.sort(key=lambda x: int(x['puzzle_number']) if str(x['puzzle_number']).isdigit() else 999)
+        
+        backlog_puzzles = [p for p in puzzles if not p.get('puzzle_number')]
+        
+        for idx, p in enumerate(active_puzzles):
+            p['puzzle_number'] = f"{idx + 1:03d}"
+            
+        puzzles = active_puzzles + backlog_puzzles
     return puzzles
 
 def save_json(filepath, data):
@@ -265,41 +226,7 @@ def save_json(filepath, data):
         print(f"Error saving {filepath}: {e}")
         return False
 
-import threading
-from travelreviews_agent import (
-    TravelReviewsCurationAgent,
-    PUZZLE_GUARDRAILS,
-    VALID_THEMES,
-    ART_STYLES,
-    normalize_name
-)
-
-curation_lock = threading.Lock()
-
-def get_curation_agent():
-    return TravelReviewsCurationAgent(
-        landmarks_file=LANDMARKS_FILE,
-        puns_file=PUNS_FILE,
-        clues_file=CLUES_FILE,
-        postcards_file=POSTCARDS_FILE,
-        daily_games_file=DAILY_GAMES_FILE,
-        cartoons_dir=CARTOONS_DIR,
-        load_json_fn=load_json,
-        save_json_fn=save_json,
-        get_theme_fn=get_theme_for_landmark,
-        boxoffice_root=boxoffice_root,
-        travelreviews_root=travelreviews_root,
-        api_key=os.environ.get("GEMINI_API_KEY") or gemini_key
-    )
-
 class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
-    def log_message(self, format, *args):
-        sys.stderr.write("%s - - [%s] %s\n" %
-                         (self.address_string(),
-                          self.log_date_time_string(),
-                          format%args))
-        sys.stderr.flush()
-
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
@@ -334,6 +261,29 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(f.read())
             return
 
+        # --- Word Vine APIs (/api/wordvine/...) ---
+        if req_path in ['/api/wordvine/vine/today', '/api/vine/today'] and wordvine_database:
+            parsed_url = urllib.parse.urlparse(self.path)
+            query_params = urllib.parse.parse_qs(parsed_url.query)
+            date_key = query_params.get('dateKey', [None])[0]
+            vine = wordvine_database.get_daily_vine(date_key)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(vine or {}).encode('utf-8'))
+            return
+        elif (req_path.startswith('/api/wordvine/leaderboard/') or req_path.startswith('/api/leaderboard/')) and wordvine_database:
+            parsed_url = urllib.parse.urlparse(self.path)
+            query_params = urllib.parse.parse_qs(parsed_url.query)
+            date_key = query_params.get('dateKey', [None])[0]
+            tier = req_path.rstrip('/').split('/')[-1]
+            lb = wordvine_database.get_leaderboard(tier, date_key)
+            self.send_response(200)
+            self.send_header('Content-type', 'application/json')
+            self.end_headers()
+            self.wfile.write(json.dumps(lb).encode('utf-8'))
+            return
+
         # 2. Unified File Router based on paths
         is_tt = self.is_travelreviews_context(req_path)
         
@@ -365,8 +315,7 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                     stats = db_module.get_telemetry_stats(puzzle_number)
                 else:
                     stats = db_module.get_telemetry_stats()
-                    if stats:
-                        save_json(rec_file, stats)
+                    save_json(rec_file, stats)
                 self.wfile.write(json.dumps(stats).encode('utf-8'))
             except Exception as e:
                 print(f"Database error: {e}, falling back to local file")
@@ -461,54 +410,6 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(json.dumps(load_json(POSTCARDS_FILE, [])).encode('utf-8'))
             return
-        elif req_path in ['/api/agent/guardrails', '/api/travelreviews/agent/guardrails']:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            landmarks = load_json(LANDMARKS_FILE, [])
-            puns = load_json(PUNS_FILE, [])
-            clues = load_json(CLUES_FILE, [])
-            postcards = load_json(POSTCARDS_FILE, [])
-            daily_games = load_json(DAILY_GAMES_FILE, [])
-            payload = {
-                "guardrails": PUZZLE_GUARDRAILS,
-                "valid_themes": VALID_THEMES,
-                "art_styles": list(ART_STYLES.keys()),
-                "stats": {
-                    "total_landmarks": len(landmarks),
-                    "pending_landmarks": len([lm for lm in landmarks if lm.get("status") != "approved"]),
-                    "total_puns": len(puns),
-                    "total_clues": len(clues),
-                    "pending_review_puzzles": len([pc for pc in postcards if pc.get("status") == "pending"]),
-                    "scheduled_daily_games": len(daily_games)
-                }
-            }
-            self.wfile.write(json.dumps(payload).encode('utf-8'))
-            return
-        elif req_path in ['/api/agent/analytics', '/api/travelreviews/agent/analytics']:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            agent = get_curation_agent()
-            analytics_payload = agent.get_quality_analytics()
-            self.wfile.write(json.dumps({"success": True, **analytics_payload}).encode('utf-8'))
-            return
-        elif req_path in ['/api/agent/runway_alert', '/api/travelreviews/agent/runway_alert']:
-            self.send_response(200)
-            self.send_header('Content-type', 'application/json')
-            self.end_headers()
-            agent = get_curation_agent()
-            runway = agent.get_runway_status()
-            alert_check = None
-            if runway.get("is_low_runway") and runway.get("enabled"):
-                alert_check = agent.check_and_send_runway_alert(force=False)
-                runway = alert_check.get("runway", runway)
-            self.wfile.write(json.dumps({
-                "success": True,
-                "runway": runway,
-                "alert_check": alert_check
-            }).encode('utf-8'))
-            return
 
         # --- Static Assets and Client Files Router ---
         elif req_path.startswith('/travelreviews/') or req_path.startswith('/assets/'):
@@ -572,6 +473,44 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
         
         is_tt = self.is_travelreviews_context(req_path)
         
+        # --- Word Vine POST APIs (/api/wordvine/...) ---
+        if req_path in ['/api/wordvine/vine/submit', '/api/vine/submit'] and wordvine_database:
+            try:
+                payload = json.loads(post_data.decode('utf-8'))
+                res_obj = wordvine_database.record_run_submission(
+                    payload.get('deviceToken'),
+                    payload.get('handle'),
+                    payload.get('dateKey'),
+                    payload.get('choices', []),
+                    payload.get('deltasMs', []),
+                    payload.get('finalWaitMs', 0)
+                )
+                status_code = 200 if res_obj.get('accepted') else 422
+                self.send_response(status_code)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps(res_obj).encode('utf-8'))
+            except Exception as e:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"accepted": False, "error": str(e)}).encode('utf-8'))
+            return
+        elif req_path in ['/api/wordvine/admin/vines', '/api/admin/vines'] and wordvine_database:
+            try:
+                vines_data = json.loads(post_data.decode('utf-8'))
+                wordvine_database.save_daily_vines(vines_data)
+                self.send_response(200)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": True, "count": len(vines_data)}).encode('utf-8'))
+            except Exception as e:
+                self.send_response(400)
+                self.send_header('Content-type', 'application/json')
+                self.end_headers()
+                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
+            return
+
         # --- Shared POST Save APIs ---
         if req_path in ['/api/puzzles', '/api/boxoffice/puzzles', '/api/travelreviews/puzzles']:
             file = DAILY_GAMES_FILE if (is_tt or 'travelreviews' in req_path) else BOXOFFICE_PUZZLES_FILE
@@ -580,16 +519,10 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 if file == DAILY_GAMES_FILE and isinstance(data, list):
                     data = sanitize_travelreviews_puzzles(data)
                 save_json(file, data)
-                alert_result = None
-                if file == DAILY_GAMES_FILE:
-                    try:
-                        alert_result = get_curation_agent().check_and_send_runway_alert(force=False)
-                    except Exception as alert_e:
-                        print(f"Runway alert check warning: {alert_e}")
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
-                self.wfile.write(json.dumps({"success": True, "runway_alert": alert_result}).encode('utf-8'))
+                self.wfile.write(json.dumps({"success": True}).encode('utf-8'))
             except Exception as e:
                 self.send_response(400)
                 self.send_header('Content-type', 'application/json')
@@ -631,7 +564,7 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                         telemetry_data[puzzle_number] = {
                             "start": 0, "attempts": 0, "solve_0": 0, "solve_1": 0, "solve_2": 0, "solve_3": 0, "solve_4": 0,
                             "solve_att_1": 0, "solve_att_2": 0, "solve_att_3": 0, "solve_att_4": 0, "solve_att_5": 0,
-                            "click_profile": 0, "click_stats": 0, "click_help": 0
+                            "click_profile": 0, "click_stats": 0, "click_help": 0, "challenge_view": 0
                         }
                     if event == 'start':
                         telemetry_data[puzzle_number]["start"] += 1
@@ -642,7 +575,7 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                         telemetry_data[puzzle_number][f"solve_{clamped_hints}"] += 1
                         clamped_attempts = max(1, min(5, attempts))
                         telemetry_data[puzzle_number][f"solve_att_{clamped_attempts}"] = telemetry_data[puzzle_number].get(f"solve_att_{clamped_attempts}", 0) + 1
-                    elif event in ['click_profile', 'click_stats', 'click_help']:
+                    elif event in ['click_profile', 'click_stats', 'click_help', 'challenge_view']:
                         telemetry_data[puzzle_number][event] = telemetry_data[puzzle_number].get(event, 0) + 1
                     save_json(rec_file, telemetry_data)
                 
@@ -914,183 +847,6 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
             return
 
-        # --- 1-Star Travel Reviews Expert Curation Agent Endpoints ---
-        elif req_path in ['/api/agent/discover_landmarks', '/api/travelreviews/agent/discover_landmarks']:
-            if not gemini_available:
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": "GEMINI_API_KEY environment variable missing"}).encode('utf-8'))
-                return
-            try:
-                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
-                count = int(payload.get('count', 8))
-                auto_approve = bool(payload.get('auto_approve', False))
-                with curation_lock:
-                    agent = get_curation_agent()
-                    added = agent.discover_landmarks(count=count, auto_approve=auto_approve)
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({
-                    "success": True,
-                    "generated_count": len(added),
-                    "landmarks": added
-                }).encode('utf-8'))
-            except Exception as e:
-                print(f"Error in discover_landmarks: {e}")
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
-            return
-
-        elif req_path in ['/api/agent/run', '/api/travelreviews/agent/run']:
-            if not gemini_available:
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": "GEMINI_API_KEY environment variable missing"}).encode('utf-8'))
-                return
-            try:
-                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
-                count = int(payload.get('count', 3))
-                discover_new = bool(payload.get('discover_new_landmarks', True))
-                art_style = payload.get('art_style', 'random')
-                landmark_id = payload.get('landmark_id')
-                with curation_lock:
-                    agent = get_curation_agent()
-                    result = agent.run_pipeline(
-                        count=count,
-                        discover_new_landmarks=discover_new,
-                        art_style=art_style,
-                        landmark_id=landmark_id
-                    )
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, **result}).encode('utf-8'))
-            except Exception as e:
-                print(f"Error in agent/run: {e}")
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
-            return
-
-        elif req_path in ['/api/agent/redo', '/api/travelreviews/agent/redo']:
-            if not gemini_available:
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": "GEMINI_API_KEY environment variable missing"}).encode('utf-8'))
-                return
-            try:
-                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
-                clue_id = payload.get('clue_id')
-                redo_type = payload.get('redo_type')
-                custom_pun = payload.get('custom_pun')
-                human_feedback = payload.get('human_feedback')
-                art_style = payload.get('art_style', 'random')
-                custom_prompt = payload.get('custom_prompt')
-                if not clue_id or not redo_type:
-                    raise ValueError("clue_id and redo_type ('pun', 'clues', or 'postcard') are required")
-                with curation_lock:
-                    agent = get_curation_agent()
-                    result = agent.redo_puzzle_piece(
-                        clue_id=clue_id,
-                        redo_type=redo_type,
-                        custom_pun=custom_pun,
-                        human_feedback=human_feedback,
-                        art_style=art_style,
-                        custom_prompt=custom_prompt
-                    )
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": True, **result}).encode('utf-8'))
-            except Exception as e:
-                print(f"Error in agent/redo: {e}")
-                self.send_response(500)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
-            return
-
-        elif req_path in ['/api/agent/signal', '/api/travelreviews/agent/signal']:
-            try:
-                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
-                signal_type = payload.get('signal_type')
-                if signal_type not in ('approve', 'redo', 'decline'):
-                    raise ValueError("signal_type must be 'approve', 'redo', or 'decline'")
-                with curation_lock:
-                    agent = get_curation_agent()
-                    event = agent.record_signal(
-                        signal_type=signal_type,
-                        stage=payload.get('stage', 'agent_queue'),
-                        clue_id=payload.get('clue_id'),
-                        postcard_id=payload.get('postcard_id'),
-                        landmark_name=payload.get('landmark_name', ''),
-                        location=payload.get('location', ''),
-                        pun_name=payload.get('pun_name', ''),
-                        redo_type=payload.get('redo_type'),
-                        old_value=payload.get('old_value'),
-                        new_value=payload.get('new_value'),
-                        art_style=payload.get('art_style', ''),
-                        page_theme=payload.get('page_theme', ''),
-                        agent_score=payload.get('agent_score'),
-                        redo_count_at_event=payload.get('redo_count_at_event', 0),
-                        was_runner_up_selected=payload.get('was_runner_up_selected', False),
-                        human_feedback=payload.get('human_feedback'),
-                        decline_reason=payload.get('decline_reason')
-                    )
-                    analytics_summary = agent.get_quality_analytics()
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({
-                    "success": True,
-                    "event": event,
-                    "analytics": analytics_summary
-                }).encode('utf-8'))
-            except Exception as e:
-                print(f"Error in agent/signal: {e}")
-                self.send_response(400)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
-            return
-
-        elif req_path in ['/api/agent/runway_alert', '/api/travelreviews/agent/runway_alert']:
-            try:
-                payload = json.loads(post_data.decode('utf-8')) if post_data else {}
-                action = payload.get('action', 'update')
-                with curation_lock:
-                    agent = get_curation_agent()
-                    runway = agent.update_alert_config(payload)
-                    alert_result = None
-                    if action == 'test' or payload.get('force'):
-                        alert_result = agent.check_and_send_runway_alert(force=True)
-                        runway = alert_result.get('runway', runway)
-                    elif action == 'check' or runway.get('is_low_runway'):
-                        alert_result = agent.check_and_send_runway_alert(force=False)
-                        runway = alert_result.get('runway', runway)
-                self.send_response(200)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({
-                    "success": True,
-                    "runway": runway,
-                    "alert_result": alert_result
-                }).encode('utf-8'))
-            except Exception as e:
-                print(f"Error in agent/runway_alert: {e}")
-                self.send_response(400)
-                self.send_header('Content-type', 'application/json')
-                self.end_headers()
-                self.wfile.write(json.dumps({"success": False, "error": str(e)}).encode('utf-8'))
-            return
-
         # --- 1-Star Travel Reviews Gemini Inline Generation Routines ---
         elif req_path in ['/api/generate_puns', '/api/travelreviews/generate_puns']:
             if not gemini_available:
@@ -1101,39 +857,52 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 return
                 
             try:
-                with curation_lock:
-                    landmarks = load_json(LANDMARKS_FILE, [])
+                landmarks = load_json(LANDMARKS_FILE, [])
+                puns = load_json(PUNS_FILE, [])
+                approved_landmarks = [lm for lm in landmarks if lm.get('status') == 'approved']
+                existing_puns_landmarks = {p['original_name'] for p in puns}
+                new_landmarks = [lm for lm in approved_landmarks if lm['name'] not in existing_puns_landmarks]
+                
+                if not new_landmarks:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": True, "generated_count": 0, "message": "No new approved landmarks to process"}).encode('utf-8'))
+                    return
+                
+                client = genai.Client(api_key=gemini_key)
+                new_puns_count = 0
+                for lm in new_landmarks[:5]:
+                    prompt = f"""
+                    Create a list of 2-3 funny, clever wordplay puns based on the famous historical landmark or travel destination "{lm['name']}" (located in {lm.get('location', 'Unknown')}).
+                    A location pun should sound very similar to the original name but replace parts of it with a funny word (e.g. Waffle Tower instead of Eiffel Tower, Lover Museum instead of Louvre Museum, St. Peter's Bazooka instead of St. Peter's Basilica).
+                    
+                    Return a JSON array of strings exactly matching this schema:
+                    [
+                      "Pun Name 1",
+                      "Pun Name 2"
+                    ]
+                    """
+                    response = client.models.generate_content(
+                        model='gemini-2.5-flash',
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json"
+                        )
+                    )
+                    pun_candidates = json.loads(response.text)
+                    # Reload the latest puns list from disk to avoid overwriting concurrent edits
                     puns = load_json(PUNS_FILE, [])
-                    approved_landmarks = [lm for lm in landmarks if lm.get('status') == 'approved']
-                    existing_puns_landmarks = {p['original_name'] for p in puns}
-                    new_landmarks = [lm for lm in approved_landmarks if lm['name'] not in existing_puns_landmarks]
-                    
-                    if not new_landmarks:
-                        self.send_response(200)
-                        self.send_header('Content-type', 'application/json')
-                        self.end_headers()
-                        self.wfile.write(json.dumps({"success": True, "generated_count": 0, "message": "No new approved landmarks to process"}).encode('utf-8'))
-                        return
-                    
-                    agent = get_curation_agent()
-                    new_puns_count = 0
-                    for lm in new_landmarks[:5]:
-                        pun_res = agent.generate_and_select_pun(lm['name'], lm.get('location', 'Unknown'))
-                        puns = load_json(PUNS_FILE, [])
-                        all_cands = [pun_res["pun_name"]] + [r for r in pun_res.get("runner_up_puns", []) if r]
-                        for idx, candidate in enumerate(all_cands[:3]):
-                            puns.append({
-                                "id": f"pun_{lm['name'].lower().replace(' ', '_')}_{int(time.time())}_{random.randint(100,999)}",
-                                "original_name": lm['name'],
-                                "location": lm.get('location', 'Unknown'),
-                                "pun_name": candidate,
-                                "status": "pending",
-                                "agent_curated": True,
-                                "agent_score": pun_res["agent_score"] if idx == 0 else round(max(7.5, pun_res["agent_score"] - 0.5 * idx), 1),
-                                "agent_rationale": pun_res["agent_rationale"] if idx == 0 else "Runner-up guardrail candidate."
-                            })
-                            new_puns_count += 1
-                        save_json(PUNS_FILE, puns)
+                    for candidate in pun_candidates:
+                        puns.append({
+                            "id": f"pun_{lm['name'].lower().replace(' ', '_')}_{int(time.time())}_{random.randint(100,999)}",
+                            "original_name": lm['name'],
+                            "location": lm.get('location', 'Unknown'),
+                            "pun_name": candidate,
+                            "status": "pending"
+                        })
+                        new_puns_count += 1
+                    save_json(PUNS_FILE, puns)
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
@@ -1154,49 +923,84 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 return
                 
             try:
-                with curation_lock:
-                    puns = load_json(PUNS_FILE, [])
-                    clues = load_json(CLUES_FILE, [])
-                    approved_puns = [p for p in puns if p.get('status') == 'approved']
-                    existing_clues_puns = {c['pun_name'] for c in clues}
-                    new_puns = [p for p in approved_puns if p['pun_name'] not in existing_clues_puns]
+                puns = load_json(PUNS_FILE, [])
+                clues = load_json(CLUES_FILE, [])
+                approved_puns = [p for p in puns if p.get('status') == 'approved']
+                existing_clues_puns = {c['pun_name'] for c in clues}
+                new_puns = [p for p in approved_puns if p['pun_name'] not in existing_clues_puns]
+                
+                if not new_puns:
+                    self.send_response(200)
+                    self.send_header('Content-type', 'application/json')
+                    self.end_headers()
+                    self.wfile.write(json.dumps({"success": True, "generated_count": 0, "message": "No new approved puns to process"}).encode('utf-8'))
+                    return
+                
+                client = genai.Client(api_key=gemini_key)
+                new_clues_count = 0
+                for p in new_puns[:5]:
+                    prompt = f"""
+                    We are building a comedy travel puzzle game. 
+                    The player needs to guess a location pun.
+                    The target location pun name is: "{p['pun_name']}" (which is a pun on the real landmark "{p['original_name']}").
                     
-                    if not new_puns:
-                        self.send_response(200)
-                        self.send_header('Content-type', 'application/json')
-                        self.end_headers()
-                        self.wfile.write(json.dumps({"success": True, "generated_count": 0, "message": "No new approved puns to process"}).encode('utf-8'))
-                        return
+                    Your job is to generate 3 progressive clues (reviews) complaining about this location in an unhinged, comedic way.
+                    CRITICAL CONSTRAINT: Each clue MUST be a very short snippet, phrase, or sentence fragment (under 12-15 words). You can use sentence fragments noted/separated using '...' or similar punctuation (e.g., 'So drafty... holes everywhere... completely non-functional!'). Do NOT write long paragraphs or multiple full sentences.
+                    - Clue 1: An absurd, comical snippet or sentence fragment that includes a subtle, clever hint referencing both the original landmark/location and the wordplay of the pun, giving players a fair chance to solve the puzzle on the very first clue.
+                    - Clue 2: Another short comical snippet or sentence fragment providing additional details/hints about either the original landmark's actual features/location or the wordplay behind the pun.
+                    - Clue 3: A final short comical snippet or sentence fragment that makes the connection between the original landmark and the pun name very obvious (without explicitly naming either).
                     
-                    agent = get_curation_agent()
-                    new_clues_count = 0
-                    for p in new_puns[:5]:
-                        generated = agent.generate_clues_and_reply(
-                            p['original_name'],
-                            p.get('location', 'Unknown'),
-                            p['pun_name']
+                    Also generate a funny review title.
+                    Also generate a funny Reviewer Username (reviewer_name) that is thematically related to the parodied location or the complaint (e.g., 'SyrupSlinger' for Waffle Tower, 'SoggySouffle' for Eiffel Shower, 'BitterSingle' for Lover Museum). Do not include the '@' symbol in the JSON value.
+                    
+                    Also generate a 'Response from the Owner' (flavor text reply from management).
+                    CRITICAL: The Owner's POV is the manager of the ACTUAL historical landmark (e.g. the Eiffel Tower, the Louvre Museum, etc.). You are responding to a ridiculous 1-star TripAdvisor review from a traveler who has confused your actual historical landmark with a silly, literal pun name (e.g., Eiffel Towel, Waffle Tower, Lover Museum).
+                    The response must be short (under 2 sentences), highly sarcastic, and punchy, correcting the reviewer's absurd confusion by pointing out the actual nature of your landmark (e.g. that it is a 300-meter iron monument, a fine art museum, etc.) and why their complaint makes no sense.
+                    To bolster the response and make it highly contextual, the owner can directly reference a specific notable complaint or mistake made by the reviewer in the clues (e.g., trying to dry off with wrought iron, complaining about square indentations or wanting maple syrup on the girders). Do NOT mention the original landmark name in the response itself.
+                    The owner should occasionally reference the reviewer's username (reviewer_name) directly in their reply prefixed with '@' (e.g. 'Listen here, @DampCroissant...', 'Dear @DampCroissant...'), but vary it sometimes with general greetings like 'Dear Traveler' or 'Dear Adventurer'.
+                    Example of the tone:
+                    Actual Landmark: Eiffel Tower
+                    Pun Name: Eiffel Towel
+                    Reviewer Username: DampCroissant
+                    Reviewer Complaint: "Too drafty... holes everywhere... tried to dry off after my shower but it's made of wrought iron!"
+                    Response from the Owner: "Listen, @DampCroissant, if you are using 10,000 tons of 19th-century iron to dry your hair, you have significantly bigger problems than a slight draft."
+                    
+                    Return a JSON object matching exactly this schema:
+                    {{
+                      "reviewer_name": "Username",
+                      "review_title": "Avoid at all costs!",
+                      "clue1": "Clue 1 text",
+                      "clue2": "Clue 2 text",
+                      "clue3": "Clue 3 text",
+                      "owner_response": "Owner response here",
+                      "page_theme": "The most appropriate travel theme name for this location out of: ancient_ruins, natural_wonders, historic_monuments, castles_cathedrals, bridges_canals, streets_squares, modern_skyscrapers"
+                    }}
+                    """
+                    response = client.models.generate_content(
+                        model='gemini-2.5-flash',
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json"
                         )
-                        clues = load_json(CLUES_FILE, [])
-                        clues.append({
-                            "id": f"clue_{p['pun_name'].lower().replace(' ', '_')}_{int(time.time())}_{random.randint(100,999)}",
-                            "pun_id": p.get('id', ''),
-                            "original_name": p['original_name'],
-                            "location": p.get('location', 'Unknown'),
-                            "pun_name": p['pun_name'],
-                            "reviewer_name": generated.get("reviewer_name", "Anonymous"),
-                            "review_title": generated.get("review_title", "Terrible!"),
-                            "clue1": generated.get("clue1", ""),
-                            "clue2": generated.get("clue2", ""),
-                            "clue3": generated.get("clue3", ""),
-                            "owner_response": generated.get("owner_response", ""),
-                            "page_theme": generated.get("page_theme", get_theme_for_landmark(p['original_name'])),
-                            "status": "pending",
-                            "agent_curated": True,
-                            "agent_score": p.get("agent_score", 9.0),
-                            "agent_rationale": p.get("agent_rationale", "")
-                        })
-                        new_clues_count += 1
-                        save_json(CLUES_FILE, clues)
+                    )
+                    generated = json.loads(response.text)
+                    # Reload the latest clues list from disk to avoid overwriting concurrent edits
+                    clues = load_json(CLUES_FILE, [])
+                    clues.append({
+                        "id": f"clue_{p['pun_name'].lower().replace(' ', '_')}_{int(time.time())}",
+                        "original_name": p['original_name'],
+                        "pun_name": p['pun_name'],
+                        "reviewer_name": generated.get("reviewer_name", "Anonymous"),
+                        "review_title": generated.get("review_title", "Terrible!"),
+                        "clue1": generated.get("clue1", ""),
+                        "clue2": generated.get("clue2", ""),
+                        "clue3": generated.get("clue3", ""),
+                        "owner_response": generated.get("owner_response", ""),
+                        "page_theme": get_theme_for_landmark(p['original_name']),
+                        "status": "pending"
+                    })
+                    new_clues_count += 1
+                    save_json(CLUES_FILE, clues)
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
@@ -1223,39 +1027,134 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
                 except:
                     pass
                 selected_style = payload.get('art_style', 'random')
-                custom_prompt = payload.get('prompt')
+                
+                styles_dict = {
+                    "cartoon": "Comical cartoon illustration, bold lines, bright vibrant colors, humorous caricature, white postcard border.",
+                    "watercolor": "Whimsical watercolor and ink sketch, detailed storybook style, soft textures, pastel colors, artistically detailed.",
+                    "retro": "Vintage 1950s travel poster style, retro flat vector design, bold colors, screen-printed poster aesthetic.",
+                    "wpa": "Old school vintage travel illustration style, rooted in 1930s WPA-era silk-screened travel posters and 1960s lithographs, featuring bold shapes, muted earthy color palettes, and hand-drawn typography.",
+                    "vintage": "Classic distressed linen texture vintage postcard style, hand-colored photo print aesthetic, 1930s travel style.",
+                    "pop-art": "Vibrant Pop Art style, bold outlines, screen print dot texture, retro comic book feel, high contrast colors."
+                }
+                
+                clues = load_json(CLUES_FILE, [])
+                postcards = load_json(POSTCARDS_FILE, [])
                 target_clue_id = payload.get('clue_id')
                 
-                with curation_lock:
-                    clues = load_json(CLUES_FILE, [])
-                    postcards = load_json(POSTCARDS_FILE, [])
-                    
-                    if target_clue_id:
-                        approved_clues = [c for c in clues if c['id'] == target_clue_id]
-                        if not approved_clues:
-                            fallback_pc = next((p for p in postcards if p['clue_id'] == target_clue_id), None)
-                            if fallback_pc:
-                                approved_clues = [{
-                                    'id': fallback_pc['clue_id'],
-                                    'pun_name': fallback_pc['pun_name'],
-                                    'original_name': fallback_pc['original_name'],
-                                    'owner_response': fallback_pc['owner_response'],
-                                    'page_theme': fallback_pc.get('page_theme', 'historic_monuments'),
-                                    'status': fallback_pc.get('status', 'pending')
-                                }]
+                if target_clue_id:
+                    approved_clues = [c for c in clues if c['id'] == target_clue_id]
+                    if not approved_clues:
+                        # Fallback to constructing a temporary clue object from postcards if clue has been cleaned up/deleted
+                        fallback_pc = next((p for p in postcards if p['clue_id'] == target_clue_id), None)
+                        if fallback_pc:
+                            approved_clues = [{
+                                'id': fallback_pc['clue_id'],
+                                'pun_name': fallback_pc['pun_name'],
+                                'original_name': fallback_pc['original_name'],
+                                'owner_response': fallback_pc['owner_response'],
+                                'page_theme': fallback_pc.get('page_theme', 'road_trip'),
+                                'status': fallback_pc.get('status', 'pending')
+                            }]
+                else:
+                    existing_clues_in_postcards = {p['clue_id'] for p in postcards}
+                    approved_clues = [c for c in clues if c.get('status') == 'approved' and c['id'] not in existing_clues_in_postcards]
+                client = genai.Client(api_key=gemini_key)
+                new_postcards_count = 0
+                for c in approved_clues[:5]:
+                    custom_prompt = payload.get('prompt')
+                    if custom_prompt:
+                        image_prompt = custom_prompt
+                        style_prompt = ""
+                        style_key = "custom"
                     else:
-                        existing_clues_in_postcards = {p['clue_id'] for p in postcards}
-                        approved_clues = [c for c in clues if c.get('status') == 'approved' and c['id'] not in existing_clues_in_postcards]
-                    
-                    agent = get_curation_agent()
-                    new_postcards_count = 0
-                    for c in approved_clues[:5]:
-                        agent.generate_postcard_for_clue(
-                            c,
-                            art_style=selected_style,
-                            custom_prompt=custom_prompt
+                        style_key = random.choice(list(styles_dict.keys()))
+                        style_prompt = styles_dict[style_key]
+                        
+                        prompt_gen = f"""
+                        Create a single-sentence descriptive text-to-image prompt for a parodied travel postcard based on the location pun "{c['pun_name']}" (derived from "{c['original_name']}").
+                        The prompt should describe a funny, comical scene matching this art style: "{style_prompt}".
+                        Example for "The Grand Crayon":
+                        "A giant yellow crayon laying inside the rocky Grand Canyon, comical cartoon illustration."
+                        
+                        Return a JSON object exactly matching this schema:
+                        {{
+                          "image_prompt": "A giant yellow crayon laying inside the rocky Grand Canyon, comical cartoon illustration."
+                        }}
+                        """
+                        prompt_res = client.models.generate_content(
+                            model='gemini-2.5-flash',
+                            contents=prompt_gen,
+                            config=types.GenerateContentConfig(
+                                response_mime_type="application/json"
+                            )
                         )
-                        new_postcards_count += 1
+                        prompt_data = json.loads(prompt_res.text)
+                        image_prompt = prompt_data.get("image_prompt", f"A funny cartoon of {c['pun_name']}, comical illustration.")
+                    
+                    safe_filename = c['pun_name'].lower().replace(' ', '_').replace('-', '_').replace(':', '') + f"_{int(time.time())}.webp"
+                    image_path = f"/assets/cartoons/{safe_filename}"
+                    local_image_path = os.path.join(CARTOONS_DIR, safe_filename)
+                    
+                    print(f"Generating postcard for '{c['pun_name']}' in style '{style_key}' using imagen-4.0-generate-001...")
+                    response = client.models.generate_images(
+                        model='imagen-4.0-generate-001',
+                        prompt=f"{style_prompt} {image_prompt}".strip(),
+                        config=types.GenerateImagesConfig(
+                            number_of_images=1,
+                            output_mime_type="image/png",
+                            aspect_ratio="4:3"
+                        )
+                    )
+                    
+                    saved_image = False
+                    for generated_image in response.generated_images:
+                        image_bytes = generated_image.image.image_bytes
+                        from PIL import Image
+                        image = Image.open(io.BytesIO(image_bytes))
+                        image.save(local_image_path, 'WEBP', quality=95)
+                        print(f"Saved generated image: {local_image_path}")
+                        
+                        # Also save copy to Box Office repository if different
+                        if boxoffice_root != travelreviews_root:
+                            if os.path.exists(os.path.join(boxoffice_root, 'travelreviews')):
+                                bo_cartoons_dir = os.path.join(boxoffice_root, 'travelreviews', 'assets', 'cartoons')
+                            else:
+                                bo_cartoons_dir = os.path.join(boxoffice_root, 'assets', 'cartoons')
+                            os.makedirs(bo_cartoons_dir, exist_ok=True)
+                            bo_image_path = os.path.join(bo_cartoons_dir, safe_filename)
+                            try:
+                                image.save(bo_image_path, 'WEBP', quality=95)
+                                print(f"Saved generated image copy to Box Office: {bo_image_path}")
+                            except Exception as bo_save_e:
+                                print(f"Failed to save copy of generated image to Box Office: {bo_save_e}")
+                                
+                        saved_image = True
+                        break
+                    if not saved_image:
+                        raise Exception("No image returned in response parts from imagen-4.0-generate-001")
+                        
+                    # Reload the latest postcards list from disk to avoid overwriting concurrent edits
+                    postcards = load_json(POSTCARDS_FILE, [])
+                    existing_idx = next((i for i, p in enumerate(postcards) if p['clue_id'] == c['id']), None)
+                    postcard_entry = {
+                        "id": f"postcard_{c['id']}_{int(time.time())}" if existing_idx is None else postcards[existing_idx]["id"],
+                        "clue_id": c['id'],
+                        "pun_name": c['pun_name'],
+                        "original_name": c['original_name'],
+                        "image_prompt": image_prompt,
+                        "image_path": image_path,
+                        "art_style": style_key,
+                        "owner_response": c['owner_response'],
+                        "page_theme": c.get('page_theme', 'road_trip'),
+                        "status": "pending" if existing_idx is None else postcards[existing_idx].get("status", "pending")
+                    }
+                    
+                    if existing_idx is not None:
+                        postcards[existing_idx] = postcard_entry
+                    else:
+                        postcards.append(postcard_entry)
+                    new_postcards_count += 1
+                    save_json(POSTCARDS_FILE, postcards)
                 self.send_response(200)
                 self.send_header('Content-type', 'application/json')
                 self.end_headers()
@@ -1351,26 +1250,151 @@ class UnifiedRequestHandler(http.server.SimpleHTTPRequestHandler):
         else:
             self.send_error(404)
 
-def runway_alert_listener():
-    """Periodically check if staged puzzles <= threshold (default 10) and email iwandres@gmail.com."""
+def pipeline_listener():
+    import threading
+    import time
+    
+    print("[Pipeline Listener] Background thread started.")
+    
     while True:
+        # Check environment variable
+        gemini_key = os.environ.get("GEMINI_API_KEY")
+        if not gemini_key:
+            time.sleep(10)
+            continue
+            
         try:
-            agent = get_curation_agent()
-            status = agent.get_runway_status()
-            if status.get("is_low_runway") and status.get("enabled"):
-                res = agent.check_and_send_runway_alert(force=False)
-                if res.get("sent"):
-                    print(f"[Runway Alert] Sent low-runway alert to {status.get('recipient_email')}: {res.get('message')}")
+            # 1. Puns Generation Curation Cycle
+            landmarks = load_json(LANDMARKS_FILE, [])
+            puns = load_json(PUNS_FILE, [])
+            approved_landmarks = [lm for lm in landmarks if lm.get('status') == 'approved']
+            existing_puns_landmarks = {p['original_name'] for p in puns}
+            new_landmarks = [lm for lm in approved_landmarks if lm['name'] not in existing_puns_landmarks]
+            
+            if new_landmarks:
+                print(f"[Pipeline Listener] Found {len(new_landmarks)} pending approved landmarks. Generating puns in a batch of 5...")
+                from google import genai
+                from google.genai import types
+                client = genai.Client(api_key=gemini_key)
+                new_puns_count = 0
+                for lm in new_landmarks[:5]:
+                    prompt = f"""
+                    Create a list of 2-3 funny, clever wordplay puns based on the famous historical landmark or travel destination "{lm['name']}" (located in {lm.get('location', 'Unknown')}).
+                    A location pun should sound very similar to the original name but replace parts of it with a funny word (e.g. Waffle Tower instead of Eiffel Tower, Lover Museum instead of Louvre Museum, St. Peter's Bazooka instead of St. Peter's Basilica).
+                    
+                    Return a JSON array of strings exactly matching this schema:
+                    [
+                      "Pun Name 1",
+                      "Pun Name 2"
+                    ]
+                    """
+                    response = client.models.generate_content(
+                        model='gemini-2.5-flash',
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json"
+                        )
+                    )
+                    pun_candidates = json.loads(response.text)
+                    for candidate in pun_candidates:
+                        puns.append({
+                            "id": f"pun_{lm['name'].lower().replace(' ', '_')}_{int(time.time())}_{random.randint(100,999)}",
+                            "original_name": lm['name'],
+                            "location": lm.get('location', 'Unknown'),
+                            "pun_name": candidate,
+                            "status": "pending"
+                        })
+                        new_puns_count += 1
+                save_json(PUNS_FILE, puns)
+                print(f"[Pipeline Listener] Successfully generated {new_puns_count} puns.")
+                time.sleep(3) # Cool down
+                continue # Re-evaluate immediately
+                
+            # 2. Clues/Reviews Generation Curation Cycle
+            puns = load_json(PUNS_FILE, [])
+            clues = load_json(CLUES_FILE, [])
+            approved_puns = [p for p in puns if p.get('status') == 'approved']
+            existing_clues_puns = {c['pun_name'] for c in clues}
+            new_puns = [p for p in approved_puns if p['pun_name'] not in existing_clues_puns]
+            
+            if new_puns:
+                print(f"[Pipeline Listener] Found {len(new_puns)} pending approved puns. Generating reviews/clues in a batch of 5...")
+                from google import genai
+                from google.genai import types
+                client = genai.Client(api_key=gemini_key)
+                new_clues_count = 0
+                for p in new_puns[:5]:
+                    prompt = f"""
+                    We are building a comedy travel puzzle game. 
+                    The player needs to guess a location pun.
+                    The target location pun name is: "{p['pun_name']}" (which is a pun on the real landmark "{p['original_name']}").
+                    
+                    Your job is to generate 3 progressive clues (reviews) complaining about this location in an unhinged, comedic way.
+                    CRITICAL CONSTRAINT: Each clue MUST be a very short snippet, phrase, or sentence fragment (under 12-15 words). You can use sentence fragments noted/separated using '...' or similar punctuation (e.g., 'So drafty... holes everywhere... completely non-functional!'). Do NOT write long paragraphs or multiple full sentences.
+                    - Clue 1: An absurd, comical snippet or sentence fragment that includes a subtle, clever hint referencing both the geographical/cultural location of the original landmark (e.g. Paris/France for Eiffel Tower) and the wordplay of the pun, giving players a fair chance to solve the puzzle on the very first clue.
+                    - Clue 2: Another short comical snippet or sentence fragment providing additional details/hints about either the original landmark's actual features/location or the wordplay behind the pun.
+                    - Clue 3: A final short comical snippet or sentence fragment that makes the connection between the original landmark and the pun name very obvious (without explicitly naming either).
+                    
+                    Also generate a funny review title.
+                    Also generate a funny Reviewer Username (reviewer_name) that is thematically related to the parodied location or the complaint (e.g., 'SyrupSlinger' for Waffle Tower, 'SoggySouffle' for Eiffel Shower, 'BitterSingle' for Lover Museum). Do not include the '@' symbol in the JSON value.
+                    
+                    Also generate a 'Response from the Owner' (flavor text reply from management).
+                    CRITICAL: The Owner's POV is the manager of the ACTUAL historical landmark (e.g. the Eiffel Tower, the Louvre Museum, etc.). You are responding to a ridiculous 1-star TripAdvisor review from a traveler who has confused your actual historical landmark with a silly, literal pun name (e.g., Eiffel Towel, Waffle Tower, Lover Museum).
+                    The response must be short (under 2 sentences), highly sarcastic, and punchy, correcting the reviewer's absurd confusion by pointing out the actual nature of your landmark (e.g. that it is a 300-meter iron monument, a fine art museum, etc.) and why their complaint makes no sense.
+                    To bolster the response and make it highly contextual, the owner can directly reference a specific notable complaint or mistake made by the reviewer in the clues (e.g., trying to dry off with wrought iron, complaining about square indentations or wanting maple syrup on the girders). Do NOT mention the original landmark name in the response itself.
+                    The owner should occasionally reference the reviewer's username (reviewer_name) directly in their reply prefixed with '@' (e.g. 'Listen here, @DampCroissant...', 'Dear @DampCroissant...'), but vary it sometimes with general greetings like 'Dear Traveler' or 'Dear Adventurer'.
+                    
+                    Return a JSON object matching exactly this schema:
+                    {{
+                      "reviewer_name": "Username",
+                      "review_title": "Avoid at all costs!",
+                      "clue1": "Clue 1 text",
+                      "clue2": "Clue 2 text",
+                      "clue3": "Clue 3 text",
+                      "owner_response": "Owner response here",
+                      "page_theme": "The most appropriate travel theme name for this location out of: ancient_ruins, natural_wonders, historic_monuments, castles_cathedrals, bridges_canals, streets_squares, modern_skyscrapers"
+                    }}
+                    """
+                    response = client.models.generate_content(
+                        model='gemini-2.5-flash',
+                        contents=prompt,
+                        config=types.GenerateContentConfig(
+                            response_mime_type="application/json"
+                        )
+                    )
+                    generated = json.loads(response.text)
+                    clues.append({
+                        "id": f"clue_{p['id']}_{int(time.time())}_{random.randint(100,999)}",
+                        "pun_id": p['id'],
+                        "pun_name": p['pun_name'],
+                        "original_name": p['original_name'],
+                        "reviewer_name": generated.get("reviewer_name", "Anonymous"),
+                        "review_title": generated.get("review_title", "Avoid at all costs!"),
+                        "clue1": generated.get("clue1", ""),
+                        "clue2": generated.get("clue2", ""),
+                        "clue3": generated.get("clue3", ""),
+                        "clue4": generated.get("clue4", ""),
+                        "owner_response": generated.get("owner_response", ""),
+                        "page_theme": get_theme_for_landmark(p['original_name']),
+                        "status": "pending"
+                    })
+                    new_clues_count += 1
+                save_json(CLUES_FILE, clues)
+                print(f"[Pipeline Listener] Successfully generated {new_clues_count} clues.")
+                time.sleep(3) # Cool down
+                continue # Re-evaluate immediately
+                
         except Exception as e:
-            print(f"[Runway Alert] Check error: {e}")
-        time.sleep(3600)
-
+            print(f"[Pipeline Listener] Error in generation cycle: {e}")
+            
+        time.sleep(10) # check every 10 seconds if idle
 
 if __name__ == '__main__':
     socketserver.ThreadingTCPServer.allow_reuse_address = True
-    threading.Thread(target=runway_alert_listener, daemon=True).start()
+    import threading
+    t = threading.Thread(target=pipeline_listener, daemon=True)
+    t.start()
     with socketserver.ThreadingTCPServer(("", PORT), UnifiedRequestHandler) as httpd:
         print(f"Serving Consolidated Curation Server at http://localhost:{PORT}")
         httpd.serve_forever()
-
 
