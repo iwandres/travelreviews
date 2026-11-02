@@ -895,9 +895,11 @@ Sitemap: https://punfiction.io/sitemap.xml
     urls = [
         ("https://punfiction.io/", "1.0", "daily"),
         ("https://punfiction.io/travelreviews/", "1.0", "daily"),
+        ("https://punfiction.io/wordvine/", "1.0", "daily"),
         ("https://punfiction.io/travelreviews/landmarks/", "0.9", "daily"),
         ("https://punfiction.io/about.html", "0.8", "monthly"),
         ("https://punfiction.io/how-to-play-travelreviews.html", "0.8", "monthly"),
+        ("https://punfiction.io/how-to-play-wordvine.html", "0.8", "monthly"),
         ("https://punfiction.io/privacy.html", "0.6", "monthly"),
         ("https://punfiction.io/terms.html", "0.6", "monthly"),
     ]
