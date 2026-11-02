@@ -2119,7 +2119,7 @@ function triggerVictory() {
 
     ui.finalBossMovie.innerHTML = `
         <span id="final-boss-movie-text">Real Location: ${cleanName}</span>
-        <a id="link-landmark-guide" href="${landmarkGuideUrl}" class="landmark-guide-inline-link">📚 Read Landmark Field Guide ➔</a>
+        <a id="link-landmark-guide" href="${landmarkGuideUrl}" class="landmark-guide-inline-link">Landmark Field Guide</a>
     `;
     
     // Set Wikipedia and Google Maps search URLs
