@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="11">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=011" class="nav-pill primary">🎮 Play Challenge #011</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=011" class="nav-pill primary landmark-live-content">🎮 Play Challenge #011</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #011: Christ the Redeemer</span>
+        <span class="landmark-live-content">Challenge #011: Christ the Redeemer</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #011 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #011</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #011</span>
             </div>
-            <h1 class="page-title">Christ the Redeemer: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Rio&#x27;s Soapstone Art Deco Colossus Offers Sweeping Bay Views but Zero Sourdough Starter</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Rio de Janeiro, Brazil</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 22.9519° S, 43.2105° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ CrumbBum</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Unleavened Experience!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by CrumbBum • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Stale, crumbly statue overlooking Rio... zero redemption.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Stuck on a hill, arms spread... offering only dry, bland crumbs.&rdquo;</li>
-                        <li>&ldquo;Just a gigantic, stale bread man, offering no salvation.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=011" class="nav-pill primary">🎯 Solve Challenge #011 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #011!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 14, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Christ the Redeemer: A Field Guide</h2>
-            <p>Perched atop the 710-meter granite peak of Corcovado, Christ the Redeemer was first proposed in the 1850s by Vincentian priest Pedro Maria Boss, though nobody funded it until Rio&#x27;s Catholic archdiocese passed the hat in the 1920s. Brazilian engineer Heitor da Silva Costa and sculptor Paul Landowski rejected an early sketch showing Christ holding a globe like a bowling ball, settling instead on a thirty-meter reinforced-concrete figure with a twenty-eight-meter armspan. Because concrete cracks in tropical sun, thousands of parish women glued six million tiny triangular tiles of pale Swedish soapstone onto linen sheets, often writing relatives&#x27; names on the back before workers cemented them to the statue prior to its October 1931 unveiling.</p>
-            <p>Getting up Corcovado today via the red Swiss cog-wheel train takes twenty minutes of rattling through the Tijuca rainforest, followed by a viewing terrace so densely packed that extending both arms to mimic the statue guarantees slapping two strangers in the face. To capture the mandatory low-angle photograph without forty other tourists&#x27; heads in the frame, dozens of people lie flat on their backs on the hot stone pavement around the pedestal, creating a perilous obstacle course of sprawled limbs and expensive camera lenses. About forty percent of the time, a thick Atlantic cloud rolls onto the summit thirty seconds before your train arrives, turning the entire world above Christ&#x27;s kneecaps into a uniform sheet of wet gray flannel.</p>
-            <p>Even on a clear afternoon, the 635-ton monument failed to rise to the occasion for @CrumbBum, who rode the funicular up Corcovado expecting Crust the Redeemer. In a scathing review titled &#x27;Unleavened Experience!&#x27;, our carb-focused critic complained that the towering figure offered only &#x27;dry, bland crumbs&#x27; and resembled a &#x27;gigantic, stale bread man&#x27; overlooking Guanabara Bay. It takes an extraordinary devotion to artisanal baking to ascend two thousand feet up a Brazilian granite pinnacle, inspect six million hand-laid steatite tiles that survive six lightning strikes a year, and deduct four stars because the statue wasn&#x27;t proofed with active dry yeast and brushed with garlic butter.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Check the live Corcovado summit webcam before buying your cog-train ticket at Cosme Velho station, because once the mountain is wrapped in clouds you won&#x27;t even see the statue&#x27;s toes from ten feet away.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Christ+the+Redeemer" target="_blank" rel="noopener noreferrer">Read about Christ the Redeemer on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Christ+the+Redeemer+Rio+de+Janeiro,+Brazil" target="_blank" rel="noopener noreferrer">View Christ the Redeemer on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #011</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Christ the Redeemer: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Rio&#x27;s Soapstone Art Deco Colossus Offers Sweeping Bay Views but Zero Sourdough Starter</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=011" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #011</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Crust the Redeemer</p>
-                    <img src="../assets/cartoons/crust_the_redeemer_1783315359.webp" alt="Crust the Redeemer parody postcard of Christ the Redeemer" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Christ the Redeemer):</strong><br>
-                        &ldquo;Dear @CrumbBum, our 30-meter concrete and soapstone monument has graced Rio for almost a century, not a baker&#x27;s rack. We apologize if our magnificent statue didn&#x27;t quite satisfy your hunger for artisanal baked goods.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Rio de Janeiro, Brazil</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 22.9519° S, 43.2105° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ CrumbBum</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-010-angkor-wat.html" class="nav-pill">&larr; Prev: #010 Angkor Wat</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-012-colosseum.html" class="nav-pill">Next: #012 Colosseum &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Unleavened Experience!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by CrumbBum • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Stale, crumbly statue overlooking Rio... zero redemption.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Stuck on a hill, arms spread... offering only dry, bland crumbs.&rdquo;</li>
+                            <li>&ldquo;Just a gigantic, stale bread man, offering no salvation.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=011" class="nav-pill primary">🎯 Solve Challenge #011 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-099-brooklyn-bridge.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Christ the Redeemer: A Field Guide</h2>
+                <p>Perched atop the 710-meter granite peak of Corcovado, Christ the Redeemer was first proposed in the 1850s by Vincentian priest Pedro Maria Boss, though nobody funded it until Rio&#x27;s Catholic archdiocese passed the hat in the 1920s. Brazilian engineer Heitor da Silva Costa and sculptor Paul Landowski rejected an early sketch showing Christ holding a globe like a bowling ball, settling instead on a thirty-meter reinforced-concrete figure with a twenty-eight-meter armspan. Because concrete cracks in tropical sun, thousands of parish women glued six million tiny triangular tiles of pale Swedish soapstone onto linen sheets, often writing relatives&#x27; names on the back before workers cemented them to the statue prior to its October 1931 unveiling.</p>
+                <p>Getting up Corcovado today via the red Swiss cog-wheel train takes twenty minutes of rattling through the Tijuca rainforest, followed by a viewing terrace so densely packed that extending both arms to mimic the statue guarantees slapping two strangers in the face. To capture the mandatory low-angle photograph without forty other tourists&#x27; heads in the frame, dozens of people lie flat on their backs on the hot stone pavement around the pedestal, creating a perilous obstacle course of sprawled limbs and expensive camera lenses. About forty percent of the time, a thick Atlantic cloud rolls onto the summit thirty seconds before your train arrives, turning the entire world above Christ&#x27;s kneecaps into a uniform sheet of wet gray flannel.</p>
+                <p>Even on a clear afternoon, the 635-ton monument failed to rise to the occasion for @CrumbBum, who rode the funicular up Corcovado expecting Crust the Redeemer. In a scathing review titled &#x27;Unleavened Experience!&#x27;, our carb-focused critic complained that the towering figure offered only &#x27;dry, bland crumbs&#x27; and resembled a &#x27;gigantic, stale bread man&#x27; overlooking Guanabara Bay. It takes an extraordinary devotion to artisanal baking to ascend two thousand feet up a Brazilian granite pinnacle, inspect six million hand-laid steatite tiles that survive six lightning strikes a year, and deduct four stars because the statue wasn&#x27;t proofed with active dry yeast and brushed with garlic butter.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Check the live Corcovado summit webcam before buying your cog-train ticket at Cosme Velho station, because once the mountain is wrapped in clouds you won&#x27;t even see the statue&#x27;s toes from ten feet away.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Christ+the+Redeemer" target="_blank" rel="noopener noreferrer">Read about Christ the Redeemer on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Christ+the+Redeemer+Rio+de+Janeiro,+Brazil" target="_blank" rel="noopener noreferrer">View Christ the Redeemer on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=011" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #011</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Crust the Redeemer</p>
+                        <img src="../assets/cartoons/crust_the_redeemer_1783315359.webp" alt="Crust the Redeemer parody postcard of Christ the Redeemer" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Christ the Redeemer):</strong><br>
+                            &ldquo;Dear @CrumbBum, our 30-meter concrete and soapstone monument has graced Rio for almost a century, not a baker&#x27;s rack. We apologize if our magnificent statue didn&#x27;t quite satisfy your hunger for artisanal baked goods.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-010-angkor-wat.html" class="nav-pill">&larr; Prev: #010 Angkor Wat</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-012-colosseum.html" class="nav-pill">Next: #012 Colosseum &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-099-brooklyn-bridge.html" class="related-card" data-puzzle="99">
                 <span class="related-card-num">Challenge #099 • Hard</span>
                 <span class="related-card-title">Brooklyn Bridge</span>
                 <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;A total cruciferous nightmare!&rdquo;</span>
             </a>
-<a href="./challenge-100-galapagos-islands.html" class="related-card">
+<a href="./challenge-100-galapagos-islands.html" class="related-card" data-puzzle="100">
                 <span class="related-card-num">Challenge #100 • Hard</span>
                 <span class="related-card-title">Galapagos Islands</span>
                 <span class="related-card-sub">📍 Ecuador — &ldquo;A real neigh-mare!&rdquo;</span>
             </a>
-<a href="./challenge-104-atacama-desert.html" class="related-card">
+<a href="./challenge-104-atacama-desert.html" class="related-card" data-puzzle="104">
                 <span class="related-card-num">Challenge #104 • Hard</span>
                 <span class="related-card-title">Atacama Desert</span>
                 <span class="related-card-sub">📍 Northern Chile — &ldquo;Where&#x27;s the flavor?!&rdquo;</span>
             </a>
-<a href="./challenge-108-yellowstone-national-park.html" class="related-card">
+<a href="./challenge-108-yellowstone-national-park.html" class="related-card" data-puzzle="108">
                 <span class="related-card-num">Challenge #108 • Hard</span>
                 <span class="related-card-title">Yellowstone National Park</span>
                 <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Uncushioned Chaos!&rdquo;</span>
             </a>
-<a href="./challenge-112-machu-picchu.html" class="related-card">
+<a href="./challenge-112-machu-picchu.html" class="related-card" data-puzzle="112">
                 <span class="related-card-num">Challenge #112 • Easy</span>
                 <span class="related-card-title">Machu Picchu</span>
                 <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Definitely Not My Cup of Tea!&rdquo;</span>
             </a>
-<a href="./challenge-113-empire-state-building.html" class="related-card">
+<a href="./challenge-113-empire-state-building.html" class="related-card" data-puzzle="113">
                 <span class="related-card-num">Challenge #113 • Easy</span>
                 <span class="related-card-title">Empire State Building</span>
                 <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;You&#x27;re OUT-ragous!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-115-times-square.html" class="related-card peer-overflow" data-puzzle="115">
+                <span class="related-card-num">Challenge #115 • Medium</span>
+                <span class="related-card-title">Times Square</span>
+                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Utterly lacking in poetic justice!&rdquo;</span>
+            </a>
+<a href="./challenge-118-alcatraz-island.html" class="related-card peer-overflow" data-puzzle="118">
+                <span class="related-card-num">Challenge #118 • Hard</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Definitely not a solid experience.&rdquo;</span>
+            </a>
+<a href="./challenge-162-dunn-s-river-falls.html" class="related-card future-locked" data-puzzle="162">
+                <span class="related-card-num">Challenge #162 • Medium</span>
+                <span class="related-card-title">Dunn&#x27;s River Falls</span>
+                <span class="related-card-sub">📍 Ocho Rios, Jamaica — &ldquo;Where Are The Sprinkles?!&rdquo;</span>
+            </a>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
+            </a>
+<a href="./challenge-168-deception-island.html" class="related-card future-locked" data-puzzle="168">
+                <span class="related-card-num">Challenge #168 • Hard</span>
+                <span class="related-card-title">Deception Island</span>
+                <span class="related-card-sub">📍 South Shetland Islands, Antarctica — &ldquo;My vision for this trip was shattered!&rdquo;</span>
+            </a>
+<a href="./challenge-170-gros-morne-national-park.html" class="related-card future-locked" data-puzzle="170">
+                <span class="related-card-num">Challenge #170 • Hard</span>
+                <span class="related-card-title">Gros Morne National Park</span>
+                <span class="related-card-sub">📍 Newfoundland and Labrador, Canada — &ldquo;Horn-dously Misleading!&rdquo;</span>
+            </a>
+<a href="./challenge-171-land-s-end-arch.html" class="related-card future-locked" data-puzzle="171">
+                <span class="related-card-num">Challenge #171 • Hard</span>
+                <span class="related-card-title">Land&#x27;s End Arch</span>
+                <span class="related-card-sub">📍 Cabo San Lucas, Mexico — &ldquo;Where&#x27;s the Garnish?!&rdquo;</span>
+            </a>
+<a href="./challenge-175-willis-tower.html" class="related-card future-locked" data-puzzle="175">
+                <span class="related-card-num">Challenge #175 • Medium</span>
+                <span class="related-card-title">Willis Tower</span>
+                <span class="related-card-sub">📍 Chicago, USA — &ldquo;Where&#x27;s My Breakfast?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

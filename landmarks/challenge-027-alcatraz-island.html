@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="27">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=027" class="nav-pill primary">🎮 Play Challenge #027</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=027" class="nav-pill primary landmark-live-content">🎮 Play Challenge #027</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #027: Alcatraz Island</span>
+        <span class="landmark-live-content">Challenge #027: Alcatraz Island</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #027 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #027</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #027</span>
             </div>
-            <h1 class="page-title">Alcatraz Island: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">San Francisco Bay&#x27;s Former Federal Penitentiary Offers Chilly Sea Drafts and Zero Custom Tailoring</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 San Francisco, California, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 37.8270° N, 122.4230° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ TightPantsTerror</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Definitely NOT escape-proof!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by TightPantsTerror • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Foggy Bay drafts... my fly zipper snapped! California nightmare.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Hard to escape these stiff, scratchy seams. Brutal fabric!&rdquo;</li>
-                        <li>&ldquo;Felt imprisoned... these pants are impossible to get out of!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=027" class="nav-pill primary">🎯 Solve Challenge #027 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #027!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 30, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Alcatraz Island: A Field Guide</h2>
-            <p>Spanish naval lieutenant Juan Manuel de Ayala charted the twelve-acre sandstone outcrop in 1775 as La Isla de los Alcatraces (&#x27;Island of the Pelicans&#x27;), and by the 1850s the US Army had turned it into a harbour fortress and military brig before handing it to the Federal Bureau of Prisons in 1934. Designed to hold roughly three hundred incorrigible inmates including Al Capone, George &#x27;Machine Gun&#x27; Kelly, and Robert Stroud (who actually bred all his canaries in Leavenworth, Kansas, and was never allowed a single bird on the Rock), Alcatraz used one simple psychological torture: piped hot water in the showers. Wardens reasoned that prisoners accustomed to warm water would never survive swimming the 1.25 miles of fifty-three-degree bay currents to Fisherman&#x27;s Wharf.</p>
-            <p>Getting arrested in the thirties was considerably easier than getting a tourist ticket today; the official electric ferry from Pier 33 sells out weeks in advance, leaving unprepared vacationers to buy overpriced &#x27;Bay Cruise Around the Rock&#x27; tickets that circle the island without ever docking. Once ashore, you slog up a quarter-mile concrete switchback equivalent to a thirteen-story building while dodging nesting western gulls that aggressively guard their chicks right in the middle of the parade ground. Inside the main cellhouse, four hundred people wearing identical plastic headphones shuffle in eerie silence down &#x27;Broadway&#x27; as the audio tour narrated by former guards and inmates clangs cell doors shut in your ears.</p>
-            <p>Cold five-by-nine-foot concrete cells were the least of the complaints from @TightPantsTerror, who caught the morning boat across the bay expecting Alca-trousers Island. Under the headline &#x27;Definitely NOT escape-proof!&#x27;, our fashion-distressed reviewer lamented that a stiff Golden Gate draft snapped their fly zipper and complained of &#x27;stiff, scratchy seams&#x27; that were impossible to wriggle out of. While Frank Morris and the Anglin brothers famously spent six months in 1962 chipping through crumbling concrete air vents with stolen cafeteria spoons and gluing together a raft from fifty canvas raincoats, blaming the National Park Service because your chinos shrunk in the laundry is a novel legal defense.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Book the Night Tour sixty days ahead on the official Alcatraz City Cruises site so you can watch the sunset behind the Golden Gate Bridge and hear the cell-door demonstration after the day crowds leave.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcatraz+Island" target="_blank" rel="noopener noreferrer">Read about Alcatraz Island on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Alcatraz+Island+San+Francisco,+California,+USA" target="_blank" rel="noopener noreferrer">View Alcatraz Island on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #027</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Alcatraz Island: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">San Francisco Bay&#x27;s Former Federal Penitentiary Offers Chilly Sea Drafts and Zero Custom Tailoring</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=027" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #027</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Alca-trousers Island</p>
-                    <img src="../assets/cartoons/alca_trousers_island_1783435993.webp" alt="Alca-trousers Island parody postcard of Alcatraz Island" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Alcatraz Island):</strong><br>
-                        &ldquo;Dear @TightPantsTerror, while our island&#x27;s history is indeed escape-proof, we assure you this historic former federal prison is not a sartorial establishment. Complaining about &#x27;zippers&#x27; and &#x27;seams&#x27; here is quite bewildering given our infamous cell blocks.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 San Francisco, California, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 37.8270° N, 122.4230° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ TightPantsTerror</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-026-loch-ness.html" class="nav-pill">&larr; Prev: #026 Loch Ness</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-028-machu-picchu.html" class="nav-pill">Next: #028 Machu Picchu &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Definitely NOT escape-proof!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by TightPantsTerror • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Foggy Bay drafts... my fly zipper snapped! California nightmare.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Hard to escape these stiff, scratchy seams. Brutal fabric!&rdquo;</li>
+                            <li>&ldquo;Felt imprisoned... these pants are impossible to get out of!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=027" class="nav-pill primary">🎯 Solve Challenge #027 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-011-christ-the-redeemer.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Alcatraz Island: A Field Guide</h2>
+                <p>Spanish naval lieutenant Juan Manuel de Ayala charted the twelve-acre sandstone outcrop in 1775 as La Isla de los Alcatraces (&#x27;Island of the Pelicans&#x27;), and by the 1850s the US Army had turned it into a harbour fortress and military brig before handing it to the Federal Bureau of Prisons in 1934. Designed to hold roughly three hundred incorrigible inmates including Al Capone, George &#x27;Machine Gun&#x27; Kelly, and Robert Stroud (who actually bred all his canaries in Leavenworth, Kansas, and was never allowed a single bird on the Rock), Alcatraz used one simple psychological torture: piped hot water in the showers. Wardens reasoned that prisoners accustomed to warm water would never survive swimming the 1.25 miles of fifty-three-degree bay currents to Fisherman&#x27;s Wharf.</p>
+                <p>Getting arrested in the thirties was considerably easier than getting a tourist ticket today; the official electric ferry from Pier 33 sells out weeks in advance, leaving unprepared vacationers to buy overpriced &#x27;Bay Cruise Around the Rock&#x27; tickets that circle the island without ever docking. Once ashore, you slog up a quarter-mile concrete switchback equivalent to a thirteen-story building while dodging nesting western gulls that aggressively guard their chicks right in the middle of the parade ground. Inside the main cellhouse, four hundred people wearing identical plastic headphones shuffle in eerie silence down &#x27;Broadway&#x27; as the audio tour narrated by former guards and inmates clangs cell doors shut in your ears.</p>
+                <p>Cold five-by-nine-foot concrete cells were the least of the complaints from @TightPantsTerror, who caught the morning boat across the bay expecting Alca-trousers Island. Under the headline &#x27;Definitely NOT escape-proof!&#x27;, our fashion-distressed reviewer lamented that a stiff Golden Gate draft snapped their fly zipper and complained of &#x27;stiff, scratchy seams&#x27; that were impossible to wriggle out of. While Frank Morris and the Anglin brothers famously spent six months in 1962 chipping through crumbling concrete air vents with stolen cafeteria spoons and gluing together a raft from fifty canvas raincoats, blaming the National Park Service because your chinos shrunk in the laundry is a novel legal defense.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Book the Night Tour sixty days ahead on the official Alcatraz City Cruises site so you can watch the sunset behind the Golden Gate Bridge and hear the cell-door demonstration after the day crowds leave.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcatraz+Island" target="_blank" rel="noopener noreferrer">Read about Alcatraz Island on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Alcatraz+Island+San+Francisco,+California,+USA" target="_blank" rel="noopener noreferrer">View Alcatraz Island on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=027" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #027</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Alca-trousers Island</p>
+                        <img src="../assets/cartoons/alca_trousers_island_1783435993.webp" alt="Alca-trousers Island parody postcard of Alcatraz Island" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Alcatraz Island):</strong><br>
+                            &ldquo;Dear @TightPantsTerror, while our island&#x27;s history is indeed escape-proof, we assure you this historic former federal prison is not a sartorial establishment. Complaining about &#x27;zippers&#x27; and &#x27;seams&#x27; here is quite bewildering given our infamous cell blocks.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-026-loch-ness.html" class="nav-pill">&larr; Prev: #026 Loch Ness</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-028-machu-picchu.html" class="nav-pill">Next: #028 Machu Picchu &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-118-alcatraz-island.html" class="related-card" data-puzzle="118">
+                <span class="related-card-num">Challenge #118 • Hard</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Definitely not a solid experience.&rdquo;</span>
+            </a>
+<a href="./challenge-129-casa-rosada.html" class="related-card" data-puzzle="129">
+                <span class="related-card-num">Challenge #129 • Medium</span>
+                <span class="related-card-title">Casa Rosada</span>
+                <span class="related-card-sub">📍 Buenos Aires, Argentina — &ldquo;False Advertising for Fizz!&rdquo;</span>
+            </a>
+<a href="./challenge-130-tulum-ruins.html" class="related-card" data-puzzle="130">
+                <span class="related-card-num">Challenge #130 • Medium</span>
+                <span class="related-card-title">Tulum Ruins</span>
+                <span class="related-card-sub">📍 Tulum, Mexico — &ldquo;Seriously, no fish!&rdquo;</span>
+            </a>
+<a href="./challenge-134-parliament-hill.html" class="related-card" data-puzzle="134">
+                <span class="related-card-num">Challenge #134 • Medium</span>
+                <span class="related-card-title">Parliament Hill</span>
+                <span class="related-card-sub">📍 Ottawa, Ontario, Canada — &ldquo;A Grate Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-007-golden-gate-bridge.html" class="related-card" data-puzzle="7">
+                <span class="related-card-num">Challenge #007 • Medium</span>
+                <span class="related-card-title">Golden Gate Bridge</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;My produce went bad faster here!&rdquo;</span>
+            </a>
+<a href="./challenge-009-chichen-itza.html" class="related-card" data-puzzle="9">
+                <span class="related-card-num">Challenge #009 • Easy</span>
+                <span class="related-card-title">Chichen Itza</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Not exactly a wonder, more like a blunder!&rdquo;</span>
+            </a>
+<a href="./challenge-011-christ-the-redeemer.html" class="related-card peer-overflow" data-puzzle="11">
                 <span class="related-card-num">Challenge #011 • Easy</span>
                 <span class="related-card-title">Christ the Redeemer</span>
                 <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;Unleavened Experience!&rdquo;</span>
             </a>
-<a href="./challenge-013-panama-canal.html" class="related-card">
+<a href="./challenge-013-panama-canal.html" class="related-card peer-overflow" data-puzzle="13">
                 <span class="related-card-num">Challenge #013 • Hard</span>
                 <span class="related-card-title">Panama Canal</span>
                 <span class="related-card-sub">📍 Panama City, Panama — &ldquo;Definitely NOT a shortcut to dreamland.&rdquo;</span>
             </a>
-<a href="./challenge-016-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #016 • Hard</span>
-                <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;A Resounding Disappointment&rdquo;</span>
+<a href="./challenge-137-la-boca-caminito.html" class="related-card future-locked" data-puzzle="137">
+                <span class="related-card-num">Challenge #137 • Medium</span>
+                <span class="related-card-title">La Boca (Caminito)</span>
+                <span class="related-card-sub">📍 Buenos Aires, Argentina — &ldquo;My breakfast dreams, utterly shattered!&rdquo;</span>
             </a>
-<a href="./challenge-018-empire-state-building.html" class="related-card">
-                <span class="related-card-num">Challenge #018 • Medium</span>
-                <span class="related-card-title">Empire State Building</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Fang-tastic...ly Awful!&rdquo;</span>
+<a href="./challenge-141-the-strip-las-vegas.html" class="related-card future-locked" data-puzzle="141">
+                <span class="related-card-num">Challenge #141 • Hard</span>
+                <span class="related-card-title">The Strip, Las Vegas</span>
+                <span class="related-card-sub">📍 Las Vegas, Nevada, USA — &ldquo;Where&#x27;s the crunch?!&rdquo;</span>
             </a>
-<a href="./challenge-019-times-square.html" class="related-card">
-                <span class="related-card-num">Challenge #019 • Easy</span>
-                <span class="related-card-title">Times Square</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;A Real Squeeze!&rdquo;</span>
+<a href="./challenge-144-quebec-city-old-town.html" class="related-card future-locked" data-puzzle="144">
+                <span class="related-card-num">Challenge #144 • Hard</span>
+                <span class="related-card-title">Quebec City Old Town</span>
+                <span class="related-card-sub">📍 Quebec City, Canada — &ldquo;Zero Ketchup!&rdquo;</span>
             </a>
-<a href="./challenge-028-machu-picchu.html" class="related-card">
-                <span class="related-card-num">Challenge #028 • Medium</span>
-                <span class="related-card-title">Machu Picchu</span>
-                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;False Advertising on the Peak!&rdquo;</span>
+<a href="./challenge-153-cerro-monserrate.html" class="related-card future-locked" data-puzzle="153">
+                <span class="related-card-num">Challenge #153 • Medium</span>
+                <span class="related-card-title">Cerro Monserrate</span>
+                <span class="related-card-sub">📍 Bogotá, Colombia — &ldquo;No Monster Here, Just Mountains!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-154-the-pitons.html" class="related-card future-locked" data-puzzle="154">
+                <span class="related-card-num">Challenge #154 • Medium</span>
+                <span class="related-card-title">The Pitons</span>
+                <span class="related-card-sub">📍 Soufrière, St. Lucia — &ldquo;Not a single delicious pastry!&rdquo;</span>
+            </a>
+<a href="./challenge-155-arenal-volcano.html" class="related-card future-locked" data-puzzle="155">
+                <span class="related-card-num">Challenge #155 • Medium</span>
+                <span class="related-card-title">Arenal Volcano</span>
+                <span class="related-card-sub">📍 Alajuela Province, Costa Rica — &ldquo;Not the breakfast I ordered!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="101">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=101" class="nav-pill primary">🎮 Play Challenge #101</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=101" class="nav-pill primary landmark-live-content">🎮 Play Challenge #101</a>
         </nav>
     </header>
 
@@ -440,126 +477,183 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #101: Victoria Falls</span>
+        <span class="landmark-live-content">Challenge #101: Victoria Falls</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #101 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #101</span>
-                <span class="badge badge-region">🌎 Africa &amp; Middle East</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #101</span>
             </div>
-            <h1 class="page-title">Victoria Falls: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Five Hundred Million Liters of Zambezi River Per Minute and Zero Free-Range Poultry</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Livingstone, Zambia</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 17.9243° S, 25.8572° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ CluckyCritic</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Total Bird-en!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by CluckyCritic • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;African locale... expected mist, got more feathers than majesty!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Didn&#x27;t see a single rainbow, just endless bird droppings everywhere.&rdquo;</li>
-                        <li>&ldquo;Expected a mighty fall, got noisy, clucking avian chaos instead.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=101" class="nav-pill primary">🎯 Solve Challenge #101 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #101!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 12, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Victoria Falls: A Field Guide</h2>
-            <p>Long before Scottish missionary David Livingstone was paddled to the brink of the Zambezi River&#x27;s great chasm in 1855 and dutifully named it after his reigning monarch, the local Kololo and Toka-Leya peoples called the cataract Mosi-oa-Tunya, or &quot;The Smoke That Thunders.&quot; The name is entirely literal: here, the placid, mile-wide Zambezi abruptly plunges over the edge of a flat basalt plateau into a transverse fissure less than two hundred feet across and three hundred and fifty-four feet deep. Because the entire volume of the river is compressed into a narrow zig-zagging gorge carved out of ancient volcanic fractures, the impact sends a permanent column of spray sixteen hundred feet into the air, visible from thirty miles away across the dry woodland of Zambia and Zimbabwe.</p>
-            <p>What your experience of Victoria Falls looks like depends entirely on which month you show up and how much you enjoy walking through an automatic car wash with your clothes on. At peak flood in April and May, five hundred million liters of water cascade over the lip every sixty seconds, generating an upward rainstorm along the Knife-Edge Bridge that penetrates every known brand of waterproof jacket within ten seconds. Conversely, if you visit the Zambian side at the end of the dry season in November, the Eastern Cataract slows to a polite trickle over bare black basalt, leaving tourists to peer into dry rock pools while cheeky Chacma baboons raid unattended backpacks near the curio stalls.</p>
-            <p>None of this hydrological power satisfied @CluckyCritic, who titled their review &quot;Total Bird-en!&quot; and complained of finding &quot;noisy, clucking avian chaos&quot; and &quot;endless bird droppings&quot; instead of a waterfall. Showing up on the border of Zambia and Zimbabwe expecting &quot;Victoria&#x27;s Fowls&quot; to be a regal Victorian chicken coop is an ambitious geographical error, even for the internet. While the cliffs of the Batoka Gorge do host rare Taita falcons and black eagles, anyone standing beside the largest curtain of falling water on the planet and complaining about barnyard poultry has taken a very wrong turn at Livingstone airport.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Put your phone and passport inside a sealed zip-top bag before walking the rainforest path, and bring crisp US bills issued after 2013 for the KAZA Univisa at the border.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Victoria+Falls" target="_blank" rel="noopener noreferrer">Read about Victoria Falls on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Victoria+Falls+Livingstone,+Zambia" target="_blank" rel="noopener noreferrer">View Victoria Falls on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #101</span>
+                    <span class="badge badge-region">🌎 Africa &amp; Middle East</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Victoria Falls: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Five Hundred Million Liters of Zambezi River Per Minute and Zero Free-Range Poultry</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=101" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #101</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Victoria&#x27;s Fowls</p>
-                    <img src="../assets/cartoons/victoria&#x27;s_fowls_1788148791.webp" alt="Victoria&#x27;s Fowls parody postcard of Victoria Falls" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Victoria Falls):</strong><br>
-                        &ldquo;Dear @CluckyCritic, our majestic natural wonder is millions of liters of thundering water, not a bird coop. Perhaps you&#x27;re looking for an aviary, not a grand cascade?&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Livingstone, Zambia</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 17.9243° S, 25.8572° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ CluckyCritic</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-100-galapagos-islands.html" class="nav-pill">&larr; Prev: #100 Galapagos Islands</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-102-valley-of-the-kings.html" class="nav-pill">Next: #102 Valley of the Kings &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Total Bird-en!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by CluckyCritic • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;African locale... expected mist, got more feathers than majesty!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Didn&#x27;t see a single rainbow, just endless bird droppings everywhere.&rdquo;</li>
+                            <li>&ldquo;Expected a mighty fall, got noisy, clucking avian chaos instead.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=101" class="nav-pill primary">🎯 Solve Challenge #101 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Africa &amp; Middle East</h2>
-            <div class="related-grid">
-                <a href="./challenge-004-pyramids-of-giza.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Victoria Falls: A Field Guide</h2>
+                <p>Long before Scottish missionary David Livingstone was paddled to the brink of the Zambezi River&#x27;s great chasm in 1855 and dutifully named it after his reigning monarch, the local Kololo and Toka-Leya peoples called the cataract Mosi-oa-Tunya, or &quot;The Smoke That Thunders.&quot; The name is entirely literal: here, the placid, mile-wide Zambezi abruptly plunges over the edge of a flat basalt plateau into a transverse fissure less than two hundred feet across and three hundred and fifty-four feet deep. Because the entire volume of the river is compressed into a narrow zig-zagging gorge carved out of ancient volcanic fractures, the impact sends a permanent column of spray sixteen hundred feet into the air, visible from thirty miles away across the dry woodland of Zambia and Zimbabwe.</p>
+                <p>What your experience of Victoria Falls looks like depends entirely on which month you show up and how much you enjoy walking through an automatic car wash with your clothes on. At peak flood in April and May, five hundred million liters of water cascade over the lip every sixty seconds, generating an upward rainstorm along the Knife-Edge Bridge that penetrates every known brand of waterproof jacket within ten seconds. Conversely, if you visit the Zambian side at the end of the dry season in November, the Eastern Cataract slows to a polite trickle over bare black basalt, leaving tourists to peer into dry rock pools while cheeky Chacma baboons raid unattended backpacks near the curio stalls.</p>
+                <p>None of this hydrological power satisfied @CluckyCritic, who titled their review &quot;Total Bird-en!&quot; and complained of finding &quot;noisy, clucking avian chaos&quot; and &quot;endless bird droppings&quot; instead of a waterfall. Showing up on the border of Zambia and Zimbabwe expecting &quot;Victoria&#x27;s Fowls&quot; to be a regal Victorian chicken coop is an ambitious geographical error, even for the internet. While the cliffs of the Batoka Gorge do host rare Taita falcons and black eagles, anyone standing beside the largest curtain of falling water on the planet and complaining about barnyard poultry has taken a very wrong turn at Livingstone airport.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Put your phone and passport inside a sealed zip-top bag before walking the rainforest path, and bring crisp US bills issued after 2013 for the KAZA Univisa at the border.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Victoria+Falls" target="_blank" rel="noopener noreferrer">Read about Victoria Falls on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Victoria+Falls+Livingstone,+Zambia" target="_blank" rel="noopener noreferrer">View Victoria Falls on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=101" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #101</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Victoria&#x27;s Fowls</p>
+                        <img src="../assets/cartoons/victoria&#x27;s_fowls_1788148791.webp" alt="Victoria&#x27;s Fowls parody postcard of Victoria Falls" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Victoria Falls):</strong><br>
+                            &ldquo;Dear @CluckyCritic, our majestic natural wonder is millions of liters of thundering water, not a bird coop. Perhaps you&#x27;re looking for an aviary, not a grand cascade?&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-100-galapagos-islands.html" class="nav-pill">&larr; Prev: #100 Galapagos Islands</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-102-valley-of-the-kings.html" class="nav-pill">Next: #102 Valley of the Kings &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Africa &amp; Middle East</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-132-djemaa-el-fna.html" class="related-card" data-puzzle="132">
+                <span class="related-card-num">Challenge #132 • Medium</span>
+                <span class="related-card-title">Djemaa el-Fna</span>
+                <span class="related-card-sub">📍 Marrakesh, Morocco — &ldquo;Where&#x27;s the breeze?!&rdquo;</span>
+            </a>
+<a href="./challenge-004-pyramids-of-giza.html" class="related-card" data-puzzle="4">
                 <span class="related-card-num">Challenge #004 • Medium</span>
                 <span class="related-card-title">Pyramids of Giza</span>
                 <span class="related-card-sub">📍 Giza, Egypt — &ldquo;Ancient, dusty, and full of complaints!&rdquo;</span>
             </a>
-<a href="./challenge-008-petra.html" class="related-card">
+<a href="./challenge-008-petra.html" class="related-card" data-puzzle="8">
                 <span class="related-card-num">Challenge #008 • Hard</span>
                 <span class="related-card-title">Petra</span>
                 <span class="related-card-sub">📍 Ma&#x27;an Governorate, Jordan — &ldquo;Utterly Crummy, Not Crumbly!&rdquo;</span>
             </a>
-<a href="./challenge-020-burj-khalifa.html" class="related-card">
+<a href="./challenge-020-burj-khalifa.html" class="related-card" data-puzzle="20">
                 <span class="related-card-num">Challenge #020 • Easy</span>
                 <span class="related-card-title">Burj Khalifa</span>
                 <span class="related-card-sub">📍 Dubai, UAE — &ldquo;More Grease Than Glamour!&rdquo;</span>
             </a>
-<a href="./challenge-102-valley-of-the-kings.html" class="related-card">
+<a href="./challenge-102-valley-of-the-kings.html" class="related-card" data-puzzle="102">
                 <span class="related-card-num">Challenge #102 • Easy</span>
                 <span class="related-card-title">Valley of the Kings</span>
                 <span class="related-card-sub">📍 Luxor, Egypt — &ldquo;More like Valley of the Crings!&rdquo;</span>
             </a>
-<a href="./challenge-114-petra.html" class="related-card">
+<a href="./challenge-114-petra.html" class="related-card" data-puzzle="114">
                 <span class="related-card-num">Challenge #114 • Hard</span>
                 <span class="related-card-title">Petra</span>
                 <span class="related-card-sub">📍 Ma&#x27;an Governorate, Jordan — &ldquo;Absolutely Rock Bottom Experience!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-128-blyde-river-canyon.html" class="related-card peer-overflow" data-puzzle="128">
+                <span class="related-card-num">Challenge #128 • Medium</span>
+                <span class="related-card-title">Blyde River Canyon</span>
+                <span class="related-card-sub">📍 Mpumalanga, South Africa — &ldquo;Not a single edible layer!&rdquo;</span>
+            </a>
+<a href="./challenge-139-mount-sinai.html" class="related-card future-locked" data-puzzle="139">
+                <span class="related-card-num">Challenge #139 • Medium</span>
+                <span class="related-card-title">Mount Sinai</span>
+                <span class="related-card-sub">📍 South Sinai Governorate, Egypt — &ldquo;Terrible!&rdquo;</span>
+            </a>
+<a href="./challenge-140-khan-el-khalili.html" class="related-card future-locked" data-puzzle="140">
+                <span class="related-card-num">Challenge #140 • Hard</span>
+                <span class="related-card-title">Khan el-Khalili</span>
+                <span class="related-card-sub">📍 Cairo, Egypt — &ldquo;Comb-pletely Useless!&rdquo;</span>
+            </a>
+<a href="./challenge-145-olduvai-gorge.html" class="related-card future-locked" data-puzzle="145">
+                <span class="related-card-num">Challenge #145 • Medium</span>
+                <span class="related-card-title">Olduvai Gorge</span>
+                <span class="related-card-sub">📍 Ngorongoro Conservation Area, Tanzania — &ldquo;Not a Single Slice!&rdquo;</span>
+            </a>
+<a href="./challenge-150-jemaa-el-fnaa.html" class="related-card future-locked" data-puzzle="150">
+                <span class="related-card-num">Challenge #150 • Medium</span>
+                <span class="related-card-title">Jemaa el-Fnaa</span>
+                <span class="related-card-sub">📍 Marrakesh, Morocco — &ldquo;Flan-tastic FAIL!&rdquo;</span>
+            </a>
+<a href="./challenge-152-mount-kenya.html" class="related-card future-locked" data-puzzle="152">
+                <span class="related-card-num">Challenge #152 • Medium</span>
+                <span class="related-card-title">Mount Kenya</span>
+                <span class="related-card-sub">📍 Kenya — &ldquo;No Cheese, No Charm, No CHIRP!&rdquo;</span>
+            </a>
+<a href="./challenge-165-babylon.html" class="related-card future-locked" data-puzzle="165">
+                <span class="related-card-num">Challenge #165 • Medium</span>
+                <span class="related-card-title">Babylon</span>
+                <span class="related-card-sub">📍 Hillah, Iraq — &ldquo;No Melons Here. Total Scam!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -573,5 +667,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

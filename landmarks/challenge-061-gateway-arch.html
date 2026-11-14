@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="61">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=061" class="nav-pill primary">🎮 Play Challenge #061</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=061" class="nav-pill primary landmark-live-content">🎮 Play Challenge #061</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #061: Gateway Arch</span>
+        <span class="landmark-live-content">Challenge #061: Gateway Arch</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #061 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #061</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #061</span>
             </div>
-            <h1 class="page-title">Gateway Arch: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Six Hundred Feet of Stainless Steel, Zero Semi-Aquatic Reptiles</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 St. Louis, Missouri, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 38.6247° N, 90.1848° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ SwampCritter</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Worst Petting Zoo Ever!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by SwampCritter • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Sticky humidity... watched a gator... totally blocked the river view!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Kept hissing... couldn&#x27;t even reach the top for a selfie... so much biting!&rdquo;</li>
-                        <li>&ldquo;A massive, green, toothy curve... blocking the whole city... what an arch!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=061" class="nav-pill primary">🎯 Solve Challenge #061 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #061!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>September 2, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Gateway Arch: A Field Guide</h2>
-            <p>When Finnish-American architect Eero Saarinen won the 1947 competition to design a riverfront memorial in St. Louis, organizers accidentally sent the victory telegram to his famous father, Eliel Saarinen, prompting the family to celebrate the wrong winner with champagne for three days before a clerk corrected the typo. Built between 1963 and 1965, the 630-foot monument is a weighted catenary curve made of hollow stainless-steel triangles. Engineers calculated that if the two rising legs missed meeting at the apex by even a sixty-fourth of an inch, the whole structure would look like a gigantic bent paperclip. On the final day in October 1965, midday sunshine expanded the south leg, forcing the St. Louis Fire Department to hose down the steel so the keystone wedge could be jammed in.</p>
-            <p>Today, visiting the monument requires descending into an underground concrete bunker to board a tram system designed in two weeks on a kitchen table by Dick Bowser, a man whose previous claim to fame was inventing mechanized parking-garage elevators. Five adult strangers are folded like lawn chairs into a five-foot white fiberglass barrel that clanks and pivots up the dark interior of the leg like a Ferris wheel trapped inside a chimney. At the summit, you get ten minutes in a narrow, gently swaying hallway where sixty people press their foreheads against tiny glass windows the size of microwave doors to squint at East St. Louis grain elevators and mud-brown barges crawling down the Mississippi River.</p>
-            <p>Then there is SwampCritter, who arrived on the Missouri riverfront expecting a reptile enclosure under the impression that the landmark was called the &quot;Gator-way Arch.&quot; Writing under the banner &quot;Worst Petting Zoo Ever!&quot;, our reviewer complains of sticky humidity and claims a giant green, toothy creature hissed and blocked the river view. While St. Louis in July does possess the atmospheric moisture of an alligator nostril, mistaking nine hundred tons of polished Pittsburgh stainless steel for a snapping ambush predator requires a bold commitment to zoological confusion. At no point in National Park Service history has the monument bitten a tourist, though the tiny tram pods have certainly chewed up a few claustrophobics.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> If you cannot handle riding inside a rotating washing-machine drum with four sweaty strangers from Iowa, admire the steel curve from the grass outside and skip the tram ticket.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Gateway+Arch" target="_blank" rel="noopener noreferrer">Read about Gateway Arch on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Gateway+Arch+St.+Louis,+Missouri,+USA" target="_blank" rel="noopener noreferrer">View Gateway Arch on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #061</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Gateway Arch: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Six Hundred Feet of Stainless Steel, Zero Semi-Aquatic Reptiles</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=061" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #061</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Gator-way Arch</p>
-                    <img src="../assets/cartoons/gator_way_arch_1788148208.webp" alt="Gator-way Arch parody postcard of Gateway Arch" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Gateway Arch):</strong><br>
-                        &ldquo;Dear @SwampCritter, our 630-foot stainless steel monument has never hissed or bitten. It is a national monument, not a swamp creature, designed for views, not for &#x27;gator teeth&#x27;.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 St. Louis, Missouri, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 38.6247° N, 90.1848° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ SwampCritter</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-060-palace-of-knossos.html" class="nav-pill">&larr; Prev: #060 Palace of Knossos</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-062-eiffel-tower.html" class="nav-pill">Next: #062 Eiffel Tower &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Worst Petting Zoo Ever!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by SwampCritter • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Sticky humidity... watched a gator... totally blocked the river view!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Kept hissing... couldn&#x27;t even reach the top for a selfie... so much biting!&rdquo;</li>
+                            <li>&ldquo;A massive, green, toothy curve... blocking the whole city... what an arch!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=061" class="nav-pill primary">🎯 Solve Challenge #061 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-097-copacabana-beach.html" class="related-card">
-                <span class="related-card-num">Challenge #097 • Medium</span>
-                <span class="related-card-title">Copacabana Beach</span>
-                <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;This place is rotten!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Gateway Arch: A Field Guide</h2>
+                <p>When Finnish-American architect Eero Saarinen won the 1947 competition to design a riverfront memorial in St. Louis, organizers accidentally sent the victory telegram to his famous father, Eliel Saarinen, prompting the family to celebrate the wrong winner with champagne for three days before a clerk corrected the typo. Built between 1963 and 1965, the 630-foot monument is a weighted catenary curve made of hollow stainless-steel triangles. Engineers calculated that if the two rising legs missed meeting at the apex by even a sixty-fourth of an inch, the whole structure would look like a gigantic bent paperclip. On the final day in October 1965, midday sunshine expanded the south leg, forcing the St. Louis Fire Department to hose down the steel so the keystone wedge could be jammed in.</p>
+                <p>Today, visiting the monument requires descending into an underground concrete bunker to board a tram system designed in two weeks on a kitchen table by Dick Bowser, a man whose previous claim to fame was inventing mechanized parking-garage elevators. Five adult strangers are folded like lawn chairs into a five-foot white fiberglass barrel that clanks and pivots up the dark interior of the leg like a Ferris wheel trapped inside a chimney. At the summit, you get ten minutes in a narrow, gently swaying hallway where sixty people press their foreheads against tiny glass windows the size of microwave doors to squint at East St. Louis grain elevators and mud-brown barges crawling down the Mississippi River.</p>
+                <p>Then there is SwampCritter, who arrived on the Missouri riverfront expecting a reptile enclosure under the impression that the landmark was called the &quot;Gator-way Arch.&quot; Writing under the banner &quot;Worst Petting Zoo Ever!&quot;, our reviewer complains of sticky humidity and claims a giant green, toothy creature hissed and blocked the river view. While St. Louis in July does possess the atmospheric moisture of an alligator nostril, mistaking nine hundred tons of polished Pittsburgh stainless steel for a snapping ambush predator requires a bold commitment to zoological confusion. At no point in National Park Service history has the monument bitten a tourist, though the tiny tram pods have certainly chewed up a few claustrophobics.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> If you cannot handle riding inside a rotating washing-machine drum with four sweaty strangers from Iowa, admire the steel curve from the grass outside and skip the tram ticket.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Gateway+Arch" target="_blank" rel="noopener noreferrer">Read about Gateway Arch on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Gateway+Arch+St.+Louis,+Missouri,+USA" target="_blank" rel="noopener noreferrer">View Gateway Arch on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=061" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #061</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Gator-way Arch</p>
+                        <img src="../assets/cartoons/gator_way_arch_1788148208.webp" alt="Gator-way Arch parody postcard of Gateway Arch" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Gateway Arch):</strong><br>
+                            &ldquo;Dear @SwampCritter, our 630-foot stainless steel monument has never hissed or bitten. It is a national monument, not a swamp creature, designed for views, not for &#x27;gator teeth&#x27;.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-060-palace-of-knossos.html" class="nav-pill">&larr; Prev: #060 Palace of Knossos</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-062-eiffel-tower.html" class="nav-pill">Next: #062 Eiffel Tower &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-073-grand-canyon.html" class="related-card" data-puzzle="73">
+                <span class="related-card-num">Challenge #073 • Easy</span>
+                <span class="related-card-title">Grand Canyon</span>
+                <span class="related-card-sub">📍 Arizona, USA — &ldquo;More like Grand PAIN-yon!&rdquo;</span>
             </a>
-<a href="./challenge-098-nazca-lines.html" class="related-card">
-                <span class="related-card-num">Challenge #098 • Hard</span>
-                <span class="related-card-title">Nazca Lines</span>
-                <span class="related-card-sub">📍 Nazca, Peru — &ldquo;Warning: Extreme Pucker Factor!&rdquo;</span>
-            </a>
-<a href="./challenge-099-brooklyn-bridge.html" class="related-card">
-                <span class="related-card-num">Challenge #099 • Hard</span>
-                <span class="related-card-title">Brooklyn Bridge</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;A total cruciferous nightmare!&rdquo;</span>
-            </a>
-<a href="./challenge-100-galapagos-islands.html" class="related-card">
-                <span class="related-card-num">Challenge #100 • Hard</span>
-                <span class="related-card-title">Galapagos Islands</span>
-                <span class="related-card-sub">📍 Ecuador — &ldquo;A real neigh-mare!&rdquo;</span>
-            </a>
-<a href="./challenge-104-atacama-desert.html" class="related-card">
-                <span class="related-card-num">Challenge #104 • Hard</span>
-                <span class="related-card-title">Atacama Desert</span>
-                <span class="related-card-sub">📍 Northern Chile — &ldquo;Where&#x27;s the flavor?!&rdquo;</span>
-            </a>
-<a href="./challenge-108-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #108 • Hard</span>
+<a href="./challenge-075-yellowstone-national-park.html" class="related-card" data-puzzle="75">
+                <span class="related-card-num">Challenge #075 • Easy</span>
                 <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Uncushioned Chaos!&rdquo;</span>
+                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Expected Fiery, Got Sleepy.&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-082-alcatraz-island.html" class="related-card" data-puzzle="82">
+                <span class="related-card-num">Challenge #082 • Medium</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Sentenced to Sobriety!&rdquo;</span>
+            </a>
+<a href="./challenge-083-machu-picchu.html" class="related-card" data-puzzle="83">
+                <span class="related-card-num">Challenge #083 • Medium</span>
+                <span class="related-card-title">Machu Picchu</span>
+                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Lost my sole, found a stench!&rdquo;</span>
+            </a>
+<a href="./challenge-084-chichen-itza.html" class="related-card" data-puzzle="84">
+                <span class="related-card-num">Challenge #084 • Medium</span>
+                <span class="related-card-title">Chichen Itza</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Unbearably Itchy!&rdquo;</span>
+            </a>
+<a href="./challenge-086-tikal.html" class="related-card" data-puzzle="86">
+                <span class="related-card-num">Challenge #086 • Medium</span>
+                <span class="related-card-title">Tikal</span>
+                <span class="related-card-sub">📍 Peten, Guatemala — &ldquo;My Sides Still Ache!&rdquo;</span>
+            </a>
+<a href="./challenge-090-kennedy-space-center.html" class="related-card peer-overflow" data-puzzle="90">
+                <span class="related-card-num">Challenge #090 • Hard</span>
+                <span class="related-card-title">Kennedy Space Center</span>
+                <span class="related-card-sub">📍 Merritt Island, Florida, USA — &ldquo;More like Kennedy Waste Center!&rdquo;</span>
+            </a>
+<a href="./challenge-091-everglades-national-park.html" class="related-card peer-overflow" data-puzzle="91">
+                <span class="related-card-num">Challenge #091 • Hard</span>
+                <span class="related-card-title">Everglades National Park</span>
+                <span class="related-card-sub">📍 Florida, USA — &ldquo;A Glaze-ing Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-153-cerro-monserrate.html" class="related-card future-locked" data-puzzle="153">
+                <span class="related-card-num">Challenge #153 • Medium</span>
+                <span class="related-card-title">Cerro Monserrate</span>
+                <span class="related-card-sub">📍 Bogotá, Colombia — &ldquo;No Monster Here, Just Mountains!&rdquo;</span>
+            </a>
+<a href="./challenge-154-the-pitons.html" class="related-card future-locked" data-puzzle="154">
+                <span class="related-card-num">Challenge #154 • Medium</span>
+                <span class="related-card-title">The Pitons</span>
+                <span class="related-card-sub">📍 Soufrière, St. Lucia — &ldquo;Not a single delicious pastry!&rdquo;</span>
+            </a>
+<a href="./challenge-155-arenal-volcano.html" class="related-card future-locked" data-puzzle="155">
+                <span class="related-card-num">Challenge #155 • Medium</span>
+                <span class="related-card-title">Arenal Volcano</span>
+                <span class="related-card-sub">📍 Alajuela Province, Costa Rica — &ldquo;Not the breakfast I ordered!&rdquo;</span>
+            </a>
+<a href="./challenge-161-lake-titicaca.html" class="related-card future-locked" data-puzzle="161">
+                <span class="related-card-num">Challenge #161 • Medium</span>
+                <span class="related-card-title">Lake Titicaca</span>
+                <span class="related-card-sub">📍 Puno, Peru — &ldquo;Where&#x27;s the Titi-CAKE?!&rdquo;</span>
+            </a>
+<a href="./challenge-162-dunn-s-river-falls.html" class="related-card future-locked" data-puzzle="162">
+                <span class="related-card-num">Challenge #162 • Medium</span>
+                <span class="related-card-title">Dunn&#x27;s River Falls</span>
+                <span class="related-card-sub">📍 Ocho Rios, Jamaica — &ldquo;Where Are The Sprinkles?!&rdquo;</span>
+            </a>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="18">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=018" class="nav-pill primary">🎮 Play Challenge #018</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=018" class="nav-pill primary landmark-live-content">🎮 Play Challenge #018</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #018: Empire State Building</span>
+        <span class="landmark-live-content">Challenge #018: Empire State Building</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #018 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #018</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #018</span>
             </div>
-            <h1 class="page-title">Empire State Building: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Midtown Manhattan&#x27;s 102-Story Art Deco Skyscraper Contains Zero Velvet Coffins in the Basement</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 New York City, New York, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 40.7484° N, 73.9857° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ NightCrawlerNY</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Fang-tastic...ly Awful!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by NightCrawlerNY • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Imperial floors... all filled with nocturnal types... and not a single mirror!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Elevators go straight to the crypt... views are bloody awful... literally!&rdquo;</li>
-                        <li>&ldquo;This &#x27;state&#x27; of affairs truly sucks... and not in a good, historic way!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=018" class="nav-pill primary">🎯 Solve Challenge #018 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #018!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 21, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Empire State Building: A Field Guide</h2>
-            <p>Constructed during the depths of the Great Depression in an astonishing 410 days, the Empire State Building rose at a pace of four and a half stories per week as 3,400 Mohawk ironworkers and European immigrant riveters bolted together 57,000 tons of Pittsburgh steel. Financiers John Jakob Raskob and Al Smith topped the 381-meter tower with a 61-meter mooring mast intended for transatlantic dirigibles, where passengers were supposed to stroll down an open gangplank 1,250 feet above Fifth Avenue; the scheme was quietly abandoned after a Navy airship tried docking in forty-mile-per-hour updrafts in 1931 and nearly stood on its nose. Because so few tenants could afford offices in 1931, wags nicknamed it the &#x27;Empty State Building,&#x27; and observation-deck ticket sales alone kept the lights on.</p>
-            <p>Reaching the 86th-floor open-air observation deck today requires surviving a forty-five-minute indoor labyrinth on the second floor that winds past museum exhibits about nineties rom-coms, a giant robotic King Kong hand poking through fake office plaster, and three separate mandatory green-screen photo booths where staff attempt to sell you a thirty-five-dollar souvenir print of yourself looking tired in front of a fake skyline. Two express elevator rides later, you step out onto the wrap-around terrace behind steel suicide-fence bars, jostling for six inches of parapet space in a biting Hudson River crosswind while listening to a heavy coin-operated steel binocular click shut just before you focus on the Chrysler Building.</p>
-            <p>Bright fluorescent lobby lighting and daylight views were a mortal insult to @NightCrawlerNY, who crept onto West 34th Street after midnight expecting the Vampire State Building. Firing off a one-star review titled &#x27;Fang-tastic...ly Awful!&#x27;, our nocturnal visitor complained that the elevators went to the 86th floor instead of a damp Carpathian crypt, and noted with disgust that the Art Deco brass restrooms were full of mirrors. Admittedly, Manhattan commercial real estate has drawn plenty of bloodsuckers since 1931, but blaming architects Shreve, Lamb &amp; Harmon for failing to install gargoyle perches and O-negative juice bars on the 102nd floor seems slightly unfair.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Skip the extra thirty-dollar upcharge for the cramped, glassed-in 102nd floor and stick to the open-air 86th-floor deck after 10:00 PM when the tour groups thin out.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Empire+State+Building" target="_blank" rel="noopener noreferrer">Read about Empire State Building on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Empire+State+Building+New+York+City,+New+York,+USA" target="_blank" rel="noopener noreferrer">View Empire State Building on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #018</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Empire State Building: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Midtown Manhattan&#x27;s 102-Story Art Deco Skyscraper Contains Zero Velvet Coffins in the Basement</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=018" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #018</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Vampire State Building</p>
-                    <img src="../assets/cartoons/vampire_state_building_1783396404.webp" alt="Vampire State Building parody postcard of Empire State Building" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Empire State Building):</strong><br>
-                        &ldquo;Dear @NightCrawlerNY, our iconic 102-story landmark is built for human admiration and unparalleled city views, not as a reflection-free zone for the undead. If you&#x27;re seeking bloodsuckers, I suggest you investigate New York&#x27;s real estate market.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 New York City, New York, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 40.7484° N, 73.9857° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ NightCrawlerNY</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-017-leaning-tower-of-pisa.html" class="nav-pill">&larr; Prev: #017 Leaning Tower of Pisa</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-019-times-square.html" class="nav-pill">Next: #019 Times Square &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Fang-tastic...ly Awful!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by NightCrawlerNY • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Imperial floors... all filled with nocturnal types... and not a single mirror!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Elevators go straight to the crypt... views are bloody awful... literally!&rdquo;</li>
+                            <li>&ldquo;This &#x27;state&#x27; of affairs truly sucks... and not in a good, historic way!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=018" class="nav-pill primary">🎯 Solve Challenge #018 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-061-gateway-arch.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Empire State Building: A Field Guide</h2>
+                <p>Constructed during the depths of the Great Depression in an astonishing 410 days, the Empire State Building rose at a pace of four and a half stories per week as 3,400 Mohawk ironworkers and European immigrant riveters bolted together 57,000 tons of Pittsburgh steel. Financiers John Jakob Raskob and Al Smith topped the 381-meter tower with a 61-meter mooring mast intended for transatlantic dirigibles, where passengers were supposed to stroll down an open gangplank 1,250 feet above Fifth Avenue; the scheme was quietly abandoned after a Navy airship tried docking in forty-mile-per-hour updrafts in 1931 and nearly stood on its nose. Because so few tenants could afford offices in 1931, wags nicknamed it the &#x27;Empty State Building,&#x27; and observation-deck ticket sales alone kept the lights on.</p>
+                <p>Reaching the 86th-floor open-air observation deck today requires surviving a forty-five-minute indoor labyrinth on the second floor that winds past museum exhibits about nineties rom-coms, a giant robotic King Kong hand poking through fake office plaster, and three separate mandatory green-screen photo booths where staff attempt to sell you a thirty-five-dollar souvenir print of yourself looking tired in front of a fake skyline. Two express elevator rides later, you step out onto the wrap-around terrace behind steel suicide-fence bars, jostling for six inches of parapet space in a biting Hudson River crosswind while listening to a heavy coin-operated steel binocular click shut just before you focus on the Chrysler Building.</p>
+                <p>Bright fluorescent lobby lighting and daylight views were a mortal insult to @NightCrawlerNY, who crept onto West 34th Street after midnight expecting the Vampire State Building. Firing off a one-star review titled &#x27;Fang-tastic...ly Awful!&#x27;, our nocturnal visitor complained that the elevators went to the 86th floor instead of a damp Carpathian crypt, and noted with disgust that the Art Deco brass restrooms were full of mirrors. Admittedly, Manhattan commercial real estate has drawn plenty of bloodsuckers since 1931, but blaming architects Shreve, Lamb &amp; Harmon for failing to install gargoyle perches and O-negative juice bars on the 102nd floor seems slightly unfair.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Skip the extra thirty-dollar upcharge for the cramped, glassed-in 102nd floor and stick to the open-air 86th-floor deck after 10:00 PM when the tour groups thin out.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Empire+State+Building" target="_blank" rel="noopener noreferrer">Read about Empire State Building on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Empire+State+Building+New+York+City,+New+York,+USA" target="_blank" rel="noopener noreferrer">View Empire State Building on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=018" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #018</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Vampire State Building</p>
+                        <img src="../assets/cartoons/vampire_state_building_1783396404.webp" alt="Vampire State Building parody postcard of Empire State Building" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Empire State Building):</strong><br>
+                            &ldquo;Dear @NightCrawlerNY, our iconic 102-story landmark is built for human admiration and unparalleled city views, not as a reflection-free zone for the undead. If you&#x27;re seeking bloodsuckers, I suggest you investigate New York&#x27;s real estate market.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-017-leaning-tower-of-pisa.html" class="nav-pill">&larr; Prev: #017 Leaning Tower of Pisa</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-019-times-square.html" class="nav-pill">Next: #019 Times Square &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-047-grand-canyon.html" class="related-card" data-puzzle="47">
+                <span class="related-card-num">Challenge #047 • Easy</span>
+                <span class="related-card-title">Grand Canyon</span>
+                <span class="related-card-sub">📍 Arizona, USA — &ldquo;Worst Coloring Book Ever.&rdquo;</span>
+            </a>
+<a href="./challenge-052-lake-louise.html" class="related-card" data-puzzle="52">
+                <span class="related-card-num">Challenge #052 • Easy</span>
+                <span class="related-card-title">Lake Louise</span>
+                <span class="related-card-sub">📍 Banff National Park, Alberta, Canada — &ldquo;Frosted Over with Disappointment&rdquo;</span>
+            </a>
+<a href="./challenge-056-mount-st-helens.html" class="related-card" data-puzzle="56">
+                <span class="related-card-num">Challenge #056 • Medium</span>
+                <span class="related-card-title">Mount St. Helens</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;Where&#x27;s the support?! Utterly deflated.&rdquo;</span>
+            </a>
+<a href="./challenge-061-gateway-arch.html" class="related-card" data-puzzle="61">
                 <span class="related-card-num">Challenge #061 • Easy</span>
                 <span class="related-card-title">Gateway Arch</span>
                 <span class="related-card-sub">📍 St. Louis, Missouri, USA — &ldquo;Worst Petting Zoo Ever!&rdquo;</span>
             </a>
-<a href="./challenge-065-panama-canal.html" class="related-card">
+<a href="./challenge-065-panama-canal.html" class="related-card" data-puzzle="65">
                 <span class="related-card-num">Challenge #065 • Easy</span>
                 <span class="related-card-title">Panama Canal</span>
                 <span class="related-card-sub">📍 Panama City, Panama — &ldquo;This Place is Bananas!&rdquo;</span>
             </a>
-<a href="./challenge-066-times-square.html" class="related-card">
+<a href="./challenge-066-times-square.html" class="related-card" data-puzzle="66">
                 <span class="related-card-num">Challenge #066 • Easy</span>
                 <span class="related-card-title">Times Square</span>
                 <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Absolutely Speechless!&rdquo;</span>
             </a>
-<a href="./challenge-073-grand-canyon.html" class="related-card">
+<a href="./challenge-073-grand-canyon.html" class="related-card peer-overflow" data-puzzle="73">
                 <span class="related-card-num">Challenge #073 • Easy</span>
                 <span class="related-card-title">Grand Canyon</span>
                 <span class="related-card-sub">📍 Arizona, USA — &ldquo;More like Grand PAIN-yon!&rdquo;</span>
             </a>
-<a href="./challenge-075-yellowstone-national-park.html" class="related-card">
+<a href="./challenge-075-yellowstone-national-park.html" class="related-card peer-overflow" data-puzzle="75">
                 <span class="related-card-num">Challenge #075 • Easy</span>
                 <span class="related-card-title">Yellowstone National Park</span>
                 <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Expected Fiery, Got Sleepy.&rdquo;</span>
             </a>
-<a href="./challenge-082-alcatraz-island.html" class="related-card">
-                <span class="related-card-num">Challenge #082 • Medium</span>
-                <span class="related-card-title">Alcatraz Island</span>
-                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Sentenced to Sobriety!&rdquo;</span>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-168-deception-island.html" class="related-card future-locked" data-puzzle="168">
+                <span class="related-card-num">Challenge #168 • Hard</span>
+                <span class="related-card-title">Deception Island</span>
+                <span class="related-card-sub">📍 South Shetland Islands, Antarctica — &ldquo;My vision for this trip was shattered!&rdquo;</span>
+            </a>
+<a href="./challenge-170-gros-morne-national-park.html" class="related-card future-locked" data-puzzle="170">
+                <span class="related-card-num">Challenge #170 • Hard</span>
+                <span class="related-card-title">Gros Morne National Park</span>
+                <span class="related-card-sub">📍 Newfoundland and Labrador, Canada — &ldquo;Horn-dously Misleading!&rdquo;</span>
+            </a>
+<a href="./challenge-171-land-s-end-arch.html" class="related-card future-locked" data-puzzle="171">
+                <span class="related-card-num">Challenge #171 • Hard</span>
+                <span class="related-card-title">Land&#x27;s End Arch</span>
+                <span class="related-card-sub">📍 Cabo San Lucas, Mexico — &ldquo;Where&#x27;s the Garnish?!&rdquo;</span>
+            </a>
+<a href="./challenge-175-willis-tower.html" class="related-card future-locked" data-puzzle="175">
+                <span class="related-card-num">Challenge #175 • Medium</span>
+                <span class="related-card-title">Willis Tower</span>
+                <span class="related-card-sub">📍 Chicago, USA — &ldquo;Where&#x27;s My Breakfast?!&rdquo;</span>
+            </a>
+<a href="./challenge-137-la-boca-caminito.html" class="related-card future-locked" data-puzzle="137">
+                <span class="related-card-num">Challenge #137 • Medium</span>
+                <span class="related-card-title">La Boca (Caminito)</span>
+                <span class="related-card-sub">📍 Buenos Aires, Argentina — &ldquo;My breakfast dreams, utterly shattered!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="105">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=105" class="nav-pill primary">🎮 Play Challenge #105</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=105" class="nav-pill primary landmark-live-content">🎮 Play Challenge #105</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #105: Great Wall of China</span>
+        <span class="landmark-live-content">Challenge #105: Great Wall of China</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #105 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #105</span>
-                <span class="badge badge-region">🌎 Asia &amp; Oceania</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #105</span>
             </div>
-            <h1 class="page-title">Great Wall of China: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Thirteen Thousand Miles of Ming Dynasty Brick and Sticky-Rice Mortar That Will Not Make Wine</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Northern China</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 40.4319° N, 116.5704° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ SourGrape</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;More like a &#x27;Great&#x27; Disappointment!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by SourGrape • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Endless... sticky... purple stains mar the long path!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Definitely not fortified! Just a trellis holding up a mess.&rdquo;</li>
-                        <li>&ldquo;Thought I was scaling history... ended up covered in fruit pulp!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=105" class="nav-pill primary">🎯 Solve Challenge #105 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #105!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 16, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Great Wall of China: A Field Guide</h2>
-            <p>First, let us clear up two durable myths: the Great Wall of China is not a single unbroken rampart, and you cannot see it from the moon with the naked eye unless your eyesight is good enough to spot a highway lane from two hundred and forty thousand miles away. What actually stretches for roughly thirteen thousand miles across northern China is a sprawling network of overlapping walls, trenches, and watchtowers built across two millennia. While China&#x27;s first emperor, Qin Shi Huang, linked early rammed-earth fortifications in the third century BCE using hundreds of thousands of conscripted laborers, the dramatic crenellated brick battlements tourists climb north of Beijing today were built during the Ming Dynasty between the fourteenth and seventeenth centuries, bound together with a surprisingly resilient mortar made of slaked lime and sticky rice.</p>
-            <p>Climbing a Ming Dynasty mountain ridge in the twenty-first century is a vertical workout disguised as sightseeing. Because the stairs were designed to slow down invading Mongol cavalry rather than accommodate human knees, the stone risers vary wildly from two inches high to two feet tall on a forty-five-degree incline. At the popular Badaling section, forty-five miles from central Beijing, holiday crowds pack the walkway so tightly that nobody actually walks; you simply shuffle forward in a slow human conveyor belt until you reach a watchtower, take a sweaty photograph in the smog, and pay extra to ride a stainless-steel toboggan slide back down the mountain to a parking lot lined with KFC franchises.</p>
-            <p>None of this defensive masonry impressed @SourGrape, whose review, &quot;More like a &#x27;Great&#x27; Disappointment!&quot;, complained of &quot;sticky... purple stains&quot; and insisted the monument was &quot;just a trellis holding up a mess&quot; of fruit pulp. One struggles to imagine the travel agent who booked @SourGrape a flight to Beijing to visit the &quot;Grape Wall of China,&quot; let alone how a tourist scaled a twenty-five-foot granite and grey-brick parapet along the Yanshan Mountains expecting a Napa Valley merlot harvest. If you found purple stains on the stones at Mutianyu, someone ahead of you simply dropped an overpriced mulberry popsicle on the steps.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Skip the crush at Badaling in favor of the Mutianyu or Jinshanling sections, wear shoes with serious rubber grip for the steep polished stones, and take the chairlift up.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Great+Wall+of+China" target="_blank" rel="noopener noreferrer">Read about Great Wall of China on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Great+Wall+of+China+Northern+China" target="_blank" rel="noopener noreferrer">View Great Wall of China on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #105</span>
+                    <span class="badge badge-region">🌎 Asia &amp; Oceania</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Great Wall of China: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Thirteen Thousand Miles of Ming Dynasty Brick and Sticky-Rice Mortar That Will Not Make Wine</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=105" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #105</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Grape Wall of China</p>
-                    <img src="../assets/cartoons/grape_wall_of_china_1788148947.webp" alt="Grape Wall of China parody postcard of Great Wall of China" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Great Wall of China):</strong><br>
-                        &ldquo;Dear @SourGrape, our ancient defensive structure is made of brick and stone, not fruit. Perhaps you&#x27;ve confused us with a vineyard?&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Northern China</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 40.4319° N, 116.5704° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ SourGrape</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-104-atacama-desert.html" class="nav-pill">&larr; Prev: #104 Atacama Desert</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-106-stonehenge.html" class="nav-pill">Next: #106 Stonehenge &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;More like a &#x27;Great&#x27; Disappointment!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by SourGrape • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Endless... sticky... purple stains mar the long path!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Definitely not fortified! Just a trellis holding up a mess.&rdquo;</li>
+                            <li>&ldquo;Thought I was scaling history... ended up covered in fruit pulp!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=105" class="nav-pill primary">🎯 Solve Challenge #105 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Asia &amp; Oceania</h2>
-            <div class="related-grid">
-                <a href="./challenge-063-great-wall-of-china.html" class="related-card">
-                <span class="related-card-num">Challenge #063 • Medium</span>
-                <span class="related-card-title">Great Wall of China</span>
-                <span class="related-card-sub">📍 Northern China — &ldquo;Miles of mediocrity, completely un-syrup-able!&rdquo;</span>
-            </a>
-<a href="./challenge-064-taj-mahal.html" class="related-card">
-                <span class="related-card-num">Challenge #064 • Hard</span>
-                <span class="related-card-title">Taj Mahal</span>
-                <span class="related-card-sub">📍 Agra, Uttar Pradesh, India — &ldquo;My Ears Are Bleeding Marble!&rdquo;</span>
-            </a>
-<a href="./challenge-107-mount-fuji.html" class="related-card">
-                <span class="related-card-num">Challenge #107 • Hard</span>
-                <span class="related-card-title">Mount Fuji</span>
-                <span class="related-card-sub">📍 Honshu, Japan — &ldquo;An Edible Catastrophe!&rdquo;</span>
-            </a>
-<a href="./challenge-002-great-wall-of-china.html" class="related-card">
-                <span class="related-card-num">Challenge #002 • Easy</span>
-                <span class="related-card-title">Great Wall of China</span>
-                <span class="related-card-sub">📍 Northern China — &ldquo;A truly blubbery disappointment!&rdquo;</span>
-            </a>
-<a href="./challenge-003-taj-mahal.html" class="related-card">
-                <span class="related-card-num">Challenge #003 • Hard</span>
-                <span class="related-card-title">Taj Mahal</span>
-                <span class="related-card-sub">📍 Agra, Uttar Pradesh, India — &ldquo;Palace of Perpetual Packing!&rdquo;</span>
-            </a>
-<a href="./challenge-010-angkor-wat.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Great Wall of China: A Field Guide</h2>
+                <p>First, let us clear up two durable myths: the Great Wall of China is not a single unbroken rampart, and you cannot see it from the moon with the naked eye unless your eyesight is good enough to spot a highway lane from two hundred and forty thousand miles away. What actually stretches for roughly thirteen thousand miles across northern China is a sprawling network of overlapping walls, trenches, and watchtowers built across two millennia. While China&#x27;s first emperor, Qin Shi Huang, linked early rammed-earth fortifications in the third century BCE using hundreds of thousands of conscripted laborers, the dramatic crenellated brick battlements tourists climb north of Beijing today were built during the Ming Dynasty between the fourteenth and seventeenth centuries, bound together with a surprisingly resilient mortar made of slaked lime and sticky rice.</p>
+                <p>Climbing a Ming Dynasty mountain ridge in the twenty-first century is a vertical workout disguised as sightseeing. Because the stairs were designed to slow down invading Mongol cavalry rather than accommodate human knees, the stone risers vary wildly from two inches high to two feet tall on a forty-five-degree incline. At the popular Badaling section, forty-five miles from central Beijing, holiday crowds pack the walkway so tightly that nobody actually walks; you simply shuffle forward in a slow human conveyor belt until you reach a watchtower, take a sweaty photograph in the smog, and pay extra to ride a stainless-steel toboggan slide back down the mountain to a parking lot lined with KFC franchises.</p>
+                <p>None of this defensive masonry impressed @SourGrape, whose review, &quot;More like a &#x27;Great&#x27; Disappointment!&quot;, complained of &quot;sticky... purple stains&quot; and insisted the monument was &quot;just a trellis holding up a mess&quot; of fruit pulp. One struggles to imagine the travel agent who booked @SourGrape a flight to Beijing to visit the &quot;Grape Wall of China,&quot; let alone how a tourist scaled a twenty-five-foot granite and grey-brick parapet along the Yanshan Mountains expecting a Napa Valley merlot harvest. If you found purple stains on the stones at Mutianyu, someone ahead of you simply dropped an overpriced mulberry popsicle on the steps.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Skip the crush at Badaling in favor of the Mutianyu or Jinshanling sections, wear shoes with serious rubber grip for the steep polished stones, and take the chairlift up.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Great+Wall+of+China" target="_blank" rel="noopener noreferrer">Read about Great Wall of China on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Great+Wall+of+China+Northern+China" target="_blank" rel="noopener noreferrer">View Great Wall of China on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=105" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #105</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Grape Wall of China</p>
+                        <img src="../assets/cartoons/grape_wall_of_china_1788148947.webp" alt="Grape Wall of China parody postcard of Great Wall of China" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Great Wall of China):</strong><br>
+                            &ldquo;Dear @SourGrape, our ancient defensive structure is made of brick and stone, not fruit. Perhaps you&#x27;ve confused us with a vineyard?&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-104-atacama-desert.html" class="nav-pill">&larr; Prev: #104 Atacama Desert</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-106-stonehenge.html" class="nav-pill">Next: #106 Stonehenge &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Asia &amp; Oceania</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-010-angkor-wat.html" class="related-card" data-puzzle="10">
                 <span class="related-card-num">Challenge #010 • Medium</span>
                 <span class="related-card-title">Angkor Wat</span>
                 <span class="related-card-sub">📍 Siem Reap, Cambodia — &ldquo;Just anchors down, nothing else!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-015-great-barrier-reef.html" class="related-card" data-puzzle="15">
+                <span class="related-card-num">Challenge #015 • Medium</span>
+                <span class="related-card-title">Great Barrier Reef</span>
+                <span class="related-card-sub">📍 Queensland, Australia — &ldquo;More like &#x27;Great Berry GRIEF!&#x27;&rdquo;</span>
+            </a>
+<a href="./challenge-063-great-wall-of-china.html" class="related-card" data-puzzle="63">
+                <span class="related-card-num">Challenge #063 • Medium</span>
+                <span class="related-card-title">Great Wall of China</span>
+                <span class="related-card-sub">📍 Northern China — &ldquo;Miles of mediocrity, completely un-syrup-able!&rdquo;</span>
+            </a>
+<a href="./challenge-064-taj-mahal.html" class="related-card" data-puzzle="64">
+                <span class="related-card-num">Challenge #064 • Hard</span>
+                <span class="related-card-title">Taj Mahal</span>
+                <span class="related-card-sub">📍 Agra, Uttar Pradesh, India — &ldquo;My Ears Are Bleeding Marble!&rdquo;</span>
+            </a>
+<a href="./challenge-107-mount-fuji.html" class="related-card" data-puzzle="107">
+                <span class="related-card-num">Challenge #107 • Hard</span>
+                <span class="related-card-title">Mount Fuji</span>
+                <span class="related-card-sub">📍 Honshu, Japan — &ldquo;An Edible Catastrophe!&rdquo;</span>
+            </a>
+<a href="./challenge-125-shilin-stone-forest.html" class="related-card" data-puzzle="125">
+                <span class="related-card-num">Challenge #125 • Medium</span>
+                <span class="related-card-title">Shilin Stone Forest</span>
+                <span class="related-card-sub">📍 Yunnan Province, China — &ldquo;Where&#x27;s the heat?!&rdquo;</span>
+            </a>
+<a href="./challenge-126-meiji-jingu-shrine.html" class="related-card peer-overflow" data-puzzle="126">
+                <span class="related-card-num">Challenge #126 • Medium</span>
+                <span class="related-card-title">Meiji Jingu Shrine</span>
+                <span class="related-card-sub">📍 Tokyo, Japan — &ldquo;Totally Misleading! No Fun Game Here!&rdquo;</span>
+            </a>
+<a href="./challenge-131-lord-howe-island-group.html" class="related-card peer-overflow" data-puzzle="131">
+                <span class="related-card-num">Challenge #131 • Hard</span>
+                <span class="related-card-title">Lord Howe Island Group</span>
+                <span class="related-card-sub">📍 New South Wales, Australia — &ldquo;Worst &#x27;soup&#x27; experience ever!&rdquo;</span>
+            </a>
+<a href="./challenge-146-osaka-castle.html" class="related-card future-locked" data-puzzle="146">
+                <span class="related-card-num">Challenge #146 • Medium</span>
+                <span class="related-card-title">Osaka Castle</span>
+                <span class="related-card-sub">📍 Osaka, Japan — &ldquo;This &#x27;custard&#x27; was surprisingly crunchy!&rdquo;</span>
+            </a>
+<a href="./challenge-151-shwedagon-pagoda.html" class="related-card future-locked" data-puzzle="151">
+                <span class="related-card-num">Challenge #151 • Hard</span>
+                <span class="related-card-title">Shwedagon Pagoda</span>
+                <span class="related-card-sub">📍 Yangon, Myanmar — &ldquo;Solid Gold Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-156-registan-square.html" class="related-card future-locked" data-puzzle="156">
+                <span class="related-card-num">Challenge #156 • Medium</span>
+                <span class="related-card-title">Registan Square</span>
+                <span class="related-card-sub">📍 Samarkand, Uzbekistan — &ldquo;Where&#x27;s The Seating?!&rdquo;</span>
+            </a>
+<a href="./challenge-160-tiger-s-nest-monastery-paro-taktsang.html" class="related-card future-locked" data-puzzle="160">
+                <span class="related-card-num">Challenge #160 • Hard</span>
+                <span class="related-card-title">Tiger&#x27;s Nest Monastery (Paro Taktsang)</span>
+                <span class="related-card-sub">📍 Paro Valley, Bhutan — &ldquo;No Monster Tea, Just Monks!&rdquo;</span>
+            </a>
+<a href="./challenge-163-boracay-island.html" class="related-card future-locked" data-puzzle="163">
+                <span class="related-card-num">Challenge #163 • Medium</span>
+                <span class="related-card-title">Boracay Island</span>
+                <span class="related-card-sub">📍 Aklan, Philippines — &ldquo;Beach? I Wanted a Foundry!&rdquo;</span>
+            </a>
+<a href="./challenge-164-haedong-yonggungsa-temple.html" class="related-card future-locked" data-puzzle="164">
+                <span class="related-card-num">Challenge #164 • Hard</span>
+                <span class="related-card-title">Haedong Yonggungsa Temple</span>
+                <span class="related-card-sub">📍 Busan, South Korea — &ldquo;Zero Stars for Edibility!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

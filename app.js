@@ -28,6 +28,7 @@
 const GITHUB_REPO_URL = "https://raw.githubusercontent.com/iwandres/travelreviews/main/backend";
 const BACKEND_API_URL = "https://punfiction.onrender.com";
 const START_DATE_PT = new Date("2026-07-04T02:00:00-07:00"); // Launch date: 2am Pacific Time
+const MAX_LANDMARK_GUIDE_PUZZLE = 181; // Synced with static landmark field guides archive
 
 // Pre-warm the backend Render service in the background as early as possible
 function prewarmBackend() {
@@ -732,7 +733,7 @@ function getDaysElapsedSinceStart() {
         const yr = partVal("year");
         const mo = partVal("month");
         const dy = partVal("day");
-        const hr = partVal("hour");
+        const hr = partVal("hour") % 24;
         const min = partVal("minute");
         const sec = partVal("second");
 
@@ -752,6 +753,31 @@ function getDaysElapsedSinceStart() {
 
 function padPuzzleNumber(num) {
     return String(num).padStart(3, '0');
+}
+
+function getLandmarkGuideUrl(challenge) {
+    if (!challenge || !challenge.puzzle_number || !challenge.boss_original_title) {
+        return 'landmarks/index.html';
+    }
+    const pnumInt = parseInt(challenge.puzzle_number, 10);
+    const maxLive = isPreviewMode
+        ? MAX_LANDMARK_GUIDE_PUZZLE
+        : Math.min(MAX_LANDMARK_GUIDE_PUZZLE, naturalTodayIndex);
+    if (isNaN(pnumInt) || pnumInt < 1 || pnumInt > maxLive) {
+        return 'landmarks/index.html';
+    }
+    const pnumPadded = padPuzzleNumber(pnumInt);
+    const guideSlug = challenge.boss_original_title.trim().toLowerCase()
+        .replace(/í/g, 'i')
+        .replace(/á/g, 'a')
+        .replace(/é/g, 'e')
+        .replace(/ó/g, 'o')
+        .replace(/ú/g, 'u')
+        .replace(/ü/g, 'u')
+        .replace(/ñ/g, 'n')
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+    return `landmarks/challenge-${pnumPadded}-${guideSlug}.html`;
 }
 
 async function loadPuzzleDatabase() {
@@ -2102,20 +2128,7 @@ function triggerVictory() {
     ui.finalBossTitle.innerText = activeChallenge.boss_pun_title;
 
     const cleanName = activeChallenge.boss_original_title.trim();
-    const pnumPadded = padPuzzleNumber(activeChallenge.puzzle_number);
-    const guideSlug = cleanName.toLowerCase()
-        .replace(/í/g, 'i')
-        .replace(/á/g, 'a')
-        .replace(/é/g, 'e')
-        .replace(/ó/g, 'o')
-        .replace(/ú/g, 'u')
-        .replace(/ü/g, 'u')
-        .replace(/ñ/g, 'n')
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/^-+|-+$/g, '');
-    const landmarkGuideUrl = parseInt(activeChallenge.puzzle_number, 10) <= 120
-        ? `landmarks/challenge-${pnumPadded}-${guideSlug}.html`
-        : `landmarks/index.html`;
+    const landmarkGuideUrl = getLandmarkGuideUrl(activeChallenge);
 
     ui.finalBossMovie.innerHTML = `
         <span id="final-boss-movie-text">Real Location: ${cleanName}</span>
@@ -4482,7 +4495,17 @@ function openMapPostcardOverlay(challenge) {
 
     const realLandmarkEl = document.getElementById('map-pc-real-landmark');
     if (realLandmarkEl) {
-        realLandmarkEl.innerText = `Real Location: ${challenge.boss_original_title}${locStr ? ' (' + locStr + ')' : ''}`;
+        const pcGuideUrl = getLandmarkGuideUrl(challenge);
+        const realLocLabel = `Real Location: ${challenge.boss_original_title}${locStr ? ' (' + locStr + ')' : ''}`;
+        realLandmarkEl.innerHTML = '';
+        const spanEl = document.createElement('span');
+        spanEl.textContent = realLocLabel;
+        const linkEl = document.createElement('a');
+        linkEl.href = pcGuideUrl;
+        linkEl.className = 'landmark-guide-inline-link';
+        linkEl.textContent = 'Landmark Field Guide';
+        realLandmarkEl.appendChild(spanEl);
+        realLandmarkEl.appendChild(linkEl);
     }
 
     const cleanName = (challenge.boss_original_title || '').trim();

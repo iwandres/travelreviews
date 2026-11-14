@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="14">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=014" class="nav-pill primary">🎮 Play Challenge #014</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=014" class="nav-pill primary landmark-live-content">🎮 Play Challenge #014</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #014: Big Ben</span>
+        <span class="landmark-live-content">Challenge #014: Big Ben</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #014 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #014</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #014</span>
             </div>
-            <h1 class="page-title">Big Ben: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Westminster&#x27;s 13.5-Ton Hour Bell Proves Stubbornly Hostile to Mindfulness and Chakra Alignment</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 London, UK</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 51.5007° N, 0.1246° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ NoInnerPeaceNed</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;My Qi is Still Blocked!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by NoInnerPeaceNed • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Tried to meditate by the Thames... incessant bonging ruined my focus!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Meditating here is impossible... too many tourists and constant, LOUD chimes!&rdquo;</li>
-                        <li>&ldquo;Hard to find your inner peace with a giant, noisy clock right there.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=014" class="nav-pill primary">🎯 Solve Challenge #014 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #014!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 17, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Big Ben: A Field Guide</h2>
-            <p>As every London cabbie will inform you before the meter hits four pounds, &#x27;Big Ben&#x27; is technically the nickname of the 13.5-ton Great Bell inside the belfry, whereas the 96-meter neo-Gothic structure designed by Augustus Pugin is the Elizabeth Tower. Cast at the Whitechapel Bell Foundry in 1858 after the original sixteen-ton bell cracked during testing in Palace Yard, the replacement developed its own three-foot fissure two months after being hoisted up the shaft because lawyer and amateur horologist Edmund Beckett Denison insisted on fitting a hammer twice the weight recommended by the foundry. Rather than melt it down again, engineers rotated the bell a quarter-turn, filed a square notch to stop the crack spreading, and left Westminster with its famously slightly flat E-natural bong.</p>
-            <p>Admiring Pugin&#x27;s gilded dial faces after their 80-million-pound conservation scrub usually requires standing on the narrow pavement of Westminster Bridge, an area currently shared by three thousand tourists, four illegal cup-and-ball hustlers, and a man in a Shrek costume charging five pounds for a photograph. Foreign visitors cannot simply buy a ticket to climb the 334 spiral stairs inside the tower on a whim; public tours sell out three months in advance to fast-clicking insiders at 10:00 AM on the second Wednesday of the month. Down on street level, the red double-decker Route 24 bus honks continuously at people stepping backward into the bike lane to frame the clock face behind a red telephone box.</p>
-            <p>That sensory assault completely derailed @NoInnerPeaceNed, who unrolled a foam yoga mat at the corner of Bridge Street and Parliament Square expecting a tranquil retreat at Big Zen. Complaining in &#x27;My Qi is Still Blocked!&#x27; that &#x27;incessant bonging ruined my focus&#x27; every fifteen minutes, our mindfulness seeker picked the single loudest intersection in British democracy to attempt lotus pose. Expecting a Victorian striking mechanism regulated by stacks of old copper pennies on its thirteen-foot pendulum to hush its four quarter-bells so you can locate your third eye beside the muddy Thames is a charmingly optimistic view of nineteenth-century parliamentary timekeeping.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Walk across Westminster Bridge to the quiet stone embankment wall directly downstairs in front of St. Thomas&#x27; Hospital for a clean, crowd-free photo of the Elizabeth Tower and Parliament.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Big+Ben" target="_blank" rel="noopener noreferrer">Read about Big Ben on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Big+Ben+London,+UK" target="_blank" rel="noopener noreferrer">View Big Ben on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #014</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Big Ben: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Westminster&#x27;s 13.5-Ton Hour Bell Proves Stubbornly Hostile to Mindfulness and Chakra Alignment</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=014" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #014</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Big Zen</p>
-                    <img src="../assets/cartoons/big_zen_1783395299.webp" alt="Big Zen parody postcard of Big Ben" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Big Ben):</strong><br>
-                        &ldquo;Dear @NoInnerPeaceNed, it seems you&#x27;ve mistaken a historical clock tower for a quiet yoga retreat. Our primary function is telling time, not facilitating chakra alignment; the chimes are rather essential for that.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 London, UK</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 51.5007° N, 0.1246° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ NoInnerPeaceNed</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-013-panama-canal.html" class="nav-pill">&larr; Prev: #013 Panama Canal</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-015-great-barrier-reef.html" class="nav-pill">Next: #015 Great Barrier Reef &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;My Qi is Still Blocked!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by NoInnerPeaceNed • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Tried to meditate by the Thames... incessant bonging ruined my focus!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Meditating here is impossible... too many tourists and constant, LOUD chimes!&rdquo;</li>
+                            <li>&ldquo;Hard to find your inner peace with a giant, noisy clock right there.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=014" class="nav-pill primary">🎯 Solve Challenge #014 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-067-big-ben.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Big Ben: A Field Guide</h2>
+                <p>As every London cabbie will inform you before the meter hits four pounds, &#x27;Big Ben&#x27; is technically the nickname of the 13.5-ton Great Bell inside the belfry, whereas the 96-meter neo-Gothic structure designed by Augustus Pugin is the Elizabeth Tower. Cast at the Whitechapel Bell Foundry in 1858 after the original sixteen-ton bell cracked during testing in Palace Yard, the replacement developed its own three-foot fissure two months after being hoisted up the shaft because lawyer and amateur horologist Edmund Beckett Denison insisted on fitting a hammer twice the weight recommended by the foundry. Rather than melt it down again, engineers rotated the bell a quarter-turn, filed a square notch to stop the crack spreading, and left Westminster with its famously slightly flat E-natural bong.</p>
+                <p>Admiring Pugin&#x27;s gilded dial faces after their 80-million-pound conservation scrub usually requires standing on the narrow pavement of Westminster Bridge, an area currently shared by three thousand tourists, four illegal cup-and-ball hustlers, and a man in a Shrek costume charging five pounds for a photograph. Foreign visitors cannot simply buy a ticket to climb the 334 spiral stairs inside the tower on a whim; public tours sell out three months in advance to fast-clicking insiders at 10:00 AM on the second Wednesday of the month. Down on street level, the red double-decker Route 24 bus honks continuously at people stepping backward into the bike lane to frame the clock face behind a red telephone box.</p>
+                <p>That sensory assault completely derailed @NoInnerPeaceNed, who unrolled a foam yoga mat at the corner of Bridge Street and Parliament Square expecting a tranquil retreat at Big Zen. Complaining in &#x27;My Qi is Still Blocked!&#x27; that &#x27;incessant bonging ruined my focus&#x27; every fifteen minutes, our mindfulness seeker picked the single loudest intersection in British democracy to attempt lotus pose. Expecting a Victorian striking mechanism regulated by stacks of old copper pennies on its thirteen-foot pendulum to hush its four quarter-bells so you can locate your third eye beside the muddy Thames is a charmingly optimistic view of nineteenth-century parliamentary timekeeping.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Walk across Westminster Bridge to the quiet stone embankment wall directly downstairs in front of St. Thomas&#x27; Hospital for a clean, crowd-free photo of the Elizabeth Tower and Parliament.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Big+Ben" target="_blank" rel="noopener noreferrer">Read about Big Ben on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Big+Ben+London,+UK" target="_blank" rel="noopener noreferrer">View Big Ben on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=014" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #014</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Big Zen</p>
+                        <img src="../assets/cartoons/big_zen_1783395299.webp" alt="Big Zen parody postcard of Big Ben" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Big Ben):</strong><br>
+                            &ldquo;Dear @NoInnerPeaceNed, it seems you&#x27;ve mistaken a historical clock tower for a quiet yoga retreat. Our primary function is telling time, not facilitating chakra alignment; the chimes are rather essential for that.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-013-panama-canal.html" class="nav-pill">&larr; Prev: #013 Panama Canal</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-015-great-barrier-reef.html" class="nav-pill">Next: #015 Great Barrier Reef &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-067-big-ben.html" class="related-card" data-puzzle="67">
                 <span class="related-card-num">Challenge #067 • Easy</span>
                 <span class="related-card-title">Big Ben</span>
                 <span class="related-card-sub">📍 London, UK — &ldquo;Utterly Swine-ful Experience!&rdquo;</span>
             </a>
-<a href="./challenge-068-colosseum.html" class="related-card">
+<a href="./challenge-068-colosseum.html" class="related-card" data-puzzle="68">
                 <span class="related-card-num">Challenge #068 • Hard</span>
                 <span class="related-card-title">Colosseum</span>
                 <span class="related-card-sub">📍 Rome, Italy — &ldquo;Worst Relish-tory Lesson Ever.&rdquo;</span>
             </a>
-<a href="./challenge-069-leaning-tower-of-pisa.html" class="related-card">
+<a href="./challenge-069-leaning-tower-of-pisa.html" class="related-card" data-puzzle="69">
                 <span class="related-card-num">Challenge #069 • Hard</span>
                 <span class="related-card-title">Leaning Tower of Pisa</span>
                 <span class="related-card-sub">📍 Pisa, Italy — &ldquo;This Place Really Crumbles!&rdquo;</span>
             </a>
-<a href="./challenge-070-eiffel-tower.html" class="related-card">
+<a href="./challenge-070-eiffel-tower.html" class="related-card" data-puzzle="70">
                 <span class="related-card-num">Challenge #070 • Easy</span>
                 <span class="related-card-title">Eiffel Tower</span>
                 <span class="related-card-sub">📍 Paris, France — &ldquo;Seriously disappointing bloom!&rdquo;</span>
             </a>
-<a href="./challenge-071-tower-bridge.html" class="related-card">
+<a href="./challenge-071-tower-bridge.html" class="related-card" data-puzzle="71">
                 <span class="related-card-num">Challenge #071 • Easy</span>
                 <span class="related-card-title">Tower Bridge</span>
                 <span class="related-card-sub">📍 London, United Kingdom — &ldquo;More like SOUR-pise!&rdquo;</span>
             </a>
-<a href="./challenge-072-eiffel-tower.html" class="related-card">
+<a href="./challenge-072-eiffel-tower.html" class="related-card" data-puzzle="72">
                 <span class="related-card-num">Challenge #072 • Medium</span>
                 <span class="related-card-title">Eiffel Tower</span>
                 <span class="related-card-sub">📍 Paris, France — &ldquo;Terrible!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-074-big-ben.html" class="related-card peer-overflow" data-puzzle="74">
+                <span class="related-card-num">Challenge #074 • Easy</span>
+                <span class="related-card-title">Big Ben</span>
+                <span class="related-card-sub">📍 London, UK — &ldquo;This &#x27;Ben&#x27; Needs a Brush-Up!&rdquo;</span>
+            </a>
+<a href="./challenge-076-keukenhof.html" class="related-card peer-overflow" data-puzzle="76">
+                <span class="related-card-num">Challenge #076 • Hard</span>
+                <span class="related-card-title">Keukenhof</span>
+                <span class="related-card-sub">📍 Lisse, Netherlands — &ldquo;Crummy Experience, Literally!&rdquo;</span>
+            </a>
+<a href="./challenge-148-hallstatt.html" class="related-card future-locked" data-puzzle="148">
+                <span class="related-card-num">Challenge #148 • Medium</span>
+                <span class="related-card-title">Hallstatt</span>
+                <span class="related-card-sub">📍 Hallstatt, Austria — &ldquo;No Filling, Just Hills!&rdquo;</span>
+            </a>
+<a href="./challenge-149-plitvice-lakes-national-park.html" class="related-card future-locked" data-puzzle="149">
+                <span class="related-card-num">Challenge #149 • Hard</span>
+                <span class="related-card-title">Plitvice Lakes National Park</span>
+                <span class="related-card-sub">📍 Plitvice Lakes, Croatia — &ldquo;Where are the pastries?!&rdquo;</span>
+            </a>
+<a href="./challenge-157-fisherman-s-bastion.html" class="related-card future-locked" data-puzzle="157">
+                <span class="related-card-num">Challenge #157 • Hard</span>
+                <span class="related-card-title">Fisherman&#x27;s Bastion</span>
+                <span class="related-card-sub">📍 Budapest, Hungary — &ldquo;Zero Stars for Fish Storage!&rdquo;</span>
+            </a>
+<a href="./challenge-158-geirangerfjord.html" class="related-card future-locked" data-puzzle="158">
+                <span class="related-card-num">Challenge #158 • Medium</span>
+                <span class="related-card-title">Geirangerfjord</span>
+                <span class="related-card-sub">📍 Møre og Romsdal, Norway — &ldquo;Utterly Fork-gotten!&rdquo;</span>
+            </a>
+<a href="./challenge-159-prague-astronomical-clock.html" class="related-card future-locked" data-puzzle="159">
+                <span class="related-card-num">Challenge #159 • Medium</span>
+                <span class="related-card-title">Prague Astronomical Clock</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Feet Are Still Freezing!&rdquo;</span>
+            </a>
+<a href="./challenge-172-cinque-terre.html" class="related-card future-locked" data-puzzle="172">
+                <span class="related-card-num">Challenge #172 • Easy</span>
+                <span class="related-card-title">Cinque Terre</span>
+                <span class="related-card-sub">📍 Liguria, Italy — &ldquo;Where are the wheels?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

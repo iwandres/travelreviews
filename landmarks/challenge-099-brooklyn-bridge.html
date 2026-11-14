@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="99">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=099" class="nav-pill primary">🎮 Play Challenge #099</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=099" class="nav-pill primary landmark-live-content">🎮 Play Challenge #099</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #099: Brooklyn Bridge</span>
+        <span class="landmark-live-content">Challenge #099: Brooklyn Bridge</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #099 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #099</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-hard">Hard Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #099</span>
             </div>
-            <h1 class="page-title">Brooklyn Bridge: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Fourteen Thousand Miles of Galvanized Steel Wire Spanning the East River With Zero Dietary Fiber</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 New York City, New York, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 40.7061° N, 73.9969° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ GreenerPastures</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;A total cruciferous nightmare!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by GreenerPastures • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Too green... thought New York had better produce.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Seriously stringy... these cables are just fibrous stems!&rdquo;</li>
-                        <li>&ldquo;Expected steel arches, got a giant, soggy vegetable span.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=099" class="nav-pill primary">🎯 Solve Challenge #099 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #099!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 10, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Brooklyn Bridge: A Field Guide</h2>
-            <p>When the Brooklyn Bridge opened on May 24, 1883, its sixteen-hundred-foot main span was the longest suspension bridge on earth and the first to use steel wire instead of iron. The project nearly destroyed the Roebling family: chief designer John Augustus Roebling died of tetanus in 1869 after a ferry crushed his toes during surveying, and his son Washington Roebling suffered debilitating decompression sickness (then called caissons disease) after spending hours inside pressurized underwater wooden boxes at the river bottom. Confined to his Brooklyn Heights bedroom, Washington supervised the rest of the fourteen-year construction through a telescope, relying on his wife, Emily Warren Roebling, who mastered higher mathematics and catenary curve engineering to manage the contractors and become the first person to cross the finished bridge.</p>
-            <p>Crossing Emily and Washington&#x27;s triumph today is less a romantic nineteenth-century promenade and more an obstacle course in high-altitude urban survival. Although the city finally banished cyclists to a separate lane on the lower roadway in 2021, the elevated wooden pedestrian boardwalk remains packed shoulder-to-shoulder with tourists stopping abruptly in the middle of traffic to pose beneath the pointed Gothic limestone arches. Between the rumble of six lanes of commuter cars humming beneath the floorboards, street vendors hawking plastic Statue of Liberty crowns, and wedding photographers commanding twenty-foot exclusion zones in the wind, getting the mile from Manhattan&#x27;s City Hall to DUMBO takes forty-five minutes and saintly patience.</p>
-            <p>For @GreenerPastures, however, the real problem was culinary, as detailed in their review &quot;A total cruciferous nightmare!&quot;, which griped that the cables were &quot;just fibrous stems&quot; forming a &quot;giant, soggy vegetable span.&quot; It takes a rare dietary fixation to walk onto a landmark supported by four fifteen-inch-thick galvanized steel cables and mistake them for overcooked stalks of broccoli. Funnily enough, a crooked wire contractor named J. Lloyd Haigh actually did smuggle defective, brittle steel wire into the bridge&#x27;s spinning wheels in 1878 before getting caught, though even Haigh never tried substituting fresh produce for high-tensile carbon steel.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Walk from the Brooklyn side toward Manhattan at sunrise so the skyline is directly in front of you and the midday crowds are still asleep in their hotels.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Brooklyn+Bridge" target="_blank" rel="noopener noreferrer">Read about Brooklyn Bridge on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge+New+York+City,+New+York,+USA" target="_blank" rel="noopener noreferrer">View Brooklyn Bridge on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #099</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-hard">Hard Puzzle</span>
+                </div>
+                <h1 class="page-title">Brooklyn Bridge: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Fourteen Thousand Miles of Galvanized Steel Wire Spanning the East River With Zero Dietary Fiber</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=099" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #099</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Broccoli Bridge</p>
-                    <img src="../assets/cartoons/broccoli_bridge_1788150772.webp" alt="Broccoli Bridge parody postcard of Brooklyn Bridge" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Brooklyn Bridge):</strong><br>
-                        &ldquo;Dear @GreenerPastures, our historic suspension bridge connecting Manhattan and Brooklyn is renowned for its iconic steel cables and majestic stone towers, not for providing organic produce. Perhaps you mistook us for a farmer&#x27;s market, not a 19th-century engineering marvel?&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 New York City, New York, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 40.7061° N, 73.9969° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ GreenerPastures</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-098-nazca-lines.html" class="nav-pill">&larr; Prev: #098 Nazca Lines</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-100-galapagos-islands.html" class="nav-pill">Next: #100 Galapagos Islands &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;A total cruciferous nightmare!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by GreenerPastures • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Too green... thought New York had better produce.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Seriously stringy... these cables are just fibrous stems!&rdquo;</li>
+                            <li>&ldquo;Expected steel arches, got a giant, soggy vegetable span.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=099" class="nav-pill primary">🎯 Solve Challenge #099 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-096-amazon-rainforest.html" class="related-card">
-                <span class="related-card-num">Challenge #096 • Hard</span>
-                <span class="related-card-title">Amazon Rainforest</span>
-                <span class="related-card-sub">📍 Amazonas, Brazil — &ldquo;Overthinking this &#x27;natural&#x27; wonder!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Brooklyn Bridge: A Field Guide</h2>
+                <p>When the Brooklyn Bridge opened on May 24, 1883, its sixteen-hundred-foot main span was the longest suspension bridge on earth and the first to use steel wire instead of iron. The project nearly destroyed the Roebling family: chief designer John Augustus Roebling died of tetanus in 1869 after a ferry crushed his toes during surveying, and his son Washington Roebling suffered debilitating decompression sickness (then called caissons disease) after spending hours inside pressurized underwater wooden boxes at the river bottom. Confined to his Brooklyn Heights bedroom, Washington supervised the rest of the fourteen-year construction through a telescope, relying on his wife, Emily Warren Roebling, who mastered higher mathematics and catenary curve engineering to manage the contractors and become the first person to cross the finished bridge.</p>
+                <p>Crossing Emily and Washington&#x27;s triumph today is less a romantic nineteenth-century promenade and more an obstacle course in high-altitude urban survival. Although the city finally banished cyclists to a separate lane on the lower roadway in 2021, the elevated wooden pedestrian boardwalk remains packed shoulder-to-shoulder with tourists stopping abruptly in the middle of traffic to pose beneath the pointed Gothic limestone arches. Between the rumble of six lanes of commuter cars humming beneath the floorboards, street vendors hawking plastic Statue of Liberty crowns, and wedding photographers commanding twenty-foot exclusion zones in the wind, getting the mile from Manhattan&#x27;s City Hall to DUMBO takes forty-five minutes and saintly patience.</p>
+                <p>For @GreenerPastures, however, the real problem was culinary, as detailed in their review &quot;A total cruciferous nightmare!&quot;, which griped that the cables were &quot;just fibrous stems&quot; forming a &quot;giant, soggy vegetable span.&quot; It takes a rare dietary fixation to walk onto a landmark supported by four fifteen-inch-thick galvanized steel cables and mistake them for overcooked stalks of broccoli. Funnily enough, a crooked wire contractor named J. Lloyd Haigh actually did smuggle defective, brittle steel wire into the bridge&#x27;s spinning wheels in 1878 before getting caught, though even Haigh never tried substituting fresh produce for high-tensile carbon steel.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Walk from the Brooklyn side toward Manhattan at sunrise so the skyline is directly in front of you and the midday crowds are still asleep in their hotels.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Brooklyn+Bridge" target="_blank" rel="noopener noreferrer">Read about Brooklyn Bridge on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Brooklyn+Bridge+New+York+City,+New+York,+USA" target="_blank" rel="noopener noreferrer">View Brooklyn Bridge on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=099" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #099</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Broccoli Bridge</p>
+                        <img src="../assets/cartoons/broccoli_bridge_1788150772.webp" alt="Broccoli Bridge parody postcard of Brooklyn Bridge" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Brooklyn Bridge):</strong><br>
+                            &ldquo;Dear @GreenerPastures, our historic suspension bridge connecting Manhattan and Brooklyn is renowned for its iconic steel cables and majestic stone towers, not for providing organic produce. Perhaps you mistook us for a farmer&#x27;s market, not a 19th-century engineering marvel?&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-098-nazca-lines.html" class="nav-pill">&larr; Prev: #098 Nazca Lines</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-100-galapagos-islands.html" class="nav-pill">Next: #100 Galapagos Islands &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-027-alcatraz-island.html" class="related-card" data-puzzle="27">
+                <span class="related-card-num">Challenge #027 • Medium</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Definitely NOT escape-proof!&rdquo;</span>
             </a>
-<a href="./challenge-097-copacabana-beach.html" class="related-card">
-                <span class="related-card-num">Challenge #097 • Medium</span>
-                <span class="related-card-title">Copacabana Beach</span>
-                <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;This place is rotten!&rdquo;</span>
+<a href="./challenge-028-machu-picchu.html" class="related-card" data-puzzle="28">
+                <span class="related-card-num">Challenge #028 • Medium</span>
+                <span class="related-card-title">Machu Picchu</span>
+                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;False Advertising on the Peak!&rdquo;</span>
             </a>
-<a href="./challenge-098-nazca-lines.html" class="related-card">
-                <span class="related-card-num">Challenge #098 • Hard</span>
-                <span class="related-card-title">Nazca Lines</span>
-                <span class="related-card-sub">📍 Nazca, Peru — &ldquo;Warning: Extreme Pucker Factor!&rdquo;</span>
+<a href="./challenge-034-space-needle.html" class="related-card" data-puzzle="34">
+                <span class="related-card-num">Challenge #034 • Medium</span>
+                <span class="related-card-title">Space Needle</span>
+                <span class="related-card-sub">📍 Seattle, Washington, USA — &ldquo;Worst zero-gravity dining experience.&rdquo;</span>
             </a>
-<a href="./challenge-100-galapagos-islands.html" class="related-card">
-                <span class="related-card-num">Challenge #100 • Hard</span>
-                <span class="related-card-title">Galapagos Islands</span>
-                <span class="related-card-sub">📍 Ecuador — &ldquo;A real neigh-mare!&rdquo;</span>
+<a href="./challenge-045-mesa-verde-national-park.html" class="related-card" data-puzzle="45">
+                <span class="related-card-num">Challenge #045 • Hard</span>
+                <span class="related-card-title">Mesa Verde National Park</span>
+                <span class="related-card-sub">📍 Colorado, USA — &ldquo;Fore-ward to Disappointment!&rdquo;</span>
             </a>
-<a href="./challenge-104-atacama-desert.html" class="related-card">
-                <span class="related-card-num">Challenge #104 • Hard</span>
-                <span class="related-card-title">Atacama Desert</span>
-                <span class="related-card-sub">📍 Northern Chile — &ldquo;Where&#x27;s the flavor?!&rdquo;</span>
+<a href="./challenge-047-grand-canyon.html" class="related-card" data-puzzle="47">
+                <span class="related-card-num">Challenge #047 • Easy</span>
+                <span class="related-card-title">Grand Canyon</span>
+                <span class="related-card-sub">📍 Arizona, USA — &ldquo;Worst Coloring Book Ever.&rdquo;</span>
             </a>
-<a href="./challenge-108-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #108 • Hard</span>
-                <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Uncushioned Chaos!&rdquo;</span>
+<a href="./challenge-052-lake-louise.html" class="related-card" data-puzzle="52">
+                <span class="related-card-num">Challenge #052 • Easy</span>
+                <span class="related-card-title">Lake Louise</span>
+                <span class="related-card-sub">📍 Banff National Park, Alberta, Canada — &ldquo;Frosted Over with Disappointment&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-056-mount-st-helens.html" class="related-card peer-overflow" data-puzzle="56">
+                <span class="related-card-num">Challenge #056 • Medium</span>
+                <span class="related-card-title">Mount St. Helens</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;Where&#x27;s the support?! Utterly deflated.&rdquo;</span>
+            </a>
+<a href="./challenge-061-gateway-arch.html" class="related-card peer-overflow" data-puzzle="61">
+                <span class="related-card-num">Challenge #061 • Easy</span>
+                <span class="related-card-title">Gateway Arch</span>
+                <span class="related-card-sub">📍 St. Louis, Missouri, USA — &ldquo;Worst Petting Zoo Ever!&rdquo;</span>
+            </a>
+<a href="./challenge-141-the-strip-las-vegas.html" class="related-card future-locked" data-puzzle="141">
+                <span class="related-card-num">Challenge #141 • Hard</span>
+                <span class="related-card-title">The Strip, Las Vegas</span>
+                <span class="related-card-sub">📍 Las Vegas, Nevada, USA — &ldquo;Where&#x27;s the crunch?!&rdquo;</span>
+            </a>
+<a href="./challenge-144-quebec-city-old-town.html" class="related-card future-locked" data-puzzle="144">
+                <span class="related-card-num">Challenge #144 • Hard</span>
+                <span class="related-card-title">Quebec City Old Town</span>
+                <span class="related-card-sub">📍 Quebec City, Canada — &ldquo;Zero Ketchup!&rdquo;</span>
+            </a>
+<a href="./challenge-153-cerro-monserrate.html" class="related-card future-locked" data-puzzle="153">
+                <span class="related-card-num">Challenge #153 • Medium</span>
+                <span class="related-card-title">Cerro Monserrate</span>
+                <span class="related-card-sub">📍 Bogotá, Colombia — &ldquo;No Monster Here, Just Mountains!&rdquo;</span>
+            </a>
+<a href="./challenge-154-the-pitons.html" class="related-card future-locked" data-puzzle="154">
+                <span class="related-card-num">Challenge #154 • Medium</span>
+                <span class="related-card-title">The Pitons</span>
+                <span class="related-card-sub">📍 Soufrière, St. Lucia — &ldquo;Not a single delicious pastry!&rdquo;</span>
+            </a>
+<a href="./challenge-155-arenal-volcano.html" class="related-card future-locked" data-puzzle="155">
+                <span class="related-card-num">Challenge #155 • Medium</span>
+                <span class="related-card-title">Arenal Volcano</span>
+                <span class="related-card-sub">📍 Alajuela Province, Costa Rica — &ldquo;Not the breakfast I ordered!&rdquo;</span>
+            </a>
+<a href="./challenge-161-lake-titicaca.html" class="related-card future-locked" data-puzzle="161">
+                <span class="related-card-num">Challenge #161 • Medium</span>
+                <span class="related-card-title">Lake Titicaca</span>
+                <span class="related-card-sub">📍 Puno, Peru — &ldquo;Where&#x27;s the Titi-CAKE?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

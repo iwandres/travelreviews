@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="17">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=017" class="nav-pill primary">🎮 Play Challenge #017</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=017" class="nav-pill primary landmark-live-content">🎮 Play Challenge #017</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #017: Leaning Tower of Pisa</span>
+        <span class="landmark-live-content">Challenge #017: Leaning Tower of Pisa</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #017 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #017</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #017</span>
             </div>
-            <h1 class="page-title">Leaning Tower of Pisa: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Tuscany&#x27;s Tilted Romanesque Bell Tower Remains Stubbornly Unhelpful With the Kitchen Mop</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Pisa, Italy</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 43.7230° N, 10.3966° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ SudsSufferer</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Seriously Misleading Name!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by SudsSufferer • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Not one mop in all of Tuscany... and still so crooked!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;The tilt made me dizzy; couldn&#x27;t even scrub the floors effectively.&rdquo;</li>
-                        <li>&ldquo;Still leaning, never cleaning. What a dusty disappointment!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=017" class="nav-pill primary">🎯 Solve Challenge #017 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #017!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 20, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Leaning Tower of Pisa: A Field Guide</h2>
-            <p>Begun in August 1173 as the freestanding campanile for Pisa&#x27;s cathedral, the tower made it to the third story in 1178 before its architect, probably Bonanno Pisano, noticed that three meters of shallow foundation set in waterlogged clay and sea-sand was sinking on the south side. Fortunately for physics, Pisa spent the next century picking fights with Genoa, Lucca, and Florence, halting construction for nearly a hundred years and allowing the underlying soil to compress under the weight; had they finished on schedule, the tower would have toppled straight into the piazza. When Giovanni di Simone resumed work in 1272, he tried to compensate by building the upper floors taller on the downhill side, giving the 56-meter marble cylinder the subtle curve of a petrified banana.</p>
-            <p>Step through the Porta Santa Maria onto the Piazza dei Miracoli at 11:00 AM and you are greeted by the surreal sight of five hundred adults standing on the walkway with both hands raised in the air like silent-film mimes trapped in an invisible box. From every side angle, the lawn resembles a mass tai-chi class in which strangers take turns pretending to prop up, kick over, or balance the twelfth-century marble tower inside an ice-cream cone. If you pay twenty euros to climb the 251 internal steps, the 3.97-degree tilt creates the unsettling nautical sensation of walking up a spiral staircase during a force-eight gale, tossing you gently from the inner wall to the outer wall on every half turn.</p>
-            <p>That gravitational lurch only compounded the misery for @SudsSufferer, who arrived in Tuscany armed with rubber gloves and a bucket expecting the Cleaning Tower of Pisa. In &#x27;Seriously Misleading Name!&#x27;, our tidy critic complained that there was &#x27;not one mop in all of Tuscany&#x27; inside the monument and that the pronounced tilt made it impossible to scrub the worn marble floors without getting dizzy. After Italian engineers spent thirty million euros between 1990 and 2001 extracting thirty-eight cubic meters of dirt to keep the tower from collapsing, it feels harsh to dock them four stars for not stocking lemon-scented Pine-Sol in the belfry.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Don&#x27;t leave after ten minutes like the tour bus crowds; walk five minutes south to Piazza dei Cavalieri to see Vasari&#x27;s sgraffito facades without a single person miming a karate chop in the air.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Leaning+Tower+of+Pisa" target="_blank" rel="noopener noreferrer">Read about Leaning Tower of Pisa on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Leaning+Tower+of+Pisa+Pisa,+Italy" target="_blank" rel="noopener noreferrer">View Leaning Tower of Pisa on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #017</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Leaning Tower of Pisa: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Tuscany&#x27;s Tilted Romanesque Bell Tower Remains Stubbornly Unhelpful With the Kitchen Mop</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=017" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #017</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Cleaning Tower of Pisa</p>
-                    <img src="../assets/cartoons/cleaning_tower_of_pisa_1783396391.webp" alt="Cleaning Tower of Pisa parody postcard of Leaning Tower of Pisa" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Leaning Tower of Pisa):</strong><br>
-                        &ldquo;Dear @SudsSufferer, it&#x27;s quite remarkable how you expected a historical bell tower to double as a cleaning service. Perhaps you confused our architectural tilt with a mop wringer?&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Pisa, Italy</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 43.7230° N, 10.3966° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ SudsSufferer</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-016-yellowstone-national-park.html" class="nav-pill">&larr; Prev: #016 Yellowstone National Park</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-018-empire-state-building.html" class="nav-pill">Next: #018 Empire State Building &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Seriously Misleading Name!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by SudsSufferer • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Not one mop in all of Tuscany... and still so crooked!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;The tilt made me dizzy; couldn&#x27;t even scrub the floors effectively.&rdquo;</li>
+                            <li>&ldquo;Still leaning, never cleaning. What a dusty disappointment!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=017" class="nav-pill primary">🎯 Solve Challenge #017 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-078-black-forest.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Leaning Tower of Pisa: A Field Guide</h2>
+                <p>Begun in August 1173 as the freestanding campanile for Pisa&#x27;s cathedral, the tower made it to the third story in 1178 before its architect, probably Bonanno Pisano, noticed that three meters of shallow foundation set in waterlogged clay and sea-sand was sinking on the south side. Fortunately for physics, Pisa spent the next century picking fights with Genoa, Lucca, and Florence, halting construction for nearly a hundred years and allowing the underlying soil to compress under the weight; had they finished on schedule, the tower would have toppled straight into the piazza. When Giovanni di Simone resumed work in 1272, he tried to compensate by building the upper floors taller on the downhill side, giving the 56-meter marble cylinder the subtle curve of a petrified banana.</p>
+                <p>Step through the Porta Santa Maria onto the Piazza dei Miracoli at 11:00 AM and you are greeted by the surreal sight of five hundred adults standing on the walkway with both hands raised in the air like silent-film mimes trapped in an invisible box. From every side angle, the lawn resembles a mass tai-chi class in which strangers take turns pretending to prop up, kick over, or balance the twelfth-century marble tower inside an ice-cream cone. If you pay twenty euros to climb the 251 internal steps, the 3.97-degree tilt creates the unsettling nautical sensation of walking up a spiral staircase during a force-eight gale, tossing you gently from the inner wall to the outer wall on every half turn.</p>
+                <p>That gravitational lurch only compounded the misery for @SudsSufferer, who arrived in Tuscany armed with rubber gloves and a bucket expecting the Cleaning Tower of Pisa. In &#x27;Seriously Misleading Name!&#x27;, our tidy critic complained that there was &#x27;not one mop in all of Tuscany&#x27; inside the monument and that the pronounced tilt made it impossible to scrub the worn marble floors without getting dizzy. After Italian engineers spent thirty million euros between 1990 and 2001 extracting thirty-eight cubic meters of dirt to keep the tower from collapsing, it feels harsh to dock them four stars for not stocking lemon-scented Pine-Sol in the belfry.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Don&#x27;t leave after ten minutes like the tour bus crowds; walk five minutes south to Piazza dei Cavalieri to see Vasari&#x27;s sgraffito facades without a single person miming a karate chop in the air.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Leaning+Tower+of+Pisa" target="_blank" rel="noopener noreferrer">Read about Leaning Tower of Pisa on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Leaning+Tower+of+Pisa+Pisa,+Italy" target="_blank" rel="noopener noreferrer">View Leaning Tower of Pisa on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=017" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #017</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Cleaning Tower of Pisa</p>
+                        <img src="../assets/cartoons/cleaning_tower_of_pisa_1783396391.webp" alt="Cleaning Tower of Pisa parody postcard of Leaning Tower of Pisa" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Leaning Tower of Pisa):</strong><br>
+                            &ldquo;Dear @SudsSufferer, it&#x27;s quite remarkable how you expected a historical bell tower to double as a cleaning service. Perhaps you confused our architectural tilt with a mop wringer?&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-016-yellowstone-national-park.html" class="nav-pill">&larr; Prev: #016 Yellowstone National Park</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-018-empire-state-building.html" class="nav-pill">Next: #018 Empire State Building &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-078-black-forest.html" class="related-card" data-puzzle="78">
                 <span class="related-card-num">Challenge #078 • Easy</span>
                 <span class="related-card-title">Black Forest</span>
                 <span class="related-card-sub">📍 Baden-Württemberg, Germany — &ldquo;Misleading Munchies!&rdquo;</span>
             </a>
-<a href="./challenge-079-cliffs-of-moher.html" class="related-card">
+<a href="./challenge-079-cliffs-of-moher.html" class="related-card" data-puzzle="79">
                 <span class="related-card-num">Challenge #079 • Easy</span>
                 <span class="related-card-title">Cliffs of Moher</span>
                 <span class="related-card-sub">📍 County Clare, Ireland — &ldquo;Noise Complaint!&rdquo;</span>
             </a>
-<a href="./challenge-080-dublin-castle.html" class="related-card">
+<a href="./challenge-080-dublin-castle.html" class="related-card" data-puzzle="80">
                 <span class="related-card-num">Challenge #080 • Medium</span>
                 <span class="related-card-title">Dublin Castle</span>
                 <span class="related-card-sub">📍 Dublin, Ireland — &ldquo;Inn-sufferable Stay!&rdquo;</span>
             </a>
-<a href="./challenge-081-giant-s-causeway.html" class="related-card">
+<a href="./challenge-081-giant-s-causeway.html" class="related-card" data-puzzle="81">
                 <span class="related-card-num">Challenge #081 • Hard</span>
                 <span class="related-card-title">Giant&#x27;s Causeway</span>
                 <span class="related-card-sub">📍 County Antrim, Northern Ireland — &ldquo;Costume Catastrophe!&rdquo;</span>
             </a>
-<a href="./challenge-085-palace-of-versailles.html" class="related-card">
+<a href="./challenge-085-palace-of-versailles.html" class="related-card" data-puzzle="85">
                 <span class="related-card-num">Challenge #085 • Hard</span>
                 <span class="related-card-title">Palace of Versailles</span>
                 <span class="related-card-sub">📍 Versailles, France — &ldquo;Seriously Mis-sized!&rdquo;</span>
             </a>
-<a href="./challenge-087-milan-cathedral.html" class="related-card">
+<a href="./challenge-087-milan-cathedral.html" class="related-card" data-puzzle="87">
                 <span class="related-card-num">Challenge #087 • Medium</span>
                 <span class="related-card-title">Milan Cathedral</span>
                 <span class="related-card-sub">📍 Milan, Italy — &ldquo;Pulp-fiction architecture!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-088-meteora.html" class="related-card peer-overflow" data-puzzle="88">
+                <span class="related-card-num">Challenge #088 • Hard</span>
+                <span class="related-card-title">Meteora</span>
+                <span class="related-card-sub">📍 Thessaly, Greece — &ldquo;Absolutely no flavor!&rdquo;</span>
+            </a>
+<a href="./challenge-089-grand-place.html" class="related-card peer-overflow" data-puzzle="89">
+                <span class="related-card-num">Challenge #089 • Hard</span>
+                <span class="related-card-title">Grand Place</span>
+                <span class="related-card-sub">📍 Brussels, Belgium — &ldquo;A Total Rip-Off!&rdquo;</span>
+            </a>
+<a href="./challenge-173-pena-palace.html" class="related-card future-locked" data-puzzle="173">
+                <span class="related-card-num">Challenge #173 • Medium</span>
+                <span class="related-card-title">Pena Palace</span>
+                <span class="related-card-sub">📍 Sintra, Portugal — &ldquo;Absolutely Nut-hing!&rdquo;</span>
+            </a>
+<a href="./challenge-174-blue-mosque.html" class="related-card future-locked" data-puzzle="174">
+                <span class="related-card-num">Challenge #174 • Easy</span>
+                <span class="related-card-title">Blue Mosque</span>
+                <span class="related-card-sub">📍 Istanbul, Turkey — &ldquo;Seriously Misleading Spa Day!&rdquo;</span>
+            </a>
+<a href="./challenge-178-the-london-eye.html" class="related-card future-locked" data-puzzle="178">
+                <span class="related-card-num">Challenge #178 • Medium</span>
+                <span class="related-card-title">The London Eye</span>
+                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Worst &quot;pie&quot; in London!&rdquo;</span>
+            </a>
+<a href="./challenge-181-westminster-abbey.html" class="related-card future-locked" data-puzzle="181">
+                <span class="related-card-num">Challenge #181 • Medium</span>
+                <span class="related-card-title">Westminster Abbey</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;Worst. Apple. Ever!&rdquo;</span>
+            </a>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
+            </a>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

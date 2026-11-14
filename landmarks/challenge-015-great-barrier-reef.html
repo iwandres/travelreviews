@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="15">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=015" class="nav-pill primary">🎮 Play Challenge #015</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=015" class="nav-pill primary landmark-live-content">🎮 Play Challenge #015</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #015: Great Barrier Reef</span>
+        <span class="landmark-live-content">Challenge #015: Great Barrier Reef</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #015 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #015</span>
-                <span class="badge badge-region">🌎 Asia &amp; Oceania</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #015</span>
             </div>
-            <h1 class="page-title">Great Barrier Reef: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Two-Thousand-Kilometer Coral Ecosystem Off Queensland Yields Zero Blueberries or Whipped Cream</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Queensland, Australia</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 18.2871° S, 147.6992° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ BerryBlue</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;More like &#x27;Great Berry GRIEF!&#x27;&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by BerryBlue • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Saw more jellyfish than blueberries down under...&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Expected vibrant coral, not... a fruit salad display.&rdquo;</li>
-                        <li>&ldquo;Hardly a *barrier* to anything; just squishy fruit chunks!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=015" class="nav-pill primary">🎯 Solve Challenge #015 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #015!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 18, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Great Barrier Reef: A Field Guide</h2>
-            <p>Stretching 2,300 kilometers along the Queensland continental shelf from the Torres Strait to Lady Elliot Island, the Great Barrier Reef is not a single wall of rock but an archipelago of roughly 2,900 individual reefs and 900 islands built over half a million years by billions of tiny coral polyps secreting calcium carbonate skeletons. Its European discovery was markedly less than serene: on the night of June 11, 1770, Lieutenant James Cook&#x27;s HMS Endeavour slammed straight into a submerged coral outcrop later named Endeavour Reef, forcing his crew to heave six iron cannons and forty tons of ballast overboard before fothering the hole with a sail stuffed with sheep&#x27;s wool and dung to limp ashore at Cooktown.</p>
-            <p>Modern explorers generally depart from the Cairns marina at 8:00 AM aboard high-speed aluminum catamarans carrying two hundred passengers, sixty percent of whom spend the ninety-minute outer-reef crossing discovering that the Coral Sea swell does not respect hotel buffet breakfasts. Upon mooring at a floating steel pontoon, everyone is zipped into head-to-toe black Lycra stinger suits to ward off translucent irukandji jellyfish the size of a thumbnail, transforming a boatload of holidaymakers into a squad of middle-aged scuba ninjas. Once in the water, you spend forty minutes accidentally kicking someone else&#x27;s neon-yellow flipper while breathing through a plastic tube and watching a four-foot Maori wrasse stare back at you with profound fish indifference.</p>
-            <p>Even the giant clams and neon parrotfish failed to sweeten the mood for @BerryBlue, who paddled off the Cairns pontoon expecting the Great Berry Reef. In a tearful one-star critique titled &#x27;More like Great Berry GRIEF!&#x27;, our reviewer complained of seeing &#x27;more jellyfish than blueberries down under&#x27; and lamented the total absence of raspberries, boysenberries, or a floating fruit-salad bar in the Coral Sea. Swimming forty miles offshore into 344,000 square kilometers of saltwater marine park with a dessert spoon tucked into your wetsuit sleeve is an unforgettable way to learn the difference between anthozoan cnidarians and the grocery store produce aisle.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> If you get seasick on open-ocean catamarans, book a smaller sailboat trip to the Low Isles from Port Douglas or fly down to Lady Musgrave Island on the southern reef where the lagoon is calm as a bath.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Great+Barrier+Reef" target="_blank" rel="noopener noreferrer">Read about Great Barrier Reef on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Great+Barrier+Reef+Queensland,+Australia" target="_blank" rel="noopener noreferrer">View Great Barrier Reef on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #015</span>
+                    <span class="badge badge-region">🌎 Asia &amp; Oceania</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Great Barrier Reef: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Two-Thousand-Kilometer Coral Ecosystem Off Queensland Yields Zero Blueberries or Whipped Cream</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=015" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #015</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Great Berry Reef</p>
-                    <img src="../assets/cartoons/great_berry_reef_1783394982.webp" alt="Great Berry Reef parody postcard of Great Barrier Reef" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Great Barrier Reef):</strong><br>
-                        &ldquo;Dear @BerryBlue, it seems you&#x27;ve confused a vibrant, living coral ecosystem with a grocery store produce aisle. We specialize in marine biodiversity, not blueberry counts or &#x27;fruit salad displays&#x27;.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Queensland, Australia</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 18.2871° S, 147.6992° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ BerryBlue</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-014-big-ben.html" class="nav-pill">&larr; Prev: #014 Big Ben</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-016-yellowstone-national-park.html" class="nav-pill">Next: #016 Yellowstone National Park &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;More like &#x27;Great Berry GRIEF!&#x27;&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by BerryBlue • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Saw more jellyfish than blueberries down under...&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Expected vibrant coral, not... a fruit salad display.&rdquo;</li>
+                            <li>&ldquo;Hardly a *barrier* to anything; just squishy fruit chunks!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=015" class="nav-pill primary">🎯 Solve Challenge #015 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Asia &amp; Oceania</h2>
-            <div class="related-grid">
-                <a href="./challenge-002-great-wall-of-china.html" class="related-card">
-                <span class="related-card-num">Challenge #002 • Easy</span>
-                <span class="related-card-title">Great Wall of China</span>
-                <span class="related-card-sub">📍 Northern China — &ldquo;A truly blubbery disappointment!&rdquo;</span>
-            </a>
-<a href="./challenge-003-taj-mahal.html" class="related-card">
-                <span class="related-card-num">Challenge #003 • Hard</span>
-                <span class="related-card-title">Taj Mahal</span>
-                <span class="related-card-sub">📍 Agra, Uttar Pradesh, India — &ldquo;Palace of Perpetual Packing!&rdquo;</span>
-            </a>
-<a href="./challenge-010-angkor-wat.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Great Barrier Reef: A Field Guide</h2>
+                <p>Stretching 2,300 kilometers along the Queensland continental shelf from the Torres Strait to Lady Elliot Island, the Great Barrier Reef is not a single wall of rock but an archipelago of roughly 2,900 individual reefs and 900 islands built over half a million years by billions of tiny coral polyps secreting calcium carbonate skeletons. Its European discovery was markedly less than serene: on the night of June 11, 1770, Lieutenant James Cook&#x27;s HMS Endeavour slammed straight into a submerged coral outcrop later named Endeavour Reef, forcing his crew to heave six iron cannons and forty tons of ballast overboard before fothering the hole with a sail stuffed with sheep&#x27;s wool and dung to limp ashore at Cooktown.</p>
+                <p>Modern explorers generally depart from the Cairns marina at 8:00 AM aboard high-speed aluminum catamarans carrying two hundred passengers, sixty percent of whom spend the ninety-minute outer-reef crossing discovering that the Coral Sea swell does not respect hotel buffet breakfasts. Upon mooring at a floating steel pontoon, everyone is zipped into head-to-toe black Lycra stinger suits to ward off translucent irukandji jellyfish the size of a thumbnail, transforming a boatload of holidaymakers into a squad of middle-aged scuba ninjas. Once in the water, you spend forty minutes accidentally kicking someone else&#x27;s neon-yellow flipper while breathing through a plastic tube and watching a four-foot Maori wrasse stare back at you with profound fish indifference.</p>
+                <p>Even the giant clams and neon parrotfish failed to sweeten the mood for @BerryBlue, who paddled off the Cairns pontoon expecting the Great Berry Reef. In a tearful one-star critique titled &#x27;More like Great Berry GRIEF!&#x27;, our reviewer complained of seeing &#x27;more jellyfish than blueberries down under&#x27; and lamented the total absence of raspberries, boysenberries, or a floating fruit-salad bar in the Coral Sea. Swimming forty miles offshore into 344,000 square kilometers of saltwater marine park with a dessert spoon tucked into your wetsuit sleeve is an unforgettable way to learn the difference between anthozoan cnidarians and the grocery store produce aisle.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> If you get seasick on open-ocean catamarans, book a smaller sailboat trip to the Low Isles from Port Douglas or fly down to Lady Musgrave Island on the southern reef where the lagoon is calm as a bath.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Great+Barrier+Reef" target="_blank" rel="noopener noreferrer">Read about Great Barrier Reef on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Great+Barrier+Reef+Queensland,+Australia" target="_blank" rel="noopener noreferrer">View Great Barrier Reef on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=015" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #015</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Great Berry Reef</p>
+                        <img src="../assets/cartoons/great_berry_reef_1783394982.webp" alt="Great Berry Reef parody postcard of Great Barrier Reef" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Great Barrier Reef):</strong><br>
+                            &ldquo;Dear @BerryBlue, it seems you&#x27;ve confused a vibrant, living coral ecosystem with a grocery store produce aisle. We specialize in marine biodiversity, not blueberry counts or &#x27;fruit salad displays&#x27;.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-014-big-ben.html" class="nav-pill">&larr; Prev: #014 Big Ben</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-016-yellowstone-national-park.html" class="nav-pill">Next: #016 Yellowstone National Park &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Asia &amp; Oceania</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-010-angkor-wat.html" class="related-card" data-puzzle="10">
                 <span class="related-card-num">Challenge #010 • Medium</span>
                 <span class="related-card-title">Angkor Wat</span>
                 <span class="related-card-sub">📍 Siem Reap, Cambodia — &ldquo;Just anchors down, nothing else!&rdquo;</span>
             </a>
-<a href="./challenge-063-great-wall-of-china.html" class="related-card">
+<a href="./challenge-063-great-wall-of-china.html" class="related-card" data-puzzle="63">
                 <span class="related-card-num">Challenge #063 • Medium</span>
                 <span class="related-card-title">Great Wall of China</span>
                 <span class="related-card-sub">📍 Northern China — &ldquo;Miles of mediocrity, completely un-syrup-able!&rdquo;</span>
             </a>
-<a href="./challenge-064-taj-mahal.html" class="related-card">
+<a href="./challenge-064-taj-mahal.html" class="related-card" data-puzzle="64">
                 <span class="related-card-num">Challenge #064 • Hard</span>
                 <span class="related-card-title">Taj Mahal</span>
                 <span class="related-card-sub">📍 Agra, Uttar Pradesh, India — &ldquo;My Ears Are Bleeding Marble!&rdquo;</span>
             </a>
-<a href="./challenge-105-great-wall-of-china.html" class="related-card">
+<a href="./challenge-105-great-wall-of-china.html" class="related-card" data-puzzle="105">
                 <span class="related-card-num">Challenge #105 • Medium</span>
                 <span class="related-card-title">Great Wall of China</span>
                 <span class="related-card-sub">📍 Northern China — &ldquo;More like a &#x27;Great&#x27; Disappointment!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-107-mount-fuji.html" class="related-card" data-puzzle="107">
+                <span class="related-card-num">Challenge #107 • Hard</span>
+                <span class="related-card-title">Mount Fuji</span>
+                <span class="related-card-sub">📍 Honshu, Japan — &ldquo;An Edible Catastrophe!&rdquo;</span>
+            </a>
+<a href="./challenge-125-shilin-stone-forest.html" class="related-card" data-puzzle="125">
+                <span class="related-card-num">Challenge #125 • Medium</span>
+                <span class="related-card-title">Shilin Stone Forest</span>
+                <span class="related-card-sub">📍 Yunnan Province, China — &ldquo;Where&#x27;s the heat?!&rdquo;</span>
+            </a>
+<a href="./challenge-126-meiji-jingu-shrine.html" class="related-card peer-overflow" data-puzzle="126">
+                <span class="related-card-num">Challenge #126 • Medium</span>
+                <span class="related-card-title">Meiji Jingu Shrine</span>
+                <span class="related-card-sub">📍 Tokyo, Japan — &ldquo;Totally Misleading! No Fun Game Here!&rdquo;</span>
+            </a>
+<a href="./challenge-131-lord-howe-island-group.html" class="related-card peer-overflow" data-puzzle="131">
+                <span class="related-card-num">Challenge #131 • Hard</span>
+                <span class="related-card-title">Lord Howe Island Group</span>
+                <span class="related-card-sub">📍 New South Wales, Australia — &ldquo;Worst &#x27;soup&#x27; experience ever!&rdquo;</span>
+            </a>
+<a href="./challenge-146-osaka-castle.html" class="related-card future-locked" data-puzzle="146">
+                <span class="related-card-num">Challenge #146 • Medium</span>
+                <span class="related-card-title">Osaka Castle</span>
+                <span class="related-card-sub">📍 Osaka, Japan — &ldquo;This &#x27;custard&#x27; was surprisingly crunchy!&rdquo;</span>
+            </a>
+<a href="./challenge-151-shwedagon-pagoda.html" class="related-card future-locked" data-puzzle="151">
+                <span class="related-card-num">Challenge #151 • Hard</span>
+                <span class="related-card-title">Shwedagon Pagoda</span>
+                <span class="related-card-sub">📍 Yangon, Myanmar — &ldquo;Solid Gold Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-156-registan-square.html" class="related-card future-locked" data-puzzle="156">
+                <span class="related-card-num">Challenge #156 • Medium</span>
+                <span class="related-card-title">Registan Square</span>
+                <span class="related-card-sub">📍 Samarkand, Uzbekistan — &ldquo;Where&#x27;s The Seating?!&rdquo;</span>
+            </a>
+<a href="./challenge-160-tiger-s-nest-monastery-paro-taktsang.html" class="related-card future-locked" data-puzzle="160">
+                <span class="related-card-num">Challenge #160 • Hard</span>
+                <span class="related-card-title">Tiger&#x27;s Nest Monastery (Paro Taktsang)</span>
+                <span class="related-card-sub">📍 Paro Valley, Bhutan — &ldquo;No Monster Tea, Just Monks!&rdquo;</span>
+            </a>
+<a href="./challenge-163-boracay-island.html" class="related-card future-locked" data-puzzle="163">
+                <span class="related-card-num">Challenge #163 • Medium</span>
+                <span class="related-card-title">Boracay Island</span>
+                <span class="related-card-sub">📍 Aklan, Philippines — &ldquo;Beach? I Wanted a Foundry!&rdquo;</span>
+            </a>
+<a href="./challenge-164-haedong-yonggungsa-temple.html" class="related-card future-locked" data-puzzle="164">
+                <span class="related-card-num">Challenge #164 • Hard</span>
+                <span class="related-card-title">Haedong Yonggungsa Temple</span>
+                <span class="related-card-sub">📍 Busan, South Korea — &ldquo;Zero Stars for Edibility!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

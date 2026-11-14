@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="82">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=082" class="nav-pill primary">🎮 Play Challenge #082</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=082" class="nav-pill primary landmark-live-content">🎮 Play Challenge #082</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #082: Alcatraz Island</span>
+        <span class="landmark-live-content">Challenge #082: Alcatraz Island</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #082 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #082</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #082</span>
             </div>
-            <h1 class="page-title">Alcatraz Island: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Warm Showers, Freezing Currents, and Zero Artisanal Cocktails on the Rock</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 San Francisco, California, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 37.8270° N, 122.4230° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ WhiskeyWarden</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Sentenced to Sobriety!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by WhiskeyWarden • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Bay area views... but the only &#x27;spirits&#x27; here are ghosts! Disappointing.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;No real bars or mixers... just cold steel and seagulls. So restrictive!&rdquo;</li>
-                        <li>&ldquo;They really locked down my booze supply. A total dry spell!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=082" class="nav-pill primary">🎯 Solve Challenge #082 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #082!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>September 23, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Alcatraz Island: A Field Guide</h2>
-            <p>Long before Al Capone played banjo in the prison band, the twenty-two-acre sandstone island in San Francisco Bay was charted in 1775 by Spanish explorer Juan Manuel de Ayala as La Isla de los Alcatraces (&quot;Island of the Pelicans&quot;). The Army turned it into a harbor fortress in the 1850s and a military prison during the Civil War before the Justice Department took over in 1934 to house federal inmates who kept escaping elsewhere. Cleverly, the cellhouse showers were plumbed with warm water so any convict who sawed through the bars would be too de-acclimatized to survive the fifty-two-degree bay currents. What finally closed the prison in 1963 was not Frank Morris digging out with spoons, but the astronomical cost of barging every gallon of fresh water to the rock.</p>
-            <p>While hardened bank robbers spent twenty-nine years trying to get off the island, modern tourists have to book tickets weeks in advance with Alcatraz City Cruises at Pier 33 just to get on it. After a fifteen-minute ferry ride through freezing bay fog, you hike up a switchback concrete road past nesting western gulls that smell aggressively of digested anchovies and scream at anyone who steps near their chicks. Inside the main cellblock, three hundred visitors at a time put on headsets and shuffle silently down &quot;Broadway&quot; in eerie synchronization, staring into five-by-nine-foot cells while the voices of actual former guards and inmates narrate the bloody 1946 &quot;Battle of Alcatraz&quot; in their ears.</p>
-            <p>This grim monument to federal penology proved a bitter letdown for WhiskeyWarden, who took the ferry across the bay expecting &quot;Alcohol-traz Island.&quot; In a parched review titled &quot;Sentenced to Sobriety!&quot;, our thirsty convict complains that &quot;the only &#x27;spirits&#x27; here are ghosts&quot; and notes that there are &quot;no real bars or mixers... just cold steel and seagulls.&quot; While &quot;The Rock&quot; does sound like an artisanal speakeasy in the Mission District where a bearded mixologist serves a twenty-four-dollar smoked old fashioned inside a birdcage, showing up at a maximum-security cellblock expecting happy hour and complaining about the wrong kind of bars is a felony against reading comprehension.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Book the evening night tour months in advance; watching the sun set behind the Golden Gate Bridge from the prison hospital windows while the cellhouse doors slam shut is well worth the extra jacket layer.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcatraz+Island" target="_blank" rel="noopener noreferrer">Read about Alcatraz Island on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Alcatraz+Island+San+Francisco,+California,+USA" target="_blank" rel="noopener noreferrer">View Alcatraz Island on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #082</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Alcatraz Island: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Warm Showers, Freezing Currents, and Zero Artisanal Cocktails on the Rock</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=082" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #082</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Alcohol-traz Island</p>
-                    <img src="../assets/cartoons/alcohol_traz_island_1788148195.webp" alt="Alcohol-traz Island parody postcard of Alcatraz Island" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Alcatraz Island):</strong><br>
-                        &ldquo;Dear @WhiskeyWarden, it seems you&#x27;ve mistaken a historic federal penitentiary for a watering hole. Our &#x27;bars&#x27; were for holding actual criminals, not mixing cocktails; we’ve proudly been &#x27;dry&#x27; for decades.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 San Francisco, California, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 37.8270° N, 122.4230° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ WhiskeyWarden</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-081-giant-s-causeway.html" class="nav-pill">&larr; Prev: #081 Giant&#x27;s Causeway</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-083-machu-picchu.html" class="nav-pill">Next: #083 Machu Picchu &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Sentenced to Sobriety!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by WhiskeyWarden • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Bay area views... but the only &#x27;spirits&#x27; here are ghosts! Disappointing.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;No real bars or mixers... just cold steel and seagulls. So restrictive!&rdquo;</li>
+                            <li>&ldquo;They really locked down my booze supply. A total dry spell!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=082" class="nav-pill primary">🎯 Solve Challenge #082 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-065-panama-canal.html" class="related-card">
-                <span class="related-card-num">Challenge #065 • Easy</span>
-                <span class="related-card-title">Panama Canal</span>
-                <span class="related-card-sub">📍 Panama City, Panama — &ldquo;This Place is Bananas!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Alcatraz Island: A Field Guide</h2>
+                <p>Long before Al Capone played banjo in the prison band, the twenty-two-acre sandstone island in San Francisco Bay was charted in 1775 by Spanish explorer Juan Manuel de Ayala as La Isla de los Alcatraces (&quot;Island of the Pelicans&quot;). The Army turned it into a harbor fortress in the 1850s and a military prison during the Civil War before the Justice Department took over in 1934 to house federal inmates who kept escaping elsewhere. Cleverly, the cellhouse showers were plumbed with warm water so any convict who sawed through the bars would be too de-acclimatized to survive the fifty-two-degree bay currents. What finally closed the prison in 1963 was not Frank Morris digging out with spoons, but the astronomical cost of barging every gallon of fresh water to the rock.</p>
+                <p>While hardened bank robbers spent twenty-nine years trying to get off the island, modern tourists have to book tickets weeks in advance with Alcatraz City Cruises at Pier 33 just to get on it. After a fifteen-minute ferry ride through freezing bay fog, you hike up a switchback concrete road past nesting western gulls that smell aggressively of digested anchovies and scream at anyone who steps near their chicks. Inside the main cellblock, three hundred visitors at a time put on headsets and shuffle silently down &quot;Broadway&quot; in eerie synchronization, staring into five-by-nine-foot cells while the voices of actual former guards and inmates narrate the bloody 1946 &quot;Battle of Alcatraz&quot; in their ears.</p>
+                <p>This grim monument to federal penology proved a bitter letdown for WhiskeyWarden, who took the ferry across the bay expecting &quot;Alcohol-traz Island.&quot; In a parched review titled &quot;Sentenced to Sobriety!&quot;, our thirsty convict complains that &quot;the only &#x27;spirits&#x27; here are ghosts&quot; and notes that there are &quot;no real bars or mixers... just cold steel and seagulls.&quot; While &quot;The Rock&quot; does sound like an artisanal speakeasy in the Mission District where a bearded mixologist serves a twenty-four-dollar smoked old fashioned inside a birdcage, showing up at a maximum-security cellblock expecting happy hour and complaining about the wrong kind of bars is a felony against reading comprehension.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Book the evening night tour months in advance; watching the sun set behind the Golden Gate Bridge from the prison hospital windows while the cellhouse doors slam shut is well worth the extra jacket layer.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcatraz+Island" target="_blank" rel="noopener noreferrer">Read about Alcatraz Island on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Alcatraz+Island+San+Francisco,+California,+USA" target="_blank" rel="noopener noreferrer">View Alcatraz Island on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=082" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #082</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Alcohol-traz Island</p>
+                        <img src="../assets/cartoons/alcohol_traz_island_1788148195.webp" alt="Alcohol-traz Island parody postcard of Alcatraz Island" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Alcatraz Island):</strong><br>
+                            &ldquo;Dear @WhiskeyWarden, it seems you&#x27;ve mistaken a historic federal penitentiary for a watering hole. Our &#x27;bars&#x27; were for holding actual criminals, not mixing cocktails; we’ve proudly been &#x27;dry&#x27; for decades.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-081-giant-s-causeway.html" class="nav-pill">&larr; Prev: #081 Giant&#x27;s Causeway</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-083-machu-picchu.html" class="nav-pill">Next: #083 Machu Picchu &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-129-casa-rosada.html" class="related-card" data-puzzle="129">
+                <span class="related-card-num">Challenge #129 • Medium</span>
+                <span class="related-card-title">Casa Rosada</span>
+                <span class="related-card-sub">📍 Buenos Aires, Argentina — &ldquo;False Advertising for Fizz!&rdquo;</span>
             </a>
-<a href="./challenge-066-times-square.html" class="related-card">
-                <span class="related-card-num">Challenge #066 • Easy</span>
-                <span class="related-card-title">Times Square</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Absolutely Speechless!&rdquo;</span>
+<a href="./challenge-130-tulum-ruins.html" class="related-card" data-puzzle="130">
+                <span class="related-card-num">Challenge #130 • Medium</span>
+                <span class="related-card-title">Tulum Ruins</span>
+                <span class="related-card-sub">📍 Tulum, Mexico — &ldquo;Seriously, no fish!&rdquo;</span>
             </a>
-<a href="./challenge-073-grand-canyon.html" class="related-card">
-                <span class="related-card-num">Challenge #073 • Easy</span>
-                <span class="related-card-title">Grand Canyon</span>
-                <span class="related-card-sub">📍 Arizona, USA — &ldquo;More like Grand PAIN-yon!&rdquo;</span>
+<a href="./challenge-134-parliament-hill.html" class="related-card" data-puzzle="134">
+                <span class="related-card-num">Challenge #134 • Medium</span>
+                <span class="related-card-title">Parliament Hill</span>
+                <span class="related-card-sub">📍 Ottawa, Ontario, Canada — &ldquo;A Grate Disappointment!&rdquo;</span>
             </a>
-<a href="./challenge-075-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #075 • Easy</span>
-                <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Expected Fiery, Got Sleepy.&rdquo;</span>
+<a href="./challenge-007-golden-gate-bridge.html" class="related-card" data-puzzle="7">
+                <span class="related-card-num">Challenge #007 • Medium</span>
+                <span class="related-card-title">Golden Gate Bridge</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;My produce went bad faster here!&rdquo;</span>
             </a>
-<a href="./challenge-083-machu-picchu.html" class="related-card">
-                <span class="related-card-num">Challenge #083 • Medium</span>
-                <span class="related-card-title">Machu Picchu</span>
-                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Lost my sole, found a stench!&rdquo;</span>
-            </a>
-<a href="./challenge-084-chichen-itza.html" class="related-card">
-                <span class="related-card-num">Challenge #084 • Medium</span>
+<a href="./challenge-009-chichen-itza.html" class="related-card" data-puzzle="9">
+                <span class="related-card-num">Challenge #009 • Easy</span>
                 <span class="related-card-title">Chichen Itza</span>
-                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Unbearably Itchy!&rdquo;</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Not exactly a wonder, more like a blunder!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-011-christ-the-redeemer.html" class="related-card" data-puzzle="11">
+                <span class="related-card-num">Challenge #011 • Easy</span>
+                <span class="related-card-title">Christ the Redeemer</span>
+                <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;Unleavened Experience!&rdquo;</span>
+            </a>
+<a href="./challenge-013-panama-canal.html" class="related-card peer-overflow" data-puzzle="13">
+                <span class="related-card-num">Challenge #013 • Hard</span>
+                <span class="related-card-title">Panama Canal</span>
+                <span class="related-card-sub">📍 Panama City, Panama — &ldquo;Definitely NOT a shortcut to dreamland.&rdquo;</span>
+            </a>
+<a href="./challenge-016-yellowstone-national-park.html" class="related-card peer-overflow" data-puzzle="16">
+                <span class="related-card-num">Challenge #016 • Hard</span>
+                <span class="related-card-title">Yellowstone National Park</span>
+                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;A Resounding Disappointment&rdquo;</span>
+            </a>
+<a href="./challenge-161-lake-titicaca.html" class="related-card future-locked" data-puzzle="161">
+                <span class="related-card-num">Challenge #161 • Medium</span>
+                <span class="related-card-title">Lake Titicaca</span>
+                <span class="related-card-sub">📍 Puno, Peru — &ldquo;Where&#x27;s the Titi-CAKE?!&rdquo;</span>
+            </a>
+<a href="./challenge-162-dunn-s-river-falls.html" class="related-card future-locked" data-puzzle="162">
+                <span class="related-card-num">Challenge #162 • Medium</span>
+                <span class="related-card-title">Dunn&#x27;s River Falls</span>
+                <span class="related-card-sub">📍 Ocho Rios, Jamaica — &ldquo;Where Are The Sprinkles?!&rdquo;</span>
+            </a>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
+            </a>
+<a href="./challenge-168-deception-island.html" class="related-card future-locked" data-puzzle="168">
+                <span class="related-card-num">Challenge #168 • Hard</span>
+                <span class="related-card-title">Deception Island</span>
+                <span class="related-card-sub">📍 South Shetland Islands, Antarctica — &ldquo;My vision for this trip was shattered!&rdquo;</span>
+            </a>
+<a href="./challenge-170-gros-morne-national-park.html" class="related-card future-locked" data-puzzle="170">
+                <span class="related-card-num">Challenge #170 • Hard</span>
+                <span class="related-card-title">Gros Morne National Park</span>
+                <span class="related-card-sub">📍 Newfoundland and Labrador, Canada — &ldquo;Horn-dously Misleading!&rdquo;</span>
+            </a>
+<a href="./challenge-171-land-s-end-arch.html" class="related-card future-locked" data-puzzle="171">
+                <span class="related-card-num">Challenge #171 • Hard</span>
+                <span class="related-card-title">Land&#x27;s End Arch</span>
+                <span class="related-card-sub">📍 Cabo San Lucas, Mexico — &ldquo;Where&#x27;s the Garnish?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

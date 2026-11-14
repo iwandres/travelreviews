@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="78">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=078" class="nav-pill primary">🎮 Play Challenge #078</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=078" class="nav-pill primary landmark-live-content">🎮 Play Challenge #078</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #078: Black Forest</span>
+        <span class="landmark-live-content">Challenge #078: Black Forest</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #078 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #078</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #078</span>
             </div>
-            <h1 class="page-title">Black Forest: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Ninety-Nine Miles of Dense German Spruce Canopy and Zero Gingerbread Cabins</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Baden-Württemberg, Germany</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 48.2775° N, 8.1860° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ HangryHiker</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Misleading Munchies!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by HangryHiker • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Expected delightful *treats* from this *German* locale... just *trees*!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Zero cake. Zero snacks. Just... tall, dark, and leafy disappointment.&rdquo;</li>
-                        <li>&ldquo;My expectations for *edible* items in this dark *wood* were crushed.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=078" class="nav-pill primary">🎯 Solve Challenge #078 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #078!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>September 19, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Black Forest: A Field Guide</h2>
-            <p>The Romans were the first to call the dense mountain range in southwestern Germany Silva Nigra (&quot;Black Forest&quot;), largely because the canopy of silver firs and Norway spruces grew so thick that almost no sunlight reached the mossy floor, unsettling legionnaires who preferred their battlefields well-lit. Spanning roughly ninety-nine miles from Pforzheim in the north to Waldshut on the Swiss border, the region spent centuries as a hardscrabble frontier of timber rafters, glassblowers, and charcoal burners. During long, snowbound winters in the eighteenth century, bored peasant woodcarvers began tinkering with wooden-geared wall clocks and tiny bellows that imitated the call of the cuckoo bird, turning a cottage hobby into the global capital of mechanical bird anxiety.</p>
-            <p>Hiking in the Schwarzwald today is a masterclass in German organizational rigor. There is very little chance of getting lost and eaten by a Brothers Grimm wolf because the Schwarzwaldverein maintains over fifteen thousand miles of trails marked with diamond-shaped aluminum signs so precise they tell you the distance to the next rustic tavern down to the tenth of a kilometer. Along the B500 scenic highway at Mummelsee, busloads of retirees browse gift shops lined with five hundred synchronized cuckoo clocks that all go off at noon in a manic wooden uproar, before sitting down to slices of Schwarzwalder Kirschtorte laced with enough sour-cherry brandy to fail a roadside breathalyzer.</p>
-            <p>Apparently HangryHiker missed every single village cafe and bakery in Baden-Wurttemberg when they hiked into the &quot;Snack Forest.&quot; In their outraged review &quot;Misleading Munchies!&quot;, this starving trekker fumes that they &quot;expected delightful treats from this German locale... just trees!&quot; and complains of &quot;Zero cake. Zero snacks. Just... tall, dark, and leafy disappointment.&quot; To walk into a two-thousand-square-mile evergreen forest expecting the tall pine trees themselves to sprout dark chocolate shavings, whipped cream, and smoked ham on their lower branches, like the witch&#x27;s cottage in Hansel and Gretel, shows that fairy tales remain a genuine public safety hazard for literal-minded tourists.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> If you buy a slice of authentic Black Forest gateau at a village bakery, remember that German pastry chefs take the cherry schnapps ingredient seriously and do not skimp on the proof.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Black+Forest" target="_blank" rel="noopener noreferrer">Read about Black Forest on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Black+Forest+Baden-Württemberg,+Germany" target="_blank" rel="noopener noreferrer">View Black Forest on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #078</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Black Forest: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Ninety-Nine Miles of Dense German Spruce Canopy and Zero Gingerbread Cabins</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=078" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #078</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Snack Forest</p>
-                    <img src="../assets/cartoons/snack_forest_1783436071.webp" alt="Snack Forest parody postcard of Black Forest" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Black Forest):</strong><br>
-                        &ldquo;Dear @HangryHiker, this is a vast, ancient forest, not a literal &#x27;snack counter&#x27; or bakery. We provide natural beauty, not edible treats.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Baden-Württemberg, Germany</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 48.2775° N, 8.1860° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ HangryHiker</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-077-st-basil-s-cathedral.html" class="nav-pill">&larr; Prev: #077 St. Basil&#x27;s Cathedral</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-079-cliffs-of-moher.html" class="nav-pill">Next: #079 Cliffs of Moher &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Misleading Munchies!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by HangryHiker • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Expected delightful *treats* from this *German* locale... just *trees*!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Zero cake. Zero snacks. Just... tall, dark, and leafy disappointment.&rdquo;</li>
+                            <li>&ldquo;My expectations for *edible* items in this dark *wood* were crushed.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=078" class="nav-pill primary">🎯 Solve Challenge #078 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-054-parthenon.html" class="related-card">
-                <span class="related-card-num">Challenge #054 • Medium</span>
-                <span class="related-card-title">Parthenon</span>
-                <span class="related-card-sub">📍 Athens, Greece — &ldquo;Seriously, Where Do I Park My Chariot?!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Black Forest: A Field Guide</h2>
+                <p>The Romans were the first to call the dense mountain range in southwestern Germany Silva Nigra (&quot;Black Forest&quot;), largely because the canopy of silver firs and Norway spruces grew so thick that almost no sunlight reached the mossy floor, unsettling legionnaires who preferred their battlefields well-lit. Spanning roughly ninety-nine miles from Pforzheim in the north to Waldshut on the Swiss border, the region spent centuries as a hardscrabble frontier of timber rafters, glassblowers, and charcoal burners. During long, snowbound winters in the eighteenth century, bored peasant woodcarvers began tinkering with wooden-geared wall clocks and tiny bellows that imitated the call of the cuckoo bird, turning a cottage hobby into the global capital of mechanical bird anxiety.</p>
+                <p>Hiking in the Schwarzwald today is a masterclass in German organizational rigor. There is very little chance of getting lost and eaten by a Brothers Grimm wolf because the Schwarzwaldverein maintains over fifteen thousand miles of trails marked with diamond-shaped aluminum signs so precise they tell you the distance to the next rustic tavern down to the tenth of a kilometer. Along the B500 scenic highway at Mummelsee, busloads of retirees browse gift shops lined with five hundred synchronized cuckoo clocks that all go off at noon in a manic wooden uproar, before sitting down to slices of Schwarzwalder Kirschtorte laced with enough sour-cherry brandy to fail a roadside breathalyzer.</p>
+                <p>Apparently HangryHiker missed every single village cafe and bakery in Baden-Wurttemberg when they hiked into the &quot;Snack Forest.&quot; In their outraged review &quot;Misleading Munchies!&quot;, this starving trekker fumes that they &quot;expected delightful treats from this German locale... just trees!&quot; and complains of &quot;Zero cake. Zero snacks. Just... tall, dark, and leafy disappointment.&quot; To walk into a two-thousand-square-mile evergreen forest expecting the tall pine trees themselves to sprout dark chocolate shavings, whipped cream, and smoked ham on their lower branches, like the witch&#x27;s cottage in Hansel and Gretel, shows that fairy tales remain a genuine public safety hazard for literal-minded tourists.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> If you buy a slice of authentic Black Forest gateau at a village bakery, remember that German pastry chefs take the cherry schnapps ingredient seriously and do not skimp on the proof.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Black+Forest" target="_blank" rel="noopener noreferrer">Read about Black Forest on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Black+Forest+Baden-Württemberg,+Germany" target="_blank" rel="noopener noreferrer">View Black Forest on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=078" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #078</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Snack Forest</p>
+                        <img src="../assets/cartoons/snack_forest_1783436071.webp" alt="Snack Forest parody postcard of Black Forest" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Black Forest):</strong><br>
+                            &ldquo;Dear @HangryHiker, this is a vast, ancient forest, not a literal &#x27;snack counter&#x27; or bakery. We provide natural beauty, not edible treats.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-077-st-basil-s-cathedral.html" class="nav-pill">&larr; Prev: #077 St. Basil&#x27;s Cathedral</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-079-cliffs-of-moher.html" class="nav-pill">Next: #079 Cliffs of Moher &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-032-matterhorn.html" class="related-card" data-puzzle="32">
+                <span class="related-card-num">Challenge #032 • Medium</span>
+                <span class="related-card-title">Matterhorn</span>
+                <span class="related-card-sub">📍 Zermatt, Switzerland — &ldquo;Horribly Peaked and Crumbly!&rdquo;</span>
             </a>
-<a href="./challenge-055-roman-baths.html" class="related-card">
-                <span class="related-card-num">Challenge #055 • Easy</span>
-                <span class="related-card-title">Roman Baths</span>
-                <span class="related-card-sub">📍 Bath, England — &ldquo;Seriously Misleading Soak.&rdquo;</span>
+<a href="./challenge-033-cliffs-of-moher.html" class="related-card" data-puzzle="33">
+                <span class="related-card-num">Challenge #033 • Hard</span>
+                <span class="related-card-title">Cliffs of Moher</span>
+                <span class="related-card-sub">📍 County Clare, Ireland — &ldquo;Split Ends of My Patience!&rdquo;</span>
             </a>
-<a href="./challenge-057-brandenburg-gate.html" class="related-card">
-                <span class="related-card-num">Challenge #057 • Easy</span>
-                <span class="related-card-title">Brandenburg Gate</span>
-                <span class="related-card-sub">📍 Berlin, Germany — &ldquo;Totally Bleats Expectations!&rdquo;</span>
+<a href="./challenge-035-giant-s-causeway.html" class="related-card" data-puzzle="35">
+                <span class="related-card-num">Challenge #035 • Easy</span>
+                <span class="related-card-title">Giant&#x27;s Causeway</span>
+                <span class="related-card-sub">📍 County Antrim, Northern Ireland — &ldquo;The Longest Stop-Over!&rdquo;</span>
             </a>
-<a href="./challenge-058-reichstag-building.html" class="related-card">
-                <span class="related-card-num">Challenge #058 • Easy</span>
-                <span class="related-card-title">Reichstag Building</span>
-                <span class="related-card-sub">📍 Berlin, Germany — &ldquo;Mis-TAGged Location!&rdquo;</span>
+<a href="./challenge-036-la-rambla.html" class="related-card" data-puzzle="36">
+                <span class="related-card-num">Challenge #036 • Medium</span>
+                <span class="related-card-title">La Rambla</span>
+                <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;My travel plans were poached here!&rdquo;</span>
             </a>
-<a href="./challenge-059-cologne-cathedral.html" class="related-card">
-                <span class="related-card-num">Challenge #059 • Easy</span>
-                <span class="related-card-title">Cologne Cathedral</span>
-                <span class="related-card-sub">📍 Cologne, Germany — &ldquo;Utter Baloney!&rdquo;</span>
+<a href="./challenge-037-santorini.html" class="related-card" data-puzzle="37">
+                <span class="related-card-num">Challenge #037 • Medium</span>
+                <span class="related-card-title">Santorini</span>
+                <span class="related-card-sub">📍 Cycladic Islands, Greece — &ldquo;Pasta-tively Awful!&rdquo;</span>
             </a>
-<a href="./challenge-060-palace-of-knossos.html" class="related-card">
-                <span class="related-card-num">Challenge #060 • Easy</span>
-                <span class="related-card-title">Palace of Knossos</span>
-                <span class="related-card-sub">📍 Heraklion, Crete, Greece — &ldquo;Absolutely FLAVORLESS experience!&rdquo;</span>
+<a href="./challenge-038-notre-dame-cathedral.html" class="related-card" data-puzzle="38">
+                <span class="related-card-num">Challenge #038 • Hard</span>
+                <span class="related-card-title">Notre-Dame Cathedral</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;More H2O than Holy Water!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-039-atomium.html" class="related-card peer-overflow" data-puzzle="39">
+                <span class="related-card-num">Challenge #039 • Hard</span>
+                <span class="related-card-title">Atomium</span>
+                <span class="related-card-sub">📍 Brussels, Belgium — &ldquo;Too many tiny terrors!&rdquo;</span>
+            </a>
+<a href="./challenge-040-mont-saint-michel.html" class="related-card peer-overflow" data-puzzle="40">
+                <span class="related-card-num">Challenge #040 • Medium</span>
+                <span class="related-card-title">Mont Saint-Michel</span>
+                <span class="related-card-sub">📍 Normandy, France — &ldquo;A Briny Blot on Normandy&#x27;s Landscape!&rdquo;</span>
+            </a>
+<a href="./challenge-178-the-london-eye.html" class="related-card future-locked" data-puzzle="178">
+                <span class="related-card-num">Challenge #178 • Medium</span>
+                <span class="related-card-title">The London Eye</span>
+                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Worst &quot;pie&quot; in London!&rdquo;</span>
+            </a>
+<a href="./challenge-181-westminster-abbey.html" class="related-card future-locked" data-puzzle="181">
+                <span class="related-card-num">Challenge #181 • Medium</span>
+                <span class="related-card-title">Westminster Abbey</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;Worst. Apple. Ever!&rdquo;</span>
+            </a>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
+            </a>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
+            </a>
+<a href="./challenge-148-hallstatt.html" class="related-card future-locked" data-puzzle="148">
+                <span class="related-card-num">Challenge #148 • Medium</span>
+                <span class="related-card-title">Hallstatt</span>
+                <span class="related-card-sub">📍 Hallstatt, Austria — &ldquo;No Filling, Just Hills!&rdquo;</span>
+            </a>
+<a href="./challenge-149-plitvice-lakes-national-park.html" class="related-card future-locked" data-puzzle="149">
+                <span class="related-card-num">Challenge #149 • Hard</span>
+                <span class="related-card-title">Plitvice Lakes National Park</span>
+                <span class="related-card-sub">📍 Plitvice Lakes, Croatia — &ldquo;Where are the pastries?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

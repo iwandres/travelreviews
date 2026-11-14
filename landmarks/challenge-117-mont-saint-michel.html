@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="117">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=117" class="nav-pill primary">🎮 Play Challenge #117</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=117" class="nav-pill primary landmark-live-content">🎮 Play Challenge #117</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #117: Mont Saint-Michel</span>
+        <span class="landmark-live-content">Challenge #117: Mont Saint-Michel</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #117 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #117</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #117</span>
             </div>
-            <h1 class="page-title">Mont Saint-Michel: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Thirteen Centuries of Tidal Granite and Benedictine Cloisters That Are Not an ICBM Silo</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Normandy, France</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 48.6361° N, 1.5115° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ BlastOffBeth</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Detonation Disappointment!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by BlastOffBeth • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Normandy coast trip... more blast-off than basilica.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Heard a launch sequence, not Gregorian chants.&rdquo;</li>
-                        <li>&ldquo;The whole island seems poised for immediate takeoff!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=117" class="nav-pill primary">🎯 Solve Challenge #117 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #117!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 28, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Mont Saint-Michel: A Field Guide</h2>
-            <p>According to medieval church tradition, Mont Saint-Michel began in 708 CE when the Archangel Michael appeared to Bishop Aubert of Avranches in three separate dreams and ordered him to build a sanctuary atop a lonely granite outcrop in the Couesnon river mouth; when Aubert hesitated twice, the archangel reportedly poked a hole straight through the bishop&#x27;s skull with a glowing finger to make his point. Over the next eight hundred years, Benedictine monks hauled granite blocks across the treacherous tidal mudflats to construct a vertiginous Gothic abbey balanced straight on the peak of the rock, which proved so impregnable during the Hundred Years&#x27; War that the English never captured it, and so inescapable that King Louis XI and later Napoleon turned the monastery into a high-security prison.</p>
-            <p>Visiting the mount today requires timing your arrival against the strongest tides in continental Europe, which surge across the flat bay thirteen miles outward at the speed of a galloping horse. Since 2014, a sleek elevated bridge has replaced the old nineteenth-century causeway so tidal currents can flush out decades of accumulated silt. Once you ride the shuttle bus across and pass through the medieval King&#x27;s Gate, you join three million annual visitors squeezing up the single narrow cobblestone street of the Grande Rue, where servers at La Mère Poulard rhythmically beat forty-euro soufflé omelets in copper bowls while seagulls the size of small terriers dive-bomb anyone carrying a butter biscuit.</p>
-            <p>Despite thirteen hundred years of monastic architecture, @BlastOffBeth left a one-star review titled &quot;Detonation Disappointment!&quot; after arriving on the Normandy coast expecting &quot;Mont Saint-Missile&quot; to feature a &quot;launch sequence, not Gregorian chants.&quot; Driving four hours west of Paris in hopes of watching a medieval granite island blast off into low Earth orbit like a Saturn V rocket is an astonishing misreading of French heritage. While the needle-thin 1897 spire topped by a gilded copper statue of St. Michael slaying a dragon certainly points five hundred and fifteen feet into the sky like a nosecone, the island remains firmly bolted to the Normandy bedrock.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Stay overnight at one of the small hotels on the island or near the dam so you can walk the abbey ramparts after five in the evening when the day-trip tour buses have departed.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Mont+Saint-Michel" target="_blank" rel="noopener noreferrer">Read about Mont Saint-Michel on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Mont+Saint-Michel+Normandy,+France" target="_blank" rel="noopener noreferrer">View Mont Saint-Michel on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #117</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Mont Saint-Michel: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Thirteen Centuries of Tidal Granite and Benedictine Cloisters That Are Not an ICBM Silo</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=117" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #117</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Mont Saint-Missile</p>
-                    <img src="../assets/cartoons/mont_saint_missile_1788149144.webp" alt="Mont Saint-Missile parody postcard of Mont Saint-Michel" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Mont Saint-Michel):</strong><br>
-                        &ldquo;Dear @BlastOffBeth, it seems you&#x27;ve mistaken our historic Benedictine abbey, a UNESCO World Heritage site, for a military installation. We assure you, our &#x27;mount&#x27; is renowned for spiritual solace, not for any &#x27;immediate takeoff&#x27;!&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Normandy, France</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 48.6361° N, 1.5115° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ BlastOffBeth</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-116-louvre-museum.html" class="nav-pill">&larr; Prev: #116 Louvre Museum</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-118-alcatraz-island.html" class="nav-pill">Next: #118 Alcatraz Island &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Detonation Disappointment!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by BlastOffBeth • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Normandy coast trip... more blast-off than basilica.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Heard a launch sequence, not Gregorian chants.&rdquo;</li>
+                            <li>&ldquo;The whole island seems poised for immediate takeoff!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=117" class="nav-pill primary">🎯 Solve Challenge #117 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-036-la-rambla.html" class="related-card">
-                <span class="related-card-num">Challenge #036 • Medium</span>
-                <span class="related-card-title">La Rambla</span>
-                <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;My travel plans were poached here!&rdquo;</span>
-            </a>
-<a href="./challenge-037-santorini.html" class="related-card">
-                <span class="related-card-num">Challenge #037 • Medium</span>
-                <span class="related-card-title">Santorini</span>
-                <span class="related-card-sub">📍 Cycladic Islands, Greece — &ldquo;Pasta-tively Awful!&rdquo;</span>
-            </a>
-<a href="./challenge-038-notre-dame-cathedral.html" class="related-card">
-                <span class="related-card-num">Challenge #038 • Hard</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Mont Saint-Michel: A Field Guide</h2>
+                <p>According to medieval church tradition, Mont Saint-Michel began in 708 CE when the Archangel Michael appeared to Bishop Aubert of Avranches in three separate dreams and ordered him to build a sanctuary atop a lonely granite outcrop in the Couesnon river mouth; when Aubert hesitated twice, the archangel reportedly poked a hole straight through the bishop&#x27;s skull with a glowing finger to make his point. Over the next eight hundred years, Benedictine monks hauled granite blocks across the treacherous tidal mudflats to construct a vertiginous Gothic abbey balanced straight on the peak of the rock, which proved so impregnable during the Hundred Years&#x27; War that the English never captured it, and so inescapable that King Louis XI and later Napoleon turned the monastery into a high-security prison.</p>
+                <p>Visiting the mount today requires timing your arrival against the strongest tides in continental Europe, which surge across the flat bay thirteen miles outward at the speed of a galloping horse. Since 2014, a sleek elevated bridge has replaced the old nineteenth-century causeway so tidal currents can flush out decades of accumulated silt. Once you ride the shuttle bus across and pass through the medieval King&#x27;s Gate, you join three million annual visitors squeezing up the single narrow cobblestone street of the Grande Rue, where servers at La Mère Poulard rhythmically beat forty-euro soufflé omelets in copper bowls while seagulls the size of small terriers dive-bomb anyone carrying a butter biscuit.</p>
+                <p>Despite thirteen hundred years of monastic architecture, @BlastOffBeth left a one-star review titled &quot;Detonation Disappointment!&quot; after arriving on the Normandy coast expecting &quot;Mont Saint-Missile&quot; to feature a &quot;launch sequence, not Gregorian chants.&quot; Driving four hours west of Paris in hopes of watching a medieval granite island blast off into low Earth orbit like a Saturn V rocket is an astonishing misreading of French heritage. While the needle-thin 1897 spire topped by a gilded copper statue of St. Michael slaying a dragon certainly points five hundred and fifteen feet into the sky like a nosecone, the island remains firmly bolted to the Normandy bedrock.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Stay overnight at one of the small hotels on the island or near the dam so you can walk the abbey ramparts after five in the evening when the day-trip tour buses have departed.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Mont+Saint-Michel" target="_blank" rel="noopener noreferrer">Read about Mont Saint-Michel on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Mont+Saint-Michel+Normandy,+France" target="_blank" rel="noopener noreferrer">View Mont Saint-Michel on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=117" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #117</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Mont Saint-Missile</p>
+                        <img src="../assets/cartoons/mont_saint_missile_1788149144.webp" alt="Mont Saint-Missile parody postcard of Mont Saint-Michel" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Mont Saint-Michel):</strong><br>
+                            &ldquo;Dear @BlastOffBeth, it seems you&#x27;ve mistaken our historic Benedictine abbey, a UNESCO World Heritage site, for a military installation. We assure you, our &#x27;mount&#x27; is renowned for spiritual solace, not for any &#x27;immediate takeoff&#x27;!&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-116-louvre-museum.html" class="nav-pill">&larr; Prev: #116 Louvre Museum</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-118-alcatraz-island.html" class="nav-pill">Next: #118 Alcatraz Island &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-109-notre-dame-cathedral.html" class="related-card" data-puzzle="109">
+                <span class="related-card-num">Challenge #109 • Hard</span>
                 <span class="related-card-title">Notre-Dame Cathedral</span>
-                <span class="related-card-sub">📍 Paris, France — &ldquo;More H2O than Holy Water!&rdquo;</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;Total Pasta-trophe!&rdquo;</span>
             </a>
-<a href="./challenge-039-atomium.html" class="related-card">
-                <span class="related-card-num">Challenge #039 • Hard</span>
-                <span class="related-card-title">Atomium</span>
-                <span class="related-card-sub">📍 Brussels, Belgium — &ldquo;Too many tiny terrors!&rdquo;</span>
+<a href="./challenge-110-grand-canal.html" class="related-card" data-puzzle="110">
+                <span class="related-card-num">Challenge #110 • Hard</span>
+                <span class="related-card-title">Grand Canal</span>
+                <span class="related-card-sub">📍 Venice, Italy — &ldquo;More like Grumpy Canal!&rdquo;</span>
             </a>
-<a href="./challenge-040-mont-saint-michel.html" class="related-card">
-                <span class="related-card-num">Challenge #040 • Medium</span>
-                <span class="related-card-title">Mont Saint-Michel</span>
-                <span class="related-card-sub">📍 Normandy, France — &ldquo;A Briny Blot on Normandy&#x27;s Landscape!&rdquo;</span>
+<a href="./challenge-111-pompeii.html" class="related-card" data-puzzle="111">
+                <span class="related-card-num">Challenge #111 • Medium</span>
+                <span class="related-card-title">Pompeii</span>
+                <span class="related-card-sub">📍 Pompeii, Italy — &ldquo;Definitely Not A-Peeling!&rdquo;</span>
             </a>
-<a href="./challenge-041-roman-forum.html" class="related-card">
-                <span class="related-card-num">Challenge #041 • Easy</span>
-                <span class="related-card-title">Roman Forum</span>
-                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Gladiator&#x27;s Grotto of Grief!&rdquo;</span>
+<a href="./challenge-116-louvre-museum.html" class="related-card" data-puzzle="116">
+                <span class="related-card-num">Challenge #116 • Hard</span>
+                <span class="related-card-title">Louvre Museum</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;Left feeling completely unsmoothed.&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-119-spanish-steps.html" class="related-card" data-puzzle="119">
+                <span class="related-card-num">Challenge #119 • Medium</span>
+                <span class="related-card-title">Spanish Steps</span>
+                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Seriously unsupportive!&rdquo;</span>
+            </a>
+<a href="./challenge-120-spanish-steps.html" class="related-card" data-puzzle="120">
+                <span class="related-card-num">Challenge #120 • Medium</span>
+                <span class="related-card-title">Spanish Steps</span>
+                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Not the power boost I expected.&rdquo;</span>
+            </a>
+<a href="./challenge-121-amalfi-coast.html" class="related-card peer-overflow" data-puzzle="121">
+                <span class="related-card-num">Challenge #121 • Medium</span>
+                <span class="related-card-title">Amalfi Coast</span>
+                <span class="related-card-sub">📍 Campania, Italy — &ldquo;Stale, Soggy, and Horrible!&rdquo;</span>
+            </a>
+<a href="./challenge-122-buckingham-palace.html" class="related-card peer-overflow" data-puzzle="122">
+                <span class="related-card-num">Challenge #122 • Medium</span>
+                <span class="related-card-title">Buckingham Palace</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;This place is for the birds (and pigs)!&rdquo;</span>
+            </a>
+<a href="./challenge-157-fisherman-s-bastion.html" class="related-card future-locked" data-puzzle="157">
+                <span class="related-card-num">Challenge #157 • Hard</span>
+                <span class="related-card-title">Fisherman&#x27;s Bastion</span>
+                <span class="related-card-sub">📍 Budapest, Hungary — &ldquo;Zero Stars for Fish Storage!&rdquo;</span>
+            </a>
+<a href="./challenge-158-geirangerfjord.html" class="related-card future-locked" data-puzzle="158">
+                <span class="related-card-num">Challenge #158 • Medium</span>
+                <span class="related-card-title">Geirangerfjord</span>
+                <span class="related-card-sub">📍 Møre og Romsdal, Norway — &ldquo;Utterly Fork-gotten!&rdquo;</span>
+            </a>
+<a href="./challenge-159-prague-astronomical-clock.html" class="related-card future-locked" data-puzzle="159">
+                <span class="related-card-num">Challenge #159 • Medium</span>
+                <span class="related-card-title">Prague Astronomical Clock</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Feet Are Still Freezing!&rdquo;</span>
+            </a>
+<a href="./challenge-172-cinque-terre.html" class="related-card future-locked" data-puzzle="172">
+                <span class="related-card-num">Challenge #172 • Easy</span>
+                <span class="related-card-title">Cinque Terre</span>
+                <span class="related-card-sub">📍 Liguria, Italy — &ldquo;Where are the wheels?!&rdquo;</span>
+            </a>
+<a href="./challenge-173-pena-palace.html" class="related-card future-locked" data-puzzle="173">
+                <span class="related-card-num">Challenge #173 • Medium</span>
+                <span class="related-card-title">Pena Palace</span>
+                <span class="related-card-sub">📍 Sintra, Portugal — &ldquo;Absolutely Nut-hing!&rdquo;</span>
+            </a>
+<a href="./challenge-174-blue-mosque.html" class="related-card future-locked" data-puzzle="174">
+                <span class="related-card-num">Challenge #174 • Easy</span>
+                <span class="related-card-title">Blue Mosque</span>
+                <span class="related-card-sub">📍 Istanbul, Turkey — &ldquo;Seriously Misleading Spa Day!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

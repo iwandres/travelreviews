@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="95">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=095" class="nav-pill primary">🎮 Play Challenge #095</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=095" class="nav-pill primary landmark-live-content">🎮 Play Challenge #095</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #095: Alcázar of Seville</span>
+        <span class="landmark-live-content">Challenge #095: Alcázar of Seville</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #095 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #095</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-hard">Hard Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #095</span>
             </div>
-            <h1 class="page-title">Alcázar of Seville: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Ten Centuries of Mudéjar Plasterwork and Ceramic Tile, Served Completely Without Cream of Mushroom Soup</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Seville, Spain</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 37.3831° N, 5.9902° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ CasseroleCritique</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;A Royal Mess of a Meal!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by CasseroleCritique • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Sticky mess in sunny Spain... definitely not a royal dish!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Layers of lukewarm ingredients... Where&#x27;s the famous tile work?&rdquo;</li>
-                        <li>&ldquo;Thought it was a grand palace, not an &#x27;all-you-can-eat&#x27; casserole!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=095" class="nav-pill primary">🎯 Solve Challenge #095 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #095!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 6, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Alcázar of Seville: A Field Guide</h2>
-            <p>The Royal Alcázar of Seville began its long architectural life in the tenth century as a citadel for the Córdoba caliphate, though most of what dazzles visitors today is the work of a fourteenth-century Christian monarch named King Pedro I. Known to his detractors as Pedro the Cruel and to his supporters as Pedro the Just, the king had an awkward habit of assassinating his half-brothers and dinner guests inside the palace courtyard. Despite his ruthless politics, Pedro deeply preferred Islamic design over chilly European Gothic castles, so in 1364 he borrowed master Muslim craftsmen from his friend Sultan Muhammad V of Granada to build the Mudéjar Palace. The result is a dizzying labyrinth of carved cedar ceilings, geometric plasterwork, and reflecting pools that still serves as the official Seville residence of the Spanish royal family.</p>
-            <p>Getting inside Pedro&#x27;s masterpiece requires navigating a courtyard entry line outside the Lion&#x27;s Gate that bakes under the Andalusian sun like an unglazed terracotta pot. By mid-afternoon in July, temperatures in Seville regularly pass a hundred and five degrees, driving perspiring crowds into the narrow arched galleries where tour guides wave colored umbrellas and argue in five languages over who gets to stand beneath the dome of the Hall of Ambassadors. Once you finally escape to the sprawling gardens, you are immediately accosted by resident peacocks that shriek like rusty hinges and aggressively stalk anyone holding a paper bag from a bakery.</p>
-            <p>None of the intricate azulejo tilework could console @CasseroleCritique, who penned &quot;A Royal Mess of a Meal!&quot; to complain about &quot;layers of lukewarm ingredients&quot; and the shocking absence of an all-you-can-eat casserole. One can only assume that jet lag and extreme Iberian heat stroke caused this traveler to read &quot;Alcázar&quot; on a tourist brochure and hear &quot;All-Casserole,&quot; prompting them to show up at the oldest royal palace in active use in Europe with a Tupperware container and a serving spoon. If you find yourself chewing on anything lukewarm in the Courtyard of the Maidens, you are probably eating sixteenth-century lime mortar.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Book the first timed entry slot of the morning weeks in advance on the official website, and bring a handheld fan if you visit between May and September.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcázar+of+Seville" target="_blank" rel="noopener noreferrer">Read about Alcázar of Seville on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Alcázar+of+Seville+Seville,+Spain" target="_blank" rel="noopener noreferrer">View Alcázar of Seville on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #095</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-hard">Hard Puzzle</span>
+                </div>
+                <h1 class="page-title">Alcázar of Seville: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Ten Centuries of Mudéjar Plasterwork and Ceramic Tile, Served Completely Without Cream of Mushroom Soup</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=095" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #095</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: The All-Casserole of Seville</p>
-                    <img src="../assets/cartoons/the_all_casserole_of_seville_1788148698.webp" alt="The All-Casserole of Seville parody postcard of Alcázar of Seville" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Alcázar of Seville):</strong><br>
-                        &ldquo;Dear @CasseroleCritique, it appears you&#x27;ve mistaken a historical royal palace for a buffet. Our ancient walls and stunning gardens, while grand, do not serve &#x27;lukewarm ingredients&#x27;.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Seville, Spain</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 37.3831° N, 5.9902° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ CasseroleCritique</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-094-hollywood-sign.html" class="nav-pill">&larr; Prev: #094 Hollywood Sign</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-096-amazon-rainforest.html" class="nav-pill">Next: #096 Amazon Rainforest &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;A Royal Mess of a Meal!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by CasseroleCritique • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Sticky mess in sunny Spain... definitely not a royal dish!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Layers of lukewarm ingredients... Where&#x27;s the famous tile work?&rdquo;</li>
+                            <li>&ldquo;Thought it was a grand palace, not an &#x27;all-you-can-eat&#x27; casserole!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=095" class="nav-pill primary">🎯 Solve Challenge #095 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-036-la-rambla.html" class="related-card">
-                <span class="related-card-num">Challenge #036 • Medium</span>
-                <span class="related-card-title">La Rambla</span>
-                <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;My travel plans were poached here!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Alcázar of Seville: A Field Guide</h2>
+                <p>The Royal Alcázar of Seville began its long architectural life in the tenth century as a citadel for the Córdoba caliphate, though most of what dazzles visitors today is the work of a fourteenth-century Christian monarch named King Pedro I. Known to his detractors as Pedro the Cruel and to his supporters as Pedro the Just, the king had an awkward habit of assassinating his half-brothers and dinner guests inside the palace courtyard. Despite his ruthless politics, Pedro deeply preferred Islamic design over chilly European Gothic castles, so in 1364 he borrowed master Muslim craftsmen from his friend Sultan Muhammad V of Granada to build the Mudéjar Palace. The result is a dizzying labyrinth of carved cedar ceilings, geometric plasterwork, and reflecting pools that still serves as the official Seville residence of the Spanish royal family.</p>
+                <p>Getting inside Pedro&#x27;s masterpiece requires navigating a courtyard entry line outside the Lion&#x27;s Gate that bakes under the Andalusian sun like an unglazed terracotta pot. By mid-afternoon in July, temperatures in Seville regularly pass a hundred and five degrees, driving perspiring crowds into the narrow arched galleries where tour guides wave colored umbrellas and argue in five languages over who gets to stand beneath the dome of the Hall of Ambassadors. Once you finally escape to the sprawling gardens, you are immediately accosted by resident peacocks that shriek like rusty hinges and aggressively stalk anyone holding a paper bag from a bakery.</p>
+                <p>None of the intricate azulejo tilework could console @CasseroleCritique, who penned &quot;A Royal Mess of a Meal!&quot; to complain about &quot;layers of lukewarm ingredients&quot; and the shocking absence of an all-you-can-eat casserole. One can only assume that jet lag and extreme Iberian heat stroke caused this traveler to read &quot;Alcázar&quot; on a tourist brochure and hear &quot;All-Casserole,&quot; prompting them to show up at the oldest royal palace in active use in Europe with a Tupperware container and a serving spoon. If you find yourself chewing on anything lukewarm in the Courtyard of the Maidens, you are probably eating sixteenth-century lime mortar.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Book the first timed entry slot of the morning weeks in advance on the official website, and bring a handheld fan if you visit between May and September.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Alcázar+of+Seville" target="_blank" rel="noopener noreferrer">Read about Alcázar of Seville on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Alcázar+of+Seville+Seville,+Spain" target="_blank" rel="noopener noreferrer">View Alcázar of Seville on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=095" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #095</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: The All-Casserole of Seville</p>
+                        <img src="../assets/cartoons/the_all_casserole_of_seville_1788148698.webp" alt="The All-Casserole of Seville parody postcard of Alcázar of Seville" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Alcázar of Seville):</strong><br>
+                            &ldquo;Dear @CasseroleCritique, it appears you&#x27;ve mistaken a historical royal palace for a buffet. Our ancient walls and stunning gardens, while grand, do not serve &#x27;lukewarm ingredients&#x27;.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-094-hollywood-sign.html" class="nav-pill">&larr; Prev: #094 Hollywood Sign</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-096-amazon-rainforest.html" class="nav-pill">Next: #096 Amazon Rainforest &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-121-amalfi-coast.html" class="related-card" data-puzzle="121">
+                <span class="related-card-num">Challenge #121 • Medium</span>
+                <span class="related-card-title">Amalfi Coast</span>
+                <span class="related-card-sub">📍 Campania, Italy — &ldquo;Stale, Soggy, and Horrible!&rdquo;</span>
             </a>
-<a href="./challenge-037-santorini.html" class="related-card">
-                <span class="related-card-num">Challenge #037 • Medium</span>
-                <span class="related-card-title">Santorini</span>
-                <span class="related-card-sub">📍 Cycladic Islands, Greece — &ldquo;Pasta-tively Awful!&rdquo;</span>
+<a href="./challenge-122-buckingham-palace.html" class="related-card" data-puzzle="122">
+                <span class="related-card-num">Challenge #122 • Medium</span>
+                <span class="related-card-title">Buckingham Palace</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;This place is for the birds (and pigs)!&rdquo;</span>
             </a>
-<a href="./challenge-038-notre-dame-cathedral.html" class="related-card">
-                <span class="related-card-num">Challenge #038 • Hard</span>
-                <span class="related-card-title">Notre-Dame Cathedral</span>
-                <span class="related-card-sub">📍 Paris, France — &ldquo;More H2O than Holy Water!&rdquo;</span>
+<a href="./challenge-123-dubrovnik-old-town.html" class="related-card" data-puzzle="123">
+                <span class="related-card-num">Challenge #123 • Medium</span>
+                <span class="related-card-title">Dubrovnik Old Town</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;False Advertising: No Fungus!&rdquo;</span>
             </a>
-<a href="./challenge-039-atomium.html" class="related-card">
-                <span class="related-card-num">Challenge #039 • Hard</span>
-                <span class="related-card-title">Atomium</span>
-                <span class="related-card-sub">📍 Brussels, Belgium — &ldquo;Too many tiny terrors!&rdquo;</span>
+<a href="./challenge-124-blue-lagoon.html" class="related-card" data-puzzle="124">
+                <span class="related-card-num">Challenge #124 • Easy</span>
+                <span class="related-card-title">Blue Lagoon</span>
+                <span class="related-card-sub">📍 Reykjanes Peninsula, Iceland — &ldquo;Not One Drop of Bleach!&rdquo;</span>
             </a>
-<a href="./challenge-040-mont-saint-michel.html" class="related-card">
-                <span class="related-card-num">Challenge #040 • Medium</span>
-                <span class="related-card-title">Mont Saint-Michel</span>
-                <span class="related-card-sub">📍 Normandy, France — &ldquo;A Briny Blot on Normandy&#x27;s Landscape!&rdquo;</span>
+<a href="./challenge-127-prague-castle.html" class="related-card" data-puzzle="127">
+                <span class="related-card-num">Challenge #127 • Medium</span>
+                <span class="related-card-title">Prague Castle</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;Where&#x27;s the Spoon?!&rdquo;</span>
             </a>
-<a href="./challenge-041-roman-forum.html" class="related-card">
-                <span class="related-card-num">Challenge #041 • Easy</span>
-                <span class="related-card-title">Roman Forum</span>
-                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Gladiator&#x27;s Grotto of Grief!&rdquo;</span>
+<a href="./challenge-133-charles-bridge.html" class="related-card" data-puzzle="133">
+                <span class="related-card-num">Challenge #133 • Medium</span>
+                <span class="related-card-title">Charles Bridge</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Gouda-naught Travel Nightmare!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-001-eiffel-tower.html" class="related-card peer-overflow" data-puzzle="1">
+                <span class="related-card-num">Challenge #001 • Easy</span>
+                <span class="related-card-title">Eiffel Tower</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;Too much metal, not enough maple syrup!&rdquo;</span>
+            </a>
+<a href="./challenge-005-stonehenge.html" class="related-card peer-overflow" data-puzzle="5">
+                <span class="related-card-num">Challenge #005 • Easy</span>
+                <span class="related-card-title">Stonehenge</span>
+                <span class="related-card-sub">📍 Wiltshire, England — &ldquo;Prehistoric Pastry Predicament!&rdquo;</span>
+            </a>
+<a href="./challenge-173-pena-palace.html" class="related-card future-locked" data-puzzle="173">
+                <span class="related-card-num">Challenge #173 • Medium</span>
+                <span class="related-card-title">Pena Palace</span>
+                <span class="related-card-sub">📍 Sintra, Portugal — &ldquo;Absolutely Nut-hing!&rdquo;</span>
+            </a>
+<a href="./challenge-174-blue-mosque.html" class="related-card future-locked" data-puzzle="174">
+                <span class="related-card-num">Challenge #174 • Easy</span>
+                <span class="related-card-title">Blue Mosque</span>
+                <span class="related-card-sub">📍 Istanbul, Turkey — &ldquo;Seriously Misleading Spa Day!&rdquo;</span>
+            </a>
+<a href="./challenge-178-the-london-eye.html" class="related-card future-locked" data-puzzle="178">
+                <span class="related-card-num">Challenge #178 • Medium</span>
+                <span class="related-card-title">The London Eye</span>
+                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Worst &quot;pie&quot; in London!&rdquo;</span>
+            </a>
+<a href="./challenge-181-westminster-abbey.html" class="related-card future-locked" data-puzzle="181">
+                <span class="related-card-num">Challenge #181 • Medium</span>
+                <span class="related-card-title">Westminster Abbey</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;Worst. Apple. Ever!&rdquo;</span>
+            </a>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
+            </a>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

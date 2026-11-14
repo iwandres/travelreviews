@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="21">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=021" class="nav-pill primary">🎮 Play Challenge #021</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=021" class="nav-pill primary landmark-live-content">🎮 Play Challenge #021</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #021: Tower Bridge</span>
+        <span class="landmark-live-content">Challenge #021: Tower Bridge</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #021 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #021</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #021</span>
             </div>
-            <h1 class="page-title">Tower Bridge: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">London&#x27;s Victorian Bascule Crossing Raises Its Roadway for Tall Ships Rather Than Hot Water Pressure</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 London, United Kingdom</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 51.5055° N, 0.0754° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ DrippingTourist</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Definitely a wash-out experience!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by DrippingTourist • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Constant spray... very British weather... bring an umbrella!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;The &#x27;towers&#x27; only dispense lukewarm water... no soap!&rdquo;</li>
-                        <li>&ldquo;Soaked from above... definitely not the majestic &#x27;bridge&#x27; I anticipated!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=021" class="nav-pill primary">🎯 Solve Challenge #021 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #021!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 24, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Tower Bridge: A Field Guide</h2>
-            <p>Opened in June 1894 after eight years of work by city architect Sir Horace Jones and engineer Sir John Wolfe Barry, Tower Bridge looks medieval only because Queen Victoria and Parliament insisted its 11,000-ton steel skeleton be dressed up in Cornish granite and Portland stone to match the neighboring Tower of London. Its twin thousand-ton bascules (&#x27;seesaws&#x27; in French) originally pivoted upward in ninety seconds flat using giant steam-driven hydraulic accumulators housed in the southern pier. In December 1952, the bridge watchman failed to spot the Number 78 double-decker bus in a thick London pea-souper and began raising the roadway while Albert Gunter was mid-crossing; Gunter floored the accelerator, jumped his bus across a three-foot gap onto the rising north span, and was awarded a ten-pound bonus by London Transport.</p>
-            <p>Roughly forty percent of tourists standing on the walkways still congratulate themselves on visiting &#x27;London Bridge,&#x27; completely unaware that the actual London Bridge is a drab 1973 concrete slab half a mile upstream. If you pay thirteen pounds forty to ride the elevator up the north tower into the high-level pedestrian walkways, you can walk across an eleven-meter glass floor installed forty-two meters above the Thames while watching red buses and commuter ferries pass directly beneath your shoes. Inevitably, a small queue forms at the glass edge as parents try to coax terrified toddlers and stubborn golden retrievers across the transparent panels while someone&#x27;s wet umbrella drips steadily onto the glass.</p>
-            <p>Dripping umbrellas were the only moisture available to @DrippingTourist, who strolled onto the Thames embankment with a loofah and a bar of Imperial Leather expecting the Shower Bridge. Complaining in &#x27;Definitely a wash-out experience!&#x27; that the Gothic Revival towers dispensed &#x27;no soap&#x27; and failed to deliver a proper hot rinse, our reviewer mistook a sideways November drizzle in Southwark for defective bathroom plumbing. While the original Victorian steam boilers under the south bank pumped thousands of gallons of pressurized water to lift the bascules, expecting Horace Jones&#x27;s granite turrets to shampoo your hair in the middle of central London traffic is a bold hygiene strategy.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Check the bridge lift schedule on the official Tower Bridge website a day ahead so you can watch the giant bascules swing open from the south bank outside City Hall for free.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Tower+Bridge" target="_blank" rel="noopener noreferrer">Read about Tower Bridge on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Tower+Bridge+London,+United+Kingdom" target="_blank" rel="noopener noreferrer">View Tower Bridge on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #021</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Tower Bridge: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">London&#x27;s Victorian Bascule Crossing Raises Its Roadway for Tall Ships Rather Than Hot Water Pressure</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=021" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #021</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Shower Bridge</p>
-                    <img src="../assets/cartoons/shower_bridge_1783396676.webp" alt="Shower Bridge parody postcard of Tower Bridge" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Tower Bridge):</strong><br>
-                        &ldquo;Dear @DrippingTourist, while we appreciate your visit, our magnificent Victorian Gothic structures have never &#x27;dispensed lukewarm water&#x27; or offered a &#x27;constant spray.&#x27; We are an iconic crossing over the Thames, not a public bathing facility.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 London, United Kingdom</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 51.5055° N, 0.0754° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ DrippingTourist</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-020-burj-khalifa.html" class="nav-pill">&larr; Prev: #020 Burj Khalifa</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-022-st-peter-s-basilica.html" class="nav-pill">Next: #022 St. Peter&#x27;s Basilica &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Definitely a wash-out experience!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by DrippingTourist • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Constant spray... very British weather... bring an umbrella!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;The &#x27;towers&#x27; only dispense lukewarm water... no soap!&rdquo;</li>
+                            <li>&ldquo;Soaked from above... definitely not the majestic &#x27;bridge&#x27; I anticipated!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=021" class="nav-pill primary">🎯 Solve Challenge #021 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-110-grand-canal.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Tower Bridge: A Field Guide</h2>
+                <p>Opened in June 1894 after eight years of work by city architect Sir Horace Jones and engineer Sir John Wolfe Barry, Tower Bridge looks medieval only because Queen Victoria and Parliament insisted its 11,000-ton steel skeleton be dressed up in Cornish granite and Portland stone to match the neighboring Tower of London. Its twin thousand-ton bascules (&#x27;seesaws&#x27; in French) originally pivoted upward in ninety seconds flat using giant steam-driven hydraulic accumulators housed in the southern pier. In December 1952, the bridge watchman failed to spot the Number 78 double-decker bus in a thick London pea-souper and began raising the roadway while Albert Gunter was mid-crossing; Gunter floored the accelerator, jumped his bus across a three-foot gap onto the rising north span, and was awarded a ten-pound bonus by London Transport.</p>
+                <p>Roughly forty percent of tourists standing on the walkways still congratulate themselves on visiting &#x27;London Bridge,&#x27; completely unaware that the actual London Bridge is a drab 1973 concrete slab half a mile upstream. If you pay thirteen pounds forty to ride the elevator up the north tower into the high-level pedestrian walkways, you can walk across an eleven-meter glass floor installed forty-two meters above the Thames while watching red buses and commuter ferries pass directly beneath your shoes. Inevitably, a small queue forms at the glass edge as parents try to coax terrified toddlers and stubborn golden retrievers across the transparent panels while someone&#x27;s wet umbrella drips steadily onto the glass.</p>
+                <p>Dripping umbrellas were the only moisture available to @DrippingTourist, who strolled onto the Thames embankment with a loofah and a bar of Imperial Leather expecting the Shower Bridge. Complaining in &#x27;Definitely a wash-out experience!&#x27; that the Gothic Revival towers dispensed &#x27;no soap&#x27; and failed to deliver a proper hot rinse, our reviewer mistook a sideways November drizzle in Southwark for defective bathroom plumbing. While the original Victorian steam boilers under the south bank pumped thousands of gallons of pressurized water to lift the bascules, expecting Horace Jones&#x27;s granite turrets to shampoo your hair in the middle of central London traffic is a bold hygiene strategy.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Check the bridge lift schedule on the official Tower Bridge website a day ahead so you can watch the giant bascules swing open from the south bank outside City Hall for free.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Tower+Bridge" target="_blank" rel="noopener noreferrer">Read about Tower Bridge on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Tower+Bridge+London,+United+Kingdom" target="_blank" rel="noopener noreferrer">View Tower Bridge on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=021" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #021</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Shower Bridge</p>
+                        <img src="../assets/cartoons/shower_bridge_1783396676.webp" alt="Shower Bridge parody postcard of Tower Bridge" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Tower Bridge):</strong><br>
+                            &ldquo;Dear @DrippingTourist, while we appreciate your visit, our magnificent Victorian Gothic structures have never &#x27;dispensed lukewarm water&#x27; or offered a &#x27;constant spray.&#x27; We are an iconic crossing over the Thames, not a public bathing facility.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-020-burj-khalifa.html" class="nav-pill">&larr; Prev: #020 Burj Khalifa</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-022-st-peter-s-basilica.html" class="nav-pill">Next: #022 St. Peter&#x27;s Basilica &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-110-grand-canal.html" class="related-card" data-puzzle="110">
                 <span class="related-card-num">Challenge #110 • Hard</span>
                 <span class="related-card-title">Grand Canal</span>
                 <span class="related-card-sub">📍 Venice, Italy — &ldquo;More like Grumpy Canal!&rdquo;</span>
             </a>
-<a href="./challenge-111-pompeii.html" class="related-card">
+<a href="./challenge-111-pompeii.html" class="related-card" data-puzzle="111">
                 <span class="related-card-num">Challenge #111 • Medium</span>
                 <span class="related-card-title">Pompeii</span>
                 <span class="related-card-sub">📍 Pompeii, Italy — &ldquo;Definitely Not A-Peeling!&rdquo;</span>
             </a>
-<a href="./challenge-116-louvre-museum.html" class="related-card">
+<a href="./challenge-116-louvre-museum.html" class="related-card" data-puzzle="116">
                 <span class="related-card-num">Challenge #116 • Hard</span>
                 <span class="related-card-title">Louvre Museum</span>
                 <span class="related-card-sub">📍 Paris, France — &ldquo;Left feeling completely unsmoothed.&rdquo;</span>
             </a>
-<a href="./challenge-117-mont-saint-michel.html" class="related-card">
+<a href="./challenge-117-mont-saint-michel.html" class="related-card" data-puzzle="117">
                 <span class="related-card-num">Challenge #117 • Medium</span>
                 <span class="related-card-title">Mont Saint-Michel</span>
                 <span class="related-card-sub">📍 Normandy, France — &ldquo;Detonation Disappointment!&rdquo;</span>
             </a>
-<a href="./challenge-119-spanish-steps.html" class="related-card">
+<a href="./challenge-119-spanish-steps.html" class="related-card" data-puzzle="119">
                 <span class="related-card-num">Challenge #119 • Medium</span>
                 <span class="related-card-title">Spanish Steps</span>
                 <span class="related-card-sub">📍 Rome, Italy — &ldquo;Seriously unsupportive!&rdquo;</span>
             </a>
-<a href="./challenge-120-spanish-steps.html" class="related-card">
+<a href="./challenge-120-spanish-steps.html" class="related-card" data-puzzle="120">
                 <span class="related-card-num">Challenge #120 • Medium</span>
                 <span class="related-card-title">Spanish Steps</span>
                 <span class="related-card-sub">📍 Rome, Italy — &ldquo;Not the power boost I expected.&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-121-amalfi-coast.html" class="related-card peer-overflow" data-puzzle="121">
+                <span class="related-card-num">Challenge #121 • Medium</span>
+                <span class="related-card-title">Amalfi Coast</span>
+                <span class="related-card-sub">📍 Campania, Italy — &ldquo;Stale, Soggy, and Horrible!&rdquo;</span>
+            </a>
+<a href="./challenge-122-buckingham-palace.html" class="related-card peer-overflow" data-puzzle="122">
+                <span class="related-card-num">Challenge #122 • Medium</span>
+                <span class="related-card-title">Buckingham Palace</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;This place is for the birds (and pigs)!&rdquo;</span>
+            </a>
+<a href="./challenge-157-fisherman-s-bastion.html" class="related-card future-locked" data-puzzle="157">
+                <span class="related-card-num">Challenge #157 • Hard</span>
+                <span class="related-card-title">Fisherman&#x27;s Bastion</span>
+                <span class="related-card-sub">📍 Budapest, Hungary — &ldquo;Zero Stars for Fish Storage!&rdquo;</span>
+            </a>
+<a href="./challenge-158-geirangerfjord.html" class="related-card future-locked" data-puzzle="158">
+                <span class="related-card-num">Challenge #158 • Medium</span>
+                <span class="related-card-title">Geirangerfjord</span>
+                <span class="related-card-sub">📍 Møre og Romsdal, Norway — &ldquo;Utterly Fork-gotten!&rdquo;</span>
+            </a>
+<a href="./challenge-159-prague-astronomical-clock.html" class="related-card future-locked" data-puzzle="159">
+                <span class="related-card-num">Challenge #159 • Medium</span>
+                <span class="related-card-title">Prague Astronomical Clock</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Feet Are Still Freezing!&rdquo;</span>
+            </a>
+<a href="./challenge-172-cinque-terre.html" class="related-card future-locked" data-puzzle="172">
+                <span class="related-card-num">Challenge #172 • Easy</span>
+                <span class="related-card-title">Cinque Terre</span>
+                <span class="related-card-sub">📍 Liguria, Italy — &ldquo;Where are the wheels?!&rdquo;</span>
+            </a>
+<a href="./challenge-173-pena-palace.html" class="related-card future-locked" data-puzzle="173">
+                <span class="related-card-num">Challenge #173 • Medium</span>
+                <span class="related-card-title">Pena Palace</span>
+                <span class="related-card-sub">📍 Sintra, Portugal — &ldquo;Absolutely Nut-hing!&rdquo;</span>
+            </a>
+<a href="./challenge-174-blue-mosque.html" class="related-card future-locked" data-puzzle="174">
+                <span class="related-card-num">Challenge #174 • Easy</span>
+                <span class="related-card-title">Blue Mosque</span>
+                <span class="related-card-sub">📍 Istanbul, Turkey — &ldquo;Seriously Misleading Spa Day!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

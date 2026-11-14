@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="23">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=023" class="nav-pill primary">🎮 Play Challenge #023</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=023" class="nav-pill primary landmark-live-content">🎮 Play Challenge #023</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #023: Pantheon</span>
+        <span class="landmark-live-content">Challenge #023: Pantheon</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #023 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #023</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-hard">Hard Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #023</span>
             </div>
-            <h1 class="page-title">Pantheon: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Emperor Hadrian&#x27;s Unreinforced Concrete Dome Lets Rain Fall Straight Through the Ceiling</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Rome, Italy</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 41.8986° N, 12.4769° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ CannedCritique</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Worst preservation job EVER!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by CannedCritique • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;This Roman relic... smells faintly of processed peas.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Rain pours through the roof... guess it&#x27;s not sealed for freshness.&rdquo;</li>
-                        <li>&ldquo;So many historic figures... stuck inside a giant tin!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=023" class="nav-pill primary">🎯 Solve Challenge #023 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #023!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 26, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Pantheon: A Field Guide</h2>
-            <p>Although the bronze frieze across the front porch boldly credits Marcus Agrippa with building the Pantheon during his third consulship in 27 BC, that structure burned down twice before Emperor Hadrian completely rebuilt the rotunda around 126 AD and politely kept Agrippa&#x27;s original inscription out of modesty. Nearly nineteen centuries later, its 43.3-meter dome remains the largest unreinforced solid concrete dome on Earth, forming an exact sphere whose height to the floor equals its diameter. Roman engineers kept the ceiling from collapsing under its own 4,535-ton weight by casting progressively lighter aggregate into the wet mortar as they worked upward, switching from heavy travertine chunks at the base to airy volcanic pumice around the nine-meter open oculus at the top.</p>
-            <p>After nearly two millennia of free entry, the Italian Ministry of Culture introduced a five-euro ticket in 2023, which split Piazza della Rotonda into two distinct queues: one for people paying cash at the kiosk, and another for people staring in confusion at a malfunctioning smartphone payment portal while sitting on the steps of the sixteenth-century fountain. Once inside the cool marble rotunda, the cozy silence is shattered every four minutes by a prerecorded voice booming over the loudspeakers in three languages demanding &#x27;Silenzio, please!&#x27; at eighty decibels. When a sudden Roman thunderstorm rolls over the Campo Marzio, two hundred tourists crowd around the central brass floor drains to watch rainwater fall twenty-eight meters straight through the open hole in the roof.</p>
-            <p>That nine-meter hole in the ceiling was the final straw for @CannedCritique, who showed up in Rome with a rotary opener expecting The Can-theon. Firing off a one-star tirade titled &#x27;Worst preservation job EVER!&#x27;, our pantry-minded reviewer protested that rain poured straight through the lid because the rotunda was &#x27;not sealed for freshness&#x27; and claimed the interior smelled faintly of processed marrowfat peas. While the cylinder-and-hemisphere proportions of Hadrian&#x27;s temple would admittedly hold roughly fourteen million gallons of Del Monte sweet corn, docking the finest surviving monument of Roman antiquity because it lacks a pull-tab ring and an expiration date stamped on the portico is harsh.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Bring a five-euro banknote to the dedicated cash desk on the left side of the portico, which frequently moves three times faster than the online QR-code reservation queue.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Pantheon" target="_blank" rel="noopener noreferrer">Read about Pantheon on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Pantheon+Rome,+Italy" target="_blank" rel="noopener noreferrer">View Pantheon on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #023</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-hard">Hard Puzzle</span>
+                </div>
+                <h1 class="page-title">Pantheon: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Emperor Hadrian&#x27;s Unreinforced Concrete Dome Lets Rain Fall Straight Through the Ceiling</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=023" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #023</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: The Can-theon</p>
-                    <img src="../assets/cartoons/the_can_theon_1783397762.webp" alt="The Can-theon parody postcard of Pantheon" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Pantheon):</strong><br>
-                        &ldquo;Dear @CannedCritique, our ancient temple, designed for gods and emperors, was never intended for &#x27;sealing freshness&#x27; or storing processed peas. We are an architectural masterpiece, not a giant food container.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Rome, Italy</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 41.8986° N, 12.4769° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ CannedCritique</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-022-st-peter-s-basilica.html" class="nav-pill">&larr; Prev: #022 St. Peter&#x27;s Basilica</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-024-grand-canal.html" class="nav-pill">Next: #024 Grand Canal &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Worst preservation job EVER!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by CannedCritique • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;This Roman relic... smells faintly of processed peas.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Rain pours through the roof... guess it&#x27;s not sealed for freshness.&rdquo;</li>
+                            <li>&ldquo;So many historic figures... stuck inside a giant tin!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=023" class="nav-pill primary">🎯 Solve Challenge #023 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-001-eiffel-tower.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Pantheon: A Field Guide</h2>
+                <p>Although the bronze frieze across the front porch boldly credits Marcus Agrippa with building the Pantheon during his third consulship in 27 BC, that structure burned down twice before Emperor Hadrian completely rebuilt the rotunda around 126 AD and politely kept Agrippa&#x27;s original inscription out of modesty. Nearly nineteen centuries later, its 43.3-meter dome remains the largest unreinforced solid concrete dome on Earth, forming an exact sphere whose height to the floor equals its diameter. Roman engineers kept the ceiling from collapsing under its own 4,535-ton weight by casting progressively lighter aggregate into the wet mortar as they worked upward, switching from heavy travertine chunks at the base to airy volcanic pumice around the nine-meter open oculus at the top.</p>
+                <p>After nearly two millennia of free entry, the Italian Ministry of Culture introduced a five-euro ticket in 2023, which split Piazza della Rotonda into two distinct queues: one for people paying cash at the kiosk, and another for people staring in confusion at a malfunctioning smartphone payment portal while sitting on the steps of the sixteenth-century fountain. Once inside the cool marble rotunda, the cozy silence is shattered every four minutes by a prerecorded voice booming over the loudspeakers in three languages demanding &#x27;Silenzio, please!&#x27; at eighty decibels. When a sudden Roman thunderstorm rolls over the Campo Marzio, two hundred tourists crowd around the central brass floor drains to watch rainwater fall twenty-eight meters straight through the open hole in the roof.</p>
+                <p>That nine-meter hole in the ceiling was the final straw for @CannedCritique, who showed up in Rome with a rotary opener expecting The Can-theon. Firing off a one-star tirade titled &#x27;Worst preservation job EVER!&#x27;, our pantry-minded reviewer protested that rain poured straight through the lid because the rotunda was &#x27;not sealed for freshness&#x27; and claimed the interior smelled faintly of processed marrowfat peas. While the cylinder-and-hemisphere proportions of Hadrian&#x27;s temple would admittedly hold roughly fourteen million gallons of Del Monte sweet corn, docking the finest surviving monument of Roman antiquity because it lacks a pull-tab ring and an expiration date stamped on the portico is harsh.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Bring a five-euro banknote to the dedicated cash desk on the left side of the portico, which frequently moves three times faster than the online QR-code reservation queue.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Pantheon" target="_blank" rel="noopener noreferrer">Read about Pantheon on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Pantheon+Rome,+Italy" target="_blank" rel="noopener noreferrer">View Pantheon on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=023" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #023</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: The Can-theon</p>
+                        <img src="../assets/cartoons/the_can_theon_1783397762.webp" alt="The Can-theon parody postcard of Pantheon" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Pantheon):</strong><br>
+                            &ldquo;Dear @CannedCritique, our ancient temple, designed for gods and emperors, was never intended for &#x27;sealing freshness&#x27; or storing processed peas. We are an architectural masterpiece, not a giant food container.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-022-st-peter-s-basilica.html" class="nav-pill">&larr; Prev: #022 St. Peter&#x27;s Basilica</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-024-grand-canal.html" class="nav-pill">Next: #024 Grand Canal &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-121-amalfi-coast.html" class="related-card" data-puzzle="121">
+                <span class="related-card-num">Challenge #121 • Medium</span>
+                <span class="related-card-title">Amalfi Coast</span>
+                <span class="related-card-sub">📍 Campania, Italy — &ldquo;Stale, Soggy, and Horrible!&rdquo;</span>
+            </a>
+<a href="./challenge-122-buckingham-palace.html" class="related-card" data-puzzle="122">
+                <span class="related-card-num">Challenge #122 • Medium</span>
+                <span class="related-card-title">Buckingham Palace</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;This place is for the birds (and pigs)!&rdquo;</span>
+            </a>
+<a href="./challenge-123-dubrovnik-old-town.html" class="related-card" data-puzzle="123">
+                <span class="related-card-num">Challenge #123 • Medium</span>
+                <span class="related-card-title">Dubrovnik Old Town</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;False Advertising: No Fungus!&rdquo;</span>
+            </a>
+<a href="./challenge-124-blue-lagoon.html" class="related-card" data-puzzle="124">
+                <span class="related-card-num">Challenge #124 • Easy</span>
+                <span class="related-card-title">Blue Lagoon</span>
+                <span class="related-card-sub">📍 Reykjanes Peninsula, Iceland — &ldquo;Not One Drop of Bleach!&rdquo;</span>
+            </a>
+<a href="./challenge-127-prague-castle.html" class="related-card" data-puzzle="127">
+                <span class="related-card-num">Challenge #127 • Medium</span>
+                <span class="related-card-title">Prague Castle</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;Where&#x27;s the Spoon?!&rdquo;</span>
+            </a>
+<a href="./challenge-133-charles-bridge.html" class="related-card" data-puzzle="133">
+                <span class="related-card-num">Challenge #133 • Medium</span>
+                <span class="related-card-title">Charles Bridge</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Gouda-naught Travel Nightmare!&rdquo;</span>
+            </a>
+<a href="./challenge-001-eiffel-tower.html" class="related-card peer-overflow" data-puzzle="1">
                 <span class="related-card-num">Challenge #001 • Easy</span>
                 <span class="related-card-title">Eiffel Tower</span>
                 <span class="related-card-sub">📍 Paris, France — &ldquo;Too much metal, not enough maple syrup!&rdquo;</span>
             </a>
-<a href="./challenge-005-stonehenge.html" class="related-card">
+<a href="./challenge-005-stonehenge.html" class="related-card peer-overflow" data-puzzle="5">
                 <span class="related-card-num">Challenge #005 • Easy</span>
                 <span class="related-card-title">Stonehenge</span>
                 <span class="related-card-sub">📍 Wiltshire, England — &ldquo;Prehistoric Pastry Predicament!&rdquo;</span>
             </a>
-<a href="./challenge-006-sagrada-familia.html" class="related-card">
-                <span class="related-card-num">Challenge #006 • Easy</span>
-                <span class="related-card-title">Sagrada Família</span>
-                <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;Sticky Situation, Unholy Mess!&rdquo;</span>
+<a href="./challenge-173-pena-palace.html" class="related-card future-locked" data-puzzle="173">
+                <span class="related-card-num">Challenge #173 • Medium</span>
+                <span class="related-card-title">Pena Palace</span>
+                <span class="related-card-sub">📍 Sintra, Portugal — &ldquo;Absolutely Nut-hing!&rdquo;</span>
             </a>
-<a href="./challenge-012-colosseum.html" class="related-card">
-                <span class="related-card-num">Challenge #012 • Hard</span>
-                <span class="related-card-title">Colosseum</span>
-                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Definitely not gladiatorial!&rdquo;</span>
+<a href="./challenge-174-blue-mosque.html" class="related-card future-locked" data-puzzle="174">
+                <span class="related-card-num">Challenge #174 • Easy</span>
+                <span class="related-card-title">Blue Mosque</span>
+                <span class="related-card-sub">📍 Istanbul, Turkey — &ldquo;Seriously Misleading Spa Day!&rdquo;</span>
             </a>
-<a href="./challenge-014-big-ben.html" class="related-card">
-                <span class="related-card-num">Challenge #014 • Easy</span>
-                <span class="related-card-title">Big Ben</span>
-                <span class="related-card-sub">📍 London, UK — &ldquo;My Qi is Still Blocked!&rdquo;</span>
+<a href="./challenge-178-the-london-eye.html" class="related-card future-locked" data-puzzle="178">
+                <span class="related-card-num">Challenge #178 • Medium</span>
+                <span class="related-card-title">The London Eye</span>
+                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Worst &quot;pie&quot; in London!&rdquo;</span>
             </a>
-<a href="./challenge-017-leaning-tower-of-pisa.html" class="related-card">
-                <span class="related-card-num">Challenge #017 • Medium</span>
-                <span class="related-card-title">Leaning Tower of Pisa</span>
-                <span class="related-card-sub">📍 Pisa, Italy — &ldquo;Seriously Misleading Name!&rdquo;</span>
+<a href="./challenge-181-westminster-abbey.html" class="related-card future-locked" data-puzzle="181">
+                <span class="related-card-num">Challenge #181 • Medium</span>
+                <span class="related-card-title">Westminster Abbey</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;Worst. Apple. Ever!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
+            </a>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

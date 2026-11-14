@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="116">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=116" class="nav-pill primary">🎮 Play Challenge #116</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=116" class="nav-pill primary landmark-live-content">🎮 Play Challenge #116</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #116: Louvre Museum</span>
+        <span class="landmark-live-content">Challenge #116: Louvre Museum</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #116 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #116</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-hard">Hard Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #116</span>
             </div>
-            <h1 class="page-title">Louvre Museum: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Nine Miles of Former Royal Palace Galleries That Will Not Exfoliate Your Elbows</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Paris, France</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 48.8606° N, 2.3376° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ ScrubbieDoo</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Left feeling completely unsmoothed.&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by ScrubbieDoo • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;This Parisian display left my skin feeling strangely scoured.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;So many scratchy fibers, not a single Mona Lisa smile in sight!&rdquo;</li>
-                        <li>&ldquo;My skin felt scrubbed raw after trying to &#x27;appreciate&#x27; the artwork.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=116" class="nav-pill primary">🎯 Solve Challenge #116 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #116!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>October 27, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Louvre Museum: A Field Guide</h2>
-            <p>Before it held thirty-eight thousand works of art, the Louvre was a grim twelfth-century stone fortress built by King Philip II in 1190 to stop Viking and English raiders from sailing up the Seine while he was away on the Third Crusade. You can still walk down into the basement today and see the original medieval moat piers that Renaissance kings later buried beneath sprawling royal apartments. When Louis XIV grew tired of rebellious Parisian mobs in 1682 and moved his entire court out to Versailles, the abandoned palace briefly became a chaotic squatters&#x27; village for artists and stove-piped workshops until the French Revolutionaries nationalized the royal art collection and opened the building as a public museum in August 1793.</p>
-            <p>Entering that collection today starts in the Cour Napoléon, where tourists spend forty minutes taking forced-perspective photos pinching the tip of I. M. Pei&#x27;s 1989 glass pyramid before descending into an underground shopping mall aroma of espresso and damp raincoats. With over four hundred rooms spread across three enormous wings, the Louvre is less an afternoon stroll and more a forced march through European history. Ninety percent of visitors sprint directly past five thousand years of Mesopotamian antiquities and Delacroix canvases to pack ten-deep into the Salle des États, where they hold phones above their heads to snap a blurry three-inch photo of the Mona Lisa behind two panes of bulletproof glass.</p>
-            <p>That artistic marathon left @ScrubbieDoo with an unusual dermatological complaint in &quot;Left feeling completely unsmoothed.&quot;, grieving that the &quot;Loofah Museum&quot; was full of &quot;scratchy fibers&quot; and left their skin &quot;scrubbed raw.&quot; Showing up on the Right Bank of Paris in a bathrobe expecting the world&#x27;s largest art museum to be a showroom for fibrous shower sponges is a monumental failure of French pronunciation. We can only hope @ScrubbieDoo did not attempt to exfoliate their shoulders against the Winged Victory of Samothrace or Jacques-Louis David&#x27;s twenty-by-thirty-foot canvas of the Coronation of Napoleon before security escorted them to the Rue de Rivoli.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Skip the long outdoor line at the central glass pyramid and enter through the underground Carrousel du Louvre shopping gallery on Rue de Rivoli with a pre-booked timed ticket.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Louvre+Museum" target="_blank" rel="noopener noreferrer">Read about Louvre Museum on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Louvre+Museum+Paris,+France" target="_blank" rel="noopener noreferrer">View Louvre Museum on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #116</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-hard">Hard Puzzle</span>
+                </div>
+                <h1 class="page-title">Louvre Museum: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Nine Miles of Former Royal Palace Galleries That Will Not Exfoliate Your Elbows</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=116" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #116</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Loofah Museum</p>
-                    <img src="../assets/cartoons/loofah_museum_1788150983.webp" alt="Loofah Museum parody postcard of Louvre Museum" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Louvre Museum):</strong><br>
-                        &ldquo;Listen here, @ScrubbieDoo, our prestigious collection features millennia of fine art, not scratchy, hollow fibers for your epidermal exfoliation. We are a museum, not a bathhouse.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Paris, France</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 48.8606° N, 2.3376° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ ScrubbieDoo</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-115-times-square.html" class="nav-pill">&larr; Prev: #115 Times Square</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-117-mont-saint-michel.html" class="nav-pill">Next: #117 Mont Saint-Michel &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Left feeling completely unsmoothed.&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by ScrubbieDoo • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;This Parisian display left my skin feeling strangely scoured.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;So many scratchy fibers, not a single Mona Lisa smile in sight!&rdquo;</li>
+                            <li>&ldquo;My skin felt scrubbed raw after trying to &#x27;appreciate&#x27; the artwork.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=116" class="nav-pill primary">🎯 Solve Challenge #116 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-032-matterhorn.html" class="related-card">
-                <span class="related-card-num">Challenge #032 • Medium</span>
-                <span class="related-card-title">Matterhorn</span>
-                <span class="related-card-sub">📍 Zermatt, Switzerland — &ldquo;Horribly Peaked and Crumbly!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Louvre Museum: A Field Guide</h2>
+                <p>Before it held thirty-eight thousand works of art, the Louvre was a grim twelfth-century stone fortress built by King Philip II in 1190 to stop Viking and English raiders from sailing up the Seine while he was away on the Third Crusade. You can still walk down into the basement today and see the original medieval moat piers that Renaissance kings later buried beneath sprawling royal apartments. When Louis XIV grew tired of rebellious Parisian mobs in 1682 and moved his entire court out to Versailles, the abandoned palace briefly became a chaotic squatters&#x27; village for artists and stove-piped workshops until the French Revolutionaries nationalized the royal art collection and opened the building as a public museum in August 1793.</p>
+                <p>Entering that collection today starts in the Cour Napoléon, where tourists spend forty minutes taking forced-perspective photos pinching the tip of I. M. Pei&#x27;s 1989 glass pyramid before descending into an underground shopping mall aroma of espresso and damp raincoats. With over four hundred rooms spread across three enormous wings, the Louvre is less an afternoon stroll and more a forced march through European history. Ninety percent of visitors sprint directly past five thousand years of Mesopotamian antiquities and Delacroix canvases to pack ten-deep into the Salle des États, where they hold phones above their heads to snap a blurry three-inch photo of the Mona Lisa behind two panes of bulletproof glass.</p>
+                <p>That artistic marathon left @ScrubbieDoo with an unusual dermatological complaint in &quot;Left feeling completely unsmoothed.&quot;, grieving that the &quot;Loofah Museum&quot; was full of &quot;scratchy fibers&quot; and left their skin &quot;scrubbed raw.&quot; Showing up on the Right Bank of Paris in a bathrobe expecting the world&#x27;s largest art museum to be a showroom for fibrous shower sponges is a monumental failure of French pronunciation. We can only hope @ScrubbieDoo did not attempt to exfoliate their shoulders against the Winged Victory of Samothrace or Jacques-Louis David&#x27;s twenty-by-thirty-foot canvas of the Coronation of Napoleon before security escorted them to the Rue de Rivoli.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Skip the long outdoor line at the central glass pyramid and enter through the underground Carrousel du Louvre shopping gallery on Rue de Rivoli with a pre-booked timed ticket.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Louvre+Museum" target="_blank" rel="noopener noreferrer">Read about Louvre Museum on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Louvre+Museum+Paris,+France" target="_blank" rel="noopener noreferrer">View Louvre Museum on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=116" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #116</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Loofah Museum</p>
+                        <img src="../assets/cartoons/loofah_museum_1788150983.webp" alt="Loofah Museum parody postcard of Louvre Museum" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Louvre Museum):</strong><br>
+                            &ldquo;Listen here, @ScrubbieDoo, our prestigious collection features millennia of fine art, not scratchy, hollow fibers for your epidermal exfoliation. We are a museum, not a bathhouse.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-115-times-square.html" class="nav-pill">&larr; Prev: #115 Times Square</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-117-mont-saint-michel.html" class="nav-pill">Next: #117 Mont Saint-Michel &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-095-alcazar-of-seville.html" class="related-card" data-puzzle="95">
+                <span class="related-card-num">Challenge #095 • Hard</span>
+                <span class="related-card-title">Alcázar of Seville</span>
+                <span class="related-card-sub">📍 Seville, Spain — &ldquo;A Royal Mess of a Meal!&rdquo;</span>
             </a>
-<a href="./challenge-033-cliffs-of-moher.html" class="related-card">
-                <span class="related-card-num">Challenge #033 • Hard</span>
-                <span class="related-card-title">Cliffs of Moher</span>
-                <span class="related-card-sub">📍 County Clare, Ireland — &ldquo;Split Ends of My Patience!&rdquo;</span>
+<a href="./challenge-103-gamla-stan.html" class="related-card" data-puzzle="103">
+                <span class="related-card-num">Challenge #103 • Hard</span>
+                <span class="related-card-title">Gamla Stan</span>
+                <span class="related-card-sub">📍 Stockholm, Sweden — &ldquo;My Nordic Nightmare Was Sweet and Gross!&rdquo;</span>
             </a>
-<a href="./challenge-035-giant-s-causeway.html" class="related-card">
-                <span class="related-card-num">Challenge #035 • Easy</span>
-                <span class="related-card-title">Giant&#x27;s Causeway</span>
-                <span class="related-card-sub">📍 County Antrim, Northern Ireland — &ldquo;The Longest Stop-Over!&rdquo;</span>
+<a href="./challenge-106-stonehenge.html" class="related-card" data-puzzle="106">
+                <span class="related-card-num">Challenge #106 • Easy</span>
+                <span class="related-card-title">Stonehenge</span>
+                <span class="related-card-sub">📍 Wiltshire, England — &ldquo;This place is utterly unhinged!&rdquo;</span>
             </a>
-<a href="./challenge-036-la-rambla.html" class="related-card">
-                <span class="related-card-num">Challenge #036 • Medium</span>
-                <span class="related-card-title">La Rambla</span>
-                <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;My travel plans were poached here!&rdquo;</span>
-            </a>
-<a href="./challenge-037-santorini.html" class="related-card">
-                <span class="related-card-num">Challenge #037 • Medium</span>
-                <span class="related-card-title">Santorini</span>
-                <span class="related-card-sub">📍 Cycladic Islands, Greece — &ldquo;Pasta-tively Awful!&rdquo;</span>
-            </a>
-<a href="./challenge-038-notre-dame-cathedral.html" class="related-card">
-                <span class="related-card-num">Challenge #038 • Hard</span>
+<a href="./challenge-109-notre-dame-cathedral.html" class="related-card" data-puzzle="109">
+                <span class="related-card-num">Challenge #109 • Hard</span>
                 <span class="related-card-title">Notre-Dame Cathedral</span>
-                <span class="related-card-sub">📍 Paris, France — &ldquo;More H2O than Holy Water!&rdquo;</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;Total Pasta-trophe!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-110-grand-canal.html" class="related-card" data-puzzle="110">
+                <span class="related-card-num">Challenge #110 • Hard</span>
+                <span class="related-card-title">Grand Canal</span>
+                <span class="related-card-sub">📍 Venice, Italy — &ldquo;More like Grumpy Canal!&rdquo;</span>
+            </a>
+<a href="./challenge-111-pompeii.html" class="related-card" data-puzzle="111">
+                <span class="related-card-num">Challenge #111 • Medium</span>
+                <span class="related-card-title">Pompeii</span>
+                <span class="related-card-sub">📍 Pompeii, Italy — &ldquo;Definitely Not A-Peeling!&rdquo;</span>
+            </a>
+<a href="./challenge-117-mont-saint-michel.html" class="related-card peer-overflow" data-puzzle="117">
+                <span class="related-card-num">Challenge #117 • Medium</span>
+                <span class="related-card-title">Mont Saint-Michel</span>
+                <span class="related-card-sub">📍 Normandy, France — &ldquo;Detonation Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-119-spanish-steps.html" class="related-card peer-overflow" data-puzzle="119">
+                <span class="related-card-num">Challenge #119 • Medium</span>
+                <span class="related-card-title">Spanish Steps</span>
+                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Seriously unsupportive!&rdquo;</span>
+            </a>
+<a href="./challenge-148-hallstatt.html" class="related-card future-locked" data-puzzle="148">
+                <span class="related-card-num">Challenge #148 • Medium</span>
+                <span class="related-card-title">Hallstatt</span>
+                <span class="related-card-sub">📍 Hallstatt, Austria — &ldquo;No Filling, Just Hills!&rdquo;</span>
+            </a>
+<a href="./challenge-149-plitvice-lakes-national-park.html" class="related-card future-locked" data-puzzle="149">
+                <span class="related-card-num">Challenge #149 • Hard</span>
+                <span class="related-card-title">Plitvice Lakes National Park</span>
+                <span class="related-card-sub">📍 Plitvice Lakes, Croatia — &ldquo;Where are the pastries?!&rdquo;</span>
+            </a>
+<a href="./challenge-157-fisherman-s-bastion.html" class="related-card future-locked" data-puzzle="157">
+                <span class="related-card-num">Challenge #157 • Hard</span>
+                <span class="related-card-title">Fisherman&#x27;s Bastion</span>
+                <span class="related-card-sub">📍 Budapest, Hungary — &ldquo;Zero Stars for Fish Storage!&rdquo;</span>
+            </a>
+<a href="./challenge-158-geirangerfjord.html" class="related-card future-locked" data-puzzle="158">
+                <span class="related-card-num">Challenge #158 • Medium</span>
+                <span class="related-card-title">Geirangerfjord</span>
+                <span class="related-card-sub">📍 Møre og Romsdal, Norway — &ldquo;Utterly Fork-gotten!&rdquo;</span>
+            </a>
+<a href="./challenge-159-prague-astronomical-clock.html" class="related-card future-locked" data-puzzle="159">
+                <span class="related-card-num">Challenge #159 • Medium</span>
+                <span class="related-card-title">Prague Astronomical Clock</span>
+                <span class="related-card-sub">📍 Prague, Czech Republic — &ldquo;My Feet Are Still Freezing!&rdquo;</span>
+            </a>
+<a href="./challenge-172-cinque-terre.html" class="related-card future-locked" data-puzzle="172">
+                <span class="related-card-num">Challenge #172 • Easy</span>
+                <span class="related-card-title">Cinque Terre</span>
+                <span class="related-card-sub">📍 Liguria, Italy — &ldquo;Where are the wheels?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

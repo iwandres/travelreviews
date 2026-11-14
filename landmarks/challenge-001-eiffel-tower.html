@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="1">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=001" class="nav-pill primary">🎮 Play Challenge #001</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=001" class="nav-pill primary landmark-live-content">🎮 Play Challenge #001</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #001: Eiffel Tower</span>
+        <span class="landmark-live-content">Challenge #001: Eiffel Tower</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #001 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #001</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #001</span>
             </div>
-            <h1 class="page-title">Eiffel Tower: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Paris&#x27;s Tallest Iron Lattice Remains Stubbornly Free of Maple Syrup After 137 Years</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Paris, France</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 48.8584° N, 2.2945° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ SoggyBatter</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Too much metal, not enough maple syrup!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by SoggyBatter • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;A colossal Parisian iron grid... but they forgot the butter and maple syrup station!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;This famous French tower grates on me... more like a giant breakfast disaster.&rdquo;</li>
-                        <li>&ldquo;It really *towered* over the Seine... all crispy, golden, and grid-like.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=001" class="nav-pill primary">🎯 Solve Challenge #001 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #001!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>July 4, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Eiffel Tower: A Field Guide</h2>
-            <p>Built as a temporary entrance arch for the 1889 Exposition Universelle, the Eiffel Tower was initially greeted by Paris&#x27;s cultural elite with the warmth usually reserved for a municipal sewage plant. Forty-seven prominent artists and writers, including Guy de Maupassant and Alexandre Dumas fils, signed a furious letter in Le Temps calling Gustave Eiffel&#x27;s 300-meter puddle-iron pylon a gigantic black factory chimney that would blot out Notre-Dame. Eiffel, whose engineers Maurice Koechlin and Emile Nouguier actually sketched the initial design before he bought out their patent rights, bolted together 18,038 wrought-iron pieces using 2.5 million thermally driven rivets. Scheduled to be scrapped in 1909, the tower only survived because the French military discovered its tip was ideal for intercepting encrypted German radio dispatches.</p>
-            <p>Today, the romance of the Champ de Mars begins behind a ten-foot bulletproof glass perimeter wall installed in 2018, lending the approach the breezy charm of an international customs terminal. You will stand for ninety minutes in a damp queue while men carrying bedsheets full of miniature flashing keychains scatter and regroup whenever two gendarmes roll past on mountain bikes. Those who book the summit elevator are packed shoulder-to-shoulder into a double-decker cabin smelling of wet wool and duty-free cologne, only to step out at 276 meters into a gale that whips your hair directly into a stranger&#x27;s sixteen-euro plastic flute of lukewarm champagne. Maupassant famously ate lunch inside the tower daily because it was the only spot in Paris where he couldn&#x27;t see it.</p>
-            <p>None of this historical nuance consoled @SoggyBatter, who arrived on the Left Bank armed with an empty stomach and a catastrophic misreading of the brochure. Expecting the Waffle Tower, our reviewer gazed up at 7,300 tons of cross-hatched structural iron painted in three official shades of bronze and felt personally betrayed by the absence of a whipped butter station. One has to admire the sheer logistical commitment required to fly to France, clear two security checkpoints, and glare at nineteenth-century civil engineering because its geometric trusses fail to hold pockets of warm Canadian maple syrup. Even the ground-floor kiosk crepes could not salvage the morning.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Save two hours and twelve euros by buying a stair ticket to the second floor, which gives you a better angle on the Paris skyline and keeps you out of the elevator sardine tin.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Eiffel+Tower" target="_blank" rel="noopener noreferrer">Read about Eiffel Tower on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Eiffel+Tower+Paris,+France" target="_blank" rel="noopener noreferrer">View Eiffel Tower on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #001</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Eiffel Tower: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Paris&#x27;s Tallest Iron Lattice Remains Stubbornly Free of Maple Syrup After 137 Years</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=001" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #001</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Waffle Tower</p>
-                    <img src="../assets/cartoons/waffle_tower_1783201852.webp" alt="Waffle Tower parody postcard of Eiffel Tower" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Eiffel Tower):</strong><br>
-                        &ldquo;Dear @SoggyBatter, we are a 330-meter Parisian iron monument. If you&#x27;re looking for &#x27;square indentations&#x27; for syrup on our historic girders, perhaps try a French patisserie, not our landmark.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Paris, France</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 48.8584° N, 2.2945° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ SoggyBatter</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-120-spanish-steps.html" class="nav-pill">&larr; Prev: #120 Spanish Steps</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-002-great-wall-of-china.html" class="nav-pill">Next: #002 Great Wall of China &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Too much metal, not enough maple syrup!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by SoggyBatter • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;A colossal Parisian iron grid... but they forgot the butter and maple syrup station!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;This famous French tower grates on me... more like a giant breakfast disaster.&rdquo;</li>
+                            <li>&ldquo;It really *towered* over the Seine... all crispy, golden, and grid-like.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=001" class="nav-pill primary">🎯 Solve Challenge #001 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-005-stonehenge.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Eiffel Tower: A Field Guide</h2>
+                <p>Built as a temporary entrance arch for the 1889 Exposition Universelle, the Eiffel Tower was initially greeted by Paris&#x27;s cultural elite with the warmth usually reserved for a municipal sewage plant. Forty-seven prominent artists and writers, including Guy de Maupassant and Alexandre Dumas fils, signed a furious letter in Le Temps calling Gustave Eiffel&#x27;s 300-meter puddle-iron pylon a gigantic black factory chimney that would blot out Notre-Dame. Eiffel, whose engineers Maurice Koechlin and Emile Nouguier actually sketched the initial design before he bought out their patent rights, bolted together 18,038 wrought-iron pieces using 2.5 million thermally driven rivets. Scheduled to be scrapped in 1909, the tower only survived because the French military discovered its tip was ideal for intercepting encrypted German radio dispatches.</p>
+                <p>Today, the romance of the Champ de Mars begins behind a ten-foot bulletproof glass perimeter wall installed in 2018, lending the approach the breezy charm of an international customs terminal. You will stand for ninety minutes in a damp queue while men carrying bedsheets full of miniature flashing keychains scatter and regroup whenever two gendarmes roll past on mountain bikes. Those who book the summit elevator are packed shoulder-to-shoulder into a double-decker cabin smelling of wet wool and duty-free cologne, only to step out at 276 meters into a gale that whips your hair directly into a stranger&#x27;s sixteen-euro plastic flute of lukewarm champagne. Maupassant famously ate lunch inside the tower daily because it was the only spot in Paris where he couldn&#x27;t see it.</p>
+                <p>None of this historical nuance consoled @SoggyBatter, who arrived on the Left Bank armed with an empty stomach and a catastrophic misreading of the brochure. Expecting the Waffle Tower, our reviewer gazed up at 7,300 tons of cross-hatched structural iron painted in three official shades of bronze and felt personally betrayed by the absence of a whipped butter station. One has to admire the sheer logistical commitment required to fly to France, clear two security checkpoints, and glare at nineteenth-century civil engineering because its geometric trusses fail to hold pockets of warm Canadian maple syrup. Even the ground-floor kiosk crepes could not salvage the morning.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Save two hours and twelve euros by buying a stair ticket to the second floor, which gives you a better angle on the Paris skyline and keeps you out of the elevator sardine tin.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Eiffel+Tower" target="_blank" rel="noopener noreferrer">Read about Eiffel Tower on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Eiffel+Tower+Paris,+France" target="_blank" rel="noopener noreferrer">View Eiffel Tower on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=001" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #001</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Waffle Tower</p>
+                        <img src="../assets/cartoons/waffle_tower_1783201852.webp" alt="Waffle Tower parody postcard of Eiffel Tower" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Eiffel Tower):</strong><br>
+                            &ldquo;Dear @SoggyBatter, we are a 330-meter Parisian iron monument. If you&#x27;re looking for &#x27;square indentations&#x27; for syrup on our historic girders, perhaps try a French patisserie, not our landmark.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-134-parliament-hill.html" class="nav-pill">&larr; Prev: #134 Parliament Hill</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-002-great-wall-of-china.html" class="nav-pill">Next: #002 Great Wall of China &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-005-stonehenge.html" class="related-card" data-puzzle="5">
                 <span class="related-card-num">Challenge #005 • Easy</span>
                 <span class="related-card-title">Stonehenge</span>
                 <span class="related-card-sub">📍 Wiltshire, England — &ldquo;Prehistoric Pastry Predicament!&rdquo;</span>
             </a>
-<a href="./challenge-006-sagrada-familia.html" class="related-card">
+<a href="./challenge-006-sagrada-familia.html" class="related-card" data-puzzle="6">
                 <span class="related-card-num">Challenge #006 • Easy</span>
                 <span class="related-card-title">Sagrada Família</span>
                 <span class="related-card-sub">📍 Barcelona, Spain — &ldquo;Sticky Situation, Unholy Mess!&rdquo;</span>
             </a>
-<a href="./challenge-012-colosseum.html" class="related-card">
+<a href="./challenge-012-colosseum.html" class="related-card" data-puzzle="12">
                 <span class="related-card-num">Challenge #012 • Hard</span>
                 <span class="related-card-title">Colosseum</span>
                 <span class="related-card-sub">📍 Rome, Italy — &ldquo;Definitely not gladiatorial!&rdquo;</span>
             </a>
-<a href="./challenge-014-big-ben.html" class="related-card">
+<a href="./challenge-014-big-ben.html" class="related-card" data-puzzle="14">
                 <span class="related-card-num">Challenge #014 • Easy</span>
                 <span class="related-card-title">Big Ben</span>
                 <span class="related-card-sub">📍 London, UK — &ldquo;My Qi is Still Blocked!&rdquo;</span>
             </a>
-<a href="./challenge-017-leaning-tower-of-pisa.html" class="related-card">
+<a href="./challenge-017-leaning-tower-of-pisa.html" class="related-card" data-puzzle="17">
                 <span class="related-card-num">Challenge #017 • Medium</span>
                 <span class="related-card-title">Leaning Tower of Pisa</span>
                 <span class="related-card-sub">📍 Pisa, Italy — &ldquo;Seriously Misleading Name!&rdquo;</span>
             </a>
-<a href="./challenge-021-tower-bridge.html" class="related-card">
+<a href="./challenge-021-tower-bridge.html" class="related-card" data-puzzle="21">
                 <span class="related-card-num">Challenge #021 • Medium</span>
                 <span class="related-card-title">Tower Bridge</span>
                 <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Definitely a wash-out experience!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-022-st-peter-s-basilica.html" class="related-card peer-overflow" data-puzzle="22">
+                <span class="related-card-num">Challenge #022 • Easy</span>
+                <span class="related-card-title">St. Peter&#x27;s Basilica</span>
+                <span class="related-card-sub">📍 Vatican City — &ldquo;Holy Smoke! Total Misfire!&rdquo;</span>
+            </a>
+<a href="./challenge-023-pantheon.html" class="related-card peer-overflow" data-puzzle="23">
+                <span class="related-card-num">Challenge #023 • Hard</span>
+                <span class="related-card-title">Pantheon</span>
+                <span class="related-card-sub">📍 Rome, Italy — &ldquo;Worst preservation job EVER!&rdquo;</span>
+            </a>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
+            </a>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
+            </a>
+<a href="./challenge-148-hallstatt.html" class="related-card future-locked" data-puzzle="148">
+                <span class="related-card-num">Challenge #148 • Medium</span>
+                <span class="related-card-title">Hallstatt</span>
+                <span class="related-card-sub">📍 Hallstatt, Austria — &ldquo;No Filling, Just Hills!&rdquo;</span>
+            </a>
+<a href="./challenge-149-plitvice-lakes-national-park.html" class="related-card future-locked" data-puzzle="149">
+                <span class="related-card-num">Challenge #149 • Hard</span>
+                <span class="related-card-title">Plitvice Lakes National Park</span>
+                <span class="related-card-sub">📍 Plitvice Lakes, Croatia — &ldquo;Where are the pastries?!&rdquo;</span>
+            </a>
+<a href="./challenge-157-fisherman-s-bastion.html" class="related-card future-locked" data-puzzle="157">
+                <span class="related-card-num">Challenge #157 • Hard</span>
+                <span class="related-card-title">Fisherman&#x27;s Bastion</span>
+                <span class="related-card-sub">📍 Budapest, Hungary — &ldquo;Zero Stars for Fish Storage!&rdquo;</span>
+            </a>
+<a href="./challenge-158-geirangerfjord.html" class="related-card future-locked" data-puzzle="158">
+                <span class="related-card-num">Challenge #158 • Medium</span>
+                <span class="related-card-title">Geirangerfjord</span>
+                <span class="related-card-sub">📍 Møre og Romsdal, Norway — &ldquo;Utterly Fork-gotten!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

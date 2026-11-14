@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="36">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=036" class="nav-pill primary">🎮 Play Challenge #036</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=036" class="nav-pill primary landmark-live-content">🎮 Play Challenge #036</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #036: La Rambla</span>
+        <span class="landmark-live-content">Challenge #036: La Rambla</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #036 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #036</span>
-                <span class="badge badge-region">🌎 Europe</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #036</span>
             </div>
-            <h1 class="page-title">La Rambla: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Twelve Hundred Meters of Barcelona Pavement Where the Only Thing Poached Is Your Wallet</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Barcelona, Spain</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 41.3809° N, 2.1735° E</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ HuevoRoto</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;My travel plans were poached here!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by HuevoRoto • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;¡Qué desorden! Too many broken yolks, a truly chaotic Spanish stroll.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Sticky mess underfoot! Avoided street performers, just slipped on shells.&rdquo;</li>
-                        <li>&ldquo;Not a leisurely walk at all... more of a mad, unorganized dash!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=036" class="nav-pill primary">🎯 Solve Challenge #036 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #036!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>August 8, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real La Rambla: A Field Guide</h2>
-            <p>Long before it became Europe&#x27;s premier obstacle course for bewildered cruise-ship passengers, La Rambla was a dry, stony gully that drained rainwater from the Collserola hills down to the Mediterranean just outside Barcelona&#x27;s thirteenth-century city walls. Its very name comes from the Arabic word ramla, meaning sandy riverbed. Over the centuries, religious orders built bulky convents along the quieter bank until 1700s urban planners tore down the medieval fortifications, paved the ditch, and planted rows of plane trees. By the mid-nineteenth century, with the opening of the Gran Teatre del Liceu opera house in 1847 and the iron-roofed Mercat de la Boqueria, it was the most fashionable promenade in Catalonia.</p>
-            <p>Spanish poet Federico García Lorca once remarked that La Rambla was the only street in the world he wished would never end, a sentiment shared today solely by the unlicensed street vendors selling flashing plastic helicopters at midnight. Walking the 1.2 kilometers from Plaça de Catalunya down to the Columbus Monument means navigating a dense human river while clutching your front pockets like a medieval miser. Sidewalk cafés along the central pedestrian strip will cheerfully charge you twenty-two euros for a lukewarm pitcher of sangria the size of a goldfish bowl and a plate of defrosted patatas bravas, while silver-painted human statues glare at anyone who takes a photo without dropping a two-euro coin.</p>
-            <p>Into this Catalan carnival strolled @HuevoRoto, who filed an outraged one-star complaint titled &#x27;My travel plans were poached here!&#x27; after apparently confusing Barcelona&#x27;s central boulevard with a giant frying pan of scrambled eggs. To fly into El Prat Airport, ride the Aerobús to the city center, and march down Joan Miró&#x27;s mosaic pavement while complaining about &#x27;broken yolks&#x27; and &#x27;slipping on shells&#x27; is an impressive feat of culinary projection. Granted, if you wander past the back alleys of the Gothic Quarter at four in the morning after a Barça football match, the cobblestones are certainly sticky underfoot, though the culprit is almost never free-range poultry.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Duck into the Mercat de la Boqueria before 9:30 a.m. and head straight to the back stalls if you want actual jamón ibérico instead of an eight-euro cup of warm fruit salad.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=La+Rambla" target="_blank" rel="noopener noreferrer">Read about La Rambla on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=La+Rambla+Barcelona,+Spain" target="_blank" rel="noopener noreferrer">View La Rambla on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #036</span>
+                    <span class="badge badge-region">🌎 Europe</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">La Rambla: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Twelve Hundred Meters of Barcelona Pavement Where the Only Thing Poached Is Your Wallet</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=036" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #036</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: La Scrambla</p>
-                    <img src="../assets/cartoons/la_scrambla_1783436287.webp" alt="La Scrambla parody postcard of La Rambla" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (La Rambla):</strong><br>
-                        &ldquo;Dear @HuevoRoto, we are a historic tree-lined promenade, not a giant skillet for your breakfast mishaps. Our pavement is cobblestone, not for slipping on broken yolks.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Barcelona, Spain</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 41.3809° N, 2.1735° E</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ HuevoRoto</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-035-giant-s-causeway.html" class="nav-pill">&larr; Prev: #035 Giant&#x27;s Causeway</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-037-santorini.html" class="nav-pill">Next: #037 Santorini &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;My travel plans were poached here!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by HuevoRoto • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;¡Qué desorden! Too many broken yolks, a truly chaotic Spanish stroll.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Sticky mess underfoot! Avoided street performers, just slipped on shells.&rdquo;</li>
+                            <li>&ldquo;Not a leisurely walk at all... more of a mad, unorganized dash!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=036" class="nav-pill primary">🎯 Solve Challenge #036 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
-            <div class="related-grid">
-                <a href="./challenge-067-big-ben.html" class="related-card">
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real La Rambla: A Field Guide</h2>
+                <p>Long before it became Europe&#x27;s premier obstacle course for bewildered cruise-ship passengers, La Rambla was a dry, stony gully that drained rainwater from the Collserola hills down to the Mediterranean just outside Barcelona&#x27;s thirteenth-century city walls. Its very name comes from the Arabic word ramla, meaning sandy riverbed. Over the centuries, religious orders built bulky convents along the quieter bank until 1700s urban planners tore down the medieval fortifications, paved the ditch, and planted rows of plane trees. By the mid-nineteenth century, with the opening of the Gran Teatre del Liceu opera house in 1847 and the iron-roofed Mercat de la Boqueria, it was the most fashionable promenade in Catalonia.</p>
+                <p>Spanish poet Federico García Lorca once remarked that La Rambla was the only street in the world he wished would never end, a sentiment shared today solely by the unlicensed street vendors selling flashing plastic helicopters at midnight. Walking the 1.2 kilometers from Plaça de Catalunya down to the Columbus Monument means navigating a dense human river while clutching your front pockets like a medieval miser. Sidewalk cafés along the central pedestrian strip will cheerfully charge you twenty-two euros for a lukewarm pitcher of sangria the size of a goldfish bowl and a plate of defrosted patatas bravas, while silver-painted human statues glare at anyone who takes a photo without dropping a two-euro coin.</p>
+                <p>Into this Catalan carnival strolled @HuevoRoto, who filed an outraged one-star complaint titled &#x27;My travel plans were poached here!&#x27; after apparently confusing Barcelona&#x27;s central boulevard with a giant frying pan of scrambled eggs. To fly into El Prat Airport, ride the Aerobús to the city center, and march down Joan Miró&#x27;s mosaic pavement while complaining about &#x27;broken yolks&#x27; and &#x27;slipping on shells&#x27; is an impressive feat of culinary projection. Granted, if you wander past the back alleys of the Gothic Quarter at four in the morning after a Barça football match, the cobblestones are certainly sticky underfoot, though the culprit is almost never free-range poultry.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Duck into the Mercat de la Boqueria before 9:30 a.m. and head straight to the back stalls if you want actual jamón ibérico instead of an eight-euro cup of warm fruit salad.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=La+Rambla" target="_blank" rel="noopener noreferrer">Read about La Rambla on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=La+Rambla+Barcelona,+Spain" target="_blank" rel="noopener noreferrer">View La Rambla on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=036" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #036</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: La Scrambla</p>
+                        <img src="../assets/cartoons/la_scrambla_1783436287.webp" alt="La Scrambla parody postcard of La Rambla" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (La Rambla):</strong><br>
+                            &ldquo;Dear @HuevoRoto, we are a historic tree-lined promenade, not a giant skillet for your breakfast mishaps. Our pavement is cobblestone, not for slipping on broken yolks.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-035-giant-s-causeway.html" class="nav-pill">&larr; Prev: #035 Giant&#x27;s Causeway</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-037-santorini.html" class="nav-pill">Next: #037 Santorini &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Europe</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-055-roman-baths.html" class="related-card" data-puzzle="55">
+                <span class="related-card-num">Challenge #055 • Easy</span>
+                <span class="related-card-title">Roman Baths</span>
+                <span class="related-card-sub">📍 Bath, England — &ldquo;Seriously Misleading Soak.&rdquo;</span>
+            </a>
+<a href="./challenge-057-brandenburg-gate.html" class="related-card" data-puzzle="57">
+                <span class="related-card-num">Challenge #057 • Easy</span>
+                <span class="related-card-title">Brandenburg Gate</span>
+                <span class="related-card-sub">📍 Berlin, Germany — &ldquo;Totally Bleats Expectations!&rdquo;</span>
+            </a>
+<a href="./challenge-058-reichstag-building.html" class="related-card" data-puzzle="58">
+                <span class="related-card-num">Challenge #058 • Easy</span>
+                <span class="related-card-title">Reichstag Building</span>
+                <span class="related-card-sub">📍 Berlin, Germany — &ldquo;Mis-TAGged Location!&rdquo;</span>
+            </a>
+<a href="./challenge-059-cologne-cathedral.html" class="related-card" data-puzzle="59">
+                <span class="related-card-num">Challenge #059 • Easy</span>
+                <span class="related-card-title">Cologne Cathedral</span>
+                <span class="related-card-sub">📍 Cologne, Germany — &ldquo;Utter Baloney!&rdquo;</span>
+            </a>
+<a href="./challenge-060-palace-of-knossos.html" class="related-card" data-puzzle="60">
+                <span class="related-card-num">Challenge #060 • Easy</span>
+                <span class="related-card-title">Palace of Knossos</span>
+                <span class="related-card-sub">📍 Heraklion, Crete, Greece — &ldquo;Absolutely FLAVORLESS experience!&rdquo;</span>
+            </a>
+<a href="./challenge-062-eiffel-tower.html" class="related-card" data-puzzle="62">
+                <span class="related-card-num">Challenge #062 • Medium</span>
+                <span class="related-card-title">Eiffel Tower</span>
+                <span class="related-card-sub">📍 Paris, France — &ldquo;A Monumental Drenching!&rdquo;</span>
+            </a>
+<a href="./challenge-067-big-ben.html" class="related-card peer-overflow" data-puzzle="67">
                 <span class="related-card-num">Challenge #067 • Easy</span>
                 <span class="related-card-title">Big Ben</span>
                 <span class="related-card-sub">📍 London, UK — &ldquo;Utterly Swine-ful Experience!&rdquo;</span>
             </a>
-<a href="./challenge-068-colosseum.html" class="related-card">
+<a href="./challenge-068-colosseum.html" class="related-card peer-overflow" data-puzzle="68">
                 <span class="related-card-num">Challenge #068 • Hard</span>
                 <span class="related-card-title">Colosseum</span>
                 <span class="related-card-sub">📍 Rome, Italy — &ldquo;Worst Relish-tory Lesson Ever.&rdquo;</span>
             </a>
-<a href="./challenge-069-leaning-tower-of-pisa.html" class="related-card">
-                <span class="related-card-num">Challenge #069 • Hard</span>
-                <span class="related-card-title">Leaning Tower of Pisa</span>
-                <span class="related-card-sub">📍 Pisa, Italy — &ldquo;This Place Really Crumbles!&rdquo;</span>
+<a href="./challenge-178-the-london-eye.html" class="related-card future-locked" data-puzzle="178">
+                <span class="related-card-num">Challenge #178 • Medium</span>
+                <span class="related-card-title">The London Eye</span>
+                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;Worst &quot;pie&quot; in London!&rdquo;</span>
             </a>
-<a href="./challenge-070-eiffel-tower.html" class="related-card">
-                <span class="related-card-num">Challenge #070 • Easy</span>
-                <span class="related-card-title">Eiffel Tower</span>
-                <span class="related-card-sub">📍 Paris, France — &ldquo;Seriously disappointing bloom!&rdquo;</span>
+<a href="./challenge-181-westminster-abbey.html" class="related-card future-locked" data-puzzle="181">
+                <span class="related-card-num">Challenge #181 • Medium</span>
+                <span class="related-card-title">Westminster Abbey</span>
+                <span class="related-card-sub">📍 London, England — &ldquo;Worst. Apple. Ever!&rdquo;</span>
             </a>
-<a href="./challenge-071-tower-bridge.html" class="related-card">
-                <span class="related-card-num">Challenge #071 • Easy</span>
-                <span class="related-card-title">Tower Bridge</span>
-                <span class="related-card-sub">📍 London, United Kingdom — &ldquo;More like SOUR-pise!&rdquo;</span>
+<a href="./challenge-136-walls-of-dubrovnik.html" class="related-card future-locked" data-puzzle="136">
+                <span class="related-card-num">Challenge #136 • Hard</span>
+                <span class="related-card-title">Walls of Dubrovnik</span>
+                <span class="related-card-sub">📍 Dubrovnik, Croatia — &ldquo;Seriously Misleading Brochure!&rdquo;</span>
             </a>
-<a href="./challenge-072-eiffel-tower.html" class="related-card">
-                <span class="related-card-num">Challenge #072 • Medium</span>
-                <span class="related-card-title">Eiffel Tower</span>
-                <span class="related-card-sub">📍 Paris, France — &ldquo;Terrible!&rdquo;</span>
+<a href="./challenge-147-the-blue-lagoon.html" class="related-card future-locked" data-puzzle="147">
+                <span class="related-card-num">Challenge #147 • Medium</span>
+                <span class="related-card-title">The Blue Lagoon</span>
+                <span class="related-card-sub">📍 Grindavik, Iceland — &ldquo;This Lagoon Left Me Totally Unbonded!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-148-hallstatt.html" class="related-card future-locked" data-puzzle="148">
+                <span class="related-card-num">Challenge #148 • Medium</span>
+                <span class="related-card-title">Hallstatt</span>
+                <span class="related-card-sub">📍 Hallstatt, Austria — &ldquo;No Filling, Just Hills!&rdquo;</span>
+            </a>
+<a href="./challenge-149-plitvice-lakes-national-park.html" class="related-card future-locked" data-puzzle="149">
+                <span class="related-card-num">Challenge #149 • Hard</span>
+                <span class="related-card-title">Plitvice Lakes National Park</span>
+                <span class="related-card-sub">📍 Plitvice Lakes, Croatia — &ldquo;Where are the pastries?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="83">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=083" class="nav-pill primary">🎮 Play Challenge #083</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=083" class="nav-pill primary landmark-live-content">🎮 Play Challenge #083</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #083: Machu Picchu</span>
+        <span class="landmark-live-content">Challenge #083: Machu Picchu</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #083 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #083</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-medium">Medium Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #083</span>
             </div>
-            <h1 class="page-title">Machu Picchu: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Mortarless Inca Granite at Eight Thousand Feet, Odor-Eaters Sold Separately</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Cusco Region, Peru</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 13.1631° S, 72.5450° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ StinkyFoot</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Lost my sole, found a stench!&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by StinkyFoot • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Ancient Peruvian craftsmanship? More like ancient shoe funk... awful climb!&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Terraced hills of footwear... impossible to tie, always tripping!&rdquo;</li>
-                        <li>&ldquo;This &#x27;peak&#x27; experience just made my feet incredibly, utterly sore.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=083" class="nav-pill primary">🎯 Solve Challenge #083 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #083!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>September 24, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Machu Picchu: A Field Guide</h2>
-            <p>Constructed around 1450 at the height of the Inca Empire as a royal estate for Emperor Pachacuti and abandoned less than a century later during the Spanish conquest, Machu Picchu was never found by the conquistadors, who stayed down in the Urubamba Valley looting easier targets. Consequently, its dry-stone granite temples escaped being dismantled to build colonial churches. When Yale historian Hiram Bingham III was led up the ridge in July 1911 by local farmer Melchor Arteaga and his eleven-year-old son Pablito, two local families were already farming the ruins. Inca masons shaped the white granite blocks using river cobbles so precisely that not even a credit card fits between the mortarless joints, letting the walls shift slightly during earthquakes and settle right back into place.</p>
-            <p>Visiting this eight-thousand-foot cloud-forest ridge today requires navigating a bureaucratic labyrinth worthy of the Inca tax system. After taking a train to Aguas Calientes and queuing at dawn for the nerve-shredding twenty-five-minute switchback bus ride up the Hiram Bingham Highway, you must pick one of several strictly enforced, one-way walking circuits. There are zero bathrooms inside the archaeological gate, walking sticks with metal tips are banned to protect the stone, and rangers blow whistles if you backtrack ten feet or jump in the air for a photo. Within twenty minutes, the morning mist burns off into high-altitude equatorial sunshine while resident llamas photobomb tourists and nonchalantly chew the grass on the agricultural terraces.</p>
-            <p>All those stone staircases took a heavy toll on StinkyFoot, who limped down the Andes after visiting what they thought was &quot;My Shoe Picchu.&quot; In a pungent review titled &quot;Lost my sole, found a stench!&quot;, this footsore hiker compares fifteenth-century Inca masonry to &quot;ancient shoe funk&quot; and claims they encountered &quot;terraced hills of footwear... impossible to tie, always tripping!&quot; Admittedly, anyone who hikes the four-day Inca Trail without changing their wool socks is going to produce an aroma capable of stunning a condor at fifty paces, and the stone steps are steep enough to destroy cheap sneakers. Still, blaming Emperor Pachacuti because you forgot foot powder is a stretch.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Use the restroom right outside the turnstiles before scanning your entry ticket, because once you step onto a one-way circuit inside the ruins, leaving to use the toilet means your visit is officially over.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Machu+Picchu" target="_blank" rel="noopener noreferrer">Read about Machu Picchu on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Machu+Picchu+Cusco+Region,+Peru" target="_blank" rel="noopener noreferrer">View Machu Picchu on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #083</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-medium">Medium Puzzle</span>
+                </div>
+                <h1 class="page-title">Machu Picchu: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Mortarless Inca Granite at Eight Thousand Feet, Odor-Eaters Sold Separately</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=083" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #083</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: My Shoe Picchu</p>
-                    <img src="../assets/cartoons/my_shoe_picchu_1788148202.webp" alt="My Shoe Picchu parody postcard of Machu Picchu" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Machu Picchu):</strong><br>
-                        &ldquo;Dear @StinkyFoot, our ancient Inca citadel is a breathtaking wonder of stone masonry, not a shoe to develop &#x27;ancient shoe funk&#x27; or to tie. Perhaps you&#x27;ve confused us with a lost-and-found bin?&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Cusco Region, Peru</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 13.1631° S, 72.5450° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ StinkyFoot</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-082-alcatraz-island.html" class="nav-pill">&larr; Prev: #082 Alcatraz Island</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-084-chichen-itza.html" class="nav-pill">Next: #084 Chichen Itza &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Lost my sole, found a stench!&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by StinkyFoot • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Ancient Peruvian craftsmanship? More like ancient shoe funk... awful climb!&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Terraced hills of footwear... impossible to tie, always tripping!&rdquo;</li>
+                            <li>&ldquo;This &#x27;peak&#x27; experience just made my feet incredibly, utterly sore.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=083" class="nav-pill primary">🎯 Solve Challenge #083 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-075-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #075 • Easy</span>
-                <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Expected Fiery, Got Sleepy.&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Machu Picchu: A Field Guide</h2>
+                <p>Constructed around 1450 at the height of the Inca Empire as a royal estate for Emperor Pachacuti and abandoned less than a century later during the Spanish conquest, Machu Picchu was never found by the conquistadors, who stayed down in the Urubamba Valley looting easier targets. Consequently, its dry-stone granite temples escaped being dismantled to build colonial churches. When Yale historian Hiram Bingham III was led up the ridge in July 1911 by local farmer Melchor Arteaga and his eleven-year-old son Pablito, two local families were already farming the ruins. Inca masons shaped the white granite blocks using river cobbles so precisely that not even a credit card fits between the mortarless joints, letting the walls shift slightly during earthquakes and settle right back into place.</p>
+                <p>Visiting this eight-thousand-foot cloud-forest ridge today requires navigating a bureaucratic labyrinth worthy of the Inca tax system. After taking a train to Aguas Calientes and queuing at dawn for the nerve-shredding twenty-five-minute switchback bus ride up the Hiram Bingham Highway, you must pick one of several strictly enforced, one-way walking circuits. There are zero bathrooms inside the archaeological gate, walking sticks with metal tips are banned to protect the stone, and rangers blow whistles if you backtrack ten feet or jump in the air for a photo. Within twenty minutes, the morning mist burns off into high-altitude equatorial sunshine while resident llamas photobomb tourists and nonchalantly chew the grass on the agricultural terraces.</p>
+                <p>All those stone staircases took a heavy toll on StinkyFoot, who limped down the Andes after visiting what they thought was &quot;My Shoe Picchu.&quot; In a pungent review titled &quot;Lost my sole, found a stench!&quot;, this footsore hiker compares fifteenth-century Inca masonry to &quot;ancient shoe funk&quot; and claims they encountered &quot;terraced hills of footwear... impossible to tie, always tripping!&quot; Admittedly, anyone who hikes the four-day Inca Trail without changing their wool socks is going to produce an aroma capable of stunning a condor at fifty paces, and the stone steps are steep enough to destroy cheap sneakers. Still, blaming Emperor Pachacuti because you forgot foot powder is a stretch.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Use the restroom right outside the turnstiles before scanning your entry ticket, because once you step onto a one-way circuit inside the ruins, leaving to use the toilet means your visit is officially over.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Machu+Picchu" target="_blank" rel="noopener noreferrer">Read about Machu Picchu on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Machu+Picchu+Cusco+Region,+Peru" target="_blank" rel="noopener noreferrer">View Machu Picchu on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=083" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #083</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: My Shoe Picchu</p>
+                        <img src="../assets/cartoons/my_shoe_picchu_1788148202.webp" alt="My Shoe Picchu parody postcard of Machu Picchu" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Machu Picchu):</strong><br>
+                            &ldquo;Dear @StinkyFoot, our ancient Inca citadel is a breathtaking wonder of stone masonry, not a shoe to develop &#x27;ancient shoe funk&#x27; or to tie. Perhaps you&#x27;ve confused us with a lost-and-found bin?&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-082-alcatraz-island.html" class="nav-pill">&larr; Prev: #082 Alcatraz Island</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-084-chichen-itza.html" class="nav-pill">Next: #084 Chichen Itza &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-007-golden-gate-bridge.html" class="related-card" data-puzzle="7">
+                <span class="related-card-num">Challenge #007 • Medium</span>
+                <span class="related-card-title">Golden Gate Bridge</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;My produce went bad faster here!&rdquo;</span>
             </a>
-<a href="./challenge-082-alcatraz-island.html" class="related-card">
-                <span class="related-card-num">Challenge #082 • Medium</span>
-                <span class="related-card-title">Alcatraz Island</span>
-                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Sentenced to Sobriety!&rdquo;</span>
-            </a>
-<a href="./challenge-084-chichen-itza.html" class="related-card">
-                <span class="related-card-num">Challenge #084 • Medium</span>
+<a href="./challenge-009-chichen-itza.html" class="related-card" data-puzzle="9">
+                <span class="related-card-num">Challenge #009 • Easy</span>
                 <span class="related-card-title">Chichen Itza</span>
-                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Unbearably Itchy!&rdquo;</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Not exactly a wonder, more like a blunder!&rdquo;</span>
             </a>
-<a href="./challenge-086-tikal.html" class="related-card">
-                <span class="related-card-num">Challenge #086 • Medium</span>
-                <span class="related-card-title">Tikal</span>
-                <span class="related-card-sub">📍 Peten, Guatemala — &ldquo;My Sides Still Ache!&rdquo;</span>
+<a href="./challenge-011-christ-the-redeemer.html" class="related-card" data-puzzle="11">
+                <span class="related-card-num">Challenge #011 • Easy</span>
+                <span class="related-card-title">Christ the Redeemer</span>
+                <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;Unleavened Experience!&rdquo;</span>
             </a>
-<a href="./challenge-090-kennedy-space-center.html" class="related-card">
-                <span class="related-card-num">Challenge #090 • Hard</span>
-                <span class="related-card-title">Kennedy Space Center</span>
-                <span class="related-card-sub">📍 Merritt Island, Florida, USA — &ldquo;More like Kennedy Waste Center!&rdquo;</span>
+<a href="./challenge-013-panama-canal.html" class="related-card" data-puzzle="13">
+                <span class="related-card-num">Challenge #013 • Hard</span>
+                <span class="related-card-title">Panama Canal</span>
+                <span class="related-card-sub">📍 Panama City, Panama — &ldquo;Definitely NOT a shortcut to dreamland.&rdquo;</span>
             </a>
-<a href="./challenge-091-everglades-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #091 • Hard</span>
-                <span class="related-card-title">Everglades National Park</span>
-                <span class="related-card-sub">📍 Florida, USA — &ldquo;A Glaze-ing Disappointment!&rdquo;</span>
+<a href="./challenge-016-yellowstone-national-park.html" class="related-card" data-puzzle="16">
+                <span class="related-card-num">Challenge #016 • Hard</span>
+                <span class="related-card-title">Yellowstone National Park</span>
+                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;A Resounding Disappointment&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-018-empire-state-building.html" class="related-card" data-puzzle="18">
+                <span class="related-card-num">Challenge #018 • Medium</span>
+                <span class="related-card-title">Empire State Building</span>
+                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Fang-tastic...ly Awful!&rdquo;</span>
+            </a>
+<a href="./challenge-019-times-square.html" class="related-card peer-overflow" data-puzzle="19">
+                <span class="related-card-num">Challenge #019 • Easy</span>
+                <span class="related-card-title">Times Square</span>
+                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;A Real Squeeze!&rdquo;</span>
+            </a>
+<a href="./challenge-027-alcatraz-island.html" class="related-card peer-overflow" data-puzzle="27">
+                <span class="related-card-num">Challenge #027 • Medium</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Definitely NOT escape-proof!&rdquo;</span>
+            </a>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
+            </a>
+<a href="./challenge-168-deception-island.html" class="related-card future-locked" data-puzzle="168">
+                <span class="related-card-num">Challenge #168 • Hard</span>
+                <span class="related-card-title">Deception Island</span>
+                <span class="related-card-sub">📍 South Shetland Islands, Antarctica — &ldquo;My vision for this trip was shattered!&rdquo;</span>
+            </a>
+<a href="./challenge-170-gros-morne-national-park.html" class="related-card future-locked" data-puzzle="170">
+                <span class="related-card-num">Challenge #170 • Hard</span>
+                <span class="related-card-title">Gros Morne National Park</span>
+                <span class="related-card-sub">📍 Newfoundland and Labrador, Canada — &ldquo;Horn-dously Misleading!&rdquo;</span>
+            </a>
+<a href="./challenge-171-land-s-end-arch.html" class="related-card future-locked" data-puzzle="171">
+                <span class="related-card-num">Challenge #171 • Hard</span>
+                <span class="related-card-title">Land&#x27;s End Arch</span>
+                <span class="related-card-sub">📍 Cabo San Lucas, Mexico — &ldquo;Where&#x27;s the Garnish?!&rdquo;</span>
+            </a>
+<a href="./challenge-175-willis-tower.html" class="related-card future-locked" data-puzzle="175">
+                <span class="related-card-num">Challenge #175 • Medium</span>
+                <span class="related-card-title">Willis Tower</span>
+                <span class="related-card-sub">📍 Chicago, USA — &ldquo;Where&#x27;s My Breakfast?!&rdquo;</span>
+            </a>
+<a href="./challenge-137-la-boca-caminito.html" class="related-card future-locked" data-puzzle="137">
+                <span class="related-card-num">Challenge #137 • Medium</span>
+                <span class="related-card-title">La Boca (Caminito)</span>
+                <span class="related-card-sub">📍 Buenos Aires, Argentina — &ldquo;My breakfast dreams, utterly shattered!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

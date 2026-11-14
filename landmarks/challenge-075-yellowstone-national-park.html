@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="75">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=075" class="nav-pill primary">🎮 Play Challenge #075</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=075" class="nav-pill primary landmark-live-content">🎮 Play Challenge #075</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #075: Yellowstone National Park</span>
+        <span class="landmark-live-content">Challenge #075: Yellowstone National Park</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #075 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #075</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #075</span>
             </div>
-            <h1 class="page-title">Yellowstone National Park: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Sitting on a Pressurized Supervolcano Caldera while Waiting for a Buffalo to Cross the Road</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Wyoming, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 44.4280° N, 110.5885° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ SnoozeSpring</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Expected Fiery, Got Sleepy.&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by SnoozeSpring • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Expected vibrant geysers, got beige trickles and a nap.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;Where&#x27;s the sulfurous drama? Just lukewarm puddles and bland rocks.&rdquo;</li>
-                        <li>&ldquo;This &#x27;stone&#x27; lost its energetic color; now it&#x27;s just... *relaxed*.&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=075" class="nav-pill primary">🎯 Solve Challenge #075 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #075!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>September 16, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Yellowstone National Park: A Field Guide</h2>
-            <p>When mountain man John Colter wandered through northwestern Wyoming in 1807 after leaving the Lewis and Clark expedition, his reports of boiling mud pots, steaming sulfur vents, and spouting water columns were considered so ridiculous that skeptical easterners nicknamed the place &quot;Colter&#x27;s Hell.&quot; Established in 1872 as the world&#x27;s first national park, Yellowstone actually sits directly on top of a restless supervolcano caldera thirty miles by forty-five miles across, fed by a magma chamber just a few miles beneath the pine trees. Over half of the planet&#x27;s active geysers hiss and burp across this plateau, and the rainbow rings around Grand Prismatic Spring are not mineral stains; they are billions of heat-loving thermophilic bacteria organized by water temperature.</p>
-            <p>In July, the Grand Loop Road transforms into a fifty-mile parking lot thanks to the phenomenon rangers call a &quot;bison jam,&quot; where a single two-thousand-pound bull buffalo decides to stroll down the double yellow line at two miles an hour while four hundred minivans creep behind him. Down at the Old Faithful boardwalk, three thousand people sit on wooden benches in the sun staring at a dry cone of gray sinter rock for ninety minutes like commuters waiting for a late train. Meanwhile, along the narrow wooden walkways over the Midway Geyser Basin, the wind regularly blows sixty-dollar straw hats into boiling acid pools, accompanied by warning signs reminding tourists that several people have dissolved after stepping off the planks.</p>
-            <p>Somehow, sitting directly over a pressurized continental magma chamber felt too sedate for SnoozeSpring, who reviewed the &quot;Mellowstone National Park&quot; under the title &quot;Expected Fiery, Got Sleepy.&quot; Complaining that they &quot;expected vibrant geysers, got beige trickles and a nap,&quot; our visitor asks &quot;Where&#x27;s the sulfurous drama? Just lukewarm puddles and bland rocks&quot; before concluding that the park is &quot;just... relaxed.&quot; Anyone who finds a supervolcano capable of burying North America in ash too chill and calls a two-hundred-degree geothermal vent a &quot;lukewarm puddle&quot; either showed up at an inactive dirt ditch outside the park entrance or has an alarming threshold for excitement.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Instead of crowding onto the front bench at Old Faithful, walk fifteen minutes up the trail to Observation Point to watch the eruption from above without the tour-group elbowing.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Yellowstone+National+Park" target="_blank" rel="noopener noreferrer">Read about Yellowstone National Park on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Yellowstone+National+Park+Wyoming,+USA" target="_blank" rel="noopener noreferrer">View Yellowstone National Park on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #075</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Yellowstone National Park: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Sitting on a Pressurized Supervolcano Caldera while Waiting for a Buffalo to Cross the Road</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=075" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #075</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Mellowstone National Park</p>
-                    <img src="../assets/cartoons/mellowstone_national_park_1783436913.webp" alt="Mellowstone National Park parody postcard of Yellowstone National Park" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Yellowstone National Park):</strong><br>
-                        &ldquo;Dear @SnoozeSpring, we pride ourselves on powerful geysers and *vibrantly* colored hot springs, not &#x27;beige trickles&#x27; or quiet naps. We are a geothermal wonder, not a day spa.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Wyoming, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 44.4280° N, 110.5885° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ SnoozeSpring</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-074-big-ben.html" class="nav-pill">&larr; Prev: #074 Big Ben</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-076-keukenhof.html" class="nav-pill">Next: #076 Keukenhof &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Expected Fiery, Got Sleepy.&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by SnoozeSpring • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Expected vibrant geysers, got beige trickles and a nap.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;Where&#x27;s the sulfurous drama? Just lukewarm puddles and bland rocks.&rdquo;</li>
+                            <li>&ldquo;This &#x27;stone&#x27; lost its energetic color; now it&#x27;s just... *relaxed*.&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=075" class="nav-pill primary">🎯 Solve Challenge #075 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-104-atacama-desert.html" class="related-card">
-                <span class="related-card-num">Challenge #104 • Hard</span>
-                <span class="related-card-title">Atacama Desert</span>
-                <span class="related-card-sub">📍 Northern Chile — &ldquo;Where&#x27;s the flavor?!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Yellowstone National Park: A Field Guide</h2>
+                <p>When mountain man John Colter wandered through northwestern Wyoming in 1807 after leaving the Lewis and Clark expedition, his reports of boiling mud pots, steaming sulfur vents, and spouting water columns were considered so ridiculous that skeptical easterners nicknamed the place &quot;Colter&#x27;s Hell.&quot; Established in 1872 as the world&#x27;s first national park, Yellowstone actually sits directly on top of a restless supervolcano caldera thirty miles by forty-five miles across, fed by a magma chamber just a few miles beneath the pine trees. Over half of the planet&#x27;s active geysers hiss and burp across this plateau, and the rainbow rings around Grand Prismatic Spring are not mineral stains; they are billions of heat-loving thermophilic bacteria organized by water temperature.</p>
+                <p>In July, the Grand Loop Road transforms into a fifty-mile parking lot thanks to the phenomenon rangers call a &quot;bison jam,&quot; where a single two-thousand-pound bull buffalo decides to stroll down the double yellow line at two miles an hour while four hundred minivans creep behind him. Down at the Old Faithful boardwalk, three thousand people sit on wooden benches in the sun staring at a dry cone of gray sinter rock for ninety minutes like commuters waiting for a late train. Meanwhile, along the narrow wooden walkways over the Midway Geyser Basin, the wind regularly blows sixty-dollar straw hats into boiling acid pools, accompanied by warning signs reminding tourists that several people have dissolved after stepping off the planks.</p>
+                <p>Somehow, sitting directly over a pressurized continental magma chamber felt too sedate for SnoozeSpring, who reviewed the &quot;Mellowstone National Park&quot; under the title &quot;Expected Fiery, Got Sleepy.&quot; Complaining that they &quot;expected vibrant geysers, got beige trickles and a nap,&quot; our visitor asks &quot;Where&#x27;s the sulfurous drama? Just lukewarm puddles and bland rocks&quot; before concluding that the park is &quot;just... relaxed.&quot; Anyone who finds a supervolcano capable of burying North America in ash too chill and calls a two-hundred-degree geothermal vent a &quot;lukewarm puddle&quot; either showed up at an inactive dirt ditch outside the park entrance or has an alarming threshold for excitement.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Instead of crowding onto the front bench at Old Faithful, walk fifteen minutes up the trail to Observation Point to watch the eruption from above without the tour-group elbowing.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Yellowstone+National+Park" target="_blank" rel="noopener noreferrer">Read about Yellowstone National Park on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Yellowstone+National+Park+Wyoming,+USA" target="_blank" rel="noopener noreferrer">View Yellowstone National Park on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=075" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #075</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Mellowstone National Park</p>
+                        <img src="../assets/cartoons/mellowstone_national_park_1783436913.webp" alt="Mellowstone National Park parody postcard of Yellowstone National Park" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Yellowstone National Park):</strong><br>
+                            &ldquo;Dear @SnoozeSpring, we pride ourselves on powerful geysers and *vibrantly* colored hot springs, not &#x27;beige trickles&#x27; or quiet naps. We are a geothermal wonder, not a day spa.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-074-big-ben.html" class="nav-pill">&larr; Prev: #074 Big Ben</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-076-keukenhof.html" class="nav-pill">Next: #076 Keukenhof &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-073-grand-canyon.html" class="related-card" data-puzzle="73">
+                <span class="related-card-num">Challenge #073 • Easy</span>
+                <span class="related-card-title">Grand Canyon</span>
+                <span class="related-card-sub">📍 Arizona, USA — &ldquo;More like Grand PAIN-yon!&rdquo;</span>
             </a>
-<a href="./challenge-108-yellowstone-national-park.html" class="related-card">
-                <span class="related-card-num">Challenge #108 • Hard</span>
-                <span class="related-card-title">Yellowstone National Park</span>
-                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Uncushioned Chaos!&rdquo;</span>
-            </a>
-<a href="./challenge-112-machu-picchu.html" class="related-card">
-                <span class="related-card-num">Challenge #112 • Easy</span>
-                <span class="related-card-title">Machu Picchu</span>
-                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Definitely Not My Cup of Tea!&rdquo;</span>
-            </a>
-<a href="./challenge-113-empire-state-building.html" class="related-card">
-                <span class="related-card-num">Challenge #113 • Easy</span>
-                <span class="related-card-title">Empire State Building</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;You&#x27;re OUT-ragous!&rdquo;</span>
-            </a>
-<a href="./challenge-115-times-square.html" class="related-card">
-                <span class="related-card-num">Challenge #115 • Medium</span>
-                <span class="related-card-title">Times Square</span>
-                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Utterly lacking in poetic justice!&rdquo;</span>
-            </a>
-<a href="./challenge-118-alcatraz-island.html" class="related-card">
-                <span class="related-card-num">Challenge #118 • Hard</span>
+<a href="./challenge-082-alcatraz-island.html" class="related-card" data-puzzle="82">
+                <span class="related-card-num">Challenge #082 • Medium</span>
                 <span class="related-card-title">Alcatraz Island</span>
-                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Definitely not a solid experience.&rdquo;</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Sentenced to Sobriety!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-083-machu-picchu.html" class="related-card" data-puzzle="83">
+                <span class="related-card-num">Challenge #083 • Medium</span>
+                <span class="related-card-title">Machu Picchu</span>
+                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Lost my sole, found a stench!&rdquo;</span>
+            </a>
+<a href="./challenge-084-chichen-itza.html" class="related-card" data-puzzle="84">
+                <span class="related-card-num">Challenge #084 • Medium</span>
+                <span class="related-card-title">Chichen Itza</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Unbearably Itchy!&rdquo;</span>
+            </a>
+<a href="./challenge-086-tikal.html" class="related-card" data-puzzle="86">
+                <span class="related-card-num">Challenge #086 • Medium</span>
+                <span class="related-card-title">Tikal</span>
+                <span class="related-card-sub">📍 Peten, Guatemala — &ldquo;My Sides Still Ache!&rdquo;</span>
+            </a>
+<a href="./challenge-090-kennedy-space-center.html" class="related-card" data-puzzle="90">
+                <span class="related-card-num">Challenge #090 • Hard</span>
+                <span class="related-card-title">Kennedy Space Center</span>
+                <span class="related-card-sub">📍 Merritt Island, Florida, USA — &ldquo;More like Kennedy Waste Center!&rdquo;</span>
+            </a>
+<a href="./challenge-091-everglades-national-park.html" class="related-card peer-overflow" data-puzzle="91">
+                <span class="related-card-num">Challenge #091 • Hard</span>
+                <span class="related-card-title">Everglades National Park</span>
+                <span class="related-card-sub">📍 Florida, USA — &ldquo;A Glaze-ing Disappointment!&rdquo;</span>
+            </a>
+<a href="./challenge-092-rocky-mountains.html" class="related-card peer-overflow" data-puzzle="92">
+                <span class="related-card-num">Challenge #092 • Hard</span>
+                <span class="related-card-title">Rocky Mountains</span>
+                <span class="related-card-sub">📍 Colorado, USA — &ldquo;Lost My Sole... Literally!&rdquo;</span>
+            </a>
+<a href="./challenge-155-arenal-volcano.html" class="related-card future-locked" data-puzzle="155">
+                <span class="related-card-num">Challenge #155 • Medium</span>
+                <span class="related-card-title">Arenal Volcano</span>
+                <span class="related-card-sub">📍 Alajuela Province, Costa Rica — &ldquo;Not the breakfast I ordered!&rdquo;</span>
+            </a>
+<a href="./challenge-161-lake-titicaca.html" class="related-card future-locked" data-puzzle="161">
+                <span class="related-card-num">Challenge #161 • Medium</span>
+                <span class="related-card-title">Lake Titicaca</span>
+                <span class="related-card-sub">📍 Puno, Peru — &ldquo;Where&#x27;s the Titi-CAKE?!&rdquo;</span>
+            </a>
+<a href="./challenge-162-dunn-s-river-falls.html" class="related-card future-locked" data-puzzle="162">
+                <span class="related-card-num">Challenge #162 • Medium</span>
+                <span class="related-card-title">Dunn&#x27;s River Falls</span>
+                <span class="related-card-sub">📍 Ocho Rios, Jamaica — &ldquo;Where Are The Sprinkles?!&rdquo;</span>
+            </a>
+<a href="./challenge-167-mount-rainier.html" class="related-card future-locked" data-puzzle="167">
+                <span class="related-card-num">Challenge #167 • Medium</span>
+                <span class="related-card-title">Mount Rainier</span>
+                <span class="related-card-sub">📍 Washington, USA — &ldquo;False advertising on the flying sleighs!&rdquo;</span>
+            </a>
+<a href="./challenge-168-deception-island.html" class="related-card future-locked" data-puzzle="168">
+                <span class="related-card-num">Challenge #168 • Hard</span>
+                <span class="related-card-title">Deception Island</span>
+                <span class="related-card-sub">📍 South Shetland Islands, Antarctica — &ldquo;My vision for this trip was shattered!&rdquo;</span>
+            </a>
+<a href="./challenge-170-gros-morne-national-park.html" class="related-card future-locked" data-puzzle="170">
+                <span class="related-card-num">Challenge #170 • Hard</span>
+                <span class="related-card-title">Gros Morne National Park</span>
+                <span class="related-card-sub">📍 Newfoundland and Labrador, Canada — &ldquo;Horn-dously Misleading!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>

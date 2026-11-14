@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-puzzle-num="47">
 <head>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-41EV4HJ1LH"></script>
@@ -171,6 +171,10 @@ body {
 .badge-hard {
     background: #FFE3E3;
     color: #C92A2A;
+}
+.badge-today {
+    background: #00AA6C;
+    color: #FFFFFF;
 }
 h1.page-title {
     font-family: 'Bangers', cursive;
@@ -381,6 +385,10 @@ details.spoiler-details summary {
     transform: translate(-1px, -1px);
     background: #FFFFFF;
 }
+.related-card.future-locked,
+.related-card.peer-overflow {
+    display: none !important;
+}
 .related-card-num {
     font-size: 0.75rem;
     font-weight: 900;
@@ -395,6 +403,17 @@ details.spoiler-details summary {
     font-size: 0.84rem;
     color: var(--text-secondary);
     font-weight: 700;
+}
+.landmark-locked-notice {
+    display: none;
+    text-align: center;
+    padding: 36px 28px;
+}
+html.landmark-locked .landmark-live-content {
+    display: none !important;
+}
+html.landmark-locked .landmark-locked-notice {
+    display: block !important;
 }
 .site-footer {
     max-width: 880px;
@@ -423,6 +442,24 @@ details.spoiler-details summary {
     }
 }
 </style>
+    <script>
+    (function(){
+        try {
+            var p = parseInt(document.documentElement.getAttribute("data-puzzle-num"), 10);
+            if (!p) return;
+            var parts = new Intl.DateTimeFormat("en-US", {
+                timeZone: "America/Los_Angeles",
+                year: "numeric", month: "numeric", day: "numeric",
+                hour: "numeric", minute: "numeric", second: "numeric", hour12: false
+            }).formatToParts(new Date());
+            var v = function(t){ return parseInt(parts.find(function(x){return x.type===t;}).value, 10); };
+            var days = Math.max(0, Math.floor((Date.UTC(v("year"), v("month")-1, v("day"), v("hour")%24, v("minute"), v("second")) - Date.UTC(2026, 6, 4, 2, 0, 0)) / 86400000));
+            var live = Math.max(1, days + 1);
+            if (p > live) document.documentElement.classList.add("landmark-locked");
+            else document.documentElement.classList.remove("landmark-locked");
+        } catch (e) {}
+    })();
+    </script>
 </head>
 <body>
     <header class="site-header">
@@ -431,8 +468,8 @@ details.spoiler-details summary {
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All 120 Landmarks</a>
-            <a href="../?challenge=047" class="nav-pill primary">🎮 Play Challenge #047</a>
+            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">134</span> Landmarks</a>
+            <a href="../?challenge=047" class="nav-pill primary landmark-live-content">🎮 Play Challenge #047</a>
         </nav>
     </header>
 
@@ -440,131 +477,188 @@ details.spoiler-details summary {
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
         <a href="./index.html">Landmark Field Guides</a> &rsaquo;
-        <span>Challenge #047: Grand Canyon</span>
+        <span class="landmark-live-content">Challenge #047: Grand Canyon</span>
+        <span class="landmark-locked-notice" style="padding:0; display:none;">Challenge #047 (Unlocks Soon)</span>
     </nav>
 
     <main class="container">
-        <article class="neo-card">
-            <div class="meta-row">
-                <span class="badge badge-challenge">Challenge #047</span>
-                <span class="badge badge-region">🌎 Americas</span>
-                <span class="badge badge-easy">Easy Puzzle</span>
+        <section class="neo-card landmark-locked-notice" aria-live="polite">
+            <div class="meta-row" style="justify-content:center;">
+                <span class="badge badge-challenge">🔒 Upcoming Daily Landmark • Challenge #047</span>
             </div>
-            <h1 class="page-title">Grand Canyon: Comical History &amp; 1-Star Tourist Review</h1>
-            <p class="page-deck">Two Billion Years of Exposed Precambrian Geology That Will Not Fit in a Crayola Box</p>
-
-            <div class="facts-strip">
-                <div class="fact-item">
-                    <strong>Real Location</strong>
-                    <span>📍 Arizona, USA</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Coordinates</strong>
-                    <span>🧭 36.1069° N, 112.1129° W</span>
-                </div>
-                <div class="fact-item">
-                    <strong>Angry Reviewer</strong>
-                    <span>🗣️ NoPointHere</span>
-                </div>
-            </div>
-        </article>
-
-        <section class="neo-card" aria-labelledby="heading-review">
-            <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
-            <div class="review-box">
-                <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
-                <h3 class="review-headline">&ldquo;Worst Coloring Book Ever.&rdquo;</h3>
-                <div class="reviewer-byline">Reviewed by NoPointHere • Verified Misguided Visitor</div>
-                <blockquote class="review-quote">&ldquo;Vast but bland... not a single red or blue to be found in Arizona.&rdquo;</blockquote>
-                <div class="followup-clues">
-                    <h3>Additional Tourist Complaints &amp; Clues</h3>
-                    <ul>
-                        <li>&ldquo;My colors kept breaking off... couldn&#x27;t even fill in these giant cracks!&rdquo;</li>
-                        <li>&ldquo;This enormous, dull stick just carved out a giant hole!&rdquo;</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="cta-banner">
-                <div>
-                    <strong>Can you guess the punny parody landmark name from this review?</strong><br>
-                    <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
-                </div>
-                <a href="../?challenge=047" class="nav-pill primary">🎯 Solve Challenge #047 Live &rarr;</a>
+            <h1 class="page-title">This Landmark Unlocks With Challenge #047!</h1>
+            <p class="page-deck" style="max-width:620px; margin:0 auto 18px auto;">
+                Each Landmark Field Guide releases on the exact same day its daily puzzle goes live (<strong>August 19, 2026 at 2:00 AM PT</strong>), so there are always the same number of landmarks to explore as puzzles available.
+            </p>
+            <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
+                <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
+                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">134</span> Live Landmarks</a>
             </div>
         </section>
 
-        <section class="neo-card essay-prose" aria-labelledby="heading-history">
-            <h2 id="heading-history" class="section-heading">🏛️ The Real Grand Canyon: A Field Guide</h2>
-            <p>When Spanish conquistador García López de Cárdenas became the first European to reach the South Rim of the Grand Canyon in 1540, his men spent three days trying to scramble down to the Colorado River for a drink of water, gave up a third of the way down, and rode back to New Mexico reporting that the whole chasm was an inconvenient geographic nuisance. Stretching 277 river miles across northern Arizona, up to eighteen miles wide, and over a vertical mile deep, the canyon exposes nearly two billion years of Earth&#x27;s crust like a layer cake of limestone, sandstone, and black Precambrian Vishnu schist, carved over the last six million years by a remarkably stubborn river.</p>
-            <p>Roughly five million people a year now pull up to Mather Point on the South Rim, step out of their air-conditioned SUVs, stare into the void for approximately ninety seconds, and remark that it looks just like a movie backdrop. Along the rim trail, bilingual warning signs illustrate a stick-figure hiker vomiting from dehydration under the caption &#x27;Going down is optional; coming back up is mandatory,&#x27; a piece of prose that Park Service rangers still have to enforce by rescuing two hundred overconfident people in cotton gym shorts every summer. Meanwhile, overweight rock squirrels with zero fear of authority sit on the limestone walls and try to unzip unattended daypacks for trail mix.</p>
-            <p>None of this two-billion-year geological cross-section impressed @NoPointHere, who filed a bleak one-star review titled &#x27;Worst Coloring Book Ever&#x27; after showing up in Coconino County expecting a giant wax stick for drawing inside the lines. Think about the commitment required to drive north from Flagstaff through the Kaibab National Forest, pay thirty-five dollars at the South Entrance booth, and peer six thousand feet down to the Bright Angel Shale while complaining that &#x27;my colors kept breaking off&#x27; and &#x27;not a single red or blue to be found.&#x27; If you look into the Redwall Limestone at sunset and cannot see the color red, your problem is not the canyon; you forgot to take off your sunglasses.</p>
-            <div class="visitor-tip-box">
-                💡 <strong>Practical Visitor Tip:</strong> Leave your car at the visitor center and take the free Hermits Rest shuttle bus out to Hopi Point or Mohave Point for a quiet rim walk away from the tour buses.
-            </div>
-            <div class="ext-links-row">
-                <span>Official Reference Links:</span>
-                <a href="https://en.wikipedia.org/wiki/Special:Search?search=Grand+Canyon" target="_blank" rel="noopener noreferrer">Read about Grand Canyon on Wikipedia &nearr;</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Grand+Canyon+Arizona,+USA" target="_blank" rel="noopener noreferrer">View Grand Canyon on Google Maps &nearr;</a>
-            </div>
-        </section>
+        <div class="landmark-live-content">
+            <article class="neo-card">
+                <div class="meta-row">
+                    <span class="badge badge-challenge">Challenge #047</span>
+                    <span class="badge badge-region">🌎 Americas</span>
+                    <span class="badge badge-easy">Easy Puzzle</span>
+                </div>
+                <h1 class="page-title">Grand Canyon: Comical History &amp; 1-Star Tourist Review</h1>
+                <p class="page-deck">Two Billion Years of Exposed Precambrian Geology That Will Not Fit in a Crayola Box</p>
 
-        <section class="neo-card" aria-labelledby="heading-spoiler">
-            <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
-            <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=047" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #047</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
-            <details class="spoiler-details">
-                <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
-                <div class="spoiler-body">
-                    <p class="parody-answer-banner">Parody Landmark: Grand Crayon</p>
-                    <img src="../assets/cartoons/grand_crayon_1783314417.webp" alt="Grand Crayon parody postcard of Grand Canyon" class="postcard-img" loading="lazy">
-                    <div class="owner-reply-box">
-                        <strong>Official Response from Management (Grand Canyon):</strong><br>
-                        &ldquo;Dear @NoPointHere, it appears you&#x27;ve mistaken our awe-inspiring natural geological formation, carved by millennia of erosion, for a giant implement needing &#x27;sharpening&#x27;. We suggest consulting a proper atlas, not a coloring book, for your next trip planning.&rdquo;
+                <div class="facts-strip">
+                    <div class="fact-item">
+                        <strong>Real Location</strong>
+                        <span>📍 Arizona, USA</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Coordinates</strong>
+                        <span>🧭 36.1069° N, 112.1129° W</span>
+                    </div>
+                    <div class="fact-item">
+                        <strong>Angry Reviewer</strong>
+                        <span>🗣️ NoPointHere</span>
                     </div>
                 </div>
-            </details>
-        </section>
+            </article>
 
-        <nav class="pagination-row" aria-label="Challenge Pagination">
-            <a href="./challenge-046-neuschwanstein-castle.html" class="nav-pill">&larr; Prev: #046 Neuschwanstein Castle</a>
-            <a href="./index.html" class="nav-pill">🗂️ All 120 Landmark Guides</a>
-            <a href="./challenge-048-pompeii.html" class="nav-pill">Next: #048 Pompeii &rarr;</a>
-        </nav>
+            <section class="neo-card" aria-labelledby="heading-review">
+                <h2 id="heading-review" class="section-heading">⭐ The Confused Tourist&rsquo;s 1-Star Review</h2>
+                <div class="review-box">
+                    <div class="stars-row" aria-label="1 out of 5 stars">★☆☆☆☆</div>
+                    <h3 class="review-headline">&ldquo;Worst Coloring Book Ever.&rdquo;</h3>
+                    <div class="reviewer-byline">Reviewed by NoPointHere • Verified Misguided Visitor</div>
+                    <blockquote class="review-quote">&ldquo;Vast but bland... not a single red or blue to be found in Arizona.&rdquo;</blockquote>
+                    <div class="followup-clues">
+                        <h3>Additional Tourist Complaints &amp; Clues</h3>
+                        <ul>
+                            <li>&ldquo;My colors kept breaking off... couldn&#x27;t even fill in these giant cracks!&rdquo;</li>
+                            <li>&ldquo;This enormous, dull stick just carved out a giant hole!&rdquo;</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="cta-banner">
+                    <div>
+                        <strong>Can you guess the punny parody landmark name from this review?</strong><br>
+                        <span>Test your wordplay in the interactive puzzle mode with progressive hints.</span>
+                    </div>
+                    <a href="../?challenge=047" class="nav-pill primary">🎯 Solve Challenge #047 Live &rarr;</a>
+                </div>
+            </section>
 
-        <section class="neo-card" aria-labelledby="heading-related">
-            <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
-            <div class="related-grid">
-                <a href="./challenge-092-rocky-mountains.html" class="related-card">
-                <span class="related-card-num">Challenge #092 • Hard</span>
-                <span class="related-card-title">Rocky Mountains</span>
-                <span class="related-card-sub">📍 Colorado, USA — &ldquo;Lost My Sole... Literally!&rdquo;</span>
+            <section class="neo-card essay-prose" aria-labelledby="heading-history">
+                <h2 id="heading-history" class="section-heading">🏛️ The Real Grand Canyon: A Field Guide</h2>
+                <p>When Spanish conquistador García López de Cárdenas became the first European to reach the South Rim of the Grand Canyon in 1540, his men spent three days trying to scramble down to the Colorado River for a drink of water, gave up a third of the way down, and rode back to New Mexico reporting that the whole chasm was an inconvenient geographic nuisance. Stretching 277 river miles across northern Arizona, up to eighteen miles wide, and over a vertical mile deep, the canyon exposes nearly two billion years of Earth&#x27;s crust like a layer cake of limestone, sandstone, and black Precambrian Vishnu schist, carved over the last six million years by a remarkably stubborn river.</p>
+                <p>Roughly five million people a year now pull up to Mather Point on the South Rim, step out of their air-conditioned SUVs, stare into the void for approximately ninety seconds, and remark that it looks just like a movie backdrop. Along the rim trail, bilingual warning signs illustrate a stick-figure hiker vomiting from dehydration under the caption &#x27;Going down is optional; coming back up is mandatory,&#x27; a piece of prose that Park Service rangers still have to enforce by rescuing two hundred overconfident people in cotton gym shorts every summer. Meanwhile, overweight rock squirrels with zero fear of authority sit on the limestone walls and try to unzip unattended daypacks for trail mix.</p>
+                <p>None of this two-billion-year geological cross-section impressed @NoPointHere, who filed a bleak one-star review titled &#x27;Worst Coloring Book Ever&#x27; after showing up in Coconino County expecting a giant wax stick for drawing inside the lines. Think about the commitment required to drive north from Flagstaff through the Kaibab National Forest, pay thirty-five dollars at the South Entrance booth, and peer six thousand feet down to the Bright Angel Shale while complaining that &#x27;my colors kept breaking off&#x27; and &#x27;not a single red or blue to be found.&#x27; If you look into the Redwall Limestone at sunset and cannot see the color red, your problem is not the canyon; you forgot to take off your sunglasses.</p>
+                <div class="visitor-tip-box">
+                    💡 <strong>Practical Visitor Tip:</strong> Leave your car at the visitor center and take the free Hermits Rest shuttle bus out to Hopi Point or Mohave Point for a quiet rim walk away from the tour buses.
+                </div>
+                <div class="ext-links-row">
+                    <span>Official Reference Links:</span>
+                    <a href="https://en.wikipedia.org/wiki/Special:Search?search=Grand+Canyon" target="_blank" rel="noopener noreferrer">Read about Grand Canyon on Wikipedia &nearr;</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Grand+Canyon+Arizona,+USA" target="_blank" rel="noopener noreferrer">View Grand Canyon on Google Maps &nearr;</a>
+                </div>
+            </section>
+
+            <section class="neo-card" aria-labelledby="heading-spoiler">
+                <h2 id="heading-spoiler" class="section-heading">✉️ Official Management Reply &amp; Parody Postcard</h2>
+                <p style="margin-top: 0; font-weight: 700; color: var(--text-secondary);">Want to play the puzzle first? Click <a href="../?challenge=047" style="color: var(--accent-dark); font-weight: 900;">Play Challenge #047</a> above, or expand the archive dossier below to see the parody landmark answer and management response.</p>
+                <details class="spoiler-details">
+                    <summary>🔓 Reveal Parody Answer, Illustrated Postcard &amp; Owner Response (Spoiler)</summary>
+                    <div class="spoiler-body">
+                        <p class="parody-answer-banner">Parody Landmark: Grand Crayon</p>
+                        <img src="../assets/cartoons/grand_crayon_1783314417.webp" alt="Grand Crayon parody postcard of Grand Canyon" class="postcard-img" loading="lazy">
+                        <div class="owner-reply-box">
+                            <strong>Official Response from Management (Grand Canyon):</strong><br>
+                            &ldquo;Dear @NoPointHere, it appears you&#x27;ve mistaken our awe-inspiring natural geological formation, carved by millennia of erosion, for a giant implement needing &#x27;sharpening&#x27;. We suggest consulting a proper atlas, not a coloring book, for your next trip planning.&rdquo;
+                        </div>
+                    </div>
+                </details>
+            </section>
+
+            <nav class="pagination-row" aria-label="Challenge Pagination">
+                <a id="nav-prev-landmark" href="./challenge-046-neuschwanstein-castle.html" class="nav-pill">&larr; Prev: #046 Neuschwanstein Castle</a>
+                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">134</span> Landmark Guides</a>
+                <a id="nav-next-landmark" href="./challenge-048-pompeii.html" class="nav-pill">Next: #048 Pompeii &rarr;</a>
+            </nav>
+
+            <section class="neo-card" aria-labelledby="heading-related">
+                <h2 id="heading-related" class="section-heading">🧭 More Landmark Guides in Americas</h2>
+                <div id="related-region-grid" class="related-grid">
+                    <a href="./challenge-066-times-square.html" class="related-card" data-puzzle="66">
+                <span class="related-card-num">Challenge #066 • Easy</span>
+                <span class="related-card-title">Times Square</span>
+                <span class="related-card-sub">📍 New York City, New York, USA — &ldquo;Absolutely Speechless!&rdquo;</span>
             </a>
-<a href="./challenge-093-great-blue-hole.html" class="related-card">
-                <span class="related-card-num">Challenge #093 • Hard</span>
-                <span class="related-card-title">Great Blue Hole</span>
-                <span class="related-card-sub">📍 Belize Barrier Reef, Belize — &ldquo;Zero Stars for Zero Brews!&rdquo;</span>
+<a href="./challenge-073-grand-canyon.html" class="related-card" data-puzzle="73">
+                <span class="related-card-num">Challenge #073 • Easy</span>
+                <span class="related-card-title">Grand Canyon</span>
+                <span class="related-card-sub">📍 Arizona, USA — &ldquo;More like Grand PAIN-yon!&rdquo;</span>
             </a>
-<a href="./challenge-094-hollywood-sign.html" class="related-card">
-                <span class="related-card-num">Challenge #094 • Easy</span>
-                <span class="related-card-title">Hollywood Sign</span>
-                <span class="related-card-sub">📍 Los Angeles, California, USA — &ldquo;Total Buzzkill!&rdquo;</span>
+<a href="./challenge-075-yellowstone-national-park.html" class="related-card" data-puzzle="75">
+                <span class="related-card-num">Challenge #075 • Easy</span>
+                <span class="related-card-title">Yellowstone National Park</span>
+                <span class="related-card-sub">📍 Wyoming, USA — &ldquo;Expected Fiery, Got Sleepy.&rdquo;</span>
             </a>
-<a href="./challenge-096-amazon-rainforest.html" class="related-card">
-                <span class="related-card-num">Challenge #096 • Hard</span>
-                <span class="related-card-title">Amazon Rainforest</span>
-                <span class="related-card-sub">📍 Amazonas, Brazil — &ldquo;Overthinking this &#x27;natural&#x27; wonder!&rdquo;</span>
+<a href="./challenge-082-alcatraz-island.html" class="related-card" data-puzzle="82">
+                <span class="related-card-num">Challenge #082 • Medium</span>
+                <span class="related-card-title">Alcatraz Island</span>
+                <span class="related-card-sub">📍 San Francisco, California, USA — &ldquo;Sentenced to Sobriety!&rdquo;</span>
             </a>
-<a href="./challenge-097-copacabana-beach.html" class="related-card">
-                <span class="related-card-num">Challenge #097 • Medium</span>
-                <span class="related-card-title">Copacabana Beach</span>
-                <span class="related-card-sub">📍 Rio de Janeiro, Brazil — &ldquo;This place is rotten!&rdquo;</span>
+<a href="./challenge-083-machu-picchu.html" class="related-card" data-puzzle="83">
+                <span class="related-card-num">Challenge #083 • Medium</span>
+                <span class="related-card-title">Machu Picchu</span>
+                <span class="related-card-sub">📍 Cusco Region, Peru — &ldquo;Lost my sole, found a stench!&rdquo;</span>
             </a>
-<a href="./challenge-098-nazca-lines.html" class="related-card">
-                <span class="related-card-num">Challenge #098 • Hard</span>
-                <span class="related-card-title">Nazca Lines</span>
-                <span class="related-card-sub">📍 Nazca, Peru — &ldquo;Warning: Extreme Pucker Factor!&rdquo;</span>
+<a href="./challenge-084-chichen-itza.html" class="related-card" data-puzzle="84">
+                <span class="related-card-num">Challenge #084 • Medium</span>
+                <span class="related-card-title">Chichen Itza</span>
+                <span class="related-card-sub">📍 Yucatan, Mexico — &ldquo;Unbearably Itchy!&rdquo;</span>
             </a>
-            </div>
-        </section>
+<a href="./challenge-086-tikal.html" class="related-card peer-overflow" data-puzzle="86">
+                <span class="related-card-num">Challenge #086 • Medium</span>
+                <span class="related-card-title">Tikal</span>
+                <span class="related-card-sub">📍 Peten, Guatemala — &ldquo;My Sides Still Ache!&rdquo;</span>
+            </a>
+<a href="./challenge-090-kennedy-space-center.html" class="related-card peer-overflow" data-puzzle="90">
+                <span class="related-card-num">Challenge #090 • Hard</span>
+                <span class="related-card-title">Kennedy Space Center</span>
+                <span class="related-card-sub">📍 Merritt Island, Florida, USA — &ldquo;More like Kennedy Waste Center!&rdquo;</span>
+            </a>
+<a href="./challenge-141-the-strip-las-vegas.html" class="related-card future-locked" data-puzzle="141">
+                <span class="related-card-num">Challenge #141 • Hard</span>
+                <span class="related-card-title">The Strip, Las Vegas</span>
+                <span class="related-card-sub">📍 Las Vegas, Nevada, USA — &ldquo;Where&#x27;s the crunch?!&rdquo;</span>
+            </a>
+<a href="./challenge-144-quebec-city-old-town.html" class="related-card future-locked" data-puzzle="144">
+                <span class="related-card-num">Challenge #144 • Hard</span>
+                <span class="related-card-title">Quebec City Old Town</span>
+                <span class="related-card-sub">📍 Quebec City, Canada — &ldquo;Zero Ketchup!&rdquo;</span>
+            </a>
+<a href="./challenge-153-cerro-monserrate.html" class="related-card future-locked" data-puzzle="153">
+                <span class="related-card-num">Challenge #153 • Medium</span>
+                <span class="related-card-title">Cerro Monserrate</span>
+                <span class="related-card-sub">📍 Bogotá, Colombia — &ldquo;No Monster Here, Just Mountains!&rdquo;</span>
+            </a>
+<a href="./challenge-154-the-pitons.html" class="related-card future-locked" data-puzzle="154">
+                <span class="related-card-num">Challenge #154 • Medium</span>
+                <span class="related-card-title">The Pitons</span>
+                <span class="related-card-sub">📍 Soufrière, St. Lucia — &ldquo;Not a single delicious pastry!&rdquo;</span>
+            </a>
+<a href="./challenge-155-arenal-volcano.html" class="related-card future-locked" data-puzzle="155">
+                <span class="related-card-num">Challenge #155 • Medium</span>
+                <span class="related-card-title">Arenal Volcano</span>
+                <span class="related-card-sub">📍 Alajuela Province, Costa Rica — &ldquo;Not the breakfast I ordered!&rdquo;</span>
+            </a>
+<a href="./challenge-161-lake-titicaca.html" class="related-card future-locked" data-puzzle="161">
+                <span class="related-card-num">Challenge #161 • Medium</span>
+                <span class="related-card-title">Lake Titicaca</span>
+                <span class="related-card-sub">📍 Puno, Peru — &ldquo;Where&#x27;s the Titi-CAKE?!&rdquo;</span>
+            </a>
+                </div>
+            </section>
+        </div>
     </main>
 
     <footer class="site-footer">
@@ -578,5 +672,6 @@ details.spoiler-details summary {
             <a href="../../terms.html">Terms of Service</a>
         </p>
     </footer>
+    <script src="./landmark-schedule.js?v=2"></script>
 </body>
 </html>
