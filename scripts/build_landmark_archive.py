@@ -636,26 +636,10 @@ def build_schedule_js(active: list) -> str:
     }}
 
     var liveCount = Math.min(MAX_LANDMARK_PUZZLE, Math.max(1, getDaysElapsedSinceStart() + 1));
-    var livePadded = pad3(liveCount);
 
-    // 1. Update total live landmark counters across header/pagination/locked notice
-    var totalEls = document.querySelectorAll(".live-landmark-total");
-    for (var i = 0; i < totalEls.length; i++) {{
-        totalEls[i].textContent = String(liveCount);
-    }}
-
-    var rangeEls = document.querySelectorAll(".live-landmark-max-padded");
-    for (var r = 0; r < rangeEls.length; r++) {{
-        rangeEls[r].textContent = "#" + livePadded;
-    }}
-
-    // 2. Directory Index Hub (/travelreviews/landmarks/index.html)
+    // 1. Directory Index Hub (/travelreviews/landmarks/index.html)
     var hubMain = document.getElementById("landmarks-hub-main");
     if (hubMain) {{
-        document.title =
-            "World Landmark Field Guides & 1-Star Travel Review Archive (Challenges #001\\u2013#" +
-            livePadded +
-            ") | PunFiction";
         var cards = hubMain.querySelectorAll(".related-card[data-puzzle]");
         for (var c = 0; c < cards.length; c++) {{
             var card = cards[c];
@@ -688,16 +672,12 @@ def build_schedule_js(active: list) -> str:
             for (var k = 0; k < secCards.length; k++) {{
                 if (!secCards[k].classList.contains("future-locked")) visCount++;
             }}
-            var countSpan = sec.querySelector(".region-live-count");
-            if (countSpan) {{
-                countSpan.textContent = visCount + (visCount === 1 ? " Landmark Guide" : " Landmark Guides");
-            }}
             sec.style.display = visCount > 0 ? "" : "none";
         }}
         return;
     }}
 
-    // 3. Individual Landmark Field Guide Page
+    // 2. Individual Landmark Field Guide Page
     var pagePuzzleAttr = document.documentElement.getAttribute("data-puzzle-num");
     if (!pagePuzzleAttr) return;
     var thisPuzzleNum = parseInt(pagePuzzleAttr, 10);
@@ -776,8 +756,8 @@ INLINE_EARLY_LOCK_SNIPPET = """<script>
     </script>"""
 
 
-def sync_max_puzzle_constants(max_puzzle: int, build_live_count: int):
-    # Keep MAX_LANDMARK_GUIDE_PUZZLE in app.js and MAX_LANDMARKS in BoxOffice/index.html synced
+def sync_max_puzzle_constants(max_puzzle: int):
+    # Keep MAX_LANDMARK_GUIDE_PUZZLE in app.js synced
     for app_js_path in [
         ROOT_DIR / "app.js",
         BOXOFFICE_DIR / "travelreviews" / "app.js",
@@ -791,23 +771,6 @@ def sync_max_puzzle_constants(max_puzzle: int, build_live_count: int):
             )
             if updated != txt:
                 app_js_path.write_text(updated, encoding="utf-8", newline="\n")
-
-    bo_index = BOXOFFICE_DIR / "index.html"
-    if bo_index.exists():
-        txt = bo_index.read_text(encoding="utf-8")
-        updated = re.sub(r"var MAX_LANDMARKS = \d+;", f"var MAX_LANDMARKS = {max_puzzle};", txt)
-        updated = re.sub(
-            r'(<span id="portal-live-landmark-count">)\d+(</span>)',
-            rf"\g<1>{build_live_count}\g<2>",
-            updated,
-        )
-        updated = re.sub(
-            r'(<span id="portal-live-landmark-btn-count">)\d+(</span>)',
-            rf"\g<1>{build_live_count}\g<2>",
-            updated,
-        )
-        if updated != txt:
-            bo_index.write_text(updated, encoding="utf-8", newline="\n")
 
 
 def build_archive():
@@ -842,15 +805,17 @@ def build_archive():
     bo_landmarks_dir = BOXOFFICE_DIR / "travelreviews" / "landmarks"
     bo_landmarks_dir.mkdir(parents=True, exist_ok=True)
 
-    # Clean old challenge-*.html files so no stale filenames remain
+    # Remove only stale challenge-*.html files not in the active slug set
+    expected_slugs = {g["_slug"] for g in active}
     for old_f in list(landmarks_dir.glob("challenge-*.html")) + list(
         bo_landmarks_dir.glob("challenge-*.html")
     ):
-        old_f.unlink()
+        if old_f.name not in expected_slugs:
+            old_f.unlink()
 
     # Write shared landmark-schedule.js
     schedule_js = build_schedule_js(active)
-    schedule_version = "v=2"
+    schedule_version = "v=3"
     (landmarks_dir / "landmark-schedule.js").write_text(schedule_js, encoding="utf-8", newline="\n")
     (bo_landmarks_dir / "landmark-schedule.js").write_text(schedule_js, encoding="utf-8", newline="\n")
 
@@ -997,7 +962,7 @@ def build_archive():
             <span class="brand-sub">Landmark Field Guides</span>
         </a>
         <nav class="header-nav" aria-label="Primary Navigation">
-            <a href="./index.html" class="nav-pill">📚 All <span class="live-landmark-total">{build_live_count}</span> Landmarks</a>
+            <a href="./index.html" class="nav-pill">📚 Browse Landmark Guides</a>
             <a href="../?challenge={pnum}" class="nav-pill primary landmark-live-content">🎮 Play Challenge #{pnum}</a>
         </nav>
     </header>
@@ -1021,7 +986,7 @@ def build_archive():
             </p>
             <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:20px;">
                 <a href="../" class="nav-pill primary">🎮 Play Today&rsquo;s Live Challenge</a>
-                <a href="./index.html" class="nav-pill">📚 Browse All <span class="live-landmark-total">{build_live_count}</span> Live Landmarks</a>
+                <a href="./index.html" class="nav-pill">📚 Browse Landmark Guides</a>
             </div>
         </section>
 
@@ -1108,7 +1073,7 @@ def build_archive():
 
             <nav class="pagination-row" aria-label="Challenge Pagination">
                 <a id="nav-prev-landmark" href="./{prev_g['_slug']}" class="nav-pill">&larr; Prev: #{prev_g['_pnum']} {html.escape(prev_g['boss_original_title'])}</a>
-                <a href="./index.html" class="nav-pill">🗂️ All <span class="live-landmark-total">{build_live_count}</span> Landmark Guides</a>
+                <a href="./index.html" class="nav-pill">🗂️ Browse Landmark Guides</a>
                 <a id="nav-next-landmark" href="./{next_g['_slug']}" class="nav-pill">Next: #{next_g['_pnum']} {html.escape(next_g['boss_original_title'])} &rarr;</a>
             </nav>
 
@@ -1172,10 +1137,9 @@ def build_archive():
             </a>"""
             )
         cards = "\n".join(cards_list)
-        label_word = "Landmark Guide" if live_in_reg == 1 else "Landmark Guides"
         region_sections_html.append(
             f"""<section class="neo-card region-section" data-region="{html.escape(reg)}">
-                <h2 class="section-heading">🌍 {html.escape(reg)} (<span class="region-live-count">{live_in_reg} {label_word}</span>)</h2>
+                <h2 class="section-heading">🌍 {html.escape(reg)}</h2>
                 <div class="related-grid">
                     {cards}
                 </div>
@@ -1196,7 +1160,7 @@ def build_archive():
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1900802133351015" crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Landmark Field Guides &amp; 1-Star Travel Review Archive (Challenges #001–#{build_live_padded}) | PunFiction</title>
+    <title>World Landmark Field Guides &amp; 1-Star Travel Review Archive | PunFiction</title>
     <meta name="description" content="Browse real-world monument histories, travel field notes, and unhinged 1-star tourist reviews released daily alongside each live PunFiction challenge.">
     <link rel="canonical" href="https://punfiction.io/travelreviews/landmarks/">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🗺️</text></svg>">
@@ -1218,19 +1182,19 @@ def build_archive():
     <nav class="breadcrumbs" aria-label="Breadcrumb">
         <a href="../../">Home</a> &rsaquo;
         <a href="../">1-Star Travel Reviews</a> &rsaquo;
-        <span>World Landmark Field Guides (#001–<span class="live-landmark-max-padded">#{build_live_padded}</span>)</span>
+        <span>World Landmark Field Guides</span>
     </nav>
 
     <main id="landmarks-hub-main" class="container">
         <article class="neo-card">
             <div class="meta-row">
-                <span class="badge badge-today">📅 <span class="live-landmark-total">{build_live_count}</span> Live Landmarks • New Guide Released Daily at 2:00 AM PT</span>
+                <span class="badge badge-today">📅 Updated Daily • New Guide Released at 2:00 AM PT</span>
             </div>
             <h1 class="page-title">World Landmark Field Guides &amp; 1-Star Review Archive</h1>
             <p class="page-deck">Every monument has a real architectural story, an exhausting queue for the gift shop, and at least one traveler who showed up expecting a pancake house.</p>
             <div class="essay-prose">
-                <p>Welcome to the live landmark archive of <strong>PunFiction: 1-Star Travel Reviews</strong>. A new Landmark Field Guide unlocks every single day on the exact same schedule as its daily puzzle—so across Challenges #001 through <span class="live-landmark-max-padded">#{build_live_padded}</span>, there are always the exact same number of landmarks to explore (<strong class="live-landmark-total">{build_live_count}</strong>) as puzzles available to play.</p>
-                <p style="margin-bottom:0;">Select any live landmark below to read a 300-word historical and comedic field guide to the real destination, inspect the full 1-star tourist dossier, jump straight into the interactive wordplay puzzle, or reveal the illustrated parody postcard and management response.</p>
+                <p>Welcome to the landmark archive of <strong>PunFiction: 1-Star Travel Reviews</strong>. We catalog the world&rsquo;s greatest architectural wonders, ancient ruins, cathedrals, volcanic calderas, and suspension bridges alongside the bizarre 1-star complaints left by fictional tourists who misread their itineraries by a single syllable, with a new Landmark Field Guide unlocking every day alongside each daily puzzle.</p>
+                <p style="margin-bottom:0;">Select any landmark below to read a comedic historical field guide to the real destination, inspect the full 1-star tourist dossier, jump straight into the interactive wordplay puzzle, or reveal the illustrated parody postcard and management response.</p>
             </div>
         </article>
 
@@ -1256,8 +1220,8 @@ def build_archive():
     (bo_landmarks_dir / "index.html").write_text(index_html, encoding="utf-8", newline="\n")
     print(f"Generated {len(active)} static landmark pages + index.html + landmark-schedule.js")
 
-    # Sync constants across app.js and BoxOffice/index.html
-    sync_max_puzzle_constants(max_puzzle=max_puzzle, build_live_count=build_live_count)
+    # Sync constants across app.js
+    sync_max_puzzle_constants(max_puzzle=max_puzzle)
 
     # 3. Generate robots.txt and sitemap.xml
     today_iso = datetime.now(timezone.utc).strftime("%Y-%m-%d")

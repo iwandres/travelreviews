@@ -44,26 +44,10 @@
     }
 
     var liveCount = Math.min(MAX_LANDMARK_PUZZLE, Math.max(1, getDaysElapsedSinceStart() + 1));
-    var livePadded = pad3(liveCount);
 
-    // 1. Update total live landmark counters across header/pagination/locked notice
-    var totalEls = document.querySelectorAll(".live-landmark-total");
-    for (var i = 0; i < totalEls.length; i++) {
-        totalEls[i].textContent = String(liveCount);
-    }
-
-    var rangeEls = document.querySelectorAll(".live-landmark-max-padded");
-    for (var r = 0; r < rangeEls.length; r++) {
-        rangeEls[r].textContent = "#" + livePadded;
-    }
-
-    // 2. Directory Index Hub (/travelreviews/landmarks/index.html)
+    // 1. Directory Index Hub (/travelreviews/landmarks/index.html)
     var hubMain = document.getElementById("landmarks-hub-main");
     if (hubMain) {
-        document.title =
-            "World Landmark Field Guides & 1-Star Travel Review Archive (Challenges #001\u2013#" +
-            livePadded +
-            ") | PunFiction";
         var cards = hubMain.querySelectorAll(".related-card[data-puzzle]");
         for (var c = 0; c < cards.length; c++) {
             var card = cards[c];
@@ -96,16 +80,12 @@
             for (var k = 0; k < secCards.length; k++) {
                 if (!secCards[k].classList.contains("future-locked")) visCount++;
             }
-            var countSpan = sec.querySelector(".region-live-count");
-            if (countSpan) {
-                countSpan.textContent = visCount + (visCount === 1 ? " Landmark Guide" : " Landmark Guides");
-            }
             sec.style.display = visCount > 0 ? "" : "none";
         }
         return;
     }
 
-    // 3. Individual Landmark Field Guide Page
+    // 2. Individual Landmark Field Guide Page
     var pagePuzzleAttr = document.documentElement.getAttribute("data-puzzle-num");
     if (!pagePuzzleAttr) return;
     var thisPuzzleNum = parseInt(pagePuzzleAttr, 10);
