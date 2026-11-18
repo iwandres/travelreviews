@@ -4,3 +4,4 @@ __pycache__/
 .env
 backend/.env
 backend/travelreviews_alert_config.json
+backend/billionth_traits_cache.json
