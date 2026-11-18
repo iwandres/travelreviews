@@ -5,7 +5,7 @@ from PIL import Image, ImageDraw
 
 # Define directories
 src_dir = 'assets/stamps/'
-dest_dir = 'c:/Users/iwand/.antigravity/Projects/PunFiction-BoxOffice/travelreviews/assets/stamps/'
+dest_dir = 'c:/Users/iwand/.antigravity/Projects/PunFiction/travelreviews/assets/stamps/'
 
 # Create directories if they do not exist
 os.makedirs(src_dir, exist_ok=True)
@@ -402,7 +402,7 @@ make_airplane()
 
 print("Generated 8 neutral vector travel stamps successfully.")
 
-# Copy all new stamps to the BoxOffice travelreviews/assets/stamps/ directory
+# Copy all new stamps to the PunFiction portal travelreviews/assets/stamps/ directory
 files = os.listdir(src_dir)
 copied_count = 0
 for f in files:
@@ -410,4 +410,4 @@ for f in files:
         shutil.copyfile(os.path.join(src_dir, f), os.path.join(dest_dir, f))
         copied_count += 1
 
-print(f"Successfully copied {copied_count} stamp files to BoxOffice repository.")
+print(f"Successfully copied {copied_count} stamp files to PunFiction portal repository.")

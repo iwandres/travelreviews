@@ -7,7 +7,18 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
-BOXOFFICE_DIR = ROOT_DIR.parent / "PunFiction-BoxOffice"
+def _resolve_portal_dir(root_dir: Path) -> Path:
+    direct = root_dir.parent / "PunFiction"
+    if direct.exists():
+        return direct
+    for cand in sorted(root_dir.parent.iterdir()):
+        cname = cand / "CNAME"
+        if cand.is_dir() and cname.is_file() and "punfiction.io" in cname.read_text(encoding="utf-8", errors="ignore").lower():
+            return cand
+    return direct
+
+
+PORTAL_DIR = _resolve_portal_dir(ROOT_DIR)
 NEW_BATCH_SCRATCH_DIR = Path(
     r"C:\Users\iwand\.gemini\antigravity\brain\51884bdc-9a25-4bb7-ba9d-402c41e9d16c\scratch"
 )
@@ -155,8 +166,8 @@ def load_and_merge_histories(expected_total: int) -> dict:
         ordered[pnum] = item
 
     hist_path.write_text(json.dumps(ordered, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
-    if (BOXOFFICE_DIR / "backend").exists():
-        shutil.copy2(hist_path, BOXOFFICE_DIR / "backend" / "travelreviews_landmark_histories.json")
+    if (PORTAL_DIR / "backend").exists():
+        shutil.copy2(hist_path, PORTAL_DIR / "backend" / "travelreviews_landmark_histories.json")
     print(f"Saved and validated {len(ordered)} landmark histories in {hist_path}")
     return ordered
 
@@ -760,7 +771,7 @@ def sync_max_puzzle_constants(max_puzzle: int):
     # Keep MAX_LANDMARK_GUIDE_PUZZLE in app.js synced
     for app_js_path in [
         ROOT_DIR / "app.js",
-        BOXOFFICE_DIR / "travelreviews" / "app.js",
+        PORTAL_DIR / "travelreviews" / "app.js",
     ]:
         if app_js_path.exists():
             txt = app_js_path.read_text(encoding="utf-8")
@@ -802,13 +813,13 @@ def build_archive():
 
     landmarks_dir = ROOT_DIR / "landmarks"
     landmarks_dir.mkdir(parents=True, exist_ok=True)
-    bo_landmarks_dir = BOXOFFICE_DIR / "travelreviews" / "landmarks"
-    bo_landmarks_dir.mkdir(parents=True, exist_ok=True)
+    portal_landmarks_dir = PORTAL_DIR / "travelreviews" / "landmarks"
+    portal_landmarks_dir.mkdir(parents=True, exist_ok=True)
 
     # Remove only stale challenge-*.html files not in the active slug set
     expected_slugs = {g["_slug"] for g in active}
     for old_f in list(landmarks_dir.glob("challenge-*.html")) + list(
-        bo_landmarks_dir.glob("challenge-*.html")
+        portal_landmarks_dir.glob("challenge-*.html")
     ):
         if old_f.name not in expected_slugs:
             old_f.unlink()
@@ -817,7 +828,7 @@ def build_archive():
     schedule_js = build_schedule_js(active)
     schedule_version = "v=3"
     (landmarks_dir / "landmark-schedule.js").write_text(schedule_js, encoding="utf-8", newline="\n")
-    (bo_landmarks_dir / "landmark-schedule.js").write_text(schedule_js, encoding="utf-8", newline="\n")
+    (portal_landmarks_dir / "landmark-schedule.js").write_text(schedule_js, encoding="utf-8", newline="\n")
 
     # Group by region for related links & directory index
     by_region = {}
@@ -1103,7 +1114,7 @@ def build_archive():
 """
         out_file = landmarks_dir / slug_file
         out_file.write_text(page_html, encoding="utf-8", newline="\n")
-        shutil.copy2(out_file, bo_landmarks_dir / slug_file)
+        shutil.copy2(out_file, portal_landmarks_dir / slug_file)
 
     # 2. Generate Directory Index Hub (/travelreviews/landmarks/index.html)
     region_order = ["Europe", "Americas", "Asia & Oceania", "Africa & Middle East"]
@@ -1217,7 +1228,7 @@ def build_archive():
 </html>
 """
     (landmarks_dir / "index.html").write_text(index_html, encoding="utf-8", newline="\n")
-    (bo_landmarks_dir / "index.html").write_text(index_html, encoding="utf-8", newline="\n")
+    (portal_landmarks_dir / "index.html").write_text(index_html, encoding="utf-8", newline="\n")
     print(f"Generated {len(active)} static landmark pages + index.html + landmark-schedule.js")
 
     # Sync constants across app.js
@@ -1237,7 +1248,7 @@ Allow: /
 Sitemap: https://punfiction.io/sitemap.xml
 """
     (ROOT_DIR / "robots.txt").write_text(robots_txt, encoding="utf-8", newline="\n")
-    (BOXOFFICE_DIR / "robots.txt").write_text(robots_txt, encoding="utf-8", newline="\n")
+    (PORTAL_DIR / "robots.txt").write_text(robots_txt, encoding="utf-8", newline="\n")
 
     urls = [
         ("https://punfiction.io/", "1.0", "daily"),
@@ -1268,7 +1279,7 @@ Sitemap: https://punfiction.io/sitemap.xml
 </urlset>
 """
     (ROOT_DIR / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
-    (BOXOFFICE_DIR / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
+    (PORTAL_DIR / "sitemap.xml").write_text(sitemap_xml, encoding="utf-8", newline="\n")
     print(f"Generated robots.txt and sitemap.xml with {len(urls)} URLs")
 
 

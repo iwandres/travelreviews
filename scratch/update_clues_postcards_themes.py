@@ -89,10 +89,10 @@ with open(postcards_path, 'w', encoding='utf-8') as f:
     json.dump(postcards, f, indent=2, ensure_ascii=False)
 print(f"Updated postcards file: {len(postcards)} entries.")
 
-# 3. Copy to BoxOffice workspace
-dest_clues = 'c:/Users/iwand/.antigravity/Projects/PunFiction-BoxOffice/backend/travelreviews_clues.json'
-dest_postcards = 'c:/Users/iwand/.antigravity/Projects/PunFiction-BoxOffice/backend/travelreviews_postcards.json'
+# 3. Copy to PunFiction portal workspace
+dest_clues = 'c:/Users/iwand/.antigravity/Projects/PunFiction/backend/travelreviews_clues.json'
+dest_postcards = 'c:/Users/iwand/.antigravity/Projects/PunFiction/backend/travelreviews_postcards.json'
 
 shutil.copyfile(clues_path, dest_clues)
 shutil.copyfile(postcards_path, dest_postcards)
-print("Copied files to BoxOffice repository.")
+print("Copied files to PunFiction portal repository.")

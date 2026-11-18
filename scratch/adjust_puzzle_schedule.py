@@ -55,4 +55,4 @@ def adjust_schedule(filepath):
 
 # Run on both repositories
 adjust_schedule(r"c:\Users\iwand\.antigravity\Projects\PunFiction-TravelReviews\backend\travelreviews_daily_games.json")
-adjust_schedule(r"c:\Users\iwand\.antigravity\Projects\PunFiction-BoxOffice\backend\travelreviews_daily_games.json")
+adjust_schedule(r"c:\Users\iwand\.antigravity\Projects\PunFiction\backend\travelreviews_daily_games.json")

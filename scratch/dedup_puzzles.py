@@ -2,7 +2,7 @@ import os
 import json
 
 db_files = [
-    'c:/Users/iwand/.antigravity/Projects/PunFiction-BoxOffice/backend/travelreviews_daily_games.json',
+    'c:/Users/iwand/.antigravity/Projects/PunFiction/backend/travelreviews_daily_games.json',
     'c:/Users/iwand/.antigravity/Projects/PunFiction-TravelReviews/backend/travelreviews_daily_games.json'
 ]
 
