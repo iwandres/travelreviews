@@ -143,7 +143,7 @@ class TravelReviewsCurationAgent:
         load_json_fn,
         save_json_fn,
         get_theme_fn,
-        boxoffice_root=None,
+        portal_root=None,
         travelreviews_root=None,
         api_key=None,
         analytics_file=None
@@ -157,7 +157,7 @@ class TravelReviewsCurationAgent:
         self.load_json = load_json_fn
         self.save_json = save_json_fn
         self.get_theme = get_theme_fn
-        self.boxoffice_root = boxoffice_root
+        self.portal_root = portal_root
         self.travelreviews_root = travelreviews_root
         self.api_key = api_key or os.environ.get("GEMINI_API_KEY")
         self.analytics_file = analytics_file or os.path.join(
@@ -178,7 +178,7 @@ class TravelReviewsCurationAgent:
         if not img_path or not img_path.startswith("/assets/"):
             return
         clean_path = urllib.parse.unquote(img_path.strip("/"))
-        roots = [r for r in [self.travelreviews_root, self.boxoffice_root] if r]
+        roots = [r for r in [self.travelreviews_root, self.portal_root] if r]
         for root in set(roots):
             candidates = [
                 os.path.join(root, "travelreviews", *clean_path.split("/")),
@@ -1013,18 +1013,18 @@ Return a JSON object matching this exact schema:
                         image.save(local_image_path, "WEBP", quality=95)
                         print(f"[CurationAgent] Saved generated postcard: {local_image_path}")
 
-                        # Mirror to Box Office repository if separate
-                        if self.boxoffice_root and self.travelreviews_root and self.boxoffice_root != self.travelreviews_root:
-                            if os.path.exists(os.path.join(self.boxoffice_root, "travelreviews")):
-                                bo_cartoons_dir = os.path.join(self.boxoffice_root, "travelreviews", "assets", "cartoons")
+                        # Mirror to PunFiction portal repository if separate
+                        if self.portal_root and self.travelreviews_root and self.portal_root != self.travelreviews_root:
+                            if os.path.exists(os.path.join(self.portal_root, "travelreviews")):
+                                portal_cartoons_dir = os.path.join(self.portal_root, "travelreviews", "assets", "cartoons")
                             else:
-                                bo_cartoons_dir = os.path.join(self.boxoffice_root, "assets", "cartoons")
-                            os.makedirs(bo_cartoons_dir, exist_ok=True)
-                            bo_image_path = os.path.join(bo_cartoons_dir, safe_filename)
+                                portal_cartoons_dir = os.path.join(self.portal_root, "assets", "cartoons")
+                            os.makedirs(portal_cartoons_dir, exist_ok=True)
+                            portal_image_path = os.path.join(portal_cartoons_dir, safe_filename)
                             try:
-                                image.save(bo_image_path, "WEBP", quality=95)
-                            except Exception as bo_e:
-                                print(f"[CurationAgent] Mirror image save warning: {bo_e}")
+                                image.save(portal_image_path, "WEBP", quality=95)
+                            except Exception as mirror_e:
+                                print(f"[CurationAgent] Mirror image save warning: {mirror_e}")
 
                         saved_image = True
                         break

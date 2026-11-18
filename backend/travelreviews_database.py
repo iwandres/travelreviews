@@ -1,6 +1,5 @@
 import os
-from datetime import datetime, timedelta, timezone
-import uuid
+from datetime import datetime, timezone
 from pymongo import MongoClient
 
 # Use the MONGO_URI from the environment, defaulting to localhost for local testing if missing
@@ -8,9 +7,8 @@ mongo_uri = os.environ.get("MONGO_URI", "mongodb://localhost:27017/")
 client = MongoClient(mongo_uri, serverSelectionTimeoutMS=1500)
 
 db = client["travelreviews_db"]
-production_pool = db["boss_puzzle_sets"]
-staging_pool = db["raw_combinator_pool"]
 telemetry_pool = db["PunFiction_TravelReviews"]
+user_profiles_pool = db["UserProfiles"]
 
 def record_telemetry_event(puzzle_number, event_type, hints_used=0, attempts=1):
     """Records a telemetry event in the MongoDB collection using atomic increments."""
@@ -28,7 +26,7 @@ def record_telemetry_event(puzzle_number, event_type, hints_used=0, attempts=1):
                 f"solve_att_{clamped_attempts}": 1
             }
         }
-    elif event_type in ['click_profile', 'click_stats', 'click_help']:
+    elif event_type in ['click_profile', 'click_stats', 'click_help', 'challenge_view']:
         update_query = {"$inc": {event_type: 1}}
         
     if update_query:
@@ -55,7 +53,8 @@ def get_telemetry_stats(puzzle_number=None):
                 "solve_att_2": doc.get("solve_att_2", 0),
                 "solve_att_3": doc.get("solve_att_3", 0),
                 "solve_att_4": doc.get("solve_att_4", 0),
-                "solve_att_5": doc.get("solve_att_5", 0)
+                "solve_att_5": doc.get("solve_att_5", 0),
+                "challenge_view": doc.get("challenge_view", 0)
             }
         else:
             return {
@@ -70,7 +69,8 @@ def get_telemetry_stats(puzzle_number=None):
                 "solve_att_2": 0,
                 "solve_att_3": 0,
                 "solve_att_4": 0,
-                "solve_att_5": 0
+                "solve_att_5": 0,
+                "challenge_view": 0
             }
     else:
         # Fetch all stats and build mapped dictionary
@@ -90,11 +90,10 @@ def get_telemetry_stats(puzzle_number=None):
                 "solve_att_2": doc.get("solve_att_2", 0),
                 "solve_att_3": doc.get("solve_att_3", 0),
                 "solve_att_4": doc.get("solve_att_4", 0),
-                "solve_att_5": doc.get("solve_att_5", 0)
+                "solve_att_5": doc.get("solve_att_5", 0),
+                "challenge_view": doc.get("challenge_view", 0)
             }
         return stats_map
-
-user_profiles_pool = db["UserProfiles"]
 
 def get_user_profile(profile_id):
     """Fetches a user profile from MongoDB by profile_id."""

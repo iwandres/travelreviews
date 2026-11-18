@@ -65,11 +65,14 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
     node_index = 0
     nodes_completed = 0
     zone_id = 1
+    active_game_mode = "FORWARD"
     effective_elapsed_sec = 0.0
     y_cam = 0.0
-    y_vine = 360.0
-    v_cam = 45.0
-    max_altitude_units = 360.0
+    y_vine = 380.0
+    v_cam = 56.0
+    pace_boost_vel = 0.0
+    max_altitude_units = 0.0
+    node_reaction_ms = 0.0
 
     spurt_active = False
     spurt_elapsed_ms = 0.0
@@ -83,7 +86,7 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
     fixed_step_ms = 5.0
 
     def step_sim(dt_ms):
-        nonlocal status, effective_elapsed_sec, y_cam, y_vine, v_cam, max_altitude_units
+        nonlocal status, effective_elapsed_sec, y_cam, y_vine, v_cam, pace_boost_vel, max_altitude_units, node_reaction_ms
         nonlocal spurt_active, spurt_elapsed_ms, spurt_applied_delta, bullet_time_remaining_ms
         if status != "PLAYING" or dt_ms <= 0:
             return
@@ -96,8 +99,16 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
 
         dt_sec = (dt_ms / 1000.0) * time_scale
         effective_elapsed_sec += dt_sec
+        node_reaction_ms += dt_ms
 
-        v_cam = min(280.0, 45.0 + 1.8 * effective_elapsed_sec + 3.5 * nodes_completed)
+        pace_boost_vel = max(0.0, pace_boost_vel - 14.0 * dt_sec)
+        current_lead = max(0.0, y_vine - y_cam)
+        lead_ratio = max(0.0, min(1.0, (current_lead - 260.0) / 220.0))
+        lead_track_boost = max(0.0, (current_lead - 360.0) * 0.095)
+        dynamic_pace_boost = pace_boost_vel * lead_ratio + lead_track_boost
+
+        base_v = 88.0 if active_game_mode == "RAPID_FIRE" else 56.0
+        v_cam = min(280.0, base_v + dynamic_pace_boost)
         y_cam += v_cam * dt_sec
 
         v_creep = 0.35 * v_cam
@@ -115,8 +126,6 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
                 spurt_active = False
 
         y_vine += dy_vine
-        if y_vine > max_altitude_units:
-            max_altitude_units = y_vine
 
         screen_y = y_vine - y_cam
         if screen_y > 750.0:
@@ -146,29 +155,58 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
             break
 
         curr_node = vine_nodes[node_index]
-        is_correct = int(choice) == int(curr_node.get("leftRightSeed", 0))
+        if isinstance(choice, str) and not choice.strip().isdigit():
+            is_correct = choice.strip().upper() == str(curr_node.get("correctWord", "")).strip().upper()
+        elif "leftRightSeed" in curr_node:
+            is_correct = int(choice) == int(curr_node.get("leftRightSeed", 0))
+        else:
+            is_correct = bool(choice)
         if not is_correct:
             status = "SNIPPED"
             break
 
         c_zone = int(curr_node.get("zoneId", 1))
         is_triple_bloom = c_zone == 1 and int(curr_node.get("tripletStep", 0)) == 3
+        is_reverse_graft = bool(
+            curr_node.get("isReverseGraft") or curr_node.get("gameMode") == "REVERSE_GRAFT"
+        )
+        is_rapid_fire = bool(
+            curr_node.get("isRapidFire") or curr_node.get("gameMode") == "RAPID_FIRE"
+        )
+
+        reaction_ms = max(80.0, node_reaction_ms or 900.0)
+        node_reaction_ms = 0.0
+        fast_factor = max(0.0, min(1.15, (1200.0 - reaction_ms) / 950.0))
+        pace_boost_vel = min(44.0, pace_boost_vel + fast_factor * 16.0)
+        lead_units = max(0.0, y_vine - y_cam)
+        speed_bonus_units = 95.0 / (1.0 + math.pow(reaction_ms / 950.0, 1.25))
+        momentum_bonus_units = min(30.0, lead_units * 0.035)
+        mode_bonus_units = 24.0 if is_triple_bloom else (18.0 if is_reverse_graft else (16.0 if is_rapid_fire else 0.0))
+        node_height_units = 80.0 + speed_bonus_units + momentum_bonus_units + mode_bonus_units
+        max_altitude_units += node_height_units
 
         z_mult = 1 if c_zone == 1 else (2 if c_zone == 2 else 3)
         lead_bonus = int(math.floor(max(0.0, y_vine - y_cam) / 10.0))
         b_triplet = 250 if is_triple_bloom else 0
-        score += (100 * z_mult) + lead_bonus + b_triplet
+        b_reverse = 150 if is_reverse_graft else 0
+        b_rapid = 75 if is_rapid_fire else 0
+        score += (100 * z_mult) + lead_bonus + b_triplet + b_reverse + b_rapid
 
         if is_triple_bloom:
             triplet_blooms += 1
 
-        spurt_impulse = 185.0 if is_triple_bloom else 125.0
+        base_spurt = (
+            185.0
+            if is_triple_bloom
+            else (155.0 if is_reverse_graft else (145.0 if is_rapid_fire else 125.0))
+        )
+        spurt_impulse = base_spurt + speed_bonus_units * 0.35
         if spurt_active and spurt_total_delta > spurt_applied_delta:
             y_vine += spurt_total_delta - spurt_applied_delta
 
         spurt_active = True
         spurt_elapsed_ms = 0.0
-        spurt_duration_ms = 210.0 if is_triple_bloom else 180.0
+        spurt_duration_ms = 210.0 if is_triple_bloom else (150.0 if is_rapid_fire else 180.0)
         spurt_total_delta = spurt_impulse
         spurt_applied_delta = 0.0
 
@@ -177,14 +215,30 @@ def verify_replay(vine_nodes, choices, deltas_ms, final_wait_ms=0):
 
         if node_index >= len(vine_nodes):
             y_vine += spurt_impulse
-            max_altitude_units = max(max_altitude_units, y_vine)
             status = "COMPLETED"
             break
 
-        next_zone = int(vine_nodes[node_index].get("zoneId", c_zone))
+        next_node = vine_nodes[node_index]
+        next_zone = int(next_node.get("zoneId", c_zone))
+        next_is_reverse = bool(
+            next_node.get("isReverseGraft") or next_node.get("gameMode") == "REVERSE_GRAFT"
+        )
+        next_is_rapid = bool(
+            next_node.get("isRapidFire") or next_node.get("gameMode") == "RAPID_FIRE"
+        )
+        active_game_mode = (
+            "REVERSE_GRAFT"
+            if next_is_reverse
+            else ("RAPID_FIRE" if next_is_rapid else "FORWARD")
+        )
+        v_cam = 64.0 if active_game_mode == "RAPID_FIRE" else 45.0
         if next_zone != zone_id:
             zone_id = next_zone
             bullet_time_remaining_ms = 600.0
+        elif next_is_reverse:
+            bullet_time_remaining_ms = max(bullet_time_remaining_ms, 450.0)
+        elif not is_rapid_fire and next_is_rapid:
+            bullet_time_remaining_ms = max(bullet_time_remaining_ms, 350.0)
 
     if status == "PLAYING" and final_wait_ms:
         rem = min(60000.0, float(final_wait_ms))
@@ -218,18 +272,39 @@ def load_local_vines():
 def get_daily_vine(date_key=None):
     keys = get_calendar_keys(date_key)
     target_date = keys["dateKey"]
+    local_vines = load_local_vines()
+    local_match = None
+    for v in local_vines:
+        if v.get("dateKey") == target_date:
+            local_match = v
+            break
+    if not local_match and local_vines:
+        try:
+            epoch_dt = datetime(2026, 11, 6, tzinfo=timezone.utc)
+            target_dt = datetime.strptime(target_date[:10], "%Y-%m-%d").replace(tzinfo=timezone.utc)
+            day_offset = (target_dt - epoch_dt).days
+            rot_idx = day_offset % len(local_vines)
+            local_match = dict(local_vines[rot_idx])
+            local_match["dateKey"] = target_date
+            local_match["vineNumber"] = 147 + day_offset
+        except Exception:
+            local_match = local_vines[0]
+
     try:
         doc = vines_col.find_one({"dateKey": target_date}, {"_id": 0})
         if doc:
+            expected_ver = local_match.get("lexiconVersion") if local_match else None
+            if expected_ver and doc.get("lexiconVersion") != expected_ver:
+                vines_col.update_one({"dateKey": target_date}, {"$set": local_match}, upsert=True)
+                return local_match
             return doc
+        elif local_match:
+            vines_col.update_one({"dateKey": local_match["dateKey"]}, {"$set": local_match}, upsert=True)
+            return local_match
     except Exception:
         pass
 
-    local_vines = load_local_vines()
-    for v in local_vines:
-        if v.get("dateKey") == target_date:
-            return v
-    return local_vines[0] if local_vines else None
+    return local_match
 
 
 def save_daily_vines(vines_list):
@@ -256,7 +331,22 @@ def record_run_submission(device_token, handle, date_key, choices, deltas_ms, fi
     if not vine or "nodes" not in vine:
         return {"accepted": False, "reason": "Daily vine not found"}
 
-    verification = verify_replay(vine["nodes"], choices, deltas_ms, final_wait_ms)
+    candidate_chains = vine.get("variants") if isinstance(vine.get("variants"), list) and vine.get("variants") else [vine["nodes"]]
+    verification = None
+    for chain_nodes in candidate_chains:
+        v_res = verify_replay(chain_nodes, choices, deltas_ms, final_wait_ms)
+        if v_res.get("valid"):
+            if (
+                verification is None
+                or v_res.get("nodesCompleted", 0) > verification.get("nodesCompleted", 0)
+                or (
+                    v_res.get("nodesCompleted", 0) == verification.get("nodesCompleted", 0)
+                    and v_res.get("score", 0) > verification.get("score", 0)
+                )
+            ):
+                verification = v_res
+    if verification is None:
+        verification = verify_replay(vine["nodes"], choices, deltas_ms, final_wait_ms)
     if not verification.get("valid"):
         return {"accepted": False, "reason": verification.get("reason", "Invalid replay")}
 
@@ -282,24 +372,42 @@ def record_run_submission(device_token, handle, date_key, choices, deltas_ms, fi
             {"deviceToken": device_token},
             {
                 "$set": {"handle": clean_handle, "updatedAt": datetime.now(timezone.utc)},
-                "$max": {"bestSingleVineScore": verification["score"]}
+                "$max": {"bestSingleVineScore": verification["score"]},
+                "$inc": {"totalRunsLogged": 1}
             },
             upsert=True
         )
+        # Log every run to run_logs collection
+        db["run_logs"].insert_one(dict(run_doc))
+
         existing = runs_col.find_one({"dateKey": keys["dateKey"], "deviceToken": device_token})
         if existing:
+            prev_score = int(existing.get("score", 0))
+            prev_nodes = int(existing.get("nodesCompleted", 0))
+            is_better = (
+                verification["score"] > prev_score
+                or (verification["score"] == prev_score and verification["nodesCompleted"] >= prev_nodes)
+            )
+            if is_better:
+                runs_col.update_one(
+                    {"dateKey": keys["dateKey"], "deviceToken": device_token},
+                    {"$set": dict(run_doc)}
+                )
             return {
                 "accepted": True,
-                "mode": "PRACTICE_REPLAY",
+                "mode": "SCORE_LOGGED",
+                "isNewDailyBest": is_better,
                 "verifiedScore": verification["score"],
-                "officialScore": existing.get("score", verification["score"]),
+                "bestDailyScore": max(prev_score, verification["score"]),
                 "verification": verification
             }
         runs_col.insert_one(dict(run_doc))
         return {
             "accepted": True,
-            "mode": "OFFICIAL_LOCKED",
+            "mode": "SCORE_LOGGED",
+            "isNewDailyBest": True,
             "verifiedScore": verification["score"],
+            "bestDailyScore": verification["score"],
             "verification": verification
         }
     except Exception as e:
@@ -311,16 +419,23 @@ def record_run_submission(device_token, handle, date_key, choices, deltas_ms, fi
                     records = json.load(f)
             except Exception:
                 records = []
-        for r in records:
+        updated_existing = False
+        best_daily = verification["score"]
+        for idx, r in enumerate(records):
             if r.get("dateKey") == keys["dateKey"] and r.get("deviceToken") == device_token:
-                return {
-                    "accepted": True,
-                    "mode": "PRACTICE_REPLAY",
-                    "verifiedScore": verification["score"],
-                    "officialScore": r.get("score", verification["score"]),
-                    "verification": verification
-                }
-        records.append(run_doc)
+                updated_existing = True
+                prev_score = int(r.get("score", 0))
+                prev_nodes = int(r.get("nodesCompleted", 0))
+                if verification["score"] > prev_score or (
+                    verification["score"] == prev_score and verification["nodesCompleted"] >= prev_nodes
+                ):
+                    records[idx] = run_doc
+                    best_daily = verification["score"]
+                else:
+                    best_daily = prev_score
+                break
+        if not updated_existing:
+            records.append(run_doc)
         try:
             with open(LOCAL_RUNS_FILE, "w", encoding="utf-8") as f:
                 json.dump(records, f, indent=2)
@@ -328,8 +443,9 @@ def record_run_submission(device_token, handle, date_key, choices, deltas_ms, fi
             pass
         return {
             "accepted": True,
-            "mode": "OFFICIAL_LOCKED",
+            "mode": "SCORE_LOGGED",
             "verifiedScore": verification["score"],
+            "bestDailyScore": best_daily,
             "verification": verification
         }
 

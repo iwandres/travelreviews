@@ -162,17 +162,17 @@ The **Consolidated Curation Server** (`unified_server.py`) hosts a step-by-step 
 
 ## 🔄 Repository Mirroring & Sync Workflows
 
-Because the game client is served from the consolidated portal repository (`PunFiction-BoxOffice`) while content development occurs in the standalone repository (`PunFiction-TravelReviews`), all writes are mirrored:
+Because the live portal client is served from the consolidated portal repository (`PunFiction`) while curation development also syncs with the standalone repository (`PunFiction-TravelReviews`), all writes are mirrored:
 
 ### 1. Automated Code Mirroring
 When saving changes in the curation panel or generating postcard images, the server automatically mirrors operations:
-- **JSON Databases:** Saves are written to both `PunFiction-TravelReviews/backend/` and `PunFiction-BoxOffice/backend/`.
-- **Postcard Images:** Generated PNGs are saved to both `PunFiction-TravelReviews/travelreviews/assets/cartoons/` and `PunFiction-BoxOffice/travelreviews/assets/cartoons/`.
+- **JSON Databases:** Saves are written to both `PunFiction-TravelReviews/backend/` and the `PunFiction/backend/` portal directory.
+- **Postcard Images:** Generated WebP/PNG postcards are saved to both `PunFiction-TravelReviews/travelreviews/assets/cartoons/` and `PunFiction/travelreviews/assets/cartoons/`.
 - **Cascading Deletions:** Rejected item deletions mirror across both workspaces instantly.
 
 ### 2. Manual Git Syncing & Deployment
 To make curation changes live on the public website:
-1. Access the local Git terminal in `PunFiction-BoxOffice`.
+1. Access the local Git terminal in the `PunFiction` portal repository.
 2. Stage and commit the synced databases and assets:
    ```bash
    git add -A
@@ -180,7 +180,7 @@ To make curation changes live on the public website:
    git push origin main
    ```
 3. The site will deploy automatically via GitHub Pages at:
-   `https://iwandres.github.io/PunFiction/travelreviews/`
+   `https://punfiction.io/`
 
 ---
 
