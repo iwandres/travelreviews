@@ -277,13 +277,22 @@ def save_json(filepath, data):
         return False
 
 import threading
-from travelreviews_agent import (
-    TravelReviewsCurationAgent,
-    PUZZLE_GUARDRAILS,
-    VALID_THEMES,
-    ART_STYLES,
-    normalize_name
-)
+try:
+    from travelreviews_agent import (
+        TravelReviewsCurationAgent,
+        PUZZLE_GUARDRAILS,
+        VALID_THEMES,
+        ART_STYLES,
+        normalize_name
+    )
+except Exception as e:
+    print(f"Warning importing travelreviews_agent: {e}")
+    TravelReviewsCurationAgent = None
+    PUZZLE_GUARDRAILS = {}
+    VALID_THEMES = []
+    ART_STYLES = []
+    def normalize_name(s):
+        return str(s or "").strip().lower()
 
 curation_lock = threading.Lock()
 
