@@ -407,12 +407,12 @@ def _call_gemini_structured(raw_input, active_slugs=None, active_traits=None):
     excluded from the LLM prompt so global `traits_cache` entries are never biased
     by a previous caller's stack.
     """
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = re.sub(r"\s+", "", str(os.environ.get("GEMINI_API_KEY") or "")).strip('"').strip("'")
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY environment variable is not configured on the server.")
 
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
-    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
+    endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
 
     user_prompt = f'Evaluate this user statement unconditionally out of all 8,300,000,000 living humans: "{raw_input.strip()}"'
 
@@ -439,7 +439,10 @@ def _call_gemini_structured(raw_input, active_slugs=None, active_traits=None):
     req = urllib.request.Request(
         endpoint,
         data=json.dumps(body).encode("utf-8"),
-        headers={"Content-Type": "application/json"},
+        headers={
+            "Content-Type": "application/json",
+            "x-goog-api-key": api_key
+        },
         method="POST"
     )
 
@@ -501,7 +504,8 @@ def estimate_custom_trait(raw_input, active_slugs=None, client_ip="anon", active
             pass
         print(f"[Billionth Estimator] Gemini HTTP {http_err.code}: {err_body}")
         return {
-            "error": "Live custom estimator is momentarily busy. Try one of the 5,000+ instant traits or retry in a few seconds!"
+            "error": "Live custom estimator is momentarily busy. Try one of the 5,000+ instant traits or retry in a few seconds!",
+            "geminiHttpStatus": http_err.code
         }, 503
     except Exception as exc:
         print(f"[Billionth Estimator] Error calling Gemini: {exc}")
