@@ -10,6 +10,10 @@ import io
 import subprocess
 import sys
 
+DIR_PATH = os.path.dirname(os.path.realpath(__file__))
+if DIR_PATH not in sys.path:
+    sys.path.insert(0, DIR_PATH)
+
 # Import database wrappers
 import travelreviews_database as travelreviews_database
 try:
