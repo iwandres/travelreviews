@@ -37,7 +37,15 @@ CLOSED_CLUSTER_TAGS = [
     "daily_puzzle_games", "board_tabletop", "book_reader", "visual_arts",
     "genetic_quirk", "sensory_trait", "handedness", "medical_history",
     "spicy_palate", "dietary_restriction", "caffeine_habit", "sleep_habit",
-    "pet_owner", "high_altitude", "world_traveler", "home_energy_diy", "family_structure"
+    "pet_owner", "high_altitude", "world_traveler", "home_energy_diy", "family_structure",
+    "quant_systemizer", "tactile_analog_ritual", "gear_optimizer", "thrill_risk"
+]
+
+CLOSED_BASE_GATES = [
+    "adult_15plus",
+    "connected_urban_affluent",
+    "yard_homeowner_space",
+    "euro_western_skew"
 ]
 
 SYSTEM_PROMPT = """You are the demographic & statistical estimation engine for "THE 8.3 BILLIONTH — what makes you one-of-one?", a web experience where a player narrows 8,300,000,000 living humans down to 1 by entering true personal traits.
@@ -71,13 +79,20 @@ Evaluate the user's input statement and return strict JSON matching the schema.
 - Makes homemade pickled/fermented condiments: 0.022 (~182M) | Specific niche chili relish/hot sauce maker: 0.0015 (~12.5M)
 - Struck by lightning survivor: 0.000003 (~25,000, isVerifiedExtremeRarity: true)
 
-4. CANONICAL NORMALIZATION, PARENT SUBSUMPTION & TONE:
+4. CANONICAL NORMALIZATION, BASE GATES, PSYCHOGRAPHIC TAGS & TONE:
 - Normalize `canonicalSlug` in snake_case so equivalent phrasings ("I make cold-brine pickles" / "homemade refrigerator pickle maker") map to consistent slugs while preserving genuine specificity.
 - Write `label` in clean first-person ("I make homemade jalapeño relish") and `shortBadge` in 2-4 crisp words ("Jalapeño relish maker").
-- Pick 1 to 3 `clusterTags` strictly from the allowed enum.
-- `subsumesSlugs`: List any broader parent slugs that this trait STRICTLY and LOGICALLY implies (100% subset, P(Parent | ThisTrait) ≈ 1.0), checking BOTH:
-  a) Universal broad anchors: `owns_dog`, `owns_cat`, `exercises_weekly`, `plays_team_sport`, `runs_regularly`, `drinks_coffee_daily`, `eats_spicy_daily`, `vegetarian`, `writes_software`, `keeps_houseplants`, `home_fermenter_pickler`, `holds_passport`, `skier_snowboarder`, `lives_above_5000ft`, `lived_on_island`, `daily_word_puzzle`, `solves_rubiks_cube`, or `lives_in_<iso2>` if the trait inherently requires residing in that country (e.g. "I live in Tokyo" -> `["lives_in_jp"]`).
-  b) Any slug from the user's `activeTraits` context that is strictly broader than this statement (e.g. if activeTraits has `exercises_weekly` and user enters "I teach indoor spin classes", include `"exercises_weekly"`). Leave `[]` if none strictly apply.
+- Pick 1 to 4 `clusterTags` strictly from the 40-tag enum, including any applicable latent psychographic bridges:
+  * `quant_systemizer` (rated chess, speedcubing, spreadsheets, weather logging, coding, Inbox Zero)
+  * `tactile_analog_ritual` (sourdough, vinyl, pour-over coffee, manual transmission, physical books, film cameras)
+  * `gear_optimizer` (high-fidelity concert earplugs, dive computers, bike wrenching, home solar, custom keyboards)
+  * `thrill_risk` (scuba, backcountry winter sports, extreme spicy tolerance, endurance racing)
+- `baseGates`: Select 0 to 4 macro-denominators that this trait implicitly draws from so client-side scoring only charges each demographic gate once:
+  * `adult_15plus` (driving, careers, adult hobbies, coffee/alcohol, adult milestones)
+  * `connected_urban_affluent` (discretionary income/time, broadband, specialty hobbyist gear, international leisure)
+  * `yard_homeowner_space` (backyard, garage, workshop, home solar, gardening/chickens/trailer storage)
+  * `euro_western_skew` (traits disproportionately concentrated in Europe, North America, or ANZ)
+- `subsumesSlugs`: List any universal broad parent slugs that this trait STRICTLY implies (100% subset): `owns_dog`, `owns_cat`, `exercises_weekly`, `plays_team_sport`, `runs_regularly`, `drinks_coffee_daily`, `eats_spicy_daily`, `vegetarian`, `writes_software`, `keeps_houseplants`, `home_fermenter_pickler`, `holds_passport`, `skier_snowboarder`, `lives_above_5000ft`, `lived_on_island`, `daily_word_puzzle`, `solves_rubiks_cube`, `had_surgery`, or `lives_in_<iso2>` if residing in that country (e.g. "I live in Tokyo" -> `["lives_in_jp"]`). Leave `[]` if none strictly apply.
 - Write `snarkNote` (max 150 chars) — or `rejectionReason` when rejected — in a crisp, witty, lightly sarcastic data-journalist voice referencing the estimated global headcount. Never be cruel; poke gentle fun at human habits."""
 
 RESPONSE_SCHEMA = {
@@ -120,6 +135,7 @@ RESPONSE_SCHEMA = {
                 "category",
                 "prevalence",
                 "clusterTags",
+                "baseGates",
                 "subsumesSlugs",
                 "snarkNote",
                 "isVerifiedExtremeRarity"
@@ -134,6 +150,10 @@ RESPONSE_SCHEMA = {
                 "clusterTags": {
                     "type": "ARRAY",
                     "items": {"type": "STRING", "enum": CLOSED_CLUSTER_TAGS}
+                },
+                "baseGates": {
+                    "type": "ARRAY",
+                    "items": {"type": "STRING", "enum": CLOSED_BASE_GATES}
                 },
                 "subsumesSlugs": {
                     "type": "ARRAY",
@@ -293,10 +313,18 @@ def _sanitize_accepted_payload(parsed, raw_input, active_slugs=None, active_trai
         t_str = str(tag).strip()
         if t_str in valid_tag_set and t_str not in clean_tags:
             clean_tags.append(t_str)
-            if len(clean_tags) == 3:
+            if len(clean_tags) == 4:
                 break
     if not clean_tags:
         clean_tags = ["indoor_hobby"]
+
+    raw_gates = trait_in.get("baseGates") or []
+    valid_gate_set = set(CLOSED_BASE_GATES)
+    clean_gates = []
+    for gate in raw_gates:
+        g_str = str(gate).strip()
+        if g_str in valid_gate_set and g_str not in clean_gates:
+            clean_gates.append(g_str)
 
     cat = str(trait_in.get("category") or "daily_quirks").strip()
     if cat not in CLOSED_CATEGORIES:
@@ -346,6 +374,7 @@ def _sanitize_accepted_payload(parsed, raw_input, active_slugs=None, active_trai
         "category": cat,
         "prevalence": clamped_prev,
         "clusterTags": clean_tags,
+        "baseGates": clean_gates,
         "subsumes": universal_subsumes[:6],
         "snarkNote": snark,
         "isCustom": True,
@@ -372,7 +401,12 @@ def _sanitize_accepted_payload(parsed, raw_input, active_slugs=None, active_trai
     }
 
 
-def _call_gemini_structured(raw_input, active_slugs, active_traits=None):
+def _call_gemini_structured(raw_input, active_slugs=None, active_traits=None):
+    """
+    100% stateless Gemini Fermi estimation: activeSlugs/activeTraits are intentionally
+    excluded from the LLM prompt so global `traits_cache` entries are never biased
+    by a previous caller's stack.
+    """
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise RuntimeError("GEMINI_API_KEY environment variable is not configured on the server.")
@@ -380,23 +414,7 @@ def _call_gemini_structured(raw_input, active_slugs, active_traits=None):
     model = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash").strip() or "gemini-2.5-flash"
     endpoint = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}"
 
-    context_note = ""
-    if active_traits and isinstance(active_traits, list):
-        compact_active = [
-            {"slug": str(x.get("slug", ""))[:48], "label": str(x.get("label", ""))[:80]}
-            for x in active_traits[:12]
-            if isinstance(x, dict) and x.get("slug")
-        ]
-        if compact_active:
-            context_note = (
-                f"\nUser's currently active stack (estimate `prevalence` unconditionally out of 8.3B, "
-                f"and list any strictly broader parent slugs in `subsumesSlugs`): {json.dumps(compact_active)}"
-            )
-    elif active_slugs and isinstance(active_slugs, list):
-        trimmed = [str(s)[:48] for s in active_slugs[:12]]
-        context_note = f"\nUser's currently active trait slugs: {trimmed}"
-
-    user_prompt = f'Evaluate this user statement: "{raw_input.strip()}"{context_note}'
+    user_prompt = f'Evaluate this user statement unconditionally out of all 8,300,000,000 living humans: "{raw_input.strip()}"'
 
     body = {
         "systemInstruction": {
