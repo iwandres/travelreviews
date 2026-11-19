@@ -161,17 +161,22 @@ def lookup_cached_trait(raw_input):
 def store_cached_trait(raw_input, trait_obj, fermi_obj):
     """
     Stores a newly estimated custom trait by canonicalSlug and adds its normalizedInputHash
-    to inputHashes[], creating a permanent zero-cost flywheel for future lookups.
+    and normalized sample phrasing, creating a permanent zero-cost flywheel for future lookups
+    and lossless alias promotion into traits-core.json.
     """
     if not trait_obj or not trait_obj.get("canonicalSlug"):
         return
     slug = str(trait_obj["canonicalSlug"]).strip()
-    input_hash = hash_normalized_input(raw_input)
+    norm_phrase = normalize_input_text(raw_input)[:80]
+    input_hash = hashlib.sha256(norm_phrase.encode("utf-8")).hexdigest()
     now_iso = datetime.now(timezone.utc).isoformat()
 
     _ensure_indexes()
     if _mongo_col is not None:
         try:
+            add_set = {"inputHashes": input_hash}
+            if norm_phrase:
+                add_set["samplePhrasings"] = norm_phrase
             _mongo_col.update_one(
                 {"canonicalSlug": slug},
                 {
@@ -183,7 +188,7 @@ def store_cached_trait(raw_input, trait_obj, fermi_obj):
                         "createdAt": now_iso
                     },
                     "$set": {"lastHitAt": now_iso},
-                    "$addToSet": {"inputHashes": input_hash},
+                    "$addToSet": add_set,
                     "$inc": {"hitCount": 1}
                 },
                 upsert=True
@@ -199,12 +204,18 @@ def store_cached_trait(raw_input, trait_obj, fermi_obj):
             hashes = set(existing.get("inputHashes", []))
             hashes.add(input_hash)
             existing["inputHashes"] = sorted(hashes)
+            if norm_phrase:
+                phrases = list(existing.get("samplePhrasings", []))
+                if norm_phrase not in phrases and len(phrases) < 12:
+                    phrases.append(norm_phrase)
+                existing["samplePhrasings"] = phrases
             existing["hitCount"] = int(existing.get("hitCount", 1)) + 1
             existing["lastHitAt"] = now_iso
         else:
             cache[slug] = {
                 "canonicalSlug": slug,
                 "inputHashes": [input_hash],
+                "samplePhrasings": [norm_phrase] if norm_phrase else [],
                 "trait": trait_obj,
                 "fermi": fermi_obj,
                 "hitCount": 1,
@@ -213,6 +224,40 @@ def store_cached_trait(raw_input, trait_obj, fermi_obj):
                 "lastHitAt": now_iso
             }
         _save_local_cache(cache)
+
+
+def mark_traits_promoted(slugs):
+    """Marks promoted canonicalSlugs with promotedToCore=True so future sweeps skip them."""
+    clean_slugs = [str(s).strip() for s in (slugs or []) if str(s).strip()]
+    if not clean_slugs:
+        return 0
+    now_iso = datetime.now(timezone.utc).isoformat()
+    updated = 0
+
+    _ensure_indexes()
+    if _mongo_col is not None:
+        try:
+            res = _mongo_col.update_many(
+                {"canonicalSlug": {"$in": clean_slugs}},
+                {"$set": {"promotedToCore": True, "promotedAt": now_iso}}
+            )
+            updated = int(getattr(res, "modified_count", 0))
+        except Exception as exc:
+            print(f"[Billionth DB] MongoDB mark_traits_promoted warning ({exc})")
+
+    with _lock:
+        cache = _load_local_cache()
+        changed = False
+        for s in clean_slugs:
+            if s in cache and not cache[s].get("promotedToCore"):
+                cache[s]["promotedToCore"] = True
+                cache[s]["promotedAt"] = now_iso
+                changed = True
+                updated = max(updated, 1)
+        if changed:
+            _save_local_cache(cache)
+
+    return updated
 
 
 def get_top_cached_traits(min_hits=3, limit=50):
